@@ -2,7 +2,6 @@ source 'https://rubygems.org'
 
 ruby '2.3.1'
 
-gem 'jekyll-assets'
 gem 'jekyll'
 
 gem 'coffee-script'
@@ -11,8 +10,15 @@ gem 'sass'
 
 gem 'pygments.rb'
 
-gem 'jekyll-mentions'
-gem 'jemoji'
-gem 'jekyll-redirect-from'
-gem 'jekyll-sitemap'
-gem 'jekyll-feed'
+
+group :jekyll_plugins do
+  gem 'jekyll-assets'
+
+  gem 'jekyll-mentions'
+  gem 'jemoji'
+  gem 'jekyll-redirect-from'
+  gem 'jekyll-sitemap'
+  gem 'jekyll-feed'
+
+  gem 'github-pages'
+end
