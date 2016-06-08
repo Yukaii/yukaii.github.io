@@ -6,16 +6,65 @@
 # 'jekyll serve'. If you change this file, please restart the server process.
 
 # Site settings
-title: Your awesome title
-email: your-email@domain.com
+title: Daily Oops!
+email: yukaihuangtw@gmail.com
 description: > # this means to ignore newlines until "baseurl:"
-  Write an awesome description for your new site here. You can edit this
-  line in _config.yml. It will appear in your document head meta (for
-  Google search results) and in your feed.xml site description.
+  Yukai's blog. Life, music, web, and all the fun.
 baseurl: "" # the subpath of your site, e.g. /blog
-url: "http://yourdomain.com" # the base hostname & protocol for your site
-twitter_username: jekyllrb
-github_username:  jekyll
+url: "http://yukaii.github.io" # the base hostname & protocol for your site
+# twitter_username: jekyllrb
+github_username:  Yukaii
+
+permanlink: /blog/:year/:month/:day/:title/
+
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  # Prevent demo files to be included in the sitemap.xml
 
 # Build settings
 markdown: kramdown
+
+
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+  syntax_highlighter_opts:
+    css_class: 'highlight'
+    span:
+      line_numbers: false
+    block:
+      line_numbers: true
+      start_line: 1
+
+highlighter: rouge
+
+gems:
+  - jekyll-assets
+  - uglifier
+  - sass
+  - jekyll-mentions
+  - jemoji
+  - jekyll-redirect-from
+  - jekyll-sitemap
+  - jekyll-feed
+
+# jekyll assets settings
+assets:
+  compress:
+    css: sass
+    js:  uglifier
+  #
+  autowrite: true
+  prefix: "/assets"
+
+  #
+  sources:
+    - _assets/css
+    - _assets/img
+    - _assets/js
+    - _assets/fonts
+  #
+
+  features:
+    liquid: true

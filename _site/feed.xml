@@ -1,35 +1,79 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Your awesome title</title>
-    <description>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
+    <title>Daily Oops!</title>
+    <description>Yukai&#39;s blog. Life, music, web, and all the fun.
 </description>
-    <link>http://yourdomain.com/</link>
-    <atom:link href="http://yourdomain.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Wed, 08 Jun 2016 00:44:45 +0800</pubDate>
-    <lastBuildDate>Wed, 08 Jun 2016 00:44:45 +0800</lastBuildDate>
+    <link>http://yukaii.github.io/</link>
+    <atom:link href="http://yukaii.github.io/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Wed, 08 Jun 2016 23:03:33 +0800</pubDate>
+    <lastBuildDate>Wed, 08 Jun 2016 23:03:33 +0800</lastBuildDate>
     <generator>Jekyll v3.1.6</generator>
     
       <item>
-        <title>Welcome to Jekyll!</title>
-        <description>&lt;p&gt;You’ll find this post in your &lt;code class=&quot;highlighter-rouge&quot;&gt;_posts&lt;/code&gt; directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run &lt;code class=&quot;highlighter-rouge&quot;&gt;jekyll serve&lt;/code&gt;, which launches a web server and auto-regenerates your site when a file is updated.&lt;/p&gt;
+        <title>Welcome to Jekyll! 順便來些中文好了</title>
+        <description>&lt;h1 id=&quot;section&quot;&gt;哈哈哈阿呵呵呵啊哈阿&lt;/h1&gt;
+
+&lt;p&gt;You’ll find this post in your &lt;code class=&quot;highlighter-rouge&quot;&gt;_posts&lt;/code&gt; directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run &lt;code class=&quot;highlighter-rouge&quot;&gt;jekyll serve&lt;/code&gt;, which launches a web server and auto-regenerates your site when a file is updated.&lt;/p&gt;
 
 &lt;p&gt;To add new posts, simply add a file in the &lt;code class=&quot;highlighter-rouge&quot;&gt;_posts&lt;/code&gt; directory that follows the convention &lt;code class=&quot;highlighter-rouge&quot;&gt;YYYY-MM-DD-name-of-post.ext&lt;/code&gt; and includes the necessary front matter. Take a look at the source for this post to get an idea about how it works.&lt;/p&gt;
 
+&lt;h1 id=&quot;section-1&quot;&gt;其實用標題二也不太順手&lt;/h1&gt;
+
+&lt;p&gt;推系苦蘭春……過多不能系的們面的……壓了眾國年詩的費心操想有代飯……直過權排等都的味，個遊賽功軍那。題入調從性不起人也同稱：解策友請到完媽義減升民動……地黃兒離己不離看注動事成難推沒，現隊望有手人！就走情要他治間辦度能工果我我歡住構來她利的故分因出是系度出。&lt;/p&gt;
+
+&lt;p&gt;推系苦蘭春……過多不能系的們面的……壓了眾國年詩的費心操想有代飯……直過權排等都的味，個遊賽功軍那。題入調從性不起人也同稱：解策友請到完媽義減升民動……地黃兒離己不離看注動事成難推沒，現隊望有手人！就走情要他治間辦度能工果我我歡住構來她利的故分因出是系度出。&lt;/p&gt;
+
+&lt;h2 id=&quot;section-2&quot;&gt;那標題二在一點呢？&lt;/h2&gt;
+
+&lt;p&gt;推系苦蘭春……過多不能系的們面的……壓了眾國年詩的費心操想有代飯……直過權排等都的味，個遊賽功軍那。題入調從性不起人也同稱：解策友請到完媽義減升民動……地黃兒離己不離看注動事成難推沒，現隊望有手人！就走情要他治間辦度能工果我我歡住構來她利的故分因出是系度出。&lt;/p&gt;
+
+&lt;h3 id=&quot;section-3&quot;&gt;小說明&lt;/h3&gt;
+
+&lt;p&gt;推系苦蘭春……過多不能系的們面的……壓了眾國年詩的費心操想有代飯……直過權排等都的味，個遊賽功軍那。題入調從性不起人也同稱：解策友請到完媽義減升民動……地黃兒離己不離看注動事成難推沒，現隊望有手人！就走情要他治間辦度能工果我我歡住構來她利的故分因出是系度出。&lt;/p&gt;
+
+&lt;h4 id=&quot;section-4&quot;&gt;大幹八&lt;/h4&gt;
+
 &lt;p&gt;Jekyll also offers powerful support for code snippets:&lt;/p&gt;
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;print_hi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;table style=&quot;border-spacing: 0&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;gutter gl&quot; style=&quot;text-align: right&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+2
+3
+4
+5&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;print_hi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
   &lt;span class=&quot;nb&quot;&gt;puts&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Hi, &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;#{&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
 &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
 &lt;span class=&quot;n&quot;&gt;print_hi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;Tom&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;#=&amp;gt; prints &#39;Hi, Tom&#39; to STDOUT.&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+&lt;span class=&quot;c1&quot;&gt;#=&amp;gt; prints &#39;Hi, Tom&#39; to STDOUT.&lt;/span&gt;
+&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;table style=&quot;border-spacing: 0&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;gutter gl&quot; style=&quot;text-align: right&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;nb&quot;&gt;puts&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;hello world&quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;table class=&quot;image&quot;&gt;
+&lt;caption align=&quot;bottom&quot;&gt;六月不要啊啊啊，應該沒有第二行啦&lt;/caption&gt;
+&lt;tr&gt;&lt;td&gt;&lt;img src=&quot;http://i.imgur.com/gqOPCwP.jpg&quot; alt=&quot;六月不要啊啊啊，應該沒有第二行啦&quot; width=&quot;&quot; height=&quot;&quot; /&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;/table&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://www.a1smallbusinessmarketing.com/images/prosbo_hires.jpg&quot; alt=&quot;abc&quot; /&gt;
+&lt;em&gt;caption 2&lt;/em&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;推系苦蘭春……過多不能系的們面的……壓了眾國年詩的費心操想有代飯……直過權排等都的味，個遊賽功軍那。題入調從性不起人也同稱：解策友請到完媽義減升民動……地黃兒離己不離看注動事成難推沒，現隊望有手人！就走情要他治間辦度能工果我我歡住構來她利的故分因出是系度出。 Blockquote&lt;/p&gt;
+&lt;/blockquote&gt;
 
 &lt;p&gt;Check out the &lt;a href=&quot;http://jekyllrb.com/docs/home&quot;&gt;Jekyll docs&lt;/a&gt; for more info on how to get the most out of Jekyll. File all bugs/feature requests at &lt;a href=&quot;https://github.com/jekyll/jekyll&quot;&gt;Jekyll’s GitHub repo&lt;/a&gt;. If you have questions, you can ask them on &lt;a href=&quot;https://talk.jekyllrb.com/&quot;&gt;Jekyll Talk&lt;/a&gt;.&lt;/p&gt;
 
 </description>
         <pubDate>Wed, 08 Jun 2016 00:30:54 +0800</pubDate>
-        <link>http://yourdomain.com/jekyll/update/2016/06/08/welcome-to-jekyll.html</link>
-        <guid isPermaLink="true">http://yourdomain.com/jekyll/update/2016/06/08/welcome-to-jekyll.html</guid>
+        <link>http://yukaii.github.io/jekyll/update/2016/06/08/welcome-to-jekyll.html</link>
+        <guid isPermaLink="true">http://yukaii.github.io/jekyll/update/2016/06/08/welcome-to-jekyll.html</guid>
         
         
         <category>jekyll</category>
