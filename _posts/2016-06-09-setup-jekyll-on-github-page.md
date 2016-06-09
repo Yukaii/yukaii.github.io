@@ -58,4 +58,4 @@ Jekyll 也有 partial 挺方便的，我用來做 image caption，比如以下�
 
 {% include image.html url="http://i.imgur.com/gqOPCwP.jpg" description="六月不要啊啊啊，應該沒有第二行啦" %}
 
-需要再 `_includes` 資料夾新增 `image.html`，詳情可[參考這裡](http://stackoverflow.com/questions/19331362/using-an-image-caption-in-markdown-jekyll)
+需要在 `_includes` 資料夾新增 `image.html`，詳情可[參考這裡](http://stackoverflow.com/questions/19331362/using-an-image-caption-in-markdown-jekyll)

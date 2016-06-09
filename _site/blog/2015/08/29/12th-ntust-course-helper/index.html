@@ -7,11 +7,11 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>在 GitHub 上設定 Jekyll 和自訂網域</title>
-  <meta name="description" content="花了時間把 Jekyll 建起來。Ghost 是很棒沒錯，不過想要完全掌控還要多花許多時間，純粹靜態網頁更為靈活，再配上 jekyll-assets，如果真的需要點 ES6 還是可以硬上的。">
+  <title>第十二篇 - 台科課程匯入小幫手</title>
+  <meta name="description" content="台科課程匯入小幫手">
 
   <link type="text/css" rel="stylesheet" href="/assets/main.css">
-  <link rel="canonical" href="http://yukaii.tw/blog/2016/06/09/setup-jekyll-on-github-page/">
+  <link rel="canonical" href="http://yukaii.tw/blog/2015/08/29/12th-ntust-course-helper/">
   <link rel="alternate" type="application/rss+xml" title="Daily Oops!" href="http://yukaii.tw/feed.xml">
 </head>
 
@@ -63,66 +63,43 @@
         <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
-    <h1 class="post-title" itemprop="name headline">在 GitHub 上設定 Jekyll 和自訂網域</h1>
-    <p class="post-meta"><time datetime="2016-06-09T00:30:54+08:00" itemprop="datePublished">Jun 9, 2016</time></p>
+    <h1 class="post-title" itemprop="name headline">第十二篇 - 台科課程匯入小幫手</h1>
+    <p class="post-meta"><time datetime="2015-08-29T13:44:00+08:00" itemprop="datePublished">Aug 29, 2015</time></p>
   </header>
 
   <div class="post-content" itemprop="articleBody">
-    <p>花了時間把 Jekyll 建起來。Ghost 是很棒沒錯，不過想要完全掌控還要多花許多時間，純粹靜態網頁更為靈活，再配上 <code class="highlighter-rouge">jekyll-assets</code>，如果真的需要點 ES6 還是可以硬上的。</p>
+    <p><a href="http://school-agent.herokuapp.com/">台科課程匯入小幫手</a></p>
 
-<h2 id="git-subtree">Git Subtree</h2>
+<h2 id="section">屁話</h2>
 
-<p>我把原始的 branch 命名為 <code class="highlighter-rouge">jekyll</code>，用 subtree 把 Jekyll 產生的 <code class="highlighter-rouge">_site</code> 資料夾切開：</p>
+<p>這幾天串了 118 的學生資訊系統、 Colorgy 的 API 整合了 Table，做出了無痛匯入課程的小工具，算是開了 Colorgy 第三方 App 的第一槍 =w=（自以為）</p>
 
-<div class="language-shell highlighter-rouge">
-<pre class="highlight"><code>git checkout -b jekyll <span class="c"># 原本在 master</span>
-git branch -D master <span class="c"># 把原本 master branch 刪掉</span>
-git subtree split --prefix<span class="o">=</span>_site -b master <span class="c"># subtree 切割</span>
-</code></pre>
-</div>
+<p>直接從學生資訊系統匯入課程這功能， <a href="http://ntusweety.herokuapp.com/">NTU Sweety Course</a> 和 <a href="http://nthu-course.cf/">NTHU Course</a>、<a href="http://plus.nctu.edu.tw/">NCTU+</a> 都有類似的實作，112/113 的版本似乎直接串學校，就不知道是官方還非官方了XD。當然一提到校園模擬選課就必須拜一下碼頭，<a href="https://www.crosslink.tw/">CrossLink</a>。</p>
 
-<p>到這算切割完畢，接下來每次更新時，都從原本 <code class="highlighter-rouge">jekyll</code> branch commit，然後 push subtree 的 branch：</p>
+<p>找回一個玩樂心態來弄這個小玩意，沒啥特別計劃，時機到累積完就做出來了 Q_Q，感謝捏神支援。</p>
 
-<div class="language-shell highlighter-rouge">
-<pre class="highlight"><code>git commit -m <span class="s2">"commit on jekyll branch"</span>
-git subtree push --prefix _site origin master <span class="c"># 將 _site 的 subtree 推到 origin 的 master branch</span>
-</code></pre>
-</div>
+<p>照慣例把玩具放在 Heroku，說到他們最近政策也滿妙的，之前一直寄信說每天只能開機十八小時，現在過了 8/16 了也都照常使用，41J 也沒碰上過啥問題，還沒付過 heroku 錢欸 XD，It’s the future.</p>
 
-<h2 id="github-user-page-custom-domain">GitHub user page custom domain</h2>
+<p>Gihub: <a href="https://github.com/Yukaii/SchoolAgent">https://github.com/Yukaii/SchoolAgent</a>
+<del>Repo 原始英文超中二的 XDDD，不忍直視，請不要去翻 commit 穴穴尼</del></p>
 
-<blockquote>
-  <p>二圖流</p>
-</blockquote>
+<h2 id="section-1">一些介面</h2>
 
-<p><img src="/assets/blog/cloudflare1.png" width="967" height="117" alt="blog/cloudflare1.png">
-<img src="/assets/blog/cloudflare2.png" width="959" height="59" alt="blog/cloudflare2.png"></p>
+<!--more-->
 
-<p><code class="highlighter-rouge">CNAME</code> 檔：</p>
+<p><img src="http://user-image.logdown.io/user/1128/blog/1112/post/293646/G8b1uJywRMeCJRa6OVmy_FireShot%20Capture%20-%20%E8%AA%B2%E7%A8%8B%E5%8C%AF%E5%85%A5%E5%B0%8F%E5%B9%AB%E6%89%8B%20-%20http___school-agent.herokuapp.com__logout=true.png" alt="1"></p>
 
-<div class="highlighter-rouge">
-<pre class="highlight"><code>www.yukaii.tw
-yukaii.tw
-</code></pre>
-</div>
+<p><img src="http://user-image.logdown.io/user/1128/blog/1112/post/293646/Q2VZBHYmRECUvZEgSpE4_FireShot%20Capture%20-%20%E8%AA%B2%E7%A8%8B%E5%8C%AF%E5%85%A5%E5%B0%8F%E5%B9%AB%E6%89%8B%20-%20http___school-agent.herokuapp.com_import.png" alt="2"></p>
 
-<h2 id="section">其它自訂</h2>
+<p><img src="http://user-image.logdown.io/user/1128/blog/1112/post/293646/2aQjwQQCQHyEOE2Xmf5Z_FireShot%20Capture%20-%20%E8%AA%B2%E7%A8%8B%E5%8C%AF%E5%85%A5%E5%B0%8F%E5%B9%AB%E6%89%8B%20-%20http___school-agent.herokuapp.com_result.png" alt="3"></p>
 
-<p>Jekyll 也有 partial 挺方便的，我用來做 image caption，比如以下這段：</p>
+<p>完全的 mobile first，也懶的弄 RWD 了 XD</p>
 
-<pre><code class="language-txt">
-{% include image.html url="http://i.imgur.com/gqOPCwP.jpg" description="六月不要啊啊啊，應該沒有第二行啦" %}
+<h2 id="section-2">尾刀</h2>
 
-</code></pre>
+<p>雖然這邊沒啥人看，不過就只發在這裡了，等待有緣人發現啦w。有一天這功能大概會被默默整合進 Table 裡，呵。</p>
 
-<p>就會產生：</p>
-
-<table class="image" style="margin-bottom: 15px">
-<caption align="bottom">六月不要啊啊啊，應該沒有第二行啦</caption>
-<tr><td><img src="http://i.imgur.com/gqOPCwP.jpg" alt="六月不要啊啊啊，應該沒有第二行啦" width="" height=""></td></tr>
-</table>
-
-<p>需要在 <code class="highlighter-rouge">_includes</code> 資料夾新增 <code class="highlighter-rouge">image.html</code>，詳情可<a href="http://stackoverflow.com/questions/19331362/using-an-image-caption-in-markdown-jekyll">參考這裡</a></p>
+<p>還有要告解的地方嗎？</p>
 
   </div>
 

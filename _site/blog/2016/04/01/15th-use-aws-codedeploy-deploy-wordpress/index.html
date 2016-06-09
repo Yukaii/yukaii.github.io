@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>第十五篇 - 使用 AWS CodeDeploy 跑起你的 WordPress - 官方教學筆記</title>
+  <meta name="description" content="為何要部屬 WordPress？就因為他是 CodeDeploy Tutorial 的第一個範例。AWS Documention 有個特點，就是到處 Reference 來 Reference 去，你很難在單一流程完整跑完所有的任務，非得要搭著其它份文件一起對照。筆者英文也沒那麼好，看著看著就會漏東漏西，文件又滿...">
+
+  <link type="text/css" rel="stylesheet" href="/assets/main.css">
+  <link rel="canonical" href="http://yukaii.tw/blog/2016/04/01/15th-use-aws-codedeploy-deploy-wordpress/">
+  <link rel="alternate" type="application/rss+xml" title="Daily Oops!" href="http://yukaii.tw/feed.xml">
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+  <div class="title-wrapper">
+    <h1>
+      <a class="site-title" href="/">Daily Oops!</a>
+    </h1>
+  </div>
+
+  <div class="wrapper">
+    <nav class="site-nav">
+       <a href="#" class="menu-icon">
+        <svg viewbox="0 0 18 15">
+          <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"></path>
+          <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"></path>
+          <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"></path>
+        </svg>
+      </a>
+
+      <div class="trigger">
+        
+          
+          <a class="page-link" href="/about/">About</a>
+          
+        
+          
+        
+          
+        
+          
+          <a class="page-link" href="/portfolio/">Portfolio</a>
+          
+        
+      </div>
+    </nav>
+  </div>
+
+
+</header>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title" itemprop="name headline">第十五篇 - 使用 AWS CodeDeploy 跑起你的 WordPress - 官方教學筆記</h1>
+    <p class="post-meta"><time datetime="2016-04-01T14:46:00+08:00" itemprop="datePublished">Apr 1, 2016</time></p>
+  </header>
+
+  <div class="post-content" itemprop="articleBody">
+    <p>為何要部屬 WordPress？就因為他是 <a href="http://docs.aws.amazon.com/codedeploy/latest/userguide/welcome.html">CodeDeploy</a> Tutorial 的第一個範例。AWS Documention 有個特點，就是到處 Reference 來 Reference 去，你很難在單一流程完整跑完所有的任務，非得要搭著其它份文件一起對照。筆者英文也沒那麼好，看著看著就會漏東漏西，文件又滿滿的都是字，沒有圖片可以參考，真令人崩潰。</p>
+
+<p>CodeDeploy 是 AWS 眾多部屬方案中，看起來比較單純的一種。寫好 Setup 程式的 Shell Script，再聲明好 <code class="highlighter-rouge">appspec.yml</code>，定義每個 deploy life cycle 不同的階段要跑的動作，用 AWS CLI Tool 把 repo 打包上傳到 S3，再到 CodeDeploy console 定義應用程式部屬規則、後臺發起一個 deployment（一個部屬行動），CodeDeploy Service 便會把你的 code 部屬到你設定的 Deployment Group，依照 Group 設定的機器不同，你可以在同一個機器部屬很多個 Application，或是同一個 Application 部屬到很多台機器，端看設定，啦。</p>
+
+<p>當然，AWS 系列就是啥都可以用 CLI 跑，只要開好對應權限的 role 並拿到 Access ID 和 Secret Key，我們也可以交由第三方 CI 服務，比如說 CodeShip，來幫我們完成「打包程式碼並上傳 S3」、「發起部屬行動」這種的工作。</p>
+
+<p>以下便大致記錄一下本日折騰的感想與流程。</p>
+
+<!--more-->
+<p>## 概念</p>
+
+<p>CodeDeploy 約略是 14 年 11 月推出的服務，在此幹一張官圖，看圖說故事。
+<img src="http://docs.aws.amazon.com/codedeploy/latest/userguide/images/sds_architecture.png" alt="CD"></p>
+
+<ol>
+  <li>在你的開發機器上寫好 code 、設定好 appspec.yml，上傳到 github 或是打包傳到 s3</li>
+  <li>在 CodeDeploy 設定好部屬邏輯</li>
+  <li>每一台 instance 的 agent 把 codebase 從 s3 或 github 拉下來</li>
+  <li>跑部屬 script！裝裝裝</li>
+</ol>
+
+<p>大概醬，英文版可以看<a href="http://docs.aws.amazon.com/codedeploy/latest/userguide/welcome.html">這</a>，另外強烈建議 aws 系列最好都先從 <a href="http://docs.aws.amazon.com/codedeploy/latest/userguide/concepts.html">Concept</a> 開始看，要不然鐵定被無限連結地獄搞死，崩潰。</p>
+
+<h2 id="section">名詞解說</h2>
+
+<p>可以開好<a href="http://docs.aws.amazon.com/codedeploy/latest/userguide/getting-started-set-up-instance.html">官方教學</a>的分頁，淨身準備一下，接下來講解教學中會出現的名詞。其實名詞解釋放在教學開頭實在是挺不好的，我自己跑教學也是跟著實作之後才有點感覺，在還沒進行操作前做的說明都是廢話。話雖然是這樣說啦，可是這是筆記又不是演講，你翻到下面還是可以翻回來看啊，所以我還是寫在這了。呵呵。滿多中文名詞都我隨便翻的 XD，中文文件越少，我就掌握著更多的話語權（才怪），大家趕快來寫文件吧哈哈。</p>
+
+<p>AWS 在各種服務開 API 開很大開不用錢的狀況下，權限的管理便十分重要，阿罵爽雲端福利社使用 IAM 角色權限管理服務，來區分出不同服務或使用者，對於 AWS 服務使用的權限隔離。舉例來說，CodeDeploy 在 AWS 裡算是一個服務(Service)，雖然通通都是在 AWS 裡啦，但是你還是要給他一些對 AWS 資源的存取權限才可以，比如說當我們對好幾臺 EC2 Instances 設定了標籤（Tag），我們也要給 CodeDeploy 讀取 EC2 Intance 標籤的權限，CodeDeploy 才知道要部屬到哪幾台機器上啊，這就是權限管理的作用。</p>
+
+<p>不同的權限，在 IAM 裡就叫做 Policy（方針）。當人有了多項 Policy 之後，能力越大，責任越重，你所要承擔的就是職責了（屁話），在 IAM 裡我們把他稱作角色職責 (Role）。在 AWS 裡面有不同的服務，Role 的類型也都不同，比如 EC2 Instance 的 Role 就叫 Instance Profile，用來管理 EC2 能有那些權限，在 CodeDeploy 官方教學裡，EC2 的職責是把用 agent 把 codebase 從 s3 拉下來，所以在啟動 Instance 之前，我們必須先設定好能夠存取 S3 的 Instance Profile，並在啟動(Launch) Instance 把 Role 指派給他。</p>
+
+<p><img src="http://i.imgur.com/0ulM7UH.png" alt="">
+不同的 Role Type。CodeDeploy 教學中用到的分別是 CodeDeploy 和 EC2 的 Role Type。</p>
+
+<p><img src="http://i.imgur.com/on614NX.png" alt="">
+CodeDeploy 的 Service Role，直接掛上 AWS 建立好的 Policy，可以直接看出使用了那些權限。</p>
+
+<h2 id="section-1">跑教學…咦</h2>
+
+<p>我前面嫌的要死，就因為這次跑教學真的打死也找不到安裝 CodeDeploy agent 的步驟，反反覆覆翻了教學幾次，卻一直找不到哪裡出錯。以下來回顧一下。</p>
+
+<p>首先，<a href="http://docs.aws.amazon.com/codedeploy/latest/userguide/getting-started-set-up-instance.html">照著教學</a>的說明先在 EC2 Launch 一個 Instance。他第一步教學的作用其實就是給你一個預先裝好 aws cli tools 的環境，好使用 cli 界面打包上傳 code 到 s3，用你自己的電腦其實就可以了。設定好 Keypair，透過 pem 檔 ssh 進機器後，先來<a href="http://docs.aws.amazon.com/codedeploy/latest/userguide/how-to-run-agent.html">安裝 codedeploy agent 到機器上</a>。裝到一半你會發現連 agent 的 aws s3 bucket 都抓不下來，原來是我們還沒設定 EC2 的 <a href="http://docs.aws.amazon.com/codedeploy/latest/userguide/how-to-configure-existing-instance.html">Instance Profile</a>，也就是 EC2 類型的 Role。請去 IAM 設定，並如同連結裡面加上 S3 的存取權限。這權限一定要開，即使現在用 wget 直接拉 bucket 的 agent install script 下來裝完，之後要從 s3 部屬時沒開也沒法抓啊。</p>
+
+<div class="language-json highlighter-rouge">
+<pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="nt">"Version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2012-10-17"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"Statement"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"Action"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+          </span><span class="s2">"s3:Get*"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"s3:List*"</span><span class="w">
+        </span><span class="p">]</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span></code></pre>
+</div>
+<p><em>範例 S3 的 widecard 權限，當然還是詳細指定比較好。先新增 Policy，在建立 EC2 Type 的 Role Attach 上去，或是建立 Role 時寫成 Inline Policy。</em></p>
+
+<p>是的。就是這兩點搞死我。<strong>第一，EC2 Role 要先設定 S3 存取權，並在 Instance 建立時掛載。第二，CodeDeploy Agent 要先裝上 Instance</strong>。</p>
+
+<p>教學是都搜尋的到啦，可是排成一個完整版不好嗎，都已經拆 Step by Step 了，還 Lost 一堆，崩潰啦，難怪各種 AWS 代管服務蓬勃發展啊無誤 XDDD</p>
+
+<h2 id="section-2">再跑一次</h2>
+
+<ul>
+  <li>
+    <p>首先在 IAM 建立兩個 Role ，一個是給 EC2 的，一個是給 CodeDeploy 的。EC2 Role 直接用上面提到的 S3 Bucket 權限寫進去，EC2 的 Role 又稱 Instance Profile，呵。CodeDeploy 的 Role 直接掛上官方的 CodeDeployPolicy，如圖：
+<img src="http://i.imgur.com/F15UVaN.png" alt=""></p>
+  </li>
+  <li>依照教學 Launch Amazon 的 Linux Instance，記得掛上剛剛建立的 EC2 Role。成功 ssh 連進去後安裝 <a href="http://docs.aws.amazon.com/codedeploy/latest/userguide/how-to-run-agent.html">code deploy agent</a>，ubuntu 就選 apt 的那個，Amazon 自家 Linux 就選 yum 的那個，把他裝起來。</li>
+  <li>依照教學，把 WordPress 的 Repo 載下來，建立相應的 init script 還有 <code class="highlighter-rouge">appspec.yml</code>。</li>
+  <li>依照教學，利用 aws cli 建立 application，上傳 s3，這邊依照教學要開一份 IAM 的 User，掛上 s3 put 的權限，下載 User 的 credential (id &amp; secret key)，跑 aws configure 填入設定，這樣才可以在這臺暫時的工作機上傳檔案到 s3。依照教學打包 WordPress 上傳 s3。</li>
+  <li>到 CodeDeploy Console 建立 Deploy 設定。設定 DeployGroup，權限記得掛上之前建立的 CodeDeploy Service Role，其它照著跑。</li>
+  <li>建立部屬行動(Deployment，the 名詞)，看有沒有部屬成功。假如連 Events 都沒顯示，大概是 IAM 權限設定有問題，看一下 EC2 Role 和 CodeDeploy Role 有沒有設定正確</li>
+</ul>
+
+<p>大概就這樣啦，這還只是 WordPress 而已，我要部屬的可是 Rails App 欸，之後想必有更細節的其它地方。這樣跑完了一次（還順便被雷了一下午），對 AWS 的理解就更深了，請期待之後的後續文章，哈哈哈（不要說一說就不寫了）</p>
+
+<p>（完）</p>
+
+
+  </div>
+
+</article>
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Daily Oops!</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li>Daily Oops!</li>
+          <li><a href="mailto:yukaihuangtw@gmail.com">yukaihuangtw@gmail.com</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-2">
+        <ul class="social-media-list">
+          
+          <li>
+            <a href="https://github.com/Yukaii"><span class="icon icon--github"><svg viewbox="0 0 16 16"><path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"></path></svg>
+</span><span class="username">Yukaii</span></a>
+
+          </li>
+          
+
+          
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-3">
+        <p>Yukai's blog. Life, music, web, and all the fun.
+</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+
+
+  </body>
+
+</html>

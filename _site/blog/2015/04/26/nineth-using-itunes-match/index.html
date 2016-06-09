@@ -7,11 +7,11 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>在 GitHub 上設定 Jekyll 和自訂網域</title>
-  <meta name="description" content="花了時間把 Jekyll 建起來。Ghost 是很棒沒錯，不過想要完全掌控還要多花許多時間，純粹靜態網頁更為靈活，再配上 jekyll-assets，如果真的需要點 ES6 還是可以硬上的。">
+  <title>第九篇 - 使用 iTunes Match</title>
+  <meta name="description" content="曾經有一陣子很熱衷「試聽」音樂，iTunes Library 不知不覺就長到了 90GB。iTunes 實在方便，乾淨的專輯封面總攬，這樣選歌差不多也就夠了。但自從換了有 SSD 的電腦，90GB 的音樂對於硬碟空間也是太奢侈了。以前的玩法複製到 Nas 中，區網掛載。方便性還可以接受，畢竟 Library 都還...">
 
   <link type="text/css" rel="stylesheet" href="/assets/main.css">
-  <link rel="canonical" href="http://yukaii.tw/blog/2016/06/09/setup-jekyll-on-github-page/">
+  <link rel="canonical" href="http://yukaii.tw/blog/2015/04/26/nineth-using-itunes-match/">
   <link rel="alternate" type="application/rss+xml" title="Daily Oops!" href="http://yukaii.tw/feed.xml">
 </head>
 
@@ -63,66 +63,24 @@
         <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
-    <h1 class="post-title" itemprop="name headline">在 GitHub 上設定 Jekyll 和自訂網域</h1>
-    <p class="post-meta"><time datetime="2016-06-09T00:30:54+08:00" itemprop="datePublished">Jun 9, 2016</time></p>
+    <h1 class="post-title" itemprop="name headline">第九篇 - 使用 iTunes Match</h1>
+    <p class="post-meta"><time datetime="2015-04-26T15:46:00+08:00" itemprop="datePublished">Apr 26, 2015</time></p>
   </header>
 
   <div class="post-content" itemprop="articleBody">
-    <p>花了時間把 Jekyll 建起來。Ghost 是很棒沒錯，不過想要完全掌控還要多花許多時間，純粹靜態網頁更為靈活，再配上 <code class="highlighter-rouge">jekyll-assets</code>，如果真的需要點 ES6 還是可以硬上的。</p>
+    <p>曾經有一陣子很熱衷「試聽」音樂，iTunes Library 不知不覺就長到了 90GB。iTunes 實在方便，乾淨的專輯封面總攬，這樣選歌差不多也就夠了。但自從換了有 SSD 的電腦，90GB 的音樂對於硬碟空間也是太奢侈了。</p>
 
-<h2 id="git-subtree">Git Subtree</h2>
+<h4 id="section">以前的玩法</h4>
+<p>複製到 Nas 中，區網掛載。</p>
 
-<p>我把原始的 branch 命名為 <code class="highlighter-rouge">jekyll</code>，用 subtree 把 Jekyll 產生的 <code class="highlighter-rouge">_site</code> 資料夾切開：</p>
+<p>方便性還可以接受，畢竟 Library 都還看到自己的所有歌，只是受限于區網設備，有時候硬碟掛載失敗，或是花很久時間載入，在外網或是手機端也無法使用。</p>
 
-<div class="language-shell highlighter-rouge">
-<pre class="highlight"><code>git checkout -b jekyll <span class="c"># 原本在 master</span>
-git branch -D master <span class="c"># 把原本 master branch 刪掉</span>
-git subtree split --prefix<span class="o">=</span>_site -b master <span class="c"># subtree 切割</span>
-</code></pre>
-</div>
+<h4 id="itunes-match">iTunes Match</h4>
+<p>年費 NT$ 690，以現有的音樂資料庫（不管你是不是試聽版來著）去核對 iTunes 的資料庫，如果他們商店有就記錄起來，如果找不到，就將歌曲上傳至 iCloud，每一個登入 iTunes 帳號的裝置，手機平板或其他台電腦都可以即時串流，也可以透過 iCloud 下載至裝置，好處自然不計多說，Android 暫時無解，限制最多只能存放 25000 首歌。偷偷說，<del>一年不小心試聽三張專輯就回本啦……</del></p>
 
-<p>到這算切割完畢，接下來每次更新時，都從原本 <code class="highlighter-rouge">jekyll</code> branch commit，然後 push subtree 的 branch：</p>
+<p>算算我也放了一半多了(一萬兩千多首)，之後的增加速度就會小很多了吧，哈哈。</p>
 
-<div class="language-shell highlighter-rouge">
-<pre class="highlight"><code>git commit -m <span class="s2">"commit on jekyll branch"</span>
-git subtree push --prefix _site origin master <span class="c"># 將 _site 的 subtree 推到 origin 的 master branch</span>
-</code></pre>
-</div>
-
-<h2 id="github-user-page-custom-domain">GitHub user page custom domain</h2>
-
-<blockquote>
-  <p>二圖流</p>
-</blockquote>
-
-<p><img src="/assets/blog/cloudflare1.png" width="967" height="117" alt="blog/cloudflare1.png">
-<img src="/assets/blog/cloudflare2.png" width="959" height="59" alt="blog/cloudflare2.png"></p>
-
-<p><code class="highlighter-rouge">CNAME</code> 檔：</p>
-
-<div class="highlighter-rouge">
-<pre class="highlight"><code>www.yukaii.tw
-yukaii.tw
-</code></pre>
-</div>
-
-<h2 id="section">其它自訂</h2>
-
-<p>Jekyll 也有 partial 挺方便的，我用來做 image caption，比如以下這段：</p>
-
-<pre><code class="language-txt">
-{% include image.html url="http://i.imgur.com/gqOPCwP.jpg" description="六月不要啊啊啊，應該沒有第二行啦" %}
-
-</code></pre>
-
-<p>就會產生：</p>
-
-<table class="image" style="margin-bottom: 15px">
-<caption align="bottom">六月不要啊啊啊，應該沒有第二行啦</caption>
-<tr><td><img src="http://i.imgur.com/gqOPCwP.jpg" alt="六月不要啊啊啊，應該沒有第二行啦" width="" height=""></td></tr>
-</table>
-
-<p>需要在 <code class="highlighter-rouge">_includes</code> 資料夾新增 <code class="highlighter-rouge">image.html</code>，詳情可<a href="http://stackoverflow.com/questions/19331362/using-an-image-caption-in-markdown-jekyll">參考這裡</a></p>
+<p><img src="http://user-image.logdown.io/user/1128/blog/1112/post/261902/yuXUj7uTSO8j8n1V7DCF_%E8%9E%A2%E5%B9%95%E5%BF%AB%E7%85%A7%202015-04-26%20%E4%B8%8B%E5%8D%8811.48.02.png" alt="螢幕快照 2015-04-26 下午11.48.02.png"></p>
 
   </div>
 

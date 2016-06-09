@@ -7,11 +7,11 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>在 GitHub 上設定 Jekyll 和自訂網域</title>
-  <meta name="description" content="花了時間把 Jekyll 建起來。Ghost 是很棒沒錯，不過想要完全掌控還要多花許多時間，純粹靜態網頁更為靈活，再配上 jekyll-assets，如果真的需要點 ES6 還是可以硬上的。">
+  <title>第四篇 - Phantosys 問題疑難排解</title>
+  <meta name="description" content="背景">
 
   <link type="text/css" rel="stylesheet" href="/assets/main.css">
-  <link rel="canonical" href="http://yukaii.tw/blog/2016/06/09/setup-jekyll-on-github-page/">
+  <link rel="canonical" href="http://yukaii.tw/blog/2014/05/12/troubleshooting-phantosys/">
   <link rel="alternate" type="application/rss+xml" title="Daily Oops!" href="http://yukaii.tw/feed.xml">
 </head>
 
@@ -63,66 +63,36 @@
         <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
-    <h1 class="post-title" itemprop="name headline">在 GitHub 上設定 Jekyll 和自訂網域</h1>
-    <p class="post-meta"><time datetime="2016-06-09T00:30:54+08:00" itemprop="datePublished">Jun 9, 2016</time></p>
+    <h1 class="post-title" itemprop="name headline">第四篇 - Phantosys 問題疑難排解</h1>
+    <p class="post-meta"><time datetime="2014-05-12T17:47:00+08:00" itemprop="datePublished">May 12, 2014</time></p>
   </header>
 
   <div class="post-content" itemprop="articleBody">
-    <p>花了時間把 Jekyll 建起來。Ghost 是很棒沒錯，不過想要完全掌控還要多花許多時間，純粹靜態網頁更為靈活，再配上 <code class="highlighter-rouge">jekyll-assets</code>，如果真的需要點 ES6 還是可以硬上的。</p>
+    <h1 id="section">背景</h1>
 
-<h2 id="git-subtree">Git Subtree</h2>
+<p>今天跟著去電腦教室喬電腦，發現教室系統用軟體是Phantosys，於是就摸索了下。殘酷的是，花了兩小才找出問題癥結，故誌於此。</p>
 
-<p>我把原始的 branch 命名為 <code class="highlighter-rouge">jekyll</code>，用 subtree 把 Jekyll 產生的 <code class="highlighter-rouge">_site</code> 資料夾切開：</p>
+<h1 id="section-1">問題</h1>
 
-<div class="language-shell highlighter-rouge">
-<pre class="highlight"><code>git checkout -b jekyll <span class="c"># 原本在 master</span>
-git branch -D master <span class="c"># 把原本 master branch 刪掉</span>
-git subtree split --prefix<span class="o">=</span>_site -b master <span class="c"># subtree 切割</span>
-</code></pre>
-</div>
+<h2 id="q">Q:無法載入遠端映像檔</h2>
 
-<p>到這算切割完畢，接下來每次更新時，都從原本 <code class="highlighter-rouge">jekyll</code> branch commit，然後 push subtree 的 branch：</p>
+<p>檢查各個網路連結是否正確，是否在DHCP位址分派上出了問題、BIOS Wake on Lan以及相關設定有無開啟。</p>
 
-<div class="language-shell highlighter-rouge">
-<pre class="highlight"><code>git commit -m <span class="s2">"commit on jekyll branch"</span>
-git subtree push --prefix _site origin master <span class="c"># 將 _site 的 subtree 推到 origin 的 master branch</span>
-</code></pre>
-</div>
+<p>說到這就得抱怨一聲，華碩主機板在切換<strong>簡易模式</strong>與<strong>進階模式</strong>時不會自動儲存設定，讓我多測了好幾回，哀嘆。</p>
 
-<h2 id="github-user-page-custom-domain">GitHub user page custom domain</h2>
+<h2 id="qwindows-">Q:Windows 載入時間過長</h2>
 
-<blockquote>
-  <p>二圖流</p>
-</blockquote>
+<p>看一下硬碟燈有沒有在閃，猜一下可能是硬體的問題。交叉測試也。</p>
 
-<p><img src="/assets/blog/cloudflare1.png" width="967" height="117" alt="blog/cloudflare1.png">
-<img src="/assets/blog/cloudflare2.png" width="959" height="59" alt="blog/cloudflare2.png"></p>
+<h1 id="section-2">心得</h1>
 
-<p><code class="highlighter-rouge">CNAME</code> 檔：</p>
+<p>明明還有歷史報告還跟人玩這個的我真是瘋了XDD太久沒碰硬體是好事呦。</p>
 
-<div class="highlighter-rouge">
-<pre class="highlight"><code>www.yukaii.tw
-yukaii.tw
-</code></pre>
-</div>
+<p>個人認為電腦教室工讀的工作應該要有一本傳承日誌(hackpad/Google Docs之類)，把可能遇到的問題記下來。
+例如這次問題想也知道就是有人在BIOS亂動設定，還不改回來，真不專業。
+不過沒有設定BIOS密碼也是問題之一，一半一半啦。</p>
 
-<h2 id="section">其它自訂</h2>
-
-<p>Jekyll 也有 partial 挺方便的，我用來做 image caption，比如以下這段：</p>
-
-<pre><code class="language-txt">
-{% include image.html url="http://i.imgur.com/gqOPCwP.jpg" description="六月不要啊啊啊，應該沒有第二行啦" %}
-
-</code></pre>
-
-<p>就會產生：</p>
-
-<table class="image" style="margin-bottom: 15px">
-<caption align="bottom">六月不要啊啊啊，應該沒有第二行啦</caption>
-<tr><td><img src="http://i.imgur.com/gqOPCwP.jpg" alt="六月不要啊啊啊，應該沒有第二行啦" width="" height=""></td></tr>
-</table>
-
-<p>需要在 <code class="highlighter-rouge">_includes</code> 資料夾新增 <code class="highlighter-rouge">image.html</code>，詳情可<a href="http://stackoverflow.com/questions/19331362/using-an-image-caption-in-markdown-jekyll">參考這裡</a></p>
+<p>以上。</p>
 
   </div>
 

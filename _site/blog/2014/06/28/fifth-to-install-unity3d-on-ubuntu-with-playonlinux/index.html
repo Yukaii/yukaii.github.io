@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>第五篇 - 在 Ubuntu 中安裝 Unity3D Game Engine</title>
+  <meta name="description" content="首圖炫耀下。">
+
+  <link type="text/css" rel="stylesheet" href="/assets/main.css">
+  <link rel="canonical" href="http://yukaii.tw/blog/2014/06/28/fifth-to-install-unity3d-on-ubuntu-with-playonlinux/">
+  <link rel="alternate" type="application/rss+xml" title="Daily Oops!" href="http://yukaii.tw/feed.xml">
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+  <div class="title-wrapper">
+    <h1>
+      <a class="site-title" href="/">Daily Oops!</a>
+    </h1>
+  </div>
+
+  <div class="wrapper">
+    <nav class="site-nav">
+       <a href="#" class="menu-icon">
+        <svg viewbox="0 0 18 15">
+          <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"></path>
+          <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"></path>
+          <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"></path>
+        </svg>
+      </a>
+
+      <div class="trigger">
+        
+          
+          <a class="page-link" href="/about/">About</a>
+          
+        
+          
+        
+          
+        
+          
+          <a class="page-link" href="/portfolio/">Portfolio</a>
+          
+        
+      </div>
+    </nav>
+  </div>
+
+
+</header>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title" itemprop="name headline">第五篇 - 在 Ubuntu 中安裝 Unity3D Game Engine</h1>
+    <p class="post-meta"><time datetime="2014-06-28T09:39:00+08:00" itemprop="datePublished">Jun 28, 2014</time></p>
+  </header>
+
+  <div class="post-content" itemprop="articleBody">
+    <p><img src="http://user-image.logdown.io/user/1128/blog/1112/post/207756/qtAMPvNFQrGbmhSiYmQz_2014-06-28%2018:09:58%20%E7%9A%84%E8%9E%A2%E5%B9%95%E6%93%B7%E5%9C%96.png" alt="2014-06-28 18:09:58 的螢幕擷圖.png">
+首圖炫耀下。</p>
+
+<p>最近準備再來弄一個Unity3D專案，但筆電又被我灌回了Ubuntu 14.04，在考慮行動性下，優先在Ubuntu環境下安裝Unity3D。</p>
+
+<p>環境：</p>
+
+<ul>
+  <li>Ubuntu 14.04</li>
+  <li>Unity 4.5.1f3</li>
+</ul>
+
+<!--more-->
+
+<h2 id="section">安裝</h2>
+
+<p>基本上參考<a href="http://tomaszzackiewicz.wordpress.com/2013/11/16/run-unity3d-on-linux-with-wine-solved/">這篇</a></p>
+
+<p>裝<a href="http://www.playonlinux.com/en/">playonlinux</a>（POL），裝Wine 1.7，設置playonlinux，準備好Unity3D安裝檔，使用該篇提供的POL script完成安裝。（附於本文文末）</p>
+
+<h2 id="section-1">安裝後問題</h2>
+
+<blockquote>
+  <p>unable to find a version of the runtime to run this application</p>
+</blockquote>
+
+<blockquote>
+  <p>wine: cannot find L”C:\windows\Microsoft.NET\Framework\v4.0.30319\mscorsvw.exe”</p>
+</blockquote>
+
+<p>和</p>
+
+<blockquote>
+  <div class="highlighter-rouge">
+<pre class="highlight"><code>DNSAPI.dll的讀取問題（錯誤代碼找不到orz...）
+</code></pre>
+  </div>
+</blockquote>
+
+<p>兩個問題。</p>
+
+<p>以上問題皆因為不明原因，函式庫設定跑掉。
+進入wine配置函式庫，改下相應的：</p>
+
+<p><img src="http://user-image.logdown.io/user/1128/blog/1112/post/207756/H4qG6XkyRUqHJ6HRl18Z_2014-06-28%2018:30:01%20%E7%9A%84%E8%9E%A2%E5%B9%95%E6%93%B7%E5%9C%96.png" alt="2014-06-28 18:30:01 的螢幕擷圖.png"></p>
+
+<p><img src="http://user-image.logdown.io/user/1128/blog/1112/post/207756/S6yZ2vCvS5aIAKhwQHBP_2014-06-28%2018:30:19%20%E7%9A%84%E8%9E%A2%E5%B9%95%E6%93%B7%E5%9C%96.png" alt="2014-06-28 18:30:19 的螢幕擷圖.png"></p>
+
+<h2 id="section-2">使用問題</h2>
+
+<p>已知Assest Store開了無畫面。</p>
+
+<p>再來就是Project存的位置不能有中文，可能是wine的問題吧。</p>
+
+<p>我是透過在桌面設一個捷徑解決：</p>
+
+<table class="image" style="margin-bottom: 15px">
+<caption align="bottom">（萬里花的大腿，prpr）</caption>
+<tr><td><img src="http://user-image.logdown.io/user/1128/blog/1112/post/207756/WSyankWTyGYKpW07sBLp_2014-06-28%2021:12:39%20%E7%9A%84%E8%9E%A2%E5%B9%95%E6%93%B7%E5%9C%96.png" alt="（萬里花的大腿，prpr）" width="" height=""></td></tr>
+</table>
+
+<p>然後Unity開專案時存到此捷徑：</p>
+
+<p><img src="http://user-image.logdown.io/user/1128/blog/1112/post/207756/hk8Oh894SymeXgEZs0zT_2014-06-28%2021:14:48%20%E7%9A%84%E8%9E%A2%E5%B9%95%E6%93%B7%E5%9C%96.png" alt="2014-06-28 21:14:48 的螢幕擷圖.png"></p>
+
+<h2 id="playonlinux-script">playonlinux Script</h2>
+
+<p>以下script來自<a href="http://tomaszzackiewicz.wordpress.com/2013/11/16/run-unity3d-on-linux-with-wine-solved/">原帖</a>的第七版，請複製另存成<code class="highlighter-rouge">XXX.pol</code>。</p>
+
+<div class="language-sh highlighter-rouge">
+<pre class="highlight"><code><span class="c">#!/bin/bash</span>
+ 
+<span class="c"># Date : (2014-03-07 10-21)</span>
+<span class="c"># Last revision : (2014-03-07 10-21)</span>
+<span class="c"># Wine version used : 1.7.14</span>
+<span class="c"># Distribution used to test : OpenSuse 13.1</span>
+<span class="c"># Authors : waneck-six, Damian-LinuxFan, Tomza (&lt;a class="linkclass" href="mailto:pogtoma@gmail.com"&gt;pogtoma@gmail.com&lt;/a&gt;), gnumaru, Doctor Jellyface (&lt;a class="linkclass" href="mailto:doctorjellyface@riseup.net"&gt;doctorjellyface@riseup.net&lt;/a&gt;)</span>
+<span class="c"># Contributors: Goran Grncaroski (running MonoDevelop), other people (testing solutions)</span>
+<span class="c"># Script licence : GPL v.2</span>
+<span class="c"># Only For : &lt;/span&gt;&lt;a href="http://www.playonlinux.com" target="_blank" rel="noreferrer" style="cursor:help;display:inline !important;"&gt;http://www.playonlinux.com&lt;/a&gt;</span>
+<span class="c"># Depend :</span>
+ 
+<span class="c"># Known Issues : You can't use Asset Store</span>
+ 
+<span class="o">[</span> <span class="s2">"</span><span class="nv">$PLAYONLINUX</span><span class="s2">"</span> <span class="o">=</span> <span class="s2">""</span> <span class="o">]</span> <span class="nb">exit </span>0
+<span class="nb">source</span> <span class="s2">"</span><span class="nv">$PLAYONLINUX</span><span class="s2">/lib/sources"</span>
+ 
+<span class="nv">TITLE</span><span class="o">=</span><span class="s2">"Unity 3D"</span>
+<span class="nv">PREFIX</span><span class="o">=</span><span class="s2">"Unity3D"</span>
+<span class="nv">WINE_VERSION</span><span class="o">=</span><span class="s2">"1.7.14"</span>
+ 
+POL_SetupWindow_Init
+POL_Debug_Init
+ 
+POL_SetupWindow_presentation <span class="s2">"</span><span class="nv">$TITLE</span><span class="s2">"</span> <span class="s2">"Unity"</span> <span class="s2">"&lt;a href="</span>http://www.unity3d.com/<span class="s2">" target="</span>_blank<span class="s2">" rel="</span>noreferrer<span class="s2">" style="</span>cursor:help;display:inline !important;<span class="s2">"&gt;http://www.unity3d.com/&lt;/a&gt;"</span> <span class="s2">"waneck-six, Damian-LinuxFan, Tomza, gnumaru, DoctorJellyface"</span> <span class="s2">"</span><span class="nv">$PREFIX</span><span class="s2">"</span>
+ 
+<span class="c">#create prefix</span>
+<span class="nb">export </span><span class="nv">WINEARCH</span><span class="o">=</span><span class="s2">"win32"</span>
+POL_Wine_SelectPrefix <span class="s2">"</span><span class="nv">$PREFIX</span><span class="s2">"</span>
+POL_Wine_PrefixCreate <span class="s2">"</span><span class="nv">$WINE_VERSION</span><span class="s2">"</span>
+ 
+<span class="c">#setup prefix</span>
+POL_Wine_InstallFonts
+POL_Call POL_Install_d3dx9
+POL_Call POL_Install_dotnet20
+POL_Call POL_Install_dotnet35
+POL_Call POL_Install_dotnet40
+POL_Call POL_Install_tahoma
+POL_Call POL_Install_vcrun2008
+POL_Call POL_Install_vcrun2010
+POL_Call POL_Install_mono210
+POL_Call POL_Install_d3dx9_36
+POL_Call POL_Install_d3dcompiler_43
+POL_Call POL_Install_dxdiag
+POL_Call POL_Install_dxfullsetup
+POL_Call POL_Install_physx
+POL_Call POL_Install_corefonts
+POL_Call POL_Install_msxml6
+POL_Call POL_Install_wininet
+POL_Call POL_Install_ie8
+ 
+<span class="c">#Setting OS wer</span>
+Set_OS <span class="s2">"winxp"</span> <span class="s2">"sp3"</span>
+ 
+<span class="c">#Setting mono forcing in MonoDevelop</span>
+POL_Wine_OverrideDLL “native, <span class="nb">builtin</span>” “mscore”
+POL_Wine_OverrideDLL “builtin, native” “dnsapi”
+POL_Wine_OverrideDLL <span class="s2">""</span> <span class="s2">"mscorsvw.exe"</span>
+ 
+mkdir -p <span class="nv">$WINEPREFIX</span>/drive_c/users/<span class="nv">$USER</span>/AppData/LocalLow
+ 
+<span class="c">#registry</span>
+POL_Wine reg add <span class="s2">"HKLM</span><span class="se">\S</span><span class="s2">oftware</span><span class="se">\M</span><span class="s2">icrosoft</span><span class="se">\W</span><span class="s2">indows NT</span><span class="se">\C</span><span class="s2">urrentVersion"</span> /v ProductId /t REG_SZ /d 12345-oem-0000001-54321
+ 
+POL_SetupWindow_browse <span class="s2">"Please select the location of the Unity3D setup executable"</span> <span class="s2">"</span><span class="nv">$TITLE</span><span class="s2">"</span>
+ 
+<span class="nv">UNITYLOC</span><span class="o">=</span><span class="nv">$APP_ANSWER</span>
+POL_Wine <span class="nv">$UNITYLOC</span>
+ 
+POL_Shortcut <span class="s2">"Unity.exe"</span> <span class="s2">"</span><span class="nv">$TITLE</span><span class="s2">"</span>
+ 
+POL_SetupWindow_Close
+<span class="nb">exit</span>
+</code></pre>
+</div>
+
+<p>以上。</p>
+
+  </div>
+
+</article>
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Daily Oops!</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li>Daily Oops!</li>
+          <li><a href="mailto:yukaihuangtw@gmail.com">yukaihuangtw@gmail.com</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-2">
+        <ul class="social-media-list">
+          
+          <li>
+            <a href="https://github.com/Yukaii"><span class="icon icon--github"><svg viewbox="0 0 16 16"><path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"></path></svg>
+</span><span class="username">Yukaii</span></a>
+
+          </li>
+          
+
+          
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-3">
+        <p>Yukai's blog. Life, music, web, and all the fun.
+</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+
+
+  </body>
+
+</html>
