@@ -15,7 +15,7 @@ url: "http://yukaii.tw" # the base hostname & protocol for your site
 # twitter_username: jekyllrb
 github_username:  Yukaii
 
-permanlink: /blog/:year/:month/:day/:title/
+permalink: /blog/:year/:month/:day/:title/
 
 exclude:
   - Gemfile
@@ -25,19 +25,18 @@ exclude:
 # Build settings
 markdown: kramdown
 
-
 kramdown:
   input: GFM
-  syntax_highlighter: rouge
+  # syntax_highlighter: rouge
   syntax_highlighter_opts:
     css_class: 'highlight'
-    span:
-      line_numbers: false
-    block:
-      line_numbers: true
-      start_line: 1
+  #   span:
+  #     line_numbers: false
+  #   block:
+  #     line_numbers: true
+  #     start_line: 1
 
-highlighter: rouge
+# highlighter: pygments
 
 gems:
   - jekyll-assets

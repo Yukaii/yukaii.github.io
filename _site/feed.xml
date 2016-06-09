@@ -6,79 +6,80 @@
 </description>
     <link>http://yukaii.tw/</link>
     <atom:link href="http://yukaii.tw/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Wed, 08 Jun 2016 23:51:43 +0800</pubDate>
-    <lastBuildDate>Wed, 08 Jun 2016 23:51:43 +0800</lastBuildDate>
+    <pubDate>Thu, 09 Jun 2016 10:39:38 +0800</pubDate>
+    <lastBuildDate>Thu, 09 Jun 2016 10:39:38 +0800</lastBuildDate>
     <generator>Jekyll v3.1.6</generator>
     
       <item>
-        <title>Welcome to Jekyll! 順便來些中文好了</title>
-        <description>&lt;h1 id=&quot;section&quot;&gt;哈哈哈阿呵呵呵啊哈阿&lt;/h1&gt;
+        <title>在 GitHub 上設定 Jekyll 和自訂網域</title>
+        <description>&lt;p&gt;花了時間把 Jekyll 建起來。Ghost 是很棒沒錯，不過想要完全掌控還要多花許多時間，純粹靜態網頁更為靈活，再配上 &lt;code class=&quot;highlighter-rouge&quot;&gt;jekyll-assets&lt;/code&gt;，如果真的需要點 ES6 還是可以硬上的。&lt;/p&gt;
 
-&lt;p&gt;You’ll find this post in your &lt;code class=&quot;highlighter-rouge&quot;&gt;_posts&lt;/code&gt; directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run &lt;code class=&quot;highlighter-rouge&quot;&gt;jekyll serve&lt;/code&gt;, which launches a web server and auto-regenerates your site when a file is updated.&lt;/p&gt;
+&lt;h2 id=&quot;git-subtree&quot;&gt;Git Subtree&lt;/h2&gt;
 
-&lt;p&gt;To add new posts, simply add a file in the &lt;code class=&quot;highlighter-rouge&quot;&gt;_posts&lt;/code&gt; directory that follows the convention &lt;code class=&quot;highlighter-rouge&quot;&gt;YYYY-MM-DD-name-of-post.ext&lt;/code&gt; and includes the necessary front matter. Take a look at the source for this post to get an idea about how it works.&lt;/p&gt;
+&lt;p&gt;我把原始的 branch 命名為 &lt;code class=&quot;highlighter-rouge&quot;&gt;jekyll&lt;/code&gt;，用 subtree 把 Jekyll 產生的 &lt;code class=&quot;highlighter-rouge&quot;&gt;_site&lt;/code&gt; 資料夾切開：&lt;/p&gt;
 
-&lt;h1 id=&quot;section-1&quot;&gt;其實用標題二也不太順手&lt;/h1&gt;
-
-&lt;p&gt;推系苦蘭春……過多不能系的們面的……壓了眾國年詩的費心操想有代飯……直過權排等都的味，個遊賽功軍那。題入調從性不起人也同稱：解策友請到完媽義減升民動……地黃兒離己不離看注動事成難推沒，現隊望有手人！就走情要他治間辦度能工果我我歡住構來她利的故分因出是系度出。&lt;/p&gt;
-
-&lt;p&gt;推系苦蘭春……過多不能系的們面的……壓了眾國年詩的費心操想有代飯……直過權排等都的味，個遊賽功軍那。題入調從性不起人也同稱：解策友請到完媽義減升民動……地黃兒離己不離看注動事成難推沒，現隊望有手人！就走情要他治間辦度能工果我我歡住構來她利的故分因出是系度出。&lt;/p&gt;
-
-&lt;h2 id=&quot;section-2&quot;&gt;那標題二在一點呢？&lt;/h2&gt;
-
-&lt;p&gt;推系苦蘭春……過多不能系的們面的……壓了眾國年詩的費心操想有代飯……直過權排等都的味，個遊賽功軍那。題入調從性不起人也同稱：解策友請到完媽義減升民動……地黃兒離己不離看注動事成難推沒，現隊望有手人！就走情要他治間辦度能工果我我歡住構來她利的故分因出是系度出。&lt;/p&gt;
-
-&lt;h3 id=&quot;section-3&quot;&gt;小說明&lt;/h3&gt;
-
-&lt;p&gt;推系苦蘭春……過多不能系的們面的……壓了眾國年詩的費心操想有代飯……直過權排等都的味，個遊賽功軍那。題入調從性不起人也同稱：解策友請到完媽義減升民動……地黃兒離己不離看注動事成難推沒，現隊望有手人！就走情要他治間辦度能工果我我歡住構來她利的故分因出是系度出。&lt;/p&gt;
-
-&lt;h4 id=&quot;section-4&quot;&gt;大幹八&lt;/h4&gt;
-
-&lt;p&gt;Jekyll also offers powerful support for code snippets:&lt;/p&gt;
-
-&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;table style=&quot;border-spacing: 0&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;gutter gl&quot; style=&quot;text-align: right&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
-2
-3
-4
-5&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;print_hi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;nb&quot;&gt;puts&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Hi, &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;#{&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;print_hi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;Tom&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;#=&amp;gt; prints &#39;Hi, Tom&#39; to STDOUT.&lt;/span&gt;
-&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;
-&lt;/div&gt;
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git checkout -b jekyll &lt;span class=&quot;c&quot;&gt;# 原本在 master&lt;/span&gt;
+git branch -D master &lt;span class=&quot;c&quot;&gt;# 把原本 master branch 刪掉&lt;/span&gt;
+git subtree split --prefix&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;_site -b master &lt;span class=&quot;c&quot;&gt;# subtree 切割&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
-&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;table style=&quot;border-spacing: 0&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;gutter gl&quot; style=&quot;text-align: right&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;nb&quot;&gt;puts&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;hello world&quot;&lt;/span&gt;
-&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;
+&lt;p&gt;到這算切割完畢，接下來每次更新時，都從原本 &lt;code class=&quot;highlighter-rouge&quot;&gt;jekyll&lt;/code&gt; branch commit，然後 push subtree 的 branch：&lt;/p&gt;
+
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git commit -m &lt;span class=&quot;s2&quot;&gt;&quot;commit on jekyll branch&quot;&lt;/span&gt;
+git subtree push --prefix _site origin master &lt;span class=&quot;c&quot;&gt;# 將 _site 的 subtree 推到 origin 的 master branch&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
+
+&lt;h2 id=&quot;github-user-page-custom-domain&quot;&gt;GitHub user page custom domain&lt;/h2&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;二圖流&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/blog/cloudflare1.png&quot; width=&quot;967&quot; height=&quot;117&quot; alt=&quot;blog/cloudflare1.png&quot; /&gt;
+&lt;img src=&quot;/assets/blog/cloudflare2.png&quot; width=&quot;959&quot; height=&quot;59&quot; alt=&quot;blog/cloudflare2.png&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;CNAME&lt;/code&gt; 檔：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;www.yukaii.tw
+yukaii.tw
+&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
+
+&lt;h2 id=&quot;section&quot;&gt;其它自訂&lt;/h2&gt;
+
+&lt;p&gt;Jekyll 也有 partial 挺方便的，我用來做 image caption，比如以下這段：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-txt&quot;&gt;
+{% include image.html url=&quot;http://i.imgur.com/gqOPCwP.jpg&quot; description=&quot;六月不要啊啊啊，應該沒有第二行啦&quot; %}
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;就會產生：&lt;/p&gt;
 
 &lt;table class=&quot;image&quot;&gt;
 &lt;caption align=&quot;bottom&quot;&gt;六月不要啊啊啊，應該沒有第二行啦&lt;/caption&gt;
 &lt;tr&gt;&lt;td&gt;&lt;img src=&quot;http://i.imgur.com/gqOPCwP.jpg&quot; alt=&quot;六月不要啊啊啊，應該沒有第二行啦&quot; width=&quot;&quot; height=&quot;&quot; /&gt;&lt;/td&gt;&lt;/tr&gt;
 &lt;/table&gt;
-
 &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://www.a1smallbusinessmarketing.com/images/prosbo_hires.jpg&quot; alt=&quot;abc&quot; /&gt;
-&lt;em&gt;caption 2&lt;/em&gt;&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;推系苦蘭春……過多不能系的們面的……壓了眾國年詩的費心操想有代飯……直過權排等都的味，個遊賽功軍那。題入調從性不起人也同稱：解策友請到完媽義減升民動……地黃兒離己不離看注動事成難推沒，現隊望有手人！就走情要他治間辦度能工果我我歡住構來她利的故分因出是系度出。 Blockquote&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;Check out the &lt;a href=&quot;http://jekyllrb.com/docs/home&quot;&gt;Jekyll docs&lt;/a&gt; for more info on how to get the most out of Jekyll. File all bugs/feature requests at &lt;a href=&quot;https://github.com/jekyll/jekyll&quot;&gt;Jekyll’s GitHub repo&lt;/a&gt;. If you have questions, you can ask them on &lt;a href=&quot;https://talk.jekyllrb.com/&quot;&gt;Jekyll Talk&lt;/a&gt;.&lt;/p&gt;
-
+&lt;p&gt;需要再 &lt;code class=&quot;highlighter-rouge&quot;&gt;_includes&lt;/code&gt; 資料夾新增 &lt;code class=&quot;highlighter-rouge&quot;&gt;image.html&lt;/code&gt;，詳情可&lt;a href=&quot;http://stackoverflow.com/questions/19331362/using-an-image-caption-in-markdown-jekyll&quot;&gt;參考這裡&lt;/a&gt;&lt;/p&gt;
 </description>
-        <pubDate>Wed, 08 Jun 2016 00:30:54 +0800</pubDate>
-        <link>http://yukaii.tw/jekyll/update/2016/06/08/welcome-to-jekyll.html</link>
-        <guid isPermaLink="true">http://yukaii.tw/jekyll/update/2016/06/08/welcome-to-jekyll.html</guid>
+        <pubDate>Thu, 09 Jun 2016 00:30:54 +0800</pubDate>
+        <link>http://yukaii.tw/blog/2016/06/09/setup-jekyll-on-github-page/</link>
+        <guid isPermaLink="true">http://yukaii.tw/blog/2016/06/09/setup-jekyll-on-github-page/</guid>
         
         
         <category>jekyll</category>
         
-        <category>update</category>
+        <category>setup</category>
+        
+        <category>github</category>
+        
+        <category>git</category>
+        
+        <category>subtree</category>
         
       </item>
     
