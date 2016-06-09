@@ -8,7 +8,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <title>第十一篇 - 第一次自幹爬蟲就上手 - 使用 Ruby</title>
-  <meta name="description" content="目標我們將會解析中正大學選課系統的選課資料，將它轉換成我們想要的格式 (JSON)，把它存起來。預先知識  已經裝好 ruby 環境了  如果是 OSX 記得把 Command Line Tool 裝起來PART A:準備檔案    $ mkdir ccu    $ cd ccu    $ touch Gemfi...">
+  <meta name="description" content="目標我們將會解析中正大學選課系統的選課資料，將它轉換成我們想要的格式 (JSON)，把它存起來。">
 
   <link type="text/css" rel="stylesheet" href="/assets/main.css">
   <link rel="canonical" href="http://yukaii.tw/blog/2015/05/03/how-to-write-web-crawler-for-the-first-time-using-ruby/">
@@ -161,11 +161,14 @@
 <pre class="highlight"><code><span class="n">str</span> <span class="o">=</span> <span class="no">File</span><span class="p">.</span><span class="nf">read</span><span class="p">(</span><span class="s1">'1031/1014.html'</span><span class="p">);</span>
 </code></pre>
 </div>
-<p><img src="http://user-image.logdown.io/user/1128/blog/1112/post/243459/QSrjA3FsQuC389J9WPpi_step3.png" alt="step3.png">
-我在行末加上一個分號，這是讓 pry 不會預覽回傳值。當沒加的時候，就會預覽回傳值，也就是讀進來的 html</p>
 
-<p><img src="http://user-image.logdown.io/user/1128/blog/1112/post/243459/Db5ei9I9TUugtynGB4PP_step3-1.png" alt="step3-1.png">
-在此界面下，j/k 上下捲動，d/u 捲動半頁，q 離開回到 console。</p>
+<p><img src="http://user-image.logdown.io/user/1128/blog/1112/post/243459/QSrjA3FsQuC389J9WPpi_step3.png" alt="step3.png"></p>
+
+<p>我在行末加上一個分號，這是讓 pry 不會預覽回傳值。當沒加的時候，就會預覽回傳值，也就是讀進來的 html</p>
+
+<p><img src="http://user-image.logdown.io/user/1128/blog/1112/post/243459/Db5ei9I9TUugtynGB4PP_step3-1.png" alt="step3-1.png"></p>
+
+<p>在此界面下，j/k 上下捲動，d/u 捲動半頁，q 離開回到 console。</p>
 
 <p>再來載入 <code class="highlighter-rouge">nokogiri</code>，將剛剛讀取進來的 html 資料字串轉為 Nokogiri 物件，我們將物件存為 doc 變數：</p>
 
@@ -287,13 +290,16 @@
 <pre class="highlight"><code><span class="n">str</span><span class="p">.</span><span class="nf">encode</span><span class="p">(</span><span class="s2">"utf-8"</span><span class="p">,</span> <span class="ss">:invalid</span> <span class="o">=&gt;</span> <span class="ss">:replace</span><span class="p">,</span> <span class="ss">:undef</span> <span class="o">=&gt;</span> <span class="ss">:replace</span><span class="p">)</span>
 </code></pre>
 </div>
+
 <p>在這段我將檔案讀出的編碼去掉不合法和未定義的部分，否則在輸出成 JSON 時會出錯。</p>
 
 <h4 id="section-2">賦值</h4>
+
 <div class="language-ruby highlighter-rouge">
 <pre class="highlight"><code><span class="n">datas</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">&amp;&amp;</span> <span class="n">datas</span><span class="p">[</span><span class="mi">2</span><span class="p">].</span><span class="nf">text</span>
 </code></pre>
 </div>
+
 <p>先確定 data[2] 非 nil，再取用方法，比用 if 判斷 <code class="highlighter-rouge">data[2].nil?</code> 簡潔</p>
 
 <h2 id="debug">Debug</h2>

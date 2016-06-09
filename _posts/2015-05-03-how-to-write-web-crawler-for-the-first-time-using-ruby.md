@@ -94,10 +94,13 @@ bundle
 ```ruby
 str = File.read('1031/1014.html');
 ```
+
 ![step3.png](http://user-image.logdown.io/user/1128/blog/1112/post/243459/QSrjA3FsQuC389J9WPpi_step3.png)
+
 我在行末加上一個分號，這是讓 pry 不會預覽回傳值。當沒加的時候，就會預覽回傳值，也就是讀進來的 html
 
 ![step3-1.png](http://user-image.logdown.io/user/1128/blog/1112/post/243459/Db5ei9I9TUugtynGB4PP_step3-1.png)
+
 在此界面下，j/k 上下捲動，d/u 捲動半頁，q 離開回到 console。
 
 再來載入 `nokogiri`，將剛剛讀取進來的 html 資料字串轉為 Nokogiri 物件，我們將物件存為 doc 變數：
@@ -209,12 +212,15 @@ File.open('courses.json', 'w') {|file| file.write(JSON.pretty_generate(courses))
 ```ruby
 str.encode("utf-8", :invalid => :replace, :undef => :replace)
 ```
+
 在這段我將檔案讀出的編碼去掉不合法和未定義的部分，否則在輸出成 JSON 時會出錯。
 
 #### 賦值
+
 ```ruby
 datas[2] && datas[2].text
 ```
+
 先確定 data[2] 非 nil，再取用方法，比用 if 判斷 `data[2].nil?` 簡潔
 
 ## Debug

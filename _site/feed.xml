@@ -6,8 +6,8 @@
 </description>
     <link>http://yukaii.tw/</link>
     <atom:link href="http://yukaii.tw/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Thu, 09 Jun 2016 22:25:58 +0800</pubDate>
-    <lastBuildDate>Thu, 09 Jun 2016 22:25:58 +0800</lastBuildDate>
+    <pubDate>Thu, 09 Jun 2016 23:55:45 +0800</pubDate>
+    <lastBuildDate>Thu, 09 Jun 2016 23:55:45 +0800</lastBuildDate>
     <generator>Jekyll v3.1.6</generator>
     
       <item>
@@ -444,11 +444,14 @@ CodeDeploy 的 Service Role，直接掛上 AWS 建立好的 Policy，可以直�
 &lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;str&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;File&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;read&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;1031/1014.html&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
-&lt;p&gt;&lt;img src=&quot;http://user-image.logdown.io/user/1128/blog/1112/post/243459/QSrjA3FsQuC389J9WPpi_step3.png&quot; alt=&quot;step3.png&quot; /&gt;
-我在行末加上一個分號，這是讓 pry 不會預覽回傳值。當沒加的時候，就會預覽回傳值，也就是讀進來的 html&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://user-image.logdown.io/user/1128/blog/1112/post/243459/Db5ei9I9TUugtynGB4PP_step3-1.png&quot; alt=&quot;step3-1.png&quot; /&gt;
-在此界面下，j/k 上下捲動，d/u 捲動半頁，q 離開回到 console。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://user-image.logdown.io/user/1128/blog/1112/post/243459/QSrjA3FsQuC389J9WPpi_step3.png&quot; alt=&quot;step3.png&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;我在行末加上一個分號，這是讓 pry 不會預覽回傳值。當沒加的時候，就會預覽回傳值，也就是讀進來的 html&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://user-image.logdown.io/user/1128/blog/1112/post/243459/Db5ei9I9TUugtynGB4PP_step3-1.png&quot; alt=&quot;step3-1.png&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;在此界面下，j/k 上下捲動，d/u 捲動半頁，q 離開回到 console。&lt;/p&gt;
 
 &lt;p&gt;再來載入 &lt;code class=&quot;highlighter-rouge&quot;&gt;nokogiri&lt;/code&gt;，將剛剛讀取進來的 html 資料字串轉為 Nokogiri 物件，我們將物件存為 doc 變數：&lt;/p&gt;
 
@@ -561,12 +564,15 @@ CodeDeploy 的 Service Role，直接掛上 AWS 建立好的 Policy，可以直�
 &lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;str&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;encode&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;utf-8&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:invalid&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:replace&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:undef&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:replace&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
+
 &lt;p&gt;在這段我將檔案讀出的編碼去掉不合法和未定義的部分，否則在輸出成 JSON 時會出錯。&lt;/p&gt;
 
 &lt;h4 id=&quot;section-2&quot;&gt;賦值&lt;/h4&gt;
+
 &lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;datas&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;datas&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;text&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
+
 &lt;p&gt;先確定 data[2] 非 nil，再取用方法，比用 if 判斷 &lt;code class=&quot;highlighter-rouge&quot;&gt;data[2].nil?&lt;/code&gt; 簡潔&lt;/p&gt;
 
 &lt;h2 id=&quot;debug&quot;&gt;Debug&lt;/h2&gt;
