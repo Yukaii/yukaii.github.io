@@ -6,8 +6,8 @@
 </description>
     <link>http://yukaii.tw/</link>
     <atom:link href="http://yukaii.tw/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Thu, 09 Jun 2016 10:39:38 +0800</pubDate>
-    <lastBuildDate>Thu, 09 Jun 2016 10:39:38 +0800</lastBuildDate>
+    <pubDate>Thu, 09 Jun 2016 10:52:25 +0800</pubDate>
+    <lastBuildDate>Thu, 09 Jun 2016 10:52:25 +0800</lastBuildDate>
     <generator>Jekyll v3.1.6</generator>
     
       <item>
@@ -58,11 +58,10 @@ yukaii.tw
 
 &lt;p&gt;就會產生：&lt;/p&gt;
 
-&lt;table class=&quot;image&quot;&gt;
+&lt;table class=&quot;image&quot; style=&quot;margin-bottom: 15px&quot;&gt;
 &lt;caption align=&quot;bottom&quot;&gt;六月不要啊啊啊，應該沒有第二行啦&lt;/caption&gt;
 &lt;tr&gt;&lt;td&gt;&lt;img src=&quot;http://i.imgur.com/gqOPCwP.jpg&quot; alt=&quot;六月不要啊啊啊，應該沒有第二行啦&quot; width=&quot;&quot; height=&quot;&quot; /&gt;&lt;/td&gt;&lt;/tr&gt;
 &lt;/table&gt;
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
 
 &lt;p&gt;需要再 &lt;code class=&quot;highlighter-rouge&quot;&gt;_includes&lt;/code&gt; 資料夾新增 &lt;code class=&quot;highlighter-rouge&quot;&gt;image.html&lt;/code&gt;，詳情可&lt;a href=&quot;http://stackoverflow.com/questions/19331362/using-an-image-caption-in-markdown-jekyll&quot;&gt;參考這裡&lt;/a&gt;&lt;/p&gt;
 </description>

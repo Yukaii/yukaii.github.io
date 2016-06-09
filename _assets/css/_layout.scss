@@ -239,14 +239,17 @@
 }
 
 .post-content {
-    margin-bottom: $spacing-unit;
+    margin-bottom: $spacing-unit/2;
+    margin-top: $spacing-unit/2;
 
     p {
-      margin-bottom: $spacing-unit;
+      // margin-bottom: $spacing-unit/2;
       font-size: 18px;
     }
 
     h2 {
+        margin-bottom: $spacing-unit/1.5;
+        margin-top: $spacing-unit/1.5;
         font-size: 25px;
 
         @include media-query($on-laptop) {
