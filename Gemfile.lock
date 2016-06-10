@@ -17,6 +17,7 @@ GEM
     execjs (2.7.0)
     extras (0.1.0)
       forwardable-extended (~> 2.5)
+    fastercsv (1.5.5)
     fastimage (2.0.0)
       addressable (~> 2)
     ffi (1.9.10)
@@ -42,6 +43,10 @@ GEM
       pathutil (>= 0.8)
       sprockets (~> 3.3)
     jekyll-feed (0.5.1)
+    jekyll-import (0.10.0)
+      fastercsv
+      jekyll (>= 1.4)
+      nokogiri
     jekyll-mentions (1.1.2)
       html-pipeline (~> 2.3)
       jekyll (~> 3.0)
@@ -100,6 +105,7 @@ DEPENDENCIES
   jekyll
   jekyll-assets
   jekyll-feed
+  jekyll-import
   jekyll-mentions
   jekyll-redirect-from
   jekyll-sitemap
