@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
+<loc>http://yukaii.tw/blog/2016/06/22/sublime-atom-vscode-comparison-mid-2016/</loc>
+<lastmod>2016-06-22T00:00:00+08:00</lastmod>
+</url>
+<url>
 <loc>http://yukaii.tw/blog/2016/06/09/setup-jekyll-on-github-page/</loc>
 <lastmod>2016-06-09T00:30:54+08:00</lastmod>
 </url>
