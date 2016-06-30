@@ -39,6 +39,11 @@ kramdown:
 
 # highlighter: pygments
 
+collections:
+  hi_tips:
+    output: true
+    permalink: /hi-tips/:path/
+
 gems:
   - jekyll-assets
   - uglifier
