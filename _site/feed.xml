@@ -6,9 +6,162 @@
 </description>
     <link>http://yukaii.tw/</link>
     <atom:link href="http://yukaii.tw/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Thu, 30 Jun 2016 14:31:01 +0800</pubDate>
-    <lastBuildDate>Thu, 30 Jun 2016 14:31:01 +0800</lastBuildDate>
+    <pubDate>Fri, 22 Jul 2016 22:29:54 +0800</pubDate>
+    <lastBuildDate>Fri, 22 Jul 2016 22:29:54 +0800</lastBuildDate>
     <generator>Jekyll v3.1.6</generator>
+    
+      <item>
+        <title>rbenv、fish 與 VSCode 設置之路</title>
+        <description>&lt;p&gt;在最新的 VSCode 1.3.1 版裡，Integrated Terminal 變得更佳好用，但由於上游套件 &lt;code class=&quot;highlighter-rouge&quot;&gt;xterm.js&lt;/code&gt; 的緣故，&lt;code class=&quot;highlighter-rouge&quot;&gt;zsh&lt;/code&gt; 還是有無法捲動的問題。不過作為一個 Rails 開發者，VSCode 已經是個足夠好用的、足矣媲美 Sublime Text 的編輯器了。為了能夠在 VSCode 開發 Rails，特別對目前的開發環境做出調整。&lt;/p&gt;
+
+&lt;h2 id=&quot;rvm--rbenv&quot;&gt;由 RVM 轉換至 rbenv&lt;/h2&gt;
+
+&lt;p&gt;聽聞 &lt;a href=&quot;https://github.com/rbenv/rbenv&quot;&gt;rbenv&lt;/a&gt; 相較 rvm 來說，是對系統較為乾淨的 ruby 版本管理工具。就趁這次更新開發環境一起重置吧！&lt;/p&gt;
+
+&lt;h3 id=&quot;rvm&quot;&gt;移除 rvm&lt;/h3&gt;
+
+&lt;p&gt;套件也內建了一鍵移除的方式：&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;rvm implode
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;做完之後也可以將 rvm 剩餘的檔案移掉：&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;rm -rf ~/.rvm
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;rbenv&quot;&gt;安裝 rbenv&lt;/h3&gt;
+
+&lt;p&gt;參照了&lt;a href=&quot;https://github.com/rbenv/rbenv&quot;&gt;專案官網&lt;/a&gt;的說明，只要把該 repo clone 下來，設置好 &lt;code class=&quot;highlighter-rouge&quot;&gt;PATH&lt;/code&gt; 變數，在為 shell 加上一些設定便可以開始安裝 ruby 了。在 OS X 環境又更容易，只要用 Homebrew 一鍵安裝便成。&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;brew install rbenv
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;裝完之後就可以發現 rbenv 已經被裝到 Homebrew 的可執行位置了，可以跑 &lt;code class=&quot;highlighter-rouge&quot;&gt;which&lt;/code&gt; 指令檢驗&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;which rbenv
+&lt;span class=&quot;c&quot;&gt;# =&amp;gt; /usr/local/bin/rbenv&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;在 Homebrew 安裝跑完之後，安裝腳本會提示已在 shell profile(.zshrc/.profile/.bash_profile) 加上 rbenv 初始化腳本，預設內容如下：&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;export &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;PATH&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$HOME&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;/.rbenv/bin:&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$PATH&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;eval&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;$(&lt;/span&gt;rbenv init -&lt;span class=&quot;k&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;第二行的 &lt;code class=&quot;highlighter-rouge&quot;&gt;rbenv init -&lt;/code&gt; 指令輸出，在你一般開啟的 Terminal 會跑出：&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;export &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;PATH&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;/Users/USERNAME/.rbenv/shims:&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;PATH&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;export &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;RBENV_SHELL&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;zsh
+&lt;span class=&quot;nb&quot;&gt;source&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;/usr/local/Cellar/rbenv/1.0.0/libexec/../completions/rbenv.zsh&#39;&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# ... 下面一串&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;不過在 VSCode 內建終端機卻會跑出：&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;export &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;PATH&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;/usr/local/opt/rbenv/shims:&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;PATH&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;c&quot;&gt;# 就這行不同&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;export &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;RBENV_SHELL&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;zsh
+
+&lt;span class=&quot;c&quot;&gt;# ... 下面一樣&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;大概是執行權限不同的關係吧，rbenv 執行的位置不同也會讓 &lt;code class=&quot;highlighter-rouge&quot;&gt;gem&lt;/code&gt;/&lt;code class=&quot;highlighter-rouge&quot;&gt;bundler&lt;/code&gt; 裝到不同的位置，為了方便起見，我都一律設成 VSCode 跑出來的那串。把下面這串貼到 &lt;code class=&quot;highlighter-rouge&quot;&gt;~/.zshrc&lt;/code&gt; 最下面就是。&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;export &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;PATH&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;/usr/local/opt/rbenv/shims:&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;PATH&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;export &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;RBENV_SHELL&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;zsh
+&lt;span class=&quot;nb&quot;&gt;source&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;/usr/local/Cellar/rbenv/1.0.0/libexec/../completions/rbenv.zsh&#39;&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;command &lt;/span&gt;rbenv rehash 2&amp;gt;/dev/null
+rbenv&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;nb&quot;&gt;local command
+  command&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$1&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;$#&quot;&lt;/span&gt; -gt 0 &lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;; &lt;span class=&quot;k&quot;&gt;then
+    &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;shift
+  &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;fi
+
+  case&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$command&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in
+  &lt;/span&gt;rehash|shell&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;nb&quot;&gt;eval&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;$(&lt;/span&gt;rbenv &lt;span class=&quot;s2&quot;&gt;&quot;sh-&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$command&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$@&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;;&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;nb&quot;&gt;command &lt;/span&gt;rbenv &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$command&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$@&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;;&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;esac&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;若是 fish 就貼下面這個：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;setenv PATH &#39;/usr/local/opt/rbenv/shims&#39; $PATH
+setenv RBENV_SHELL fish
+. &#39;/usr/local/Cellar/rbenv/1.0.0/libexec/../completions/rbenv.fish&#39;
+command rbenv rehash 2&amp;gt;/dev/null
+function rbenv
+  set command $argv[1]
+  set -e argv[1]
+
+  switch &quot;$command&quot;
+  case rehash shell
+    . (rbenv &quot;sh-$command&quot; $argv|psub)
+  case &#39;*&#39;
+    command rbenv &quot;$command&quot; $argv
+  end
+end
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;ruby&quot;&gt;裝 ruby&lt;/h3&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;rbenv install 2.3.1
+rbenv global 2.3.1
+gem install bundler
+
+bundle install
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;搞定！&lt;/p&gt;
+
+&lt;h3 id=&quot;pow-&quot;&gt;Pow 的額外設定&lt;/h3&gt;
+
+&lt;p&gt;其實在 Pow 的 &lt;a href=&quot;https://github.com/basecamp/pow/wiki/Troubleshooting&quot;&gt;wiki&lt;/a&gt; 就有解答，不過因為我又對 rbenv 做了 PATH 的改動，所以設定也不太一樣。&lt;/p&gt;
+
+&lt;p&gt;打開 ~/.powconfig 並貼入&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;export &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;PATH&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;/usr/local/opt/rbenv/shims:/usr/local/opt/rbenv/shims/bin:&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$PATH&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;然後重啟 pow service&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;touch ~/.pow/restart.txt
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;shell--zsh--fish&quot;&gt;將主要 shell 由 zsh 換成 fish&lt;/h2&gt;
+
+&lt;p&gt;zsh 有著非常有名的 &lt;a href=&quot;https://github.com/robbyrussell/oh-my-zsh&quot;&gt;oh-my-zsh&lt;/a&gt; 設定檔管理框架，fish 底下也有個好用的叫 &lt;a href=&quot;https://github.com/fisherman/fisherman&quot;&gt;fisherman&lt;/a&gt;。不過我終究是沒有把系統預設的 shell 換掉(&lt;code class=&quot;highlighter-rouge&quot;&gt;chsh&lt;/code&gt; 指令)，因為挺多工具與 fish 不相容。&lt;/p&gt;
+
+&lt;p&gt;fish 啟動速度飛快，帶我重回還沒有裝一堆 zsh 套件的美好往日時光。&lt;/p&gt;
+
+&lt;h3 id=&quot;vscode&quot;&gt;VSCode&lt;/h3&gt;
+
+&lt;p&gt;講來講去這篇好像跟 VSCode 沒啥關係耶？那就附張截圖好了，VSCode 也是十分優秀的 Markdown 編輯器，內建了快速的 Preview，碼 code、寫文件、Terminal、Task Runner 全都內建了，還夠輕量快速，Extension 也陸續多了起來，還真不好挑剔啊 XD。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://lh3.googleusercontent.com/-o17HvZ1w7k6NzK0kw84uJNdhTmnWCH1hGyHduSokRnhgdeoaIh8reqDVrlAc43uGIN9K5KZYpujZuuSdqrV5BiuBhYNsQlubHEfAPut1pGvbkYzw3zKLfuEpphlj7JpBKj9x3m-Zk-rA4s-xFXnagC3vO8otXWOAH7qXYg47kx8D1qHVDpwHjD4WW8yd1jV_CYZlL5VWfrbbiVAdlwBDalB_UexT8emkhqTMjNwQMhIwMyqEXk8LcsfuI5IqgpdR488KovW9Z3ckMJjMbMWSpYOUfMuJ4_pRgYPMla9cm-h6QcP5PXIyhfTERUTRUyUAawcJAWC74R519UVe_gLizh0RqvKazWU0ISCjXVOmbH_bljBAwRIBZobMme9W3deBztAMd0asjKFJnjsviDKDgb1n5y8wS6z5nfNGWijNJbl2JwpVv9EVStbGM4OoqM-9st2MO5oVZJEK8PgtNp1LvuBr3Qkch_k2RXnSZJTfxs4aYZroTJTplZI2XEZS8bkK6Xlczod9rFAvsBdSK2G1A3rixmyBrTOkb7YE7Z8E5NRGWXx3mJns607eu00e69bzGlSe7kc_IpwN1wiYUtqWuRjABPqIhsV=w1046-h781-no&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+</description>
+        <pubDate>Fri, 22 Jul 2016 00:00:00 +0800</pubDate>
+        <link>http://yukaii.tw/blog/2016/07/22/rbenv-fish-and-vscode/</link>
+        <guid isPermaLink="true">http://yukaii.tw/blog/2016/07/22/rbenv-fish-and-vscode/</guid>
+        
+        
+      </item>
     
       <item>
         <title>2016 年中、編輯器三雄大對決！</title>
@@ -748,63 +901,6 @@ Azusa, CA 91702
         <link>http://yukaii.tw/blog/2015/05/03/how-to-write-web-crawler-for-the-first-time-using-ruby/</link>
         <guid isPermaLink="true">http://yukaii.tw/blog/2015/05/03/how-to-write-web-crawler-for-the-first-time-using-ruby/</guid>
         
-        
-      </item>
-    
-      <item>
-        <title>第十篇 - 綜合外電施旖婕(41J)</title>
-        <description>&lt;p&gt;以下轉自我的 &lt;a href=&quot;https://github.com/Yukaii/Apple-Watch&quot;&gt;Github&lt;/a&gt;。&lt;/p&gt;
-
-&lt;h1 id=&quot;apple-watch&quot;&gt;蘋果日報即時新聞監看，簡稱 Apple Watch&lt;/h1&gt;
-
-&lt;h2 id=&quot;section&quot;&gt;這是幹嘛的？&lt;/h2&gt;
-&lt;p&gt;不知大家有沒有聽過「施旖婕」這響叮噹的名號，總之就是蘋果日報專發腥羶色新聞的專用作者名，&lt;del&gt;不管了就是我老婆&lt;/del&gt;。詳細可以 follow &lt;a href=&quot;https://www.ptt.cc/bbs/Gossiping/M.1429255977.A.672.html&quot;&gt;八卦版系列文&lt;/a&gt;。&lt;/p&gt;
-
-&lt;p&gt;於是就寫了一份可以監看&lt;a href=&quot;http://appledaily.com.tw/realtimenews/section/new/&quot;&gt;蘋果日報即時新聞&lt;/a&gt;的 Rails 服務，目前在上面可以看到每天蘋果日報上，記者施旖婕所 PO 的綜合外電，感受世界各地滿滿的惡意(X)。&lt;/p&gt;
-
-&lt;p&gt;目前部署在 heroku，因為是，定時用 &lt;a href=&quot;posts/261901/eighth-get-free-heroku-app-does-not-automatically-shut-down&quot;&gt;UptimeRobot&lt;/a&gt; 戳一下讓它自動跑 task 即可。&lt;/p&gt;
-
-&lt;h2 id=&quot;todos&quot;&gt;Todos&lt;/h2&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;前端&lt;/li&gt;
-  &lt;li&gt;統計圖表(等資料量至少累積一個月吧 XD)&lt;/li&gt;
-  &lt;li&gt;Administration(爽度問題)&lt;/li&gt;
-  &lt;li&gt;串 Facebook Message API，讓你隨時感受 1J 的愛&lt;/li&gt;
-  &lt;li&gt;&lt;del&gt;自動 PO &lt;a href=&quot;https://www.facebook.com/ShiYiJieJournalist&quot;&gt;粉絲專頁-綜合外電施旖婕&lt;/a&gt;&lt;/del&gt; 已完成&lt;/li&gt;
-  &lt;li&gt;熱門度(自動更新蘋果上面的熱門度，加上自己站上的)&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;等等，好像還挺多的。&lt;/p&gt;
-
-&lt;p&gt;好玩嘛&lt;/p&gt;
-</description>
-        <pubDate>Sun, 26 Apr 2015 15:49:00 +0800</pubDate>
-        <link>http://yukaii.tw/blog/2015/04/26/tenth-chapter-new-york-shi-yijie/</link>
-        <guid isPermaLink="true">http://yukaii.tw/blog/2015/04/26/tenth-chapter-new-york-shi-yijie/</guid>
-        
-        
-        <category>just</category>
-        
-        <category>for</category>
-        
-        <category>fun</category>
-        
-        <category>哈哈</category>
-        
-        <category>沒有反串</category>
-        
-        <category>真實經營</category>
-        
-        <category>小編胖胖</category>
-        
-        <category>不要問我</category>
-        
-        <category>到底是誰</category>
-        
-        <category>我會被打</category>
-        
-        <category>哈哈哈哈</category>
         
       </item>
     
