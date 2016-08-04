@@ -6,8 +6,8 @@
 </description>
     <link>http://yukaii.tw/</link>
     <atom:link href="http://yukaii.tw/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Fri, 22 Jul 2016 22:29:54 +0800</pubDate>
-    <lastBuildDate>Fri, 22 Jul 2016 22:29:54 +0800</lastBuildDate>
+    <pubDate>Thu, 04 Aug 2016 21:26:33 +0800</pubDate>
+    <lastBuildDate>Thu, 04 Aug 2016 21:26:33 +0800</lastBuildDate>
     <generator>Jekyll v3.1.6</generator>
     
       <item>
@@ -72,9 +72,9 @@
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
-&lt;p&gt;大概是執行權限不同的關係吧，rbenv 執行的位置不同也會讓 &lt;code class=&quot;highlighter-rouge&quot;&gt;gem&lt;/code&gt;/&lt;code class=&quot;highlighter-rouge&quot;&gt;bundler&lt;/code&gt; 裝到不同的位置，為了方便起見，我都一律設成 VSCode 跑出來的那串。把下面這串貼到 &lt;code class=&quot;highlighter-rouge&quot;&gt;~/.zshrc&lt;/code&gt; 最下面就是。&lt;/p&gt;
+&lt;p&gt;大概是執行權限不同的關係吧，rbenv 執行的位置不同也會讓 &lt;code class=&quot;highlighter-rouge&quot;&gt;gem&lt;/code&gt;/&lt;code class=&quot;highlighter-rouge&quot;&gt;bundler&lt;/code&gt; 裝到不同的位置，為了方便起見，一律設成一般終端機跑出來的那串。把下面這串貼到 &lt;code class=&quot;highlighter-rouge&quot;&gt;~/.zshrc&lt;/code&gt; 最下面就是。&lt;/p&gt;
 
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;export &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;PATH&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;/usr/local/opt/rbenv/shims:&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;PATH&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;export &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;PATH&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;/Users/USERNAME/.rbenv/shims:&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;PATH&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
 &lt;span class=&quot;nb&quot;&gt;export &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;RBENV_SHELL&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;zsh
 &lt;span class=&quot;nb&quot;&gt;source&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;/usr/local/Cellar/rbenv/1.0.0/libexec/../completions/rbenv.zsh&#39;&lt;/span&gt;
 &lt;span class=&quot;nb&quot;&gt;command &lt;/span&gt;rbenv rehash 2&amp;gt;/dev/null
@@ -97,7 +97,7 @@ rbenv&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot
 
 &lt;p&gt;若是 fish 就貼下面這個：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;setenv PATH &#39;/usr/local/opt/rbenv/shims&#39; $PATH
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;setenv PATH &#39;/Users/USERNAME/.rbenv/shims&#39; $PATH
 setenv RBENV_SHELL fish
 . &#39;/usr/local/Cellar/rbenv/1.0.0/libexec/../completions/rbenv.fish&#39;
 command rbenv rehash 2&amp;gt;/dev/null

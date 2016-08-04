@@ -63,10 +63,10 @@ export RBENV_SHELL=zsh
 # ... 下面一樣
 ```
 
-大概是執行權限不同的關係吧，rbenv 執行的位置不同也會讓 `gem`/`bundler` 裝到不同的位置，為了方便起見，我都一律設成 VSCode 跑出來的那串。把下面這串貼到 `~/.zshrc` 最下面就是。
+大概是執行權限不同的關係吧，rbenv 執行的位置不同也會讓 `gem`/`bundler` 裝到不同的位置，為了方便起見，一律設成一般終端機跑出來的那串。把下面這串貼到 `~/.zshrc` 最下面就是。
 
 ```bash
-export PATH="/usr/local/opt/rbenv/shims:${PATH}"
+export PATH="/Users/USERNAME/.rbenv/shims:${PATH}"
 export RBENV_SHELL=zsh
 source '/usr/local/Cellar/rbenv/1.0.0/libexec/../completions/rbenv.zsh'
 command rbenv rehash 2>/dev/null
@@ -89,7 +89,7 @@ rbenv() {
 若是 fish 就貼下面這個：
 
 ```
-setenv PATH '/usr/local/opt/rbenv/shims' $PATH
+setenv PATH '/Users/USERNAME/.rbenv/shims' $PATH
 setenv RBENV_SHELL fish
 . '/usr/local/Cellar/rbenv/1.0.0/libexec/../completions/rbenv.fish'
 command rbenv rehash 2>/dev/null

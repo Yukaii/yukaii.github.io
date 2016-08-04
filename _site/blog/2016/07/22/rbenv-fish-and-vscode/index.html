@@ -171,10 +171,10 @@
 </code></pre>
 </div>
 
-<p>大概是執行權限不同的關係吧，rbenv 執行的位置不同也會讓 <code class="highlighter-rouge">gem</code>/<code class="highlighter-rouge">bundler</code> 裝到不同的位置，為了方便起見，我都一律設成 VSCode 跑出來的那串。把下面這串貼到 <code class="highlighter-rouge">~/.zshrc</code> 最下面就是。</p>
+<p>大概是執行權限不同的關係吧，rbenv 執行的位置不同也會讓 <code class="highlighter-rouge">gem</code>/<code class="highlighter-rouge">bundler</code> 裝到不同的位置，為了方便起見，一律設成一般終端機跑出來的那串。把下面這串貼到 <code class="highlighter-rouge">~/.zshrc</code> 最下面就是。</p>
 
 <div class="language-bash highlighter-rouge">
-<pre class="highlight"><code><span class="nb">export </span><span class="nv">PATH</span><span class="o">=</span><span class="s2">"/usr/local/opt/rbenv/shims:</span><span class="k">${</span><span class="nv">PATH</span><span class="k">}</span><span class="s2">"</span>
+<pre class="highlight"><code><span class="nb">export </span><span class="nv">PATH</span><span class="o">=</span><span class="s2">"/Users/USERNAME/.rbenv/shims:</span><span class="k">${</span><span class="nv">PATH</span><span class="k">}</span><span class="s2">"</span>
 <span class="nb">export </span><span class="nv">RBENV_SHELL</span><span class="o">=</span>zsh
 <span class="nb">source</span> <span class="s1">'/usr/local/Cellar/rbenv/1.0.0/libexec/../completions/rbenv.zsh'</span>
 <span class="nb">command </span>rbenv rehash 2&gt;/dev/null
@@ -198,7 +198,7 @@ rbenv<span class="o">()</span> <span class="o">{</span>
 <p>若是 fish 就貼下面這個：</p>
 
 <div class="highlighter-rouge">
-<pre class="highlight"><code>setenv PATH '/usr/local/opt/rbenv/shims' $PATH
+<pre class="highlight"><code>setenv PATH '/Users/USERNAME/.rbenv/shims' $PATH
 setenv RBENV_SHELL fish
 . '/usr/local/Cellar/rbenv/1.0.0/libexec/../completions/rbenv.fish'
 command rbenv rehash 2&gt;/dev/null
