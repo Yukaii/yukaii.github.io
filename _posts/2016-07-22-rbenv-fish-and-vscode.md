@@ -125,7 +125,7 @@ bundle install
 打開 ~/.powconfig 並貼入
 
 ```bash
-export PATH="/usr/local/opt/rbenv/shims:/usr/local/opt/rbenv/shims/bin:$PATH"
+export PATH="/Users/USERNAME/.rbenv/shims:/Users/USERNAME/.rbenv/shims/bin:$PATH"
 ```
 
 然後重啟 pow service
