@@ -25,12 +25,11 @@
   <link rel="apple-touch-icon" sizes="152x152" href="/assets/favicon-152.png?">
   <link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon-180.png?">
 
-  <title>Daily Oops!</title>
-  <meta name="description" content="Yukai's blog. Life, music, web, and all the fun.
-">
+  <title>使用 Chrome 在快速鍵切換至網址列後，再用快速鍵切換回來</title>
+  <meta name="description" content="啥？">
 
   <link type="text/css" rel="stylesheet" href="/assets/main.css">
-  <link rel="canonical" href="http://yukaii.tw/">
+  <link rel="canonical" href="http://yukaii.tw/blog/2016/08/12/refocus-from-chrome-address-bar/">
   <link rel="alternate" type="application/rss+xml" title="Daily Oops!" href="http://yukaii.tw/feed.xml">
 </head>
 
@@ -97,58 +96,51 @@
 
     <div class="page-content">
       <div class="wrapper">
-        <div class="home">
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
 
-  <h1 class="page-heading">Recent Post</h1>
+  <header class="post-header">
+    <h1 class="post-title" itemprop="name headline">使用 Chrome 在快速鍵切換至網址列後，再用快速鍵切換回來</h1>
+    <p class="post-meta"><time datetime="2016-08-12T00:00:00+08:00" itemprop="datePublished">Aug 12, 2016</time></p>
+  </header>
 
-  <div class="post-list">
-    
-      
-      <h4>
-        <a href="/blog/2016/08/12/refocus-from-chrome-address-bar/">使用 Chrome 在快速鍵切換至網址列後，再用快速鍵切換回來</a>
-      </h4>
-    
-      
-      <h4>
-        <a href="/blog/2016/07/22/rbenv-fish-and-vscode/">rbenv、fish 與 VSCode 設置之路</a>
-      </h4>
-    
-      
-      <h4>
-        <a href="/blog/2016/06/22/sublime-atom-vscode-comparison-mid-2016/">2016 年中、編輯器三雄大對決！</a>
-      </h4>
-    
-      
-      <h4>
-        <a href="/blog/2016/06/09/setup-jekyll-on-github-page/">在 GitHub 上設定 Jekyll 和自訂網域</a>
-      </h4>
-    
-      
-      <h4>
-        <a href="/blog/2016/04/07/16th-elk-installation-notes/">第十六篇 - ELK 安裝筆記</a>
-      </h4>
-    
-      
-      <h4>
-        <a href="/blog/2016/04/01/15th-use-aws-codedeploy-deploy-wordpress/">第十五篇 - 使用 AWS CodeDeploy 跑起你的 WordPress - 官方教學筆記</a>
-      </h4>
-    
-      
-      <h4>
-        <a href="/blog/2016/03/26/from-hackpad-to-quip/">第十四篇 - 從 Hackpad 搬家到 Quip</a>
-      </h4>
-    
-      
-      
-  </div>
+  <div class="post-content" itemprop="articleBody">
+    <h2 id="section">啥？</h2>
 
-  <div>
-    <h4><a href="/blog">More</a></h4>
-  </div>
+<p>習慣於鍵盤操作 Chrome，比如 <a href="https://github.com/philc/vimium/">Vimium</a> 或是 <a href="https://github.com/1995eaton/chromium-vim">cvim</a> 等擴充套件，在需要跳轉網址列進行搜尋時，都會很自然的使用 Chrome 的內建快速鍵：<code class="highlighter-rouge">CMD + L</code>（在 Windows 是 F6）來操作。</p>
 
-  <p class="rss-subscribe">subscribe <a href="/feed.xml">via RSS</a></p>
+<p>那回來呢？我想要在切回網頁本身，再次用熟悉的 VIM key binding 來衝浪。</p>
 
+<p>很遺憾的，Chrome 本身並沒有提供此功能，而擴充套件的作用域也不包含網址列，在經過 Google 之後終於找到一個 Hacky 的解法。</p>
+
+<h2 id="section-1">建立自訂搜尋引擎</h2>
+
+<p>在設定找「搜尋引擎」：</p>
+
+<p><img src="http://i.imgur.com/qmkSYvX.png" alt="search-engine"></p>
+
+<p>在最底下新增一個搜尋引擎，三個欄位分別填入</p>
+
+<div class="language-bash highlighter-rouge">
+<pre class="highlight"><code>Refocus <span class="c"># 自訂搜尋引擎名稱</span>
+i <span class="c"># 要綁定的關鍵字，越短越好</span>
+javascript:
+</code></pre>
 </div>
+
+<p>如下圖：</p>
+
+<p><img src="http://i.imgur.com/J5d9Kec.png" alt="add-search-engine"></p>
+
+<p>接下來在切換到網址列之後，主要輸入綁定的關鍵字，再按下 enter，就能切換回網頁囉：</p>
+
+<p><img src="http://i.imgur.com/z36JQpo.png" alt="address-bar"></p>
+
+<p>via <a href="http://superuser.com/questions/324266/google-chrome-mac-set-keyboard-focus-from-address-bar-back-to-page/324267#324267">Google Chrome (Mac) set keyboard focus from address bar back to page - Super User</a></p>
+
+
+  </div>
+
+</article>
 
       </div>
     </div>
