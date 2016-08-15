@@ -31,7 +31,7 @@ javascript:
 
 接下來在切換到網址列之後，主要輸入綁定的關鍵字，再按下 enter，就能切換回網頁囉：
 
-![address-bar](http://i.imgur.com/z36JQpo.png)
+![address-bar](http://i.imgur.com/tgxysRe.png)
 
 
 via [Google Chrome (Mac) set keyboard focus from address bar back to page - Super User](http://superuser.com/questions/324266/google-chrome-mac-set-keyboard-focus-from-address-bar-back-to-page/324267#324267)
