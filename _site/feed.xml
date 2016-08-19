@@ -6,9 +6,113 @@
 </description>
     <link>http://yukaii.tw/</link>
     <atom:link href="http://yukaii.tw/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Mon, 15 Aug 2016 21:45:32 +0800</pubDate>
-    <lastBuildDate>Mon, 15 Aug 2016 21:45:32 +0800</lastBuildDate>
+    <pubDate>Fri, 19 Aug 2016 22:48:03 +0800</pubDate>
+    <lastBuildDate>Fri, 19 Aug 2016 22:48:03 +0800</lastBuildDate>
     <generator>Jekyll v3.1.6</generator>
+    
+      <item>
+        <title>從 1Password 搬家到 pass</title>
+        <description>&lt;h2 id=&quot;why&quot;&gt;Why?&lt;/h2&gt;
+
+&lt;p&gt;pass 照&lt;a href=&quot;https://www.passwordstore.org/&quot;&gt;官網&lt;/a&gt;的說法，是一套 「標準 unix 密碼管理」（the standard unix password manager），開源簡單好用。雖然 1Password 我是用 Dropbox 同步，應該還算安全，不過多個開源選擇也不錯。&lt;/p&gt;
+
+&lt;p&gt;pass 也有一些社群版套件，引用一下官網：&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;The community has even produced a &lt;a href=&quot;http://qtpass.org/&quot;&gt;cross-platform GUI client&lt;/a&gt;, an &lt;a href=&quot;https://github.com/zeapo/Android-Password-Store&quot;&gt;Android app&lt;/a&gt;, an &lt;a href=&quot;https://github.com/davidjb/pass-ios#readme&quot;&gt;iOS app&lt;/a&gt;, a &lt;a href=&quot;https://github.com/jvenant/passff#readme&quot;&gt;Firefox plugin&lt;/a&gt;, a &lt;a href=&quot;https://github.com/mbos/Pass4Win&quot;&gt;Windows client&lt;/a&gt;, a pretty &lt;a href=&quot;https://github.com/TheLastProject/Pext&quot;&gt;Python QML app&lt;/a&gt;, a nice &lt;a href=&quot;https://github.com/cortex/gopass&quot;&gt;Go GUI app&lt;/a&gt;,  an &lt;a href=&quot;https://github.com/Kwpolska/upass&quot;&gt;interactive console UI&lt;/a&gt;, Alfred integration &lt;a href=&quot;https://github.com/CGenie/alfred-pass&quot;&gt;(1)&lt;/a&gt; &lt;a href=&quot;https://github.com/MatthewWest/pass-alfred&quot;&gt;(2)&lt;/a&gt; &lt;a href=&quot;https://github.com/johanthoren/simple-pass-alfred&quot;&gt;(3)&lt;/a&gt;, a &lt;a href=&quot;https://git.zx2c4.com/password-store/tree/contrib/dmenu&quot;&gt;dmenu script&lt;/a&gt;, &lt;a href=&quot;https://git.zx2c4.com/password-store/tree/contrib/pass.applescript&quot;&gt;OS X integration&lt;/a&gt;, &lt;a href=&quot;https://github.com/languitar/pass-git-helper&quot;&gt;git credential integration&lt;/a&gt;, and even an &lt;a href=&quot;https://git.zx2c4.com/password-store/tree/contrib/emacs&quot;&gt;emacs package&lt;/a&gt;.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;不過 iOS App 版要 jailbreak 之後才能使用呀 QQ，不過身為一個還算熟悉 CLI 的使用者，這些當然都不是問題啊，哼☹。&lt;/p&gt;
+
+&lt;h2 id=&quot;pass&quot;&gt;安裝 pass&lt;/h2&gt;
+
+&lt;p&gt;OS X 安裝十分容易：&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;brew install pass
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;就好了。他也提供一些 shell completion 可以使用，&lt;code class=&quot;highlighter-rouge&quot;&gt;fish&lt;/code&gt; 需要在 &lt;code class=&quot;highlighter-rouge&quot;&gt;~/.config/fish/config.fish&lt;/code&gt; 裡加上：&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;source&lt;/span&gt; /usr/local/share/fish/vendor_completions.d/pass.fish
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;pass-1&quot;&gt;設定 pass&lt;/h2&gt;
+
+&lt;p&gt;完成之後我們要看一下有沒有 gpg 金鑰，如果沒有的話要新增個&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;gpg --gen-key &lt;span class=&quot;c&quot;&gt;# 產生 gpg key&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;記得輸入的 key phrase 呀，之後會拿來解鎖的。用 &lt;code class=&quot;highlighter-rouge&quot;&gt;gpg --list-keys&lt;/code&gt; 查看剛剛產生的 key，類似下面這樣：&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;/Users/username/.gnupg/pubring.gpg
+-------------------------------
+pub   2048R/A534B400 2016-08-18
+uid                  My Name &amp;lt;your_email@gmail.com&amp;gt;
+sub   2048R/E1001945 2016-08-18
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;pubic id 就是 &lt;code class=&quot;highlighter-rouge&quot;&gt;A534B400&lt;/code&gt;，拿這組 id 來初始化 pass&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;pass init A534B400
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;完成！之後就可以用 pass 指令管理密碼了，可以下一些測試的指令試試，比如 insert 一組 foo 的密碼：&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;pass insert foo
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;然後顯示 foo 的密碼&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;pass show foo
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;password-&quot;&gt;由 1Password 匯入&lt;/h2&gt;
+
+&lt;p&gt;官網上就寫上匯入 1password 的 &lt;a href=&quot;https://git.zx2c4.com/password-store/tree/contrib/importers/1password2pass.rb&quot;&gt;ruby script&lt;/a&gt; 😍 ，直接使用就行了。在 1Password 匯出 txt 時，記得勾選 &lt;code class=&quot;highlighter-rouge&quot;&gt;Include Column Labels&lt;/code&gt;，如下圖：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://i.imgur.com/YsoUQcv.png&quot; alt=&quot;1password-export-option&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;把匯出的檔案和匯入腳本準備好，跑一下：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;ruby 1password2pass.rb /path/to/1password_exported.txt
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;section&quot;&gt;基礎使用&lt;/h2&gt;
+
+&lt;p&gt;pass 的管理可以說是相當自由，通通放在 &lt;code class=&quot;highlighter-rouge&quot;&gt;~/.password-store&lt;/code&gt; 目錄，底下可以建立任意的目錄分類，或是乾脆不分 XD&lt;/p&gt;
+
+&lt;p&gt;一些基本指令：&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;pass show PROFILE &lt;span class=&quot;c&quot;&gt;# 印出 PROFILE 的密碼&lt;/span&gt;
+pass -c PROFILE &lt;span class=&quot;c&quot;&gt;# 複製 PROFILE 的密碼到剪貼簿&lt;/span&gt;
+pass ls &lt;span class=&quot;c&quot;&gt;# 列出所有密碼設定檔&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;我做了以下 alias，方便快速密碼搜尋：&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;alias &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;passgrep&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;pass ls | grep -i&quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;就可以用 &lt;code class=&quot;highlighter-rouge&quot;&gt;passgrep&lt;/code&gt; 來搜尋現有設定檔了。&lt;/p&gt;
+
+</description>
+        <pubDate>Fri, 19 Aug 2016 00:00:00 +0800</pubDate>
+        <link>http://yukaii.tw/blog/2016/08/19/migrate-1password-to-pass/</link>
+        <guid isPermaLink="true">http://yukaii.tw/blog/2016/08/19/migrate-1password-to-pass/</guid>
+        
+        
+      </item>
     
       <item>
         <title>使用 Chrome 在快速鍵切換至網址列後，再用快速鍵切換回來</title>
@@ -644,58 +748,6 @@ Azusa, CA 91702
         <link>http://yukaii.tw/blog/2016/01/23/spex-eshop-amazon/</link>
         <guid isPermaLink="true">http://yukaii.tw/blog/2016/01/23/spex-eshop-amazon/</guid>
         
-        
-      </item>
-    
-      <item>
-        <title>第十二篇 - 台科課程匯入小幫手</title>
-        <description>&lt;p&gt;&lt;a href=&quot;http://school-agent.herokuapp.com/&quot;&gt;台科課程匯入小幫手&lt;/a&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;section&quot;&gt;屁話&lt;/h2&gt;
-
-&lt;p&gt;這幾天串了 118 的學生資訊系統、 Colorgy 的 API 整合了 Table，做出了無痛匯入課程的小工具，算是開了 Colorgy 第三方 App 的第一槍 =w=（自以為）&lt;/p&gt;
-
-&lt;p&gt;直接從學生資訊系統匯入課程這功能， &lt;a href=&quot;http://ntusweety.herokuapp.com/&quot;&gt;NTU Sweety Course&lt;/a&gt; 和 &lt;a href=&quot;http://nthu-course.cf/&quot;&gt;NTHU Course&lt;/a&gt;、&lt;a href=&quot;http://plus.nctu.edu.tw/&quot;&gt;NCTU+&lt;/a&gt; 都有類似的實作，112/113 的版本似乎直接串學校，就不知道是官方還非官方了XD。當然一提到校園模擬選課就必須拜一下碼頭，&lt;a href=&quot;https://www.crosslink.tw/&quot;&gt;CrossLink&lt;/a&gt;。&lt;/p&gt;
-
-&lt;p&gt;找回一個玩樂心態來弄這個小玩意，沒啥特別計劃，時機到累積完就做出來了 Q_Q，感謝捏神支援。&lt;/p&gt;
-
-&lt;p&gt;照慣例把玩具放在 Heroku，說到他們最近政策也滿妙的，之前一直寄信說每天只能開機十八小時，現在過了 8/16 了也都照常使用，41J 也沒碰上過啥問題，還沒付過 heroku 錢欸 XD，It’s the future.&lt;/p&gt;
-
-&lt;p&gt;Gihub: &lt;a href=&quot;https://github.com/Yukaii/SchoolAgent&quot;&gt;https://github.com/Yukaii/SchoolAgent&lt;/a&gt;
-&lt;del&gt;Repo 原始英文超中二的 XDDD，不忍直視，請不要去翻 commit 穴穴尼&lt;/del&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;section-1&quot;&gt;一些介面&lt;/h2&gt;
-
-&lt;!--more--&gt;
-
-&lt;p&gt;&lt;img src=&quot;http://user-image.logdown.io/user/1128/blog/1112/post/293646/G8b1uJywRMeCJRa6OVmy_FireShot%20Capture%20-%20%E8%AA%B2%E7%A8%8B%E5%8C%AF%E5%85%A5%E5%B0%8F%E5%B9%AB%E6%89%8B%20-%20http___school-agent.herokuapp.com__logout=true.png&quot; alt=&quot;1&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;http://user-image.logdown.io/user/1128/blog/1112/post/293646/Q2VZBHYmRECUvZEgSpE4_FireShot%20Capture%20-%20%E8%AA%B2%E7%A8%8B%E5%8C%AF%E5%85%A5%E5%B0%8F%E5%B9%AB%E6%89%8B%20-%20http___school-agent.herokuapp.com_import.png&quot; alt=&quot;2&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;http://user-image.logdown.io/user/1128/blog/1112/post/293646/2aQjwQQCQHyEOE2Xmf5Z_FireShot%20Capture%20-%20%E8%AA%B2%E7%A8%8B%E5%8C%AF%E5%85%A5%E5%B0%8F%E5%B9%AB%E6%89%8B%20-%20http___school-agent.herokuapp.com_result.png&quot; alt=&quot;3&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;完全的 mobile first，也懶的弄 RWD 了 XD&lt;/p&gt;
-
-&lt;h2 id=&quot;section-2&quot;&gt;尾刀&lt;/h2&gt;
-
-&lt;p&gt;雖然這邊沒啥人看，不過就只發在這裡了，等待有緣人發現啦w。有一天這功能大概會被默默整合進 Table 裡，呵。&lt;/p&gt;
-
-&lt;p&gt;還有要告解的地方嗎？&lt;/p&gt;
-</description>
-        <pubDate>Sat, 29 Aug 2015 13:44:00 +0800</pubDate>
-        <link>http://yukaii.tw/blog/2015/08/29/12th-ntust-course-helper/</link>
-        <guid isPermaLink="true">http://yukaii.tw/blog/2015/08/29/12th-ntust-course-helper/</guid>
-        
-        
-        <category>呵呵好久沒發文了</category>
-        
-        <category>你說我最近在幹嘛</category>
-        
-        <category>不告訴你</category>
-        
-        <category>呵呵</category>
-        
-        <category>似乎真有點忙</category>
         
       </item>
     
