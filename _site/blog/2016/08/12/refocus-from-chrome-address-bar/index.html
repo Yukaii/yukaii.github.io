@@ -29,6 +29,7 @@
   <meta name="description" content="啥？">
 
   <link type="text/css" rel="stylesheet" href="/assets/main.css">
+  <link type="text/css" rel="stylesheet" href="/assets/primer.css">
   <link rel="canonical" href="http://yukaii.tw/blog/2016/08/12/refocus-from-chrome-address-bar/">
   <link rel="alternate" type="application/rss+xml" title="Daily Oops!" href="http://yukaii.tw/feed.xml">
 </head>
@@ -54,40 +55,33 @@
     </h1>
   </div>
 
-  <div class="wrapper">
-    <nav class="site-nav">
-       <a href="#" class="menu-icon">
-        <svg viewbox="0 0 18 15">
-          <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"></path>
-          <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"></path>
-          <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"></path>
-        </svg>
-      </a>
 
-      <div class="trigger">
+  <div class="wrapper">
+    <div class="tabnav">
+      <nav class="tabnav-tabs">
         
           
-          <a class="page-link" href="/about/">About</a>
-          
-        
-          
-        
-          
-          <a class="page-link" href="/blog/">Blog</a>
-          
-        
-          
-          <a class="page-link" href="/hi-tips/">Hi Tips!</a>
+            <a href="/about/" class="tabnav-tab">About</a>
           
         
           
         
           
-          <a class="page-link" href="/portfolio/">Portfolio</a>
+            <a href="/blog/" class="tabnav-tab">Blog</a>
           
         
-      </div>
-    </nav>
+          
+            <a href="/hi-tips/" class="tabnav-tab">Hi Tips!</a>
+          
+        
+          
+        
+          
+            <a href="/portfolio/" class="tabnav-tab">Portfolio</a>
+          
+        
+      </nav>
+    </div>
   </div>
 
 
@@ -96,7 +90,7 @@
 
     <div class="page-content">
       <div class="wrapper">
-        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+        <article class="post markdown-body" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
     <h1 class="post-title" itemprop="name headline">使用 Chrome 在快速鍵切換至網址列後，再用快速鍵切換回來</h1>
@@ -104,29 +98,25 @@
   </header>
 
   <div class="post-content" itemprop="articleBody">
-    <h2 id="section">啥？</h2>
+    <h2>啥？</h2>
 
-<p>習慣於鍵盤操作 Chrome，比如 <a href="https://github.com/philc/vimium/">Vimium</a> 或是 <a href="https://github.com/1995eaton/chromium-vim">cvim</a> 等擴充套件，在需要跳轉網址列進行搜尋時，都會很自然的使用 Chrome 的內建快速鍵：<code class="highlighter-rouge">CMD + L</code>（在 Windows 是 F6）來操作。</p>
+<p>習慣於鍵盤操作 Chrome，比如 <a href="https://github.com/philc/vimium/">Vimium</a> 或是 <a href="https://github.com/1995eaton/chromium-vim">cvim</a> 等擴充套件，在需要跳轉網址列進行搜尋時，都會很自然的使用 Chrome 的內建快速鍵：<code>CMD + L</code>（在 Windows 是 F6）來操作。</p>
 
 <p>那回來呢？我想要在切回網頁本身，再次用熟悉的 VIM key binding 來衝浪。</p>
 
 <p>很遺憾的，Chrome 本身並沒有提供此功能，而擴充套件的作用域也不包含網址列，在經過 Google 之後終於找到一個 Hacky 的解法。</p>
 
-<h2 id="section-1">建立自訂搜尋引擎</h2>
+<h2>建立自訂搜尋引擎</h2>
 
 <p>在設定找「搜尋引擎」：</p>
 
 <p><img src="http://i.imgur.com/qmkSYvX.png" alt="search-engine"></p>
 
 <p>在最底下新增一個搜尋引擎，三個欄位分別填入</p>
-
-<div class="language-bash highlighter-rouge">
-<pre class="highlight"><code>Refocus <span class="c"># 自訂搜尋引擎名稱</span>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">Refocus <span class="c"># 自訂搜尋引擎名稱</span>
 i <span class="c"># 要綁定的關鍵字，越短越好</span>
 javascript:
-</code></pre>
-</div>
-
+</code></pre></div>
 <p>如下圖：</p>
 
 <p><img src="http://i.imgur.com/J5d9Kec.png" alt="add-search-engine"></p>
@@ -136,7 +126,6 @@ javascript:
 <p><img src="http://i.imgur.com/tgxysRe.png" alt="address-bar"></p>
 
 <p>via <a href="http://superuser.com/questions/324266/google-chrome-mac-set-keyboard-focus-from-address-bar-back-to-page/324267#324267">Google Chrome (Mac) set keyboard focus from address bar back to page - Super User</a></p>
-
 
   </div>
 

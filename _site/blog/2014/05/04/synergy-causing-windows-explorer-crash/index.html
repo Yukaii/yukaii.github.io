@@ -29,6 +29,7 @@
   <meta name="description" content="">
 
   <link type="text/css" rel="stylesheet" href="/assets/main.css">
+  <link type="text/css" rel="stylesheet" href="/assets/primer.css">
   <link rel="canonical" href="http://yukaii.tw/blog/2014/05/04/synergy-causing-windows-explorer-crash/">
   <link rel="alternate" type="application/rss+xml" title="Daily Oops!" href="http://yukaii.tw/feed.xml">
 </head>
@@ -54,40 +55,33 @@
     </h1>
   </div>
 
-  <div class="wrapper">
-    <nav class="site-nav">
-       <a href="#" class="menu-icon">
-        <svg viewbox="0 0 18 15">
-          <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"></path>
-          <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"></path>
-          <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"></path>
-        </svg>
-      </a>
 
-      <div class="trigger">
+  <div class="wrapper">
+    <div class="tabnav">
+      <nav class="tabnav-tabs">
         
           
-          <a class="page-link" href="/about/">About</a>
-          
-        
-          
-        
-          
-          <a class="page-link" href="/blog/">Blog</a>
-          
-        
-          
-          <a class="page-link" href="/hi-tips/">Hi Tips!</a>
+            <a href="/about/" class="tabnav-tab">About</a>
           
         
           
         
           
-          <a class="page-link" href="/portfolio/">Portfolio</a>
+            <a href="/blog/" class="tabnav-tab">Blog</a>
           
         
-      </div>
-    </nav>
+          
+            <a href="/hi-tips/" class="tabnav-tab">Hi Tips!</a>
+          
+        
+          
+        
+          
+            <a href="/portfolio/" class="tabnav-tab">Portfolio</a>
+          
+        
+      </nav>
+    </div>
   </div>
 
 
@@ -96,7 +90,7 @@
 
     <div class="page-content">
       <div class="wrapper">
-        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+        <article class="post markdown-body" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
     <h1 class="post-title" itemprop="name headline">第三篇 - Synergy造成Windows Explorer Crash</h1>
@@ -106,12 +100,12 @@
   <div class="post-content" itemprop="articleBody">
     <p><img src="http://www.geekersmagazine.com/wp-content/uploads/2011/01/windows-explorer-has-stopped-working.gif" alt="explorer_crash"></p>
 
-<h1 id="section">問題</h1>
+<h1>問題</h1>
 
 <p>在重裝Windows後，裝了一些常用工具並且重新啟動，發現Windows Explorer掛了。
 點選任何一個icon，包括開始選單的應用程式捷徑，都會造成Windows Explorer崩潰並重啟。</p>
 
-<h1 id="section-1">解法</h1>
+<h1>解法</h1>
 
 <p>打開「檢視所有問題報告」，並Google之，結果是Synergy的Shell Extension，貌似就這最新版(1.4.17)有這問題。比較簡單的方法就解除安裝，並安裝前一個版本(1.4.16)，再不然：</p>
 

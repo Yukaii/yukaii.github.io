@@ -29,6 +29,7 @@
   <meta name="description" content="台科課程匯入小幫手">
 
   <link type="text/css" rel="stylesheet" href="/assets/main.css">
+  <link type="text/css" rel="stylesheet" href="/assets/primer.css">
   <link rel="canonical" href="http://yukaii.tw/blog/2015/08/29/12th-ntust-course-helper/">
   <link rel="alternate" type="application/rss+xml" title="Daily Oops!" href="http://yukaii.tw/feed.xml">
 </head>
@@ -54,40 +55,33 @@
     </h1>
   </div>
 
-  <div class="wrapper">
-    <nav class="site-nav">
-       <a href="#" class="menu-icon">
-        <svg viewbox="0 0 18 15">
-          <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"></path>
-          <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"></path>
-          <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"></path>
-        </svg>
-      </a>
 
-      <div class="trigger">
+  <div class="wrapper">
+    <div class="tabnav">
+      <nav class="tabnav-tabs">
         
           
-          <a class="page-link" href="/about/">About</a>
-          
-        
-          
-        
-          
-          <a class="page-link" href="/blog/">Blog</a>
-          
-        
-          
-          <a class="page-link" href="/hi-tips/">Hi Tips!</a>
+            <a href="/about/" class="tabnav-tab">About</a>
           
         
           
         
           
-          <a class="page-link" href="/portfolio/">Portfolio</a>
+            <a href="/blog/" class="tabnav-tab">Blog</a>
           
         
-      </div>
-    </nav>
+          
+            <a href="/hi-tips/" class="tabnav-tab">Hi Tips!</a>
+          
+        
+          
+        
+          
+            <a href="/portfolio/" class="tabnav-tab">Portfolio</a>
+          
+        
+      </nav>
+    </div>
   </div>
 
 
@@ -96,7 +90,7 @@
 
     <div class="page-content">
       <div class="wrapper">
-        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+        <article class="post markdown-body" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
     <h1 class="post-title" itemprop="name headline">第十二篇 - 台科課程匯入小幫手</h1>
@@ -106,7 +100,7 @@
   <div class="post-content" itemprop="articleBody">
     <p><a href="http://school-agent.herokuapp.com/">台科課程匯入小幫手</a></p>
 
-<h2 id="section">屁話</h2>
+<h2>屁話</h2>
 
 <p>這幾天串了 118 的學生資訊系統、 Colorgy 的 API 整合了 Table，做出了無痛匯入課程的小工具，算是開了 Colorgy 第三方 App 的第一槍 =w=（自以為）</p>
 
@@ -114,12 +108,12 @@
 
 <p>找回一個玩樂心態來弄這個小玩意，沒啥特別計劃，時機到累積完就做出來了 Q_Q，感謝捏神支援。</p>
 
-<p>照慣例把玩具放在 Heroku，說到他們最近政策也滿妙的，之前一直寄信說每天只能開機十八小時，現在過了 8/16 了也都照常使用，41J 也沒碰上過啥問題，還沒付過 heroku 錢欸 XD，It’s the future.</p>
+<p>照慣例把玩具放在 Heroku，說到他們最近政策也滿妙的，之前一直寄信說每天只能開機十八小時，現在過了 8/16 了也都照常使用，41J 也沒碰上過啥問題，還沒付過 heroku 錢欸 XD，It's the future.</p>
 
 <p>Gihub: <a href="https://github.com/Yukaii/SchoolAgent">https://github.com/Yukaii/SchoolAgent</a>
 <del>Repo 原始英文超中二的 XDDD，不忍直視，請不要去翻 commit 穴穴尼</del></p>
 
-<h2 id="section-1">一些介面</h2>
+<h2>一些介面</h2>
 
 <!--more-->
 
@@ -131,7 +125,7 @@
 
 <p>完全的 mobile first，也懶的弄 RWD 了 XD</p>
 
-<h2 id="section-2">尾刀</h2>
+<h2>尾刀</h2>
 
 <p>雖然這邊沒啥人看，不過就只發在這裡了，等待有緣人發現啦w。有一天這功能大概會被默默整合進 Table 裡，呵。</p>
 

@@ -29,6 +29,7 @@
   <meta name="description" content="背景">
 
   <link type="text/css" rel="stylesheet" href="/assets/main.css">
+  <link type="text/css" rel="stylesheet" href="/assets/primer.css">
   <link rel="canonical" href="http://yukaii.tw/blog/2014/05/12/troubleshooting-phantosys/">
   <link rel="alternate" type="application/rss+xml" title="Daily Oops!" href="http://yukaii.tw/feed.xml">
 </head>
@@ -54,40 +55,33 @@
     </h1>
   </div>
 
-  <div class="wrapper">
-    <nav class="site-nav">
-       <a href="#" class="menu-icon">
-        <svg viewbox="0 0 18 15">
-          <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"></path>
-          <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"></path>
-          <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"></path>
-        </svg>
-      </a>
 
-      <div class="trigger">
+  <div class="wrapper">
+    <div class="tabnav">
+      <nav class="tabnav-tabs">
         
           
-          <a class="page-link" href="/about/">About</a>
-          
-        
-          
-        
-          
-          <a class="page-link" href="/blog/">Blog</a>
-          
-        
-          
-          <a class="page-link" href="/hi-tips/">Hi Tips!</a>
+            <a href="/about/" class="tabnav-tab">About</a>
           
         
           
         
           
-          <a class="page-link" href="/portfolio/">Portfolio</a>
+            <a href="/blog/" class="tabnav-tab">Blog</a>
           
         
-      </div>
-    </nav>
+          
+            <a href="/hi-tips/" class="tabnav-tab">Hi Tips!</a>
+          
+        
+          
+        
+          
+            <a href="/portfolio/" class="tabnav-tab">Portfolio</a>
+          
+        
+      </nav>
+    </div>
   </div>
 
 
@@ -96,7 +90,7 @@
 
     <div class="page-content">
       <div class="wrapper">
-        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+        <article class="post markdown-body" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
     <h1 class="post-title" itemprop="name headline">第四篇 - Phantosys 問題疑難排解</h1>
@@ -104,23 +98,23 @@
   </header>
 
   <div class="post-content" itemprop="articleBody">
-    <h1 id="section">背景</h1>
+    <h1>背景</h1>
 
 <p>今天跟著去電腦教室喬電腦，發現教室系統用軟體是Phantosys，於是就摸索了下。殘酷的是，花了兩小才找出問題癥結，故誌於此。</p>
 
-<h1 id="section-1">問題</h1>
+<h1>問題</h1>
 
-<h2 id="q">Q:無法載入遠端映像檔</h2>
+<h2>Q:無法載入遠端映像檔</h2>
 
 <p>檢查各個網路連結是否正確，是否在DHCP位址分派上出了問題、BIOS Wake on Lan以及相關設定有無開啟。</p>
 
 <p>說到這就得抱怨一聲，華碩主機板在切換<strong>簡易模式</strong>與<strong>進階模式</strong>時不會自動儲存設定，讓我多測了好幾回，哀嘆。</p>
 
-<h2 id="qwindows-">Q:Windows 載入時間過長</h2>
+<h2>Q:Windows 載入時間過長</h2>
 
 <p>看一下硬碟燈有沒有在閃，猜一下可能是硬體的問題。交叉測試也。</p>
 
-<h1 id="section-2">心得</h1>
+<h1>心得</h1>
 
 <p>明明還有歷史報告還跟人玩這個的我真是瘋了XDD太久沒碰硬體是好事呦。</p>
 

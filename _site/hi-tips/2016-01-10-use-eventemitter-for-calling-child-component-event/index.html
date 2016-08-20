@@ -29,6 +29,7 @@
   <meta name="description" content="via http://stackoverflow.com/questions/31177366/react-native-call-function-of-child-from-navigatorios">
 
   <link type="text/css" rel="stylesheet" href="/assets/main.css">
+  <link type="text/css" rel="stylesheet" href="/assets/primer.css">
   <link rel="canonical" href="http://yukaii.tw/hi-tips/2016-01-10-use-eventemitter-for-calling-child-component-event/">
   <link rel="alternate" type="application/rss+xml" title="Daily Oops!" href="http://yukaii.tw/feed.xml">
 </head>
@@ -54,40 +55,33 @@
     </h1>
   </div>
 
-  <div class="wrapper">
-    <nav class="site-nav">
-       <a href="#" class="menu-icon">
-        <svg viewbox="0 0 18 15">
-          <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"></path>
-          <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"></path>
-          <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"></path>
-        </svg>
-      </a>
 
-      <div class="trigger">
+  <div class="wrapper">
+    <div class="tabnav">
+      <nav class="tabnav-tabs">
         
           
-          <a class="page-link" href="/about/">About</a>
-          
-        
-          
-        
-          
-          <a class="page-link" href="/blog/">Blog</a>
-          
-        
-          
-          <a class="page-link" href="/hi-tips/">Hi Tips!</a>
+            <a href="/about/" class="tabnav-tab">About</a>
           
         
           
         
           
-          <a class="page-link" href="/portfolio/">Portfolio</a>
+            <a href="/blog/" class="tabnav-tab">Blog</a>
           
         
-      </div>
-    </nav>
+          
+            <a href="/hi-tips/" class="tabnav-tab">Hi Tips!</a>
+          
+        
+          
+        
+          
+            <a href="/portfolio/" class="tabnav-tab">Portfolio</a>
+          
+        
+      </nav>
+    </div>
   </div>
 
 
@@ -96,7 +90,7 @@
 
     <div class="page-content">
       <div class="wrapper">
-        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+        <article class="post markdown-body" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
     <h1 class="post-title" itemprop="name headline">Use EventEmitter for calling child component event from parent in React</h1>
@@ -104,12 +98,10 @@
   </header>
 
   <div class="post-content" itemprop="articleBody">
-    <p>via http://stackoverflow.com/questions/31177366/react-native-call-function-of-child-from-navigatorios</p>
+    <p>via <a href="http://stackoverflow.com/questions/31177366/react-native-call-function-of-child-from-navigatorios">http://stackoverflow.com/questions/31177366/react-native-call-function-of-child-from-navigatorios</a></p>
 
 <p>In parent component, writes</p>
-
-<div class="language-js highlighter-rouge">
-<pre class="highlight"><code><span class="c1">// in import package parts</span>
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="c1">// in import package parts</span>
 <span class="kr">import</span> <span class="nx">EventEmitter</span> <span class="nx">from</span> <span class="s1">'EventEmitter'</span><span class="p">;</span>
 
 <span class="c1">//in your Component class</span>
@@ -120,20 +112,12 @@
 <span class="nx">handleAction</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
   <span class="k">this</span><span class="p">.</span><span class="nx">eventEmitter</span><span class="p">.</span><span class="nx">emit</span><span class="p">(</span><span class="s1">'SomeEvent'</span><span class="p">,</span> <span class="p">{</span> <span class="na">someArg</span><span class="p">:</span> <span class="s1">'argValue'</span> <span class="p">});</span>
 <span class="p">}</span>
-</code></pre>
-</div>
-
+</code></pre></div>
 <p>Then pass on this.eventEmitter as props to child component.</p>
-
-<div class="language-js highlighter-rouge">
-<pre class="highlight"><code><span class="o">&lt;</span><span class="nx">ChildComponent</span> <span class="nx">event</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">eventEmitter</span><span class="p">}</span> <span class="sr">/</span><span class="err">&gt;
-</span></code></pre>
-</div>
-
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="o">&lt;</span><span class="nx">ChildComponent</span> <span class="nx">event</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">eventEmitter</span><span class="p">}</span> <span class="sr">/</span><span class="err">&gt;
+</span></code></pre></div>
 <p>Finally add a listener for handling events in child component.</p>
-
-<div class="language-js highlighter-rouge">
-<pre class="highlight"><code><span class="kr">import</span> <span class="nx">Subscribable</span> <span class="nx">from</span> <span class="s1">''</span><span class="nx">Subscribable</span><span class="s1">''</span><span class="p">;</span>
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="kr">import</span> <span class="nx">Subscribable</span> <span class="nx">from</span> <span class="s1">''</span><span class="nx">Subscribable</span><span class="s1">''</span><span class="p">;</span>
 
 <span class="kd">var</span> <span class="nx">ChildComponent</span> <span class="o">=</span> <span class="nx">React</span><span class="p">.</span><span class="nx">createClass</span><span class="p">({</span>
   <span class="na">mixins</span><span class="p">:</span> <span class="p">[</span><span class="nx">Subscribable</span><span class="p">.</span><span class="nx">Mixin</span><span class="p">],</span>
@@ -142,9 +126,7 @@
   <span class="p">},</span>
   <span class="c1">//other code goes here</span>
 <span class="p">}</span>
-</code></pre>
-</div>
-
+</code></pre></div>
 <p>Note that ES6 style classes do not support mixins, so you must write your child component class in legacy “createClass” style.</p>
 
   </div>
