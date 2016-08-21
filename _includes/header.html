@@ -7,22 +7,24 @@
   </div>
 
 
-  <div class="wrapper">
+  <div class="nav-wrapper">
     <div class="tabnav">
       <nav class="tabnav-tabs">
         {% if page.url == "/" %}
-          <a href="/" class="tabnav-tab selected">{{ site.title }}</a>
+          <a href="/" class="tabnav-tab selected">
+            {% octicon heart %}
+            {{ site.title }}
+          </a>
         {% else %}
-          <a href="/" class="tabnav-tab">{{ site.title }}</a>
+          <a href="/" class="tabnav-tab">
+            {% octicon heart %}
+            {{ site.title }}
+          </a>
         {% endif %}
 
         {% for my_page in site.pages %}
           {% if my_page.title %}
-            {% if page.url contains my_page.url %}
-              <a href="{{ my_page.url | prepend: site.baseurl }}" class="tabnav-tab selected">{{ my_page.title }}</a>
-            {% else %}
-              <a href="{{ my_page.url | prepend: site.baseurl }}" class="tabnav-tab">{{ my_page.title }}</a>
-            {% endif %}
+            {% include nav_link.html my_page=my_page page=page %}
           {% endif %}
         {% endfor %}
       </nav>

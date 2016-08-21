@@ -7,7 +7,7 @@ $base-font-weight: 400;
 $small-font-size:  $base-font-size * 0.875;
 $base-line-height: 1.5;
 
-$spacing-unit:     10px;
+$spacing-unit:     20px;
 
 $text-color:       #333333;
 $background-color: #fff;
@@ -56,6 +56,34 @@ $on-laptop:        800px;
   }
 }
 
-.menu-item > h3 {
-  color: $text-color;
+.nav-wrapper {
+  border-bottom: 1px solid #ddd;
+
+  @include media-query($on-palm) {
+    border-bottom: 0;
+    padding: 0 1.2em;
+  }
+
+  .tabnav {
+    width: 700px;
+    margin: 0 auto;
+    border-bottom: transparent;
+
+    @include media-query($on-palm) {
+      width: auto;
+
+      .tabnav-tab.selected {
+        border-color: transparent;
+        border-radius: 10%;
+        background-color: #4078c0;
+        color: #fff;
+
+        svg {
+          fill: white;
+        }
+      }
+
+    }
+  }
+
 }

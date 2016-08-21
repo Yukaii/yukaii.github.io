@@ -50,6 +50,7 @@ gems:
   - jekyll-redirect-from
   - jekyll-sitemap
   - jekyll-feed
+  - jekyll-octicons
 
 # jekyll assets settings
 assets:
