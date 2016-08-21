@@ -1,0 +1,23 @@
+{% assign my_page = include.my_page %}
+{% assign page = include.page %}
+
+{% if page.url contains my_page.url %}
+  {% assign href_class = "tabnav-tab selected" %}
+{% else %}
+  {% assign href_class = "tabnav-tab" %}
+{% endif %}
+
+<a href="{{ my_page.url | prepend: site.baseurl }}" class="{{ href_class }}">
+  {% case my_page.url %}
+    {% when '/about/' %}
+      {% octicon info %}
+    {% when '/blog/' %}
+      {% octicon book %}
+    {% when '/hi-tips/' %}
+      {% octicon file-code %}
+    {% when '/portfolio/' %}
+      {% octicon octoface %}
+  {% endcase %}
+
+  {{ my_page.title }}
+</a>

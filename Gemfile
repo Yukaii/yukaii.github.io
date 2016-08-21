@@ -20,6 +20,7 @@ group :jekyll_plugins do
   gem 'jekyll-sitemap'
   gem 'jekyll-feed'
   gem 'jekyll-compose'
+  gem 'jekyll-octicons'
 
   gem 'jekyll-import'
 end
