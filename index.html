@@ -14,9 +14,9 @@ layout: default
         <div class="post-meta">{{ post.date | date: "%b %-d, %Y" }}</div>
       </a>
     {% endfor %}
-    <a class="menu-item" href="{{ "/blog" | prepend: site.baseurl }}">More</a>
   </nav>
 
-  <p class="rss-subscribe">subscribe <a href="{{ "/feed.xml" | prepend: site.baseurl }}">via RSS</a></p>
+  <a class="btn" href="{{ '/blog' | prepend: site.baseurl }}" role="button">More</a>
+  <a href="{{ '/feed.xml' | prepend: site.baseurl }}" class="btn btn-primary" role="button">subscribe via RSS</a>
 
 </div>
