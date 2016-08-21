@@ -10,7 +10,7 @@ layout: default
       {% break %}
       {% endif %}
       <a href="{{ post.url | prepend: site.baseurl }}" class="menu-item">
-        <h3>{{ post.title }}</h3>
+        <h4>{{ post.title }}</h4>
         <div class="post-meta">{{ post.date | date: "%b %-d, %Y" }}</div>
       </a>
     {% endfor %}
