@@ -10,6 +10,12 @@
   <div class="wrapper">
     <div class="tabnav">
       <nav class="tabnav-tabs">
+        {% if page.url == "/" %}
+          <a href="/" class="tabnav-tab selected">{{ site.title }}</a>
+        {% else %}
+          <a href="/" class="tabnav-tab">{{ site.title }}</a>
+        {% endif %}
+
         {% for my_page in site.pages %}
           {% if my_page.title %}
             {% if page.url contains my_page.url %}

@@ -7,7 +7,7 @@ $base-font-weight: 400;
 $small-font-size:  $base-font-size * 0.875;
 $base-line-height: 1.5;
 
-$spacing-unit:     30px;
+$spacing-unit:     10px;
 
 $text-color:       #333333;
 $background-color: #fff;
@@ -47,11 +47,15 @@ $on-laptop:        800px;
 @import "syntax-highlighting";
 @import "fonts";
 
-
+// style overwrites
 .tabnav-tab {
   border-width: 3px 1px 1px;
 
   &.selected {
     border-color: #d26911 #ddd transparent;
   }
+}
+
+.menu-item > h3 {
+  color: $text-color;
 }

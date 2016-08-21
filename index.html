@@ -4,22 +4,18 @@ layout: default
 
 <div class="home">
 
-  <h1 class="page-heading">Recent Post</h1>
-
-  <div class="post-list">
+  <nav class="menu centered">
     {% for post in site.posts %}
       {% if forloop.index > 7 %}
       {% break %}
       {% endif %}
-      <h4>
-        <a href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
-      </h4>
+      <a href="{{ post.url | prepend: site.baseurl }}" class="menu-item">
+        <h3>{{ post.title }}</h3>
+        <div class="post-meta">{{ post.date | date: "%b %-d, %Y" }}</div>
+      </a>
     {% endfor %}
-  </div>
-
-  <div>
-    <h4><a href="{{ "/blog" | prepend: site.baseurl }}">More</a></h4>
-  </div>
+    <a class="menu-item" href="{{ "/blog" | prepend: site.baseurl }}">More</a>
+  </nav>
 
   <p class="rss-subscribe">subscribe <a href="{{ "/feed.xml" | prepend: site.baseurl }}">via RSS</a></p>
 
