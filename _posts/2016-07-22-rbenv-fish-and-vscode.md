@@ -3,7 +3,7 @@ layout: post
 title: rbenv、fish 與 VSCode 設置之路
 ---
 
-在最新的 VSCode 1.3.1 版裡，Integrated Terminal 變得更佳好用，但由於上游套件 `xterm.js` 的緣故，`zsh` 還是有無法捲動的問題。不過作為一個 Rails 開發者，VSCode 已經是個足夠好用的、足矣媲美 Sublime Text 的編輯器了。為了能夠在 VSCode 開發 Rails，特別對目前的開發環境做出調整。
+在最新的 VSCode 1.3.1 版裡，Integrated Terminal 變得更加好用，但由於上游套件 `xterm.js` 的緣故，`zsh` 還是有無法捲動的問題。不過作為一個 Rails 開發者，VSCode 已經是個足夠好用的、足矣媲美 Sublime Text 的編輯器了。為了能夠在 VSCode 開發 Rails，特別對目前的開發環境做出調整。
 
 ## 由 RVM 轉換至 rbenv
 
