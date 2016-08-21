@@ -28,6 +28,7 @@
   <title>第十四篇 - 從 Hackpad 搬家到 Quip</title>
   <meta name="description" content="你知道，Hackpad 自從被 Dropbox 買走之後就沒增加新功能了，從 15 年四月收到信說要開源，也是過了很久的八月才完成。當然技術公司的整並進去必定要做一堆的交接、磨合、修改成能開源的版本；不過十二月時又有 Dropbox 的前車之鑑，一路看下來我們還是多做幾個備份好 :pQuip 的好就不用多說了，由...">
 
+  <link type="text/css" rel="stylesheet" href="/assets/primer.css">
   <link type="text/css" rel="stylesheet" href="/assets/main.css">
   <link rel="canonical" href="http://yukaii.tw/blog/2016/03/26/from-hackpad-to-quip/">
   <link rel="alternate" type="application/rss+xml" title="Daily Oops!" href="http://yukaii.tw/feed.xml">
@@ -54,40 +55,45 @@
     </h1>
   </div>
 
-  <div class="wrapper">
-    <nav class="site-nav">
-       <a href="#" class="menu-icon">
-        <svg viewbox="0 0 18 15">
-          <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"></path>
-          <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"></path>
-          <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"></path>
-        </svg>
-      </a>
 
-      <div class="trigger">
+  <div class="wrapper">
+    <div class="tabnav">
+      <nav class="tabnav-tabs">
+        
+          <a href="/" class="tabnav-tab">Daily Oops!</a>
+        
+
         
           
-          <a class="page-link" href="/about/">About</a>
-          
-        
-          
-        
-          
-          <a class="page-link" href="/blog/">Blog</a>
-          
-        
-          
-          <a class="page-link" href="/hi-tips/">Hi Tips!</a>
-          
-        
+            
+              <a href="/about/" class="tabnav-tab">About</a>
+            
           
         
           
-          <a class="page-link" href="/portfolio/">Portfolio</a>
+        
+          
+            
+              <a href="/blog/" class="tabnav-tab selected">Blog</a>
+            
           
         
-      </div>
-    </nav>
+          
+            
+              <a href="/hi-tips/" class="tabnav-tab">Hi Tips!</a>
+            
+          
+        
+          
+        
+          
+            
+              <a href="/portfolio/" class="tabnav-tab">Portfolio</a>
+            
+          
+        
+      </nav>
+    </div>
   </div>
 
 
@@ -96,7 +102,7 @@
 
     <div class="page-content">
       <div class="wrapper">
-        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+        <article class="post markdown-body" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
     <h1 class="post-title" itemprop="name headline">第十四篇 - 從 Hackpad 搬家到 Quip</h1>
@@ -108,11 +114,12 @@
 
 <p>Quip 的好就不用多說了，由 Facebook 前 CTO Bret Taylor <a href="https://en.wikipedia.org/wiki/Quip">創立</a>，最近才在 15 年十月拿到 <a href="https://www.crunchbase.com/organization/quip/funding-rounds">30M 的 B 輪投資金</a>，結合 <a href="https://medium.com/@btaylor/react-with-c-building-the-quip-mac-and-windows-apps-c63155c1531b#.cmtg0ajpc">React Native C++ Binding</a> 強大技術力的 Desktop Client，近幾個月來也<a href="https://quip.com/blog/">持續在 UI、功能</a>上優化，前途真是一片光明啊。</p>
 
-<p>把 Hackpad 轉移到 Quip 確實是個不錯的決定（鋪陳這麼久就為了這句XD），加上 Quip 官方也非常 Nice 的提供此功能：</p>
+<p>把 Hackpad 轉移到 Quip 確實是個不錯的決定（鋪陳這麼久就為了這句XD），加上 Quip 官方也非常 Nice 的提供此功能：
+</p>
 <blockquote class="twitter-tweet" data-lang="zh-tw">
-<p lang="en" dir="ltr">Some of our users have asked us for a <a href="https://twitter.com/hackpad">@Hackpad</a> import tool, and we wanted to share it with you. Check it out! <a href="https://t.co/VstwZVEiLb">https://t.co/VstwZVEiLb</a></p>— Quip (<a href="https://github.com/quip" class="user-mention">@quip</a>) <a href="https://twitter.com/quip/status/475767564383961088">2014年6月8日</a>
+<p lang="en" dir="ltr">Some of our users have asked us for a <a href="https://twitter.com/hackpad">@Hackpad</a> import tool, and we wanted to share it with you. Check it out! <a href="https://t.co/VstwZVEiLb"></a><a href="https://t.co/VstwZVEiLb">https://t.co/VstwZVEiLb</a></p>— Quip (<a href="https://github.com/quip" class="user-mention">@quip</a>) <a href="https://twitter.com/quip/status/475767564383961088">2014年6月8日</a>
 </blockquote>
-<script async="" src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 <p>Well, 早在 14 年吶。雖然 Dropbox Paper（前 Hackpad）也有<a href="https://paper.dropbox.com/doc/Dropbox-Paper-beta-Is-Ready-For-You-Xlvlkb3yI23hLvuZxvn2Q">提供導入功能</a>啦，不過還要寫信到客服信箱，產品變你們家的竟然還沒有無痛一鍵導入是哪招啦 XDD。於是我的 Quip 搬家行動是勢在必行了，以下就略述這個從 hackpad 搬家到 quip 的過程。</p>
 
@@ -135,7 +142,6 @@
 <p>再等一會兒，就會看到你的 Hackpad 們都匯入到 Quip 資料夾中囉。
 <img src="http://i.imgur.com/NgGR1vi.png" alt="">
 （完）</p>
-
 
   </div>
 

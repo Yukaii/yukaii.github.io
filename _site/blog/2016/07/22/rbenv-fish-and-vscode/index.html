@@ -28,6 +28,7 @@
   <title>rbenv、fish 與 VSCode 設置之路</title>
   <meta name="description" content="在最新的 VSCode 1.3.1 版裡，Integrated Terminal 變得更佳好用，但由於上游套件 xterm.js 的緣故，zsh 還是有無法捲動的問題。不過作為一個 Rails 開發者，VSCode 已經是個足夠好用的、足矣媲美 Sublime Text 的編輯器了。為了能夠在 VSCode 開發...">
 
+  <link type="text/css" rel="stylesheet" href="/assets/primer.css">
   <link type="text/css" rel="stylesheet" href="/assets/main.css">
   <link rel="canonical" href="http://yukaii.tw/blog/2016/07/22/rbenv-fish-and-vscode/">
   <link rel="alternate" type="application/rss+xml" title="Daily Oops!" href="http://yukaii.tw/feed.xml">
@@ -54,40 +55,45 @@
     </h1>
   </div>
 
-  <div class="wrapper">
-    <nav class="site-nav">
-       <a href="#" class="menu-icon">
-        <svg viewbox="0 0 18 15">
-          <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"></path>
-          <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"></path>
-          <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"></path>
-        </svg>
-      </a>
 
-      <div class="trigger">
+  <div class="wrapper">
+    <div class="tabnav">
+      <nav class="tabnav-tabs">
+        
+          <a href="/" class="tabnav-tab">Daily Oops!</a>
+        
+
         
           
-          <a class="page-link" href="/about/">About</a>
-          
-        
-          
-        
-          
-          <a class="page-link" href="/blog/">Blog</a>
-          
-        
-          
-          <a class="page-link" href="/hi-tips/">Hi Tips!</a>
-          
-        
+            
+              <a href="/about/" class="tabnav-tab">About</a>
+            
           
         
           
-          <a class="page-link" href="/portfolio/">Portfolio</a>
+        
+          
+            
+              <a href="/blog/" class="tabnav-tab selected">Blog</a>
+            
           
         
-      </div>
-    </nav>
+          
+            
+              <a href="/hi-tips/" class="tabnav-tab">Hi Tips!</a>
+            
+          
+        
+          
+        
+          
+            
+              <a href="/portfolio/" class="tabnav-tab">Portfolio</a>
+            
+          
+        
+      </nav>
+    </div>
   </div>
 
 
@@ -96,7 +102,7 @@
 
     <div class="page-content">
       <div class="wrapper">
-        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+        <article class="post markdown-body" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
     <h1 class="post-title" itemprop="name headline">rbenv、fish 與 VSCode 設置之路</h1>
@@ -104,77 +110,47 @@
   </header>
 
   <div class="post-content" itemprop="articleBody">
-    <p>在最新的 VSCode 1.3.1 版裡，Integrated Terminal 變得更佳好用，但由於上游套件 <code class="highlighter-rouge">xterm.js</code> 的緣故，<code class="highlighter-rouge">zsh</code> 還是有無法捲動的問題。不過作為一個 Rails 開發者，VSCode 已經是個足夠好用的、足矣媲美 Sublime Text 的編輯器了。為了能夠在 VSCode 開發 Rails，特別對目前的開發環境做出調整。</p>
+    <p>在最新的 VSCode 1.3.1 版裡，Integrated Terminal 變得更佳好用，但由於上游套件 <code>xterm.js</code> 的緣故，<code>zsh</code> 還是有無法捲動的問題。不過作為一個 Rails 開發者，VSCode 已經是個足夠好用的、足矣媲美 Sublime Text 的編輯器了。為了能夠在 VSCode 開發 Rails，特別對目前的開發環境做出調整。</p>
 
-<h2 id="rvm--rbenv">由 RVM 轉換至 rbenv</h2>
+<h2>由 RVM 轉換至 rbenv</h2>
 
 <p>聽聞 <a href="https://github.com/rbenv/rbenv">rbenv</a> 相較 rvm 來說，是對系統較為乾淨的 ruby 版本管理工具。就趁這次更新開發環境一起重置吧！</p>
 
-<h3 id="rvm">移除 rvm</h3>
+<h3>移除 rvm</h3>
 
 <p>套件也內建了一鍵移除的方式：</p>
-
-<div class="language-bash highlighter-rouge">
-<pre class="highlight"><code>rvm implode
-</code></pre>
-</div>
-
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">rvm implode
+</code></pre></div>
 <p>做完之後也可以將 rvm 剩餘的檔案移掉：</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">rm -rf ~/.rvm
+</code></pre></div>
+<h3>安裝 rbenv</h3>
 
-<div class="language-bash highlighter-rouge">
-<pre class="highlight"><code>rm -rf ~/.rvm
-</code></pre>
-</div>
-
-<h3 id="rbenv">安裝 rbenv</h3>
-
-<p>參照了<a href="https://github.com/rbenv/rbenv">專案官網</a>的說明，只要把該 repo clone 下來，設置好 <code class="highlighter-rouge">PATH</code> 變數，在為 shell 加上一些設定便可以開始安裝 ruby 了。在 OS X 環境又更容易，只要用 Homebrew 一鍵安裝便成。</p>
-
-<div class="language-bash highlighter-rouge">
-<pre class="highlight"><code>brew install rbenv
-</code></pre>
-</div>
-
-<p>裝完之後就可以發現 rbenv 已經被裝到 Homebrew 的可執行位置了，可以跑 <code class="highlighter-rouge">which</code> 指令檢驗</p>
-
-<div class="language-bash highlighter-rouge">
-<pre class="highlight"><code>which rbenv
+<p>參照了<a href="https://github.com/rbenv/rbenv">專案官網</a>的說明，只要把該 repo clone 下來，設置好 <code>PATH</code> 變數，在為 shell 加上一些設定便可以開始安裝 ruby 了。在 OS X 環境又更容易，只要用 Homebrew 一鍵安裝便成。</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">brew install rbenv
+</code></pre></div>
+<p>裝完之後就可以發現 rbenv 已經被裝到 Homebrew 的可執行位置了，可以跑 <code>which</code> 指令檢驗</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">which rbenv
 <span class="c"># =&gt; /usr/local/bin/rbenv</span>
-</code></pre>
-</div>
-
+</code></pre></div>
 <p>在 Homebrew 安裝跑完之後，安裝腳本會提示已在 shell profile(.zshrc/.profile/.bash_profile) 加上 rbenv 初始化腳本，預設內容如下：</p>
-
-<div class="language-bash highlighter-rouge">
-<pre class="highlight"><code><span class="nb">export </span><span class="nv">PATH</span><span class="o">=</span><span class="s2">"</span><span class="nv">$HOME</span><span class="s2">/.rbenv/bin:</span><span class="nv">$PATH</span><span class="s2">"</span>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nb">export </span><span class="nv">PATH</span><span class="o">=</span><span class="s2">"</span><span class="nv">$HOME</span><span class="s2">/.rbenv/bin:</span><span class="nv">$PATH</span><span class="s2">"</span>
 <span class="nb">eval</span> <span class="s2">"</span><span class="k">$(</span>rbenv init -<span class="k">)</span><span class="s2">"</span>
-</code></pre>
-</div>
-
-<p>第二行的 <code class="highlighter-rouge">rbenv init -</code> 指令輸出，在你一般開啟的 Terminal 會跑出：</p>
-
-<div class="language-bash highlighter-rouge">
-<pre class="highlight"><code><span class="nb">export </span><span class="nv">PATH</span><span class="o">=</span><span class="s2">"/Users/USERNAME/.rbenv/shims:</span><span class="k">${</span><span class="nv">PATH</span><span class="k">}</span><span class="s2">"</span>
+</code></pre></div>
+<p>第二行的 <code>rbenv init -</code> 指令輸出，在你一般開啟的 Terminal 會跑出：</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nb">export </span><span class="nv">PATH</span><span class="o">=</span><span class="s2">"/Users/USERNAME/.rbenv/shims:</span><span class="k">${</span><span class="nv">PATH</span><span class="k">}</span><span class="s2">"</span>
 <span class="nb">export </span><span class="nv">RBENV_SHELL</span><span class="o">=</span>zsh
 <span class="nb">source</span> <span class="s1">'/usr/local/Cellar/rbenv/1.0.0/libexec/../completions/rbenv.zsh'</span>
 <span class="c"># ... 下面一串</span>
-</code></pre>
-</div>
-
+</code></pre></div>
 <p>不過在 VSCode 內建終端機卻會跑出：</p>
-
-<div class="language-bash highlighter-rouge">
-<pre class="highlight"><code><span class="nb">export </span><span class="nv">PATH</span><span class="o">=</span><span class="s2">"/usr/local/opt/rbenv/shims:</span><span class="k">${</span><span class="nv">PATH</span><span class="k">}</span><span class="s2">"</span> <span class="c"># 就這行不同</span>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nb">export </span><span class="nv">PATH</span><span class="o">=</span><span class="s2">"/usr/local/opt/rbenv/shims:</span><span class="k">${</span><span class="nv">PATH</span><span class="k">}</span><span class="s2">"</span> <span class="c"># 就這行不同</span>
 <span class="nb">export </span><span class="nv">RBENV_SHELL</span><span class="o">=</span>zsh
 
 <span class="c"># ... 下面一樣</span>
-</code></pre>
-</div>
-
-<p>大概是執行權限不同的關係吧，rbenv 執行的位置不同也會讓 <code class="highlighter-rouge">gem</code>/<code class="highlighter-rouge">bundler</code> 裝到不同的位置，為了方便起見，一律設成一般終端機跑出來的那串。把下面這串貼到 <code class="highlighter-rouge">~/.zshrc</code> 最下面就是。</p>
-
-<div class="language-bash highlighter-rouge">
-<pre class="highlight"><code><span class="nb">export </span><span class="nv">PATH</span><span class="o">=</span><span class="s2">"/Users/USERNAME/.rbenv/shims:</span><span class="k">${</span><span class="nv">PATH</span><span class="k">}</span><span class="s2">"</span>
+</code></pre></div>
+<p>大概是執行權限不同的關係吧，rbenv 執行的位置不同也會讓 <code>gem</code>/<code>bundler</code> 裝到不同的位置，為了方便起見，一律設成一般終端機跑出來的那串。把下面這串貼到 <code>~/.zshrc</code> 最下面就是。</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nb">export </span><span class="nv">PATH</span><span class="o">=</span><span class="s2">"/Users/USERNAME/.rbenv/shims:</span><span class="k">${</span><span class="nv">PATH</span><span class="k">}</span><span class="s2">"</span>
 <span class="nb">export </span><span class="nv">RBENV_SHELL</span><span class="o">=</span>zsh
 <span class="nb">source</span> <span class="s1">'/usr/local/Cellar/rbenv/1.0.0/libexec/../completions/rbenv.zsh'</span>
 <span class="nb">command </span>rbenv rehash 2&gt;/dev/null
@@ -192,13 +168,9 @@ rbenv<span class="o">()</span> <span class="o">{</span>
     <span class="nb">command </span>rbenv <span class="s2">"</span><span class="nv">$command</span><span class="s2">"</span> <span class="s2">"</span><span class="nv">$@</span><span class="s2">"</span><span class="p">;;</span>
   <span class="k">esac</span>
 <span class="o">}</span>
-</code></pre>
-</div>
-
+</code></pre></div>
 <p>若是 fish 就貼下面這個：</p>
-
-<div class="highlighter-rouge">
-<pre class="highlight"><code>setenv PATH '/Users/USERNAME/.rbenv/shims' $PATH
+<div class="highlight"><pre><code class="language-" data-lang="">setenv PATH '/Users/USERNAME/.rbenv/shims' $PATH
 setenv RBENV_SHELL fish
 . '/usr/local/Cellar/rbenv/1.0.0/libexec/../completions/rbenv.fish'
 command rbenv rehash 2&gt;/dev/null
@@ -213,52 +185,37 @@ function rbenv
     command rbenv "$command" $argv
   end
 end
-</code></pre>
-</div>
-
-<h3 id="ruby">裝 ruby</h3>
-
-<div class="language-bash highlighter-rouge">
-<pre class="highlight"><code>rbenv install 2.3.1
+</code></pre></div>
+<h3>裝 ruby</h3>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">rbenv install 2.3.1
 rbenv global 2.3.1
 gem install bundler
 
 bundle install
-</code></pre>
-</div>
-
+</code></pre></div>
 <p>搞定！</p>
 
-<h3 id="pow-">Pow 的額外設定</h3>
+<h3>Pow 的額外設定</h3>
 
 <p>其實在 Pow 的 <a href="https://github.com/basecamp/pow/wiki/Troubleshooting">wiki</a> 就有解答，不過因為我又對 rbenv 做了 PATH 的改動，所以設定也不太一樣。</p>
 
 <p>打開 ~/.powconfig 並貼入</p>
-
-<div class="language-bash highlighter-rouge">
-<pre class="highlight"><code><span class="nb">export </span><span class="nv">PATH</span><span class="o">=</span><span class="s2">"/Users/USERNAME/.rbenv/shims:/Users/USERNAME/.rbenv/shims/bin:</span><span class="nv">$PATH</span><span class="s2">"</span>
-</code></pre>
-</div>
-
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nb">export </span><span class="nv">PATH</span><span class="o">=</span><span class="s2">"/Users/USERNAME/.rbenv/shims:/Users/USERNAME/.rbenv/shims/bin:</span><span class="nv">$PATH</span><span class="s2">"</span>
+</code></pre></div>
 <p>然後重啟 pow service</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">touch ~/.pow/restart.txt
+</code></pre></div>
+<h2>將主要 shell 由 zsh 換成 fish</h2>
 
-<div class="language-bash highlighter-rouge">
-<pre class="highlight"><code>touch ~/.pow/restart.txt
-</code></pre>
-</div>
-
-<h2 id="shell--zsh--fish">將主要 shell 由 zsh 換成 fish</h2>
-
-<p>zsh 有著非常有名的 <a href="https://github.com/robbyrussell/oh-my-zsh">oh-my-zsh</a> 設定檔管理框架，fish 底下也有個好用的叫 <a href="https://github.com/fisherman/fisherman">fisherman</a>。不過我終究是沒有把系統預設的 shell 換掉(<code class="highlighter-rouge">chsh</code> 指令)，因為挺多工具與 fish 不相容。</p>
+<p>zsh 有著非常有名的 <a href="https://github.com/robbyrussell/oh-my-zsh">oh-my-zsh</a> 設定檔管理框架，fish 底下也有個好用的叫 <a href="https://github.com/fisherman/fisherman">fisherman</a>。不過我終究是沒有把系統預設的 shell 換掉(<code>chsh</code> 指令)，因為挺多工具與 fish 不相容。</p>
 
 <p>fish 啟動速度飛快，帶我重回還沒有裝一堆 zsh 套件的美好往日時光。</p>
 
-<h3 id="vscode">VSCode</h3>
+<h3>VSCode</h3>
 
 <p>講來講去這篇好像跟 VSCode 沒啥關係耶？那就附張截圖好了，VSCode 也是十分優秀的 Markdown 編輯器，內建了快速的 Preview，碼 code、寫文件、Terminal、Task Runner 全都內建了，還夠輕量快速，Extension 也陸續多了起來，還真不好挑剔啊 XD。</p>
 
 <p><img src="https://lh3.googleusercontent.com/-o17HvZ1w7k6NzK0kw84uJNdhTmnWCH1hGyHduSokRnhgdeoaIh8reqDVrlAc43uGIN9K5KZYpujZuuSdqrV5BiuBhYNsQlubHEfAPut1pGvbkYzw3zKLfuEpphlj7JpBKj9x3m-Zk-rA4s-xFXnagC3vO8otXWOAH7qXYg47kx8D1qHVDpwHjD4WW8yd1jV_CYZlL5VWfrbbiVAdlwBDalB_UexT8emkhqTMjNwQMhIwMyqEXk8LcsfuI5IqgpdR488KovW9Z3ckMJjMbMWSpYOUfMuJ4_pRgYPMla9cm-h6QcP5PXIyhfTERUTRUyUAawcJAWC74R519UVe_gLizh0RqvKazWU0ISCjXVOmbH_bljBAwRIBZobMme9W3deBztAMd0asjKFJnjsviDKDgb1n5y8wS6z5nfNGWijNJbl2JwpVv9EVStbGM4OoqM-9st2MO5oVZJEK8PgtNp1LvuBr3Qkch_k2RXnSZJTfxs4aYZroTJTplZI2XEZS8bkK6Xlczod9rFAvsBdSK2G1A3rixmyBrTOkb7YE7Z8E5NRGWXx3mJns607eu00e69bzGlSe7kc_IpwN1wiYUtqWuRjABPqIhsV=w1046-h781-no" alt=""></p>
-
 
   </div>
 

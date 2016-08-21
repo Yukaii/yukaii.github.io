@@ -28,6 +28,7 @@
   <title>第七篇 - 寫一封 html 的 email</title>
   <meta name="description" content="Prerequite一些簡單的 html/css 知識流程Email 裏 css 有些東西沒法用，所以需要測試在每一個 client 的效果。完整的支援表請見此。我的需求簡單的滿版就能搞定了，參考了問一的建議，儘量用 border / padding 來推，並沒有花很久的時間。先在 &lt;head&gt; 寫完...">
 
+  <link type="text/css" rel="stylesheet" href="/assets/primer.css">
   <link type="text/css" rel="stylesheet" href="/assets/main.css">
   <link rel="canonical" href="http://yukaii.tw/blog/2015/04/10/seventh-to-write-an-html-email/">
   <link rel="alternate" type="application/rss+xml" title="Daily Oops!" href="http://yukaii.tw/feed.xml">
@@ -54,40 +55,45 @@
     </h1>
   </div>
 
-  <div class="wrapper">
-    <nav class="site-nav">
-       <a href="#" class="menu-icon">
-        <svg viewbox="0 0 18 15">
-          <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"></path>
-          <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"></path>
-          <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"></path>
-        </svg>
-      </a>
 
-      <div class="trigger">
+  <div class="wrapper">
+    <div class="tabnav">
+      <nav class="tabnav-tabs">
+        
+          <a href="/" class="tabnav-tab">Daily Oops!</a>
+        
+
         
           
-          <a class="page-link" href="/about/">About</a>
-          
-        
-          
-        
-          
-          <a class="page-link" href="/blog/">Blog</a>
-          
-        
-          
-          <a class="page-link" href="/hi-tips/">Hi Tips!</a>
-          
-        
+            
+              <a href="/about/" class="tabnav-tab">About</a>
+            
           
         
           
-          <a class="page-link" href="/portfolio/">Portfolio</a>
+        
+          
+            
+              <a href="/blog/" class="tabnav-tab selected">Blog</a>
+            
           
         
-      </div>
-    </nav>
+          
+            
+              <a href="/hi-tips/" class="tabnav-tab">Hi Tips!</a>
+            
+          
+        
+          
+        
+          
+            
+              <a href="/portfolio/" class="tabnav-tab">Portfolio</a>
+            
+          
+        
+      </nav>
+    </div>
   </div>
 
 
@@ -96,7 +102,7 @@
 
     <div class="page-content">
       <div class="wrapper">
-        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+        <article class="post markdown-body" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
     <h1 class="post-title" itemprop="name headline">第七篇 - 寫一封 html 的 email</h1>
@@ -104,22 +110,25 @@
   </header>
 
   <div class="post-content" itemprop="articleBody">
-    <h1 id="prerequite">Prerequite</h1>
+    <h1>Prerequite</h1>
+
 <p>一些簡單的 html/css 知識</p>
 
-<h1 id="section">流程</h1>
+<h1>流程</h1>
+
 <p>Email 裏 css 有些東西沒法用，所以需要測試在每一個 client 的效果。</p>
 
 <p>完整的支援表<a href="https://www.campaignmonitor.com/css/">請見此</a>。</p>
 
 <p>我的需求簡單的滿版就能搞定了，參考了<a href="http://blog.winwu.today/">問一</a>的建議，儘量用 border / padding 來推，並沒有花很久的時間。</p>
 
-<p>先在 <code class="highlighter-rouge">&lt;head&gt;</code> 寫完 <code class="highlighter-rouge">&lt;style&gt;</code> ，呈現大致的成果：
-<!--more--></p>
+<p>先在 <code>&lt;head&gt;</code> 寫完 <code>&lt;style&gt;</code> ，呈現大致的成果：
+&lt;!--more--&gt;</p>
 
 <p><img src="http://user-image.logdown.io/user/1128/blog/1112/post/259954/6bXmF4hCTcyDK252gezU_%E8%9E%A2%E5%B9%95%E5%BF%AB%E7%85%A7%202015-04-10%20%E4%B8%8B%E5%8D%8811.59.39.png" alt="螢幕快照 2015-04-10 下午11.59.39.png"></p>
 
-<h1 id="section-1">測試寄信</h1>
+<h1>測試寄信</h1>
+
 <p>使用 <a href="https://putsmail.com">Putsmail</a>
 <img src="http://user-image.logdown.io/user/1128/blog/1112/post/259954/AyQVfGvSwa49GwCN77If_%E8%9E%A2%E5%B9%95%E5%BF%AB%E7%85%A7%202015-04-11%20%E4%B8%8A%E5%8D%8812.02.00.png" alt="螢幕快照 2015-04-11 上午12.02.00.png"></p>
 
@@ -129,15 +138,17 @@
 <p>他也有提供 inliner 服務：
 <img src="http://user-image.logdown.io/user/1128/blog/1112/post/259954/XdZTL7TRDS1QOHAp35pu_%E8%9E%A2%E5%B9%95%E5%BF%AB%E7%85%A7%202015-04-11%20%E4%B8%8A%E5%8D%8812.03.27.png" alt="螢幕快照 2015-04-11 上午12.03.27.png"></p>
 
-<h1 id="section-2">其他資料</h1>
+<h1>其他資料</h1>
+
 <ul>
-  <li><a href="http://blog.winwu.today/2013/03/email-csshtml.html">Email寄信-css/html 排版,跑版問題</a></li>
-  <li><a href="https://css-tricks.com/ideas-behind-responsive-emails/">Ideas Behind Responsive Emails</a></li>
-  <li><a href="http://webdesign.tutsplus.com/series/mastering-html-email--webdesign-17696">Mastering HTML Email</a></li>
-  <li><a href="http://info.contactology.com/email-view">Preview in Gmail, Hotmail, AOL, and Yahoo</a></li>
+<li><a href="http://blog.winwu.today/2013/03/email-csshtml.html">Email寄信-css/html 排版,跑版問題</a></li>
+<li><a href="https://css-tricks.com/ideas-behind-responsive-emails/">Ideas Behind Responsive Emails</a></li>
+<li><a href="http://webdesign.tutsplus.com/series/mastering-html-email--webdesign-17696">Mastering HTML Email</a></li>
+<li><a href="http://info.contactology.com/email-view">Preview in Gmail, Hotmail, AOL, and Yahoo</a></li>
 </ul>
 
-<h1 id="section-3">結論</h1>
+<h1>結論</h1>
+
 <p>此篇大抵就是資料的再整理與截圖。</p>
 
 <p>看完吉米丘寫的<a href="http://iphone4.tw/forums/showthread.php?t=215978">R.I.P. 臉書上的一切精采好內容</a>之後覺得還是要來寫一下 Blog 比較好啊 XDD</p>

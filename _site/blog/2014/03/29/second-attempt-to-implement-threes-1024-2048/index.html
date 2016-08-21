@@ -28,6 +28,7 @@
   <title>第二篇 - 嘗試實作Threes!/ 1024 /2048</title>
   <meta name="description" content="不得不提，Logdown自動產生英文網址實在太猛了，不用反觀了沒一個能打的=w=">
 
+  <link type="text/css" rel="stylesheet" href="/assets/primer.css">
   <link type="text/css" rel="stylesheet" href="/assets/main.css">
   <link rel="canonical" href="http://yukaii.tw/blog/2014/03/29/second-attempt-to-implement-threes-1024-2048/">
   <link rel="alternate" type="application/rss+xml" title="Daily Oops!" href="http://yukaii.tw/feed.xml">
@@ -54,40 +55,45 @@
     </h1>
   </div>
 
-  <div class="wrapper">
-    <nav class="site-nav">
-       <a href="#" class="menu-icon">
-        <svg viewbox="0 0 18 15">
-          <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"></path>
-          <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"></path>
-          <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"></path>
-        </svg>
-      </a>
 
-      <div class="trigger">
+  <div class="wrapper">
+    <div class="tabnav">
+      <nav class="tabnav-tabs">
+        
+          <a href="/" class="tabnav-tab">Daily Oops!</a>
+        
+
         
           
-          <a class="page-link" href="/about/">About</a>
-          
-        
-          
-        
-          
-          <a class="page-link" href="/blog/">Blog</a>
-          
-        
-          
-          <a class="page-link" href="/hi-tips/">Hi Tips!</a>
-          
-        
+            
+              <a href="/about/" class="tabnav-tab">About</a>
+            
           
         
           
-          <a class="page-link" href="/portfolio/">Portfolio</a>
+        
+          
+            
+              <a href="/blog/" class="tabnav-tab selected">Blog</a>
+            
           
         
-      </div>
-    </nav>
+          
+            
+              <a href="/hi-tips/" class="tabnav-tab">Hi Tips!</a>
+            
+          
+        
+          
+        
+          
+            
+              <a href="/portfolio/" class="tabnav-tab">Portfolio</a>
+            
+          
+        
+      </nav>
+    </div>
   </div>
 
 
@@ -96,7 +102,7 @@
 
     <div class="page-content">
       <div class="wrapper">
-        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+        <article class="post markdown-body" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
     <h1 class="post-title" itemprop="name headline">第二篇 - 嘗試實作Threes!/ 1024 /2048</h1>
@@ -110,112 +116,72 @@
 
 <!--more-->
 
-<h2 id="section">規則</h2>
+<h2>規則</h2>
 
 <p>這幾個遊戲雖然看起來差不多，但規則上其實些微不同，以下便討論他們的不同：</p>
 
-<h3 id="section-1">合併</h3>
+<h3>合併</h3>
 
-<p>最開始讓人注意到的規則就是合併兩個方塊了。在 <a href="https://itunes.apple.com/us/app/threes!/id779157948?mt=8&amp;ign-mpt=uo%3D2"><em>Threes!</em></a> 裡面最基本的組合是<code class="highlighter-rouge">1 + 2 = 3</code>而在 <a href="https://itunes.apple.com/us/app/1024!/id823499224"><em>1024</em></a> , <a href="http://gabrielecirulli.github.io/2048/"><em>2048</em></a> 等是由 2的1次方 開始，慢慢組合到 2的N次方。</p>
+<p>最開始讓人注意到的規則就是合併兩個方塊了。在 <a href="https://itunes.apple.com/us/app/threes!/id779157948?mt=8&amp;ign-mpt=uo%3D2"><em>Threes!</em></a> 裡面最基本的組合是<code>1 + 2 = 3</code>而在 <a href="https://itunes.apple.com/us/app/1024!/id823499224"><em>1024</em></a> , <a href="http://gabrielecirulli.github.io/2048/"><em>2048</em></a> 等是由 2的1次方 開始，慢慢組合到 2的N次方。</p>
 
 <p>在方塊合併時其實是由滑動方向作為合併的判斷。我知道這句話說了跟放屁一樣沒啥用。好，來看例子：</p>
 
 <p>以下例子，三個3在同一列，此時往左推，將會造成：</p>
-
-<div class="highlighter-rouge">
-<pre class="highlight"><code>	3 3 3 █  →  6 3 █ █
-</code></pre>
-</div>
-
+<div class="highlight"><pre><code class="language-" data-lang="">    3 3 3 █  →  6 3 █ █
+</code></pre></div>
 <p>而非</p>
-
-<div class="highlighter-rouge">
-<pre class="highlight"><code>	3 3 3 █  →  3 6 █ █
-</code></pre>
-</div>
-
+<div class="highlight"><pre><code class="language-" data-lang="">    3 3 3 █  →  3 6 █ █
+</code></pre></div>
 <p>這說明了在判斷合併時，是由左向右判讀，左邊開始第一個遇到能合併的就先併了：</p>
-
-<div class="highlighter-rouge">
-<pre class="highlight"><code>	3+3 █ 3 █
-</code></pre>
-</div>
-
+<div class="highlight"><pre><code class="language-" data-lang="">    3+3 █ 3 █
+</code></pre></div>
 <p>再將最右邊的3抓過來：</p>
-
-<div class="highlighter-rouge">
-<pre class="highlight"><code>	6 3 █ █
-</code></pre>
-</div>
-
+<div class="highlight"><pre><code class="language-" data-lang="">    6 3 █ █
+</code></pre></div>
 <p>但如果是四個同樣的數字呢？這邊的處理方式 <a href="https://itunes.apple.com/us/app/threes!/id779157948?mt=8&amp;ign-mpt=uo%3D2"><em>Threes!</em></a> 和 <a href="http://gabrielecirulli.github.io/2048/"><em>2048</em></a> 就不同了。</p>
 
 <p><a href="https://itunes.apple.com/us/app/threes!/id779157948?mt=8&amp;ign-mpt=uo%3D2"><em>Threes!</em></a> 會左合併一次，變成：</p>
-
-<div class="highlighter-rouge">
-<pre class="highlight"><code>	6 3 3 █
-</code></pre>
-</div>
-
+<div class="highlight"><pre><code class="language-" data-lang="">    6 3 3 █
+</code></pre></div>
 <p>再次往左消才會變成</p>
-
-<div class="highlighter-rouge">
-<pre class="highlight"><code>	6 6 █ █
-</code></pre>
-</div>
-
+<div class="highlight"><pre><code class="language-" data-lang="">    6 6 █ █
+</code></pre></div>
 <p>而 <a href="http://gabrielecirulli.github.io/2048/"><em>2048</em></a> 會接「消到底」：</p>
-
-<div class="highlighter-rouge">
-<pre class="highlight"><code>	2 2 2 2 → 4 4 █ █
-</code></pre>
-</div>
-
-<h3 id="section-2">方塊移動</h3>
+<div class="highlight"><pre><code class="language-" data-lang="">    2 2 2 2 → 4 4 █ █
+</code></pre></div>
+<h3>方塊移動</h3>
 
 <p>這和上一個規則類似，在 <a href="https://itunes.apple.com/us/app/threes!/id779157948?mt=8&amp;ign-mpt=uo%3D2"><em>Threes!</em></a> 只會一次移動一格， <a href="http://gabrielecirulli.github.io/2048/"><em>2048</em></a> 相當於「推到底」。</p>
 
-<h3 id="section-3">隨機填補</h3>
+<h3>隨機填補</h3>
 
 <p>其實這個規則還是有些難猜，又還沒翻 <a href="http://gabrielecirulli.github.io/2048/"><em>2048</em></a> 的原始碼，暫且不討論吧XD</p>
 
-<h2 id="section-4">實作</h2>
+<h2>實作</h2>
+
 <p>知道以上的規則大概就寫的出來了。</p>
 
-<p>一直很不熟物件導向的我，嘗試將每個格子設為一個物件，運用類似，<code class="highlighter-rouge">Linklist</code>（感謝學長）的方法將每個格子串在一起，類似以下這種寫法：</p>
-
-<div class="language-c++ highlighter-rouge">
-<pre class="highlight"><code><span class="k">class</span> <span class="nc">Grid</span><span class="p">{</span>
-	<span class="n">Grid</span><span class="o">*</span> <span class="n">right</span><span class="p">,</span> <span class="n">left</span><span class="p">,</span> <span class="n">up</span><span class="p">,</span> <span class="n">down</span>
+<p>一直很不熟物件導向的我，嘗試將每個格子設為一個物件，運用類似，<code>Linklist</code>（感謝學長）的方法將每個格子串在一起，類似以下這種寫法：</p>
+<div class="highlight"><pre><code class="language-c++" data-lang="c++"><span class="k">class</span> <span class="nc">Grid</span><span class="p">{</span>
+    <span class="n">Grid</span><span class="o">*</span> <span class="n">right</span><span class="p">,</span> <span class="n">left</span><span class="p">,</span> <span class="n">up</span><span class="p">,</span> <span class="n">down</span>
 <span class="p">}</span>
-</code></pre>
-</div>
-
+</code></pre></div>
 <p>這樣在寫合併時，只要從四邊出發，就能沿著路徑偵測合併的情況。</p>
-
-<div class="highlighter-rouge">
-<pre class="highlight"><code>  → → → →
+<div class="highlight"><pre><code class="language-" data-lang="">  → → → →
   → → → →
   → → → →
   → → → →
-</code></pre>
-</div>
-
+</code></pre></div>
 <p>另外又設定了一個二維陣列來管理遊戲板(board)</p>
-
-<div class="language-c++ highlighter-rouge">
-<pre class="highlight"><code><span class="n">Grid</span> <span class="n">board</span><span class="p">[</span><span class="mi">4</span><span class="p">][</span><span class="mi">4</span><span class="p">]</span>
-</code></pre>
-</div>
-
+<div class="highlight"><pre><code class="language-c++" data-lang="c++"><span class="n">Grid</span> <span class="n">board</span><span class="p">[</span><span class="mi">4</span><span class="p">][</span><span class="mi">4</span><span class="p">]</span>
+</code></pre></div>
 <p>實作移動、合併等內容。</p>
 
 <p>目前遊戲內容還沒啥營養，純文字介面而已，「有空」套上 <a href="http://www.libsdl.org/">SDL</a>，再加強一下，唉。</p>
 
 <p><img src="http://user-image.logdown.io/user/1128/blog/1112/post/191665/RfwWbqoDSH21fl6E7isW_%E8%9E%A2%E5%B9%95%E6%93%B7%E5%9C%96%E5%AD%98%E7%82%BA%202014-03-29%2021:20:44.png" alt="螢幕擷圖存為 2014-03-29 21:20:44.png"></p>
 
-<h3 id="githubhttpsgithubcomyukaiimy2048"><a href="https://github.com/Yukaii/my2048">Github</a></h3>
-
+<h3><a href="https://github.com/Yukaii/my2048">Github</a></h3>
 
   </div>
 

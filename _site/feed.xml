@@ -6,106 +6,75 @@
 </description>
     <link>http://yukaii.tw/</link>
     <atom:link href="http://yukaii.tw/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Fri, 19 Aug 2016 22:51:10 +0800</pubDate>
-    <lastBuildDate>Fri, 19 Aug 2016 22:51:10 +0800</lastBuildDate>
+    <pubDate>Sun, 21 Aug 2016 12:07:03 +0800</pubDate>
+    <lastBuildDate>Sun, 21 Aug 2016 12:07:03 +0800</lastBuildDate>
     <generator>Jekyll v3.1.6</generator>
     
       <item>
         <title>從 1Password 搬家到 pass</title>
-        <description>&lt;h2 id=&quot;why&quot;&gt;Why?&lt;/h2&gt;
+        <description>&lt;h2&gt;Why?&lt;/h2&gt;
 
 &lt;p&gt;pass 照&lt;a href=&quot;https://www.passwordstore.org/&quot;&gt;官網&lt;/a&gt;的說法，是一套 「標準 unix 密碼管理」（the standard unix password manager），開源簡單好用。雖然 1Password 我是用 Dropbox 同步，應該還算安全，不過多個開源選擇也不錯。&lt;/p&gt;
 
 &lt;p&gt;pass 也有一些社群版套件，引用一下官網：&lt;/p&gt;
 
 &lt;blockquote&gt;
-  &lt;p&gt;The community has even produced a &lt;a href=&quot;http://qtpass.org/&quot;&gt;cross-platform GUI client&lt;/a&gt;, an &lt;a href=&quot;https://github.com/zeapo/Android-Password-Store&quot;&gt;Android app&lt;/a&gt;, an &lt;a href=&quot;https://github.com/davidjb/pass-ios#readme&quot;&gt;iOS app&lt;/a&gt;, a &lt;a href=&quot;https://github.com/jvenant/passff#readme&quot;&gt;Firefox plugin&lt;/a&gt;, a &lt;a href=&quot;https://github.com/mbos/Pass4Win&quot;&gt;Windows client&lt;/a&gt;, a pretty &lt;a href=&quot;https://github.com/TheLastProject/Pext&quot;&gt;Python QML app&lt;/a&gt;, a nice &lt;a href=&quot;https://github.com/cortex/gopass&quot;&gt;Go GUI app&lt;/a&gt;,  an &lt;a href=&quot;https://github.com/Kwpolska/upass&quot;&gt;interactive console UI&lt;/a&gt;, Alfred integration &lt;a href=&quot;https://github.com/CGenie/alfred-pass&quot;&gt;(1)&lt;/a&gt; &lt;a href=&quot;https://github.com/MatthewWest/pass-alfred&quot;&gt;(2)&lt;/a&gt; &lt;a href=&quot;https://github.com/johanthoren/simple-pass-alfred&quot;&gt;(3)&lt;/a&gt;, a &lt;a href=&quot;https://git.zx2c4.com/password-store/tree/contrib/dmenu&quot;&gt;dmenu script&lt;/a&gt;, &lt;a href=&quot;https://git.zx2c4.com/password-store/tree/contrib/pass.applescript&quot;&gt;OS X integration&lt;/a&gt;, &lt;a href=&quot;https://github.com/languitar/pass-git-helper&quot;&gt;git credential integration&lt;/a&gt;, and even an &lt;a href=&quot;https://git.zx2c4.com/password-store/tree/contrib/emacs&quot;&gt;emacs package&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;The community has even produced a &lt;a href=&quot;http://qtpass.org/&quot;&gt;cross-platform GUI client&lt;/a&gt;, an &lt;a href=&quot;https://github.com/zeapo/Android-Password-Store&quot;&gt;Android app&lt;/a&gt;, an &lt;a href=&quot;https://github.com/davidjb/pass-ios#readme&quot;&gt;iOS app&lt;/a&gt;, a &lt;a href=&quot;https://github.com/jvenant/passff#readme&quot;&gt;Firefox plugin&lt;/a&gt;, a &lt;a href=&quot;https://github.com/mbos/Pass4Win&quot;&gt;Windows client&lt;/a&gt;, a pretty &lt;a href=&quot;https://github.com/TheLastProject/Pext&quot;&gt;Python QML app&lt;/a&gt;, a nice &lt;a href=&quot;https://github.com/cortex/gopass&quot;&gt;Go GUI app&lt;/a&gt;,  an &lt;a href=&quot;https://github.com/Kwpolska/upass&quot;&gt;interactive console UI&lt;/a&gt;, Alfred integration &lt;a href=&quot;https://github.com/CGenie/alfred-pass&quot;&gt;(1)&lt;/a&gt; &lt;a href=&quot;https://github.com/MatthewWest/pass-alfred&quot;&gt;(2)&lt;/a&gt; &lt;a href=&quot;https://github.com/johanthoren/simple-pass-alfred&quot;&gt;(3)&lt;/a&gt;, a &lt;a href=&quot;https://git.zx2c4.com/password-store/tree/contrib/dmenu&quot;&gt;dmenu script&lt;/a&gt;, &lt;a href=&quot;https://git.zx2c4.com/password-store/tree/contrib/pass.applescript&quot;&gt;OS X integration&lt;/a&gt;, &lt;a href=&quot;https://github.com/languitar/pass-git-helper&quot;&gt;git credential integration&lt;/a&gt;, and even an &lt;a href=&quot;https://git.zx2c4.com/password-store/tree/contrib/emacs&quot;&gt;emacs package&lt;/a&gt;.&lt;/p&gt;
 &lt;/blockquote&gt;
 
 &lt;p&gt;不過 iOS App 版要 jailbreak 之後才能使用呀 QQ，不過身為一個還算熟悉 CLI 的使用者，這些當然都不是問題啊，哼☹。&lt;/p&gt;
 
-&lt;h2 id=&quot;pass&quot;&gt;安裝 pass&lt;/h2&gt;
+&lt;h2&gt;安裝 pass&lt;/h2&gt;
 
 &lt;p&gt;OS X 安裝十分容易：&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;brew install pass
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;就好了。他也提供一些 shell completion 可以使用，&lt;code class=&quot;highlighter-rouge&quot;&gt;fish&lt;/code&gt; 需要在 &lt;code class=&quot;highlighter-rouge&quot;&gt;~/.config/fish/config.fish&lt;/code&gt; 裡加上：&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;source&lt;/span&gt; /usr/local/share/fish/vendor_completions.d/pass.fish
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h2 id=&quot;pass-1&quot;&gt;設定 pass&lt;/h2&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;brew install pass
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;就好了。他也提供一些 shell completion 可以使用，&lt;code&gt;fish&lt;/code&gt; 需要在 &lt;code&gt;~/.config/fish/config.fish&lt;/code&gt; 裡加上：&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;nb&quot;&gt;source&lt;/span&gt; /usr/local/share/fish/vendor_completions.d/pass.fish
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h2&gt;設定 pass&lt;/h2&gt;
 
 &lt;p&gt;完成之後我們要看一下有沒有 gpg 金鑰，如果沒有的話要新增個&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;gpg --gen-key &lt;span class=&quot;c&quot;&gt;# 產生 gpg key&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;記得輸入的 key phrase 呀，之後會拿來解鎖的。用 &lt;code class=&quot;highlighter-rouge&quot;&gt;gpg --list-keys&lt;/code&gt; 查看剛剛產生的 key，類似下面這樣：&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;/Users/username/.gnupg/pubring.gpg
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;gpg --gen-key &lt;span class=&quot;c&quot;&gt;# 產生 gpg key&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;記得輸入的 key phrase 呀，之後會拿來解鎖的。用 &lt;code&gt;gpg --list-keys&lt;/code&gt; 查看剛剛產生的 key，類似下面這樣：&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;/Users/username/.gnupg/pubring.gpg
 -------------------------------
 pub   2048R/A534B400 2016-08-18
 uid                  My Name &amp;lt;your_email@gmail.com&amp;gt;
 sub   2048R/E1001945 2016-08-18
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;pubic id 就是 &lt;code class=&quot;highlighter-rouge&quot;&gt;A534B400&lt;/code&gt;，拿這組 id 來初始化 pass&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;pass init A534B400
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;pubic id 就是 &lt;code&gt;A534B400&lt;/code&gt;，拿這組 id 來初始化 pass&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;pass init A534B400
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;完成！之後就可以用 pass 指令管理密碼了，可以下一些測試的指令試試，比如 insert 一組 foo 的密碼：&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;pass insert foo
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;pass insert foo
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;然後顯示 foo 的密碼&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;pass show foo
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h2&gt;由 1Password 匯入&lt;/h2&gt;
 
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;pass show foo
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;p&gt;官網上就寫上匯入 1password 的 &lt;a href=&quot;https://git.zx2c4.com/password-store/tree/contrib/importers/1password2pass.rb&quot;&gt;ruby script&lt;/a&gt; 😍 ，直接使用就行了。在 1Password 匯出 txt 時，記得勾選 &lt;code&gt;Include Column Labels&lt;/code&gt;，如下圖：&lt;/p&gt;
 
-&lt;h2 id=&quot;password-&quot;&gt;由 1Password 匯入&lt;/h2&gt;
-
-&lt;p&gt;官網上就寫上匯入 1password 的 &lt;a href=&quot;https://git.zx2c4.com/password-store/tree/contrib/importers/1password2pass.rb&quot;&gt;ruby script&lt;/a&gt; 😍 ，直接使用就行了。在 1Password 匯出 txt 時，記得勾選 &lt;code class=&quot;highlighter-rouge&quot;&gt;Include Column Labels&lt;/code&gt;，如下圖：&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;http://i.imgur.com/YsoUQcv.png&quot; alt=&quot;1password-export-option&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://i.imgur.com/YsoUQcv.png&quot; alt=&quot;1password-export-option&quot;&gt;&lt;/p&gt;
 
 &lt;p&gt;把匯出的檔案和匯入腳本準備好，跑一下：&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-&quot; data-lang=&quot;&quot;&gt;ruby 1password2pass.rb /path/to/1password_exported.txt
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h2&gt;基礎使用&lt;/h2&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;ruby 1password2pass.rb /path/to/1password_exported.txt
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h2 id=&quot;section&quot;&gt;基礎使用&lt;/h2&gt;
-
-&lt;p&gt;pass 的管理可以說是相當自由，通通放在 &lt;code class=&quot;highlighter-rouge&quot;&gt;~/.password-store&lt;/code&gt; 目錄，底下可以建立任意的目錄分類，或是乾脆不分 XD&lt;/p&gt;
+&lt;p&gt;pass 的管理可以說是相當自由，通通放在 &lt;code&gt;~/.password-store&lt;/code&gt; 目錄，底下可以建立任意的目錄分類，或是乾脆不分 XD&lt;/p&gt;
 
 &lt;p&gt;一些基本指令：&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;pass show PROFILE &lt;span class=&quot;c&quot;&gt;# 印出 PROFILE 的密碼&lt;/span&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;pass show PROFILE &lt;span class=&quot;c&quot;&gt;# 印出 PROFILE 的密碼&lt;/span&gt;
 pass -c PROFILE &lt;span class=&quot;c&quot;&gt;# 複製 PROFILE 的密碼到剪貼簿&lt;/span&gt;
 pass ls &lt;span class=&quot;c&quot;&gt;# 列出所有密碼設定檔&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;我做了以下 alias，方便快速密碼搜尋：&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;alias &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;passgrep&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;pass ls | grep -i&quot;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;就可以用 &lt;code class=&quot;highlighter-rouge&quot;&gt;passgrep&lt;/code&gt; 來搜尋現有設定檔了。&lt;/p&gt;
-
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;nb&quot;&gt;alias &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;passgrep&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;pass ls | grep -i&quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;就可以用 &lt;code&gt;passgrep&lt;/code&gt; 來搜尋現有設定檔了。&lt;/p&gt;
 </description>
         <pubDate>Fri, 19 Aug 2016 00:00:00 +0800</pubDate>
         <link>http://yukaii.tw/blog/2016/08/19/migrate-1password-to-pass/</link>
@@ -116,38 +85,34 @@ pass ls &lt;span class=&quot;c&quot;&gt;# 列出所有密碼設定檔&lt;/span&g
     
       <item>
         <title>使用 Chrome 在快速鍵切換至網址列後，再用快速鍵切換回來</title>
-        <description>&lt;h2 id=&quot;section&quot;&gt;啥？&lt;/h2&gt;
+        <description>&lt;h2&gt;啥？&lt;/h2&gt;
 
-&lt;p&gt;習慣於鍵盤操作 Chrome，比如 &lt;a href=&quot;https://github.com/philc/vimium/&quot;&gt;Vimium&lt;/a&gt; 或是 &lt;a href=&quot;https://github.com/1995eaton/chromium-vim&quot;&gt;cvim&lt;/a&gt; 等擴充套件，在需要跳轉網址列進行搜尋時，都會很自然的使用 Chrome 的內建快速鍵：&lt;code class=&quot;highlighter-rouge&quot;&gt;CMD + L&lt;/code&gt;（在 Windows 是 F6）來操作。&lt;/p&gt;
+&lt;p&gt;習慣於鍵盤操作 Chrome，比如 &lt;a href=&quot;https://github.com/philc/vimium/&quot;&gt;Vimium&lt;/a&gt; 或是 &lt;a href=&quot;https://github.com/1995eaton/chromium-vim&quot;&gt;cvim&lt;/a&gt; 等擴充套件，在需要跳轉網址列進行搜尋時，都會很自然的使用 Chrome 的內建快速鍵：&lt;code&gt;CMD + L&lt;/code&gt;（在 Windows 是 F6）來操作。&lt;/p&gt;
 
 &lt;p&gt;那回來呢？我想要在切回網頁本身，再次用熟悉的 VIM key binding 來衝浪。&lt;/p&gt;
 
 &lt;p&gt;很遺憾的，Chrome 本身並沒有提供此功能，而擴充套件的作用域也不包含網址列，在經過 Google 之後終於找到一個 Hacky 的解法。&lt;/p&gt;
 
-&lt;h2 id=&quot;section-1&quot;&gt;建立自訂搜尋引擎&lt;/h2&gt;
+&lt;h2&gt;建立自訂搜尋引擎&lt;/h2&gt;
 
 &lt;p&gt;在設定找「搜尋引擎」：&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://i.imgur.com/qmkSYvX.png&quot; alt=&quot;search-engine&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://i.imgur.com/qmkSYvX.png&quot; alt=&quot;search-engine&quot;&gt;&lt;/p&gt;
 
 &lt;p&gt;在最底下新增一個搜尋引擎，三個欄位分別填入&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Refocus &lt;span class=&quot;c&quot;&gt;# 自訂搜尋引擎名稱&lt;/span&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;Refocus &lt;span class=&quot;c&quot;&gt;# 自訂搜尋引擎名稱&lt;/span&gt;
 i &lt;span class=&quot;c&quot;&gt;# 要綁定的關鍵字，越短越好&lt;/span&gt;
 javascript:
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;如下圖：&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://i.imgur.com/J5d9Kec.png&quot; alt=&quot;add-search-engine&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://i.imgur.com/J5d9Kec.png&quot; alt=&quot;add-search-engine&quot;&gt;&lt;/p&gt;
 
 &lt;p&gt;接下來在切換到網址列之後，主要輸入綁定的關鍵字，再按下 enter，就能切換回網頁囉：&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://i.imgur.com/tgxysRe.png&quot; alt=&quot;address-bar&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://i.imgur.com/tgxysRe.png&quot; alt=&quot;address-bar&quot;&gt;&lt;/p&gt;
 
 &lt;p&gt;via &lt;a href=&quot;http://superuser.com/questions/324266/google-chrome-mac-set-keyboard-focus-from-address-bar-back-to-page/324267#324267&quot;&gt;Google Chrome (Mac) set keyboard focus from address bar back to page - Super User&lt;/a&gt;&lt;/p&gt;
-
 </description>
         <pubDate>Fri, 12 Aug 2016 00:00:00 +0800</pubDate>
         <link>http://yukaii.tw/blog/2016/08/12/refocus-from-chrome-address-bar/</link>
@@ -158,69 +123,47 @@ javascript:
     
       <item>
         <title>rbenv、fish 與 VSCode 設置之路</title>
-        <description>&lt;p&gt;在最新的 VSCode 1.3.1 版裡，Integrated Terminal 變得更佳好用，但由於上游套件 &lt;code class=&quot;highlighter-rouge&quot;&gt;xterm.js&lt;/code&gt; 的緣故，&lt;code class=&quot;highlighter-rouge&quot;&gt;zsh&lt;/code&gt; 還是有無法捲動的問題。不過作為一個 Rails 開發者，VSCode 已經是個足夠好用的、足矣媲美 Sublime Text 的編輯器了。為了能夠在 VSCode 開發 Rails，特別對目前的開發環境做出調整。&lt;/p&gt;
+        <description>&lt;p&gt;在最新的 VSCode 1.3.1 版裡，Integrated Terminal 變得更佳好用，但由於上游套件 &lt;code&gt;xterm.js&lt;/code&gt; 的緣故，&lt;code&gt;zsh&lt;/code&gt; 還是有無法捲動的問題。不過作為一個 Rails 開發者，VSCode 已經是個足夠好用的、足矣媲美 Sublime Text 的編輯器了。為了能夠在 VSCode 開發 Rails，特別對目前的開發環境做出調整。&lt;/p&gt;
 
-&lt;h2 id=&quot;rvm--rbenv&quot;&gt;由 RVM 轉換至 rbenv&lt;/h2&gt;
+&lt;h2&gt;由 RVM 轉換至 rbenv&lt;/h2&gt;
 
 &lt;p&gt;聽聞 &lt;a href=&quot;https://github.com/rbenv/rbenv&quot;&gt;rbenv&lt;/a&gt; 相較 rvm 來說，是對系統較為乾淨的 ruby 版本管理工具。就趁這次更新開發環境一起重置吧！&lt;/p&gt;
 
-&lt;h3 id=&quot;rvm&quot;&gt;移除 rvm&lt;/h3&gt;
+&lt;h3&gt;移除 rvm&lt;/h3&gt;
 
 &lt;p&gt;套件也內建了一鍵移除的方式：&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;rvm implode
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;rvm implode
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;做完之後也可以將 rvm 剩餘的檔案移掉：&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;rm -rf ~/.rvm
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h3&gt;安裝 rbenv&lt;/h3&gt;
 
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;rm -rf ~/.rvm
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h3 id=&quot;rbenv&quot;&gt;安裝 rbenv&lt;/h3&gt;
-
-&lt;p&gt;參照了&lt;a href=&quot;https://github.com/rbenv/rbenv&quot;&gt;專案官網&lt;/a&gt;的說明，只要把該 repo clone 下來，設置好 &lt;code class=&quot;highlighter-rouge&quot;&gt;PATH&lt;/code&gt; 變數，在為 shell 加上一些設定便可以開始安裝 ruby 了。在 OS X 環境又更容易，只要用 Homebrew 一鍵安裝便成。&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;brew install rbenv
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;裝完之後就可以發現 rbenv 已經被裝到 Homebrew 的可執行位置了，可以跑 &lt;code class=&quot;highlighter-rouge&quot;&gt;which&lt;/code&gt; 指令檢驗&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;which rbenv
+&lt;p&gt;參照了&lt;a href=&quot;https://github.com/rbenv/rbenv&quot;&gt;專案官網&lt;/a&gt;的說明，只要把該 repo clone 下來，設置好 &lt;code&gt;PATH&lt;/code&gt; 變數，在為 shell 加上一些設定便可以開始安裝 ruby 了。在 OS X 環境又更容易，只要用 Homebrew 一鍵安裝便成。&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;brew install rbenv
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;裝完之後就可以發現 rbenv 已經被裝到 Homebrew 的可執行位置了，可以跑 &lt;code&gt;which&lt;/code&gt; 指令檢驗&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;which rbenv
 &lt;span class=&quot;c&quot;&gt;# =&amp;gt; /usr/local/bin/rbenv&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;在 Homebrew 安裝跑完之後，安裝腳本會提示已在 shell profile(.zshrc/.profile/.bash_profile) 加上 rbenv 初始化腳本，預設內容如下：&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;export &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;PATH&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$HOME&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;/.rbenv/bin:&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$PATH&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;nb&quot;&gt;export &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;PATH&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$HOME&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;/.rbenv/bin:&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$PATH&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
 &lt;span class=&quot;nb&quot;&gt;eval&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;$(&lt;/span&gt;rbenv init -&lt;span class=&quot;k&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;第二行的 &lt;code class=&quot;highlighter-rouge&quot;&gt;rbenv init -&lt;/code&gt; 指令輸出，在你一般開啟的 Terminal 會跑出：&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;export &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;PATH&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;/Users/USERNAME/.rbenv/shims:&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;PATH&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;第二行的 &lt;code&gt;rbenv init -&lt;/code&gt; 指令輸出，在你一般開啟的 Terminal 會跑出：&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;nb&quot;&gt;export &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;PATH&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;/Users/USERNAME/.rbenv/shims:&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;PATH&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
 &lt;span class=&quot;nb&quot;&gt;export &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;RBENV_SHELL&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;zsh
 &lt;span class=&quot;nb&quot;&gt;source&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;/usr/local/Cellar/rbenv/1.0.0/libexec/../completions/rbenv.zsh&#39;&lt;/span&gt;
 &lt;span class=&quot;c&quot;&gt;# ... 下面一串&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;不過在 VSCode 內建終端機卻會跑出：&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;export &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;PATH&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;/usr/local/opt/rbenv/shims:&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;PATH&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;c&quot;&gt;# 就這行不同&lt;/span&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;nb&quot;&gt;export &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;PATH&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;/usr/local/opt/rbenv/shims:&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;PATH&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;c&quot;&gt;# 就這行不同&lt;/span&gt;
 &lt;span class=&quot;nb&quot;&gt;export &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;RBENV_SHELL&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;zsh
 
 &lt;span class=&quot;c&quot;&gt;# ... 下面一樣&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;大概是執行權限不同的關係吧，rbenv 執行的位置不同也會讓 &lt;code class=&quot;highlighter-rouge&quot;&gt;gem&lt;/code&gt;/&lt;code class=&quot;highlighter-rouge&quot;&gt;bundler&lt;/code&gt; 裝到不同的位置，為了方便起見，一律設成一般終端機跑出來的那串。把下面這串貼到 &lt;code class=&quot;highlighter-rouge&quot;&gt;~/.zshrc&lt;/code&gt; 最下面就是。&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;export &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;PATH&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;/Users/USERNAME/.rbenv/shims:&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;PATH&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;大概是執行權限不同的關係吧，rbenv 執行的位置不同也會讓 &lt;code&gt;gem&lt;/code&gt;/&lt;code&gt;bundler&lt;/code&gt; 裝到不同的位置，為了方便起見，一律設成一般終端機跑出來的那串。把下面這串貼到 &lt;code&gt;~/.zshrc&lt;/code&gt; 最下面就是。&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;nb&quot;&gt;export &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;PATH&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;/Users/USERNAME/.rbenv/shims:&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;PATH&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
 &lt;span class=&quot;nb&quot;&gt;export &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;RBENV_SHELL&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;zsh
 &lt;span class=&quot;nb&quot;&gt;source&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;/usr/local/Cellar/rbenv/1.0.0/libexec/../completions/rbenv.zsh&#39;&lt;/span&gt;
 &lt;span class=&quot;nb&quot;&gt;command &lt;/span&gt;rbenv rehash 2&amp;gt;/dev/null
@@ -238,12 +181,9 @@ rbenv&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot
     &lt;span class=&quot;nb&quot;&gt;command &lt;/span&gt;rbenv &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$command&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$@&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;;&lt;/span&gt;
   &lt;span class=&quot;k&quot;&gt;esac&lt;/span&gt;
 &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;若是 fish 就貼下面這個：&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;setenv PATH &#39;/Users/USERNAME/.rbenv/shims&#39; $PATH
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-&quot; data-lang=&quot;&quot;&gt;setenv PATH &#39;/Users/USERNAME/.rbenv/shims&#39; $PATH
 setenv RBENV_SHELL fish
 . &#39;/usr/local/Cellar/rbenv/1.0.0/libexec/../completions/rbenv.fish&#39;
 command rbenv rehash 2&amp;gt;/dev/null
@@ -258,49 +198,37 @@ function rbenv
     command rbenv &quot;$command&quot; $argv
   end
 end
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h3 id=&quot;ruby&quot;&gt;裝 ruby&lt;/h3&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;rbenv install 2.3.1
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h3&gt;裝 ruby&lt;/h3&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;rbenv install 2.3.1
 rbenv global 2.3.1
 gem install bundler
 
 bundle install
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;搞定！&lt;/p&gt;
 
-&lt;h3 id=&quot;pow-&quot;&gt;Pow 的額外設定&lt;/h3&gt;
+&lt;h3&gt;Pow 的額外設定&lt;/h3&gt;
 
 &lt;p&gt;其實在 Pow 的 &lt;a href=&quot;https://github.com/basecamp/pow/wiki/Troubleshooting&quot;&gt;wiki&lt;/a&gt; 就有解答，不過因為我又對 rbenv 做了 PATH 的改動，所以設定也不太一樣。&lt;/p&gt;
 
 &lt;p&gt;打開 ~/.powconfig 並貼入&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;export &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;PATH&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;/Users/USERNAME/.rbenv/shims:/Users/USERNAME/.rbenv/shims/bin:&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$PATH&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;nb&quot;&gt;export &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;PATH&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;/Users/USERNAME/.rbenv/shims:/Users/USERNAME/.rbenv/shims/bin:&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$PATH&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;然後重啟 pow service&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;touch ~/.pow/restart.txt
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h2&gt;將主要 shell 由 zsh 換成 fish&lt;/h2&gt;
 
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;touch ~/.pow/restart.txt
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h2 id=&quot;shell--zsh--fish&quot;&gt;將主要 shell 由 zsh 換成 fish&lt;/h2&gt;
-
-&lt;p&gt;zsh 有著非常有名的 &lt;a href=&quot;https://github.com/robbyrussell/oh-my-zsh&quot;&gt;oh-my-zsh&lt;/a&gt; 設定檔管理框架，fish 底下也有個好用的叫 &lt;a href=&quot;https://github.com/fisherman/fisherman&quot;&gt;fisherman&lt;/a&gt;。不過我終究是沒有把系統預設的 shell 換掉(&lt;code class=&quot;highlighter-rouge&quot;&gt;chsh&lt;/code&gt; 指令)，因為挺多工具與 fish 不相容。&lt;/p&gt;
+&lt;p&gt;zsh 有著非常有名的 &lt;a href=&quot;https://github.com/robbyrussell/oh-my-zsh&quot;&gt;oh-my-zsh&lt;/a&gt; 設定檔管理框架，fish 底下也有個好用的叫 &lt;a href=&quot;https://github.com/fisherman/fisherman&quot;&gt;fisherman&lt;/a&gt;。不過我終究是沒有把系統預設的 shell 換掉(&lt;code&gt;chsh&lt;/code&gt; 指令)，因為挺多工具與 fish 不相容。&lt;/p&gt;
 
 &lt;p&gt;fish 啟動速度飛快，帶我重回還沒有裝一堆 zsh 套件的美好往日時光。&lt;/p&gt;
 
-&lt;h3 id=&quot;vscode&quot;&gt;VSCode&lt;/h3&gt;
+&lt;h3&gt;VSCode&lt;/h3&gt;
 
 &lt;p&gt;講來講去這篇好像跟 VSCode 沒啥關係耶？那就附張截圖好了，VSCode 也是十分優秀的 Markdown 編輯器，內建了快速的 Preview，碼 code、寫文件、Terminal、Task Runner 全都內建了，還夠輕量快速，Extension 也陸續多了起來，還真不好挑剔啊 XD。&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://lh3.googleusercontent.com/-o17HvZ1w7k6NzK0kw84uJNdhTmnWCH1hGyHduSokRnhgdeoaIh8reqDVrlAc43uGIN9K5KZYpujZuuSdqrV5BiuBhYNsQlubHEfAPut1pGvbkYzw3zKLfuEpphlj7JpBKj9x3m-Zk-rA4s-xFXnagC3vO8otXWOAH7qXYg47kx8D1qHVDpwHjD4WW8yd1jV_CYZlL5VWfrbbiVAdlwBDalB_UexT8emkhqTMjNwQMhIwMyqEXk8LcsfuI5IqgpdR488KovW9Z3ckMJjMbMWSpYOUfMuJ4_pRgYPMla9cm-h6QcP5PXIyhfTERUTRUyUAawcJAWC74R519UVe_gLizh0RqvKazWU0ISCjXVOmbH_bljBAwRIBZobMme9W3deBztAMd0asjKFJnjsviDKDgb1n5y8wS6z5nfNGWijNJbl2JwpVv9EVStbGM4OoqM-9st2MO5oVZJEK8PgtNp1LvuBr3Qkch_k2RXnSZJTfxs4aYZroTJTplZI2XEZS8bkK6Xlczod9rFAvsBdSK2G1A3rixmyBrTOkb7YE7Z8E5NRGWXx3mJns607eu00e69bzGlSe7kc_IpwN1wiYUtqWuRjABPqIhsV=w1046-h781-no&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
+&lt;p&gt;&lt;img src=&quot;https://lh3.googleusercontent.com/-o17HvZ1w7k6NzK0kw84uJNdhTmnWCH1hGyHduSokRnhgdeoaIh8reqDVrlAc43uGIN9K5KZYpujZuuSdqrV5BiuBhYNsQlubHEfAPut1pGvbkYzw3zKLfuEpphlj7JpBKj9x3m-Zk-rA4s-xFXnagC3vO8otXWOAH7qXYg47kx8D1qHVDpwHjD4WW8yd1jV_CYZlL5VWfrbbiVAdlwBDalB_UexT8emkhqTMjNwQMhIwMyqEXk8LcsfuI5IqgpdR488KovW9Z3ckMJjMbMWSpYOUfMuJ4_pRgYPMla9cm-h6QcP5PXIyhfTERUTRUyUAawcJAWC74R519UVe_gLizh0RqvKazWU0ISCjXVOmbH_bljBAwRIBZobMme9W3deBztAMd0asjKFJnjsviDKDgb1n5y8wS6z5nfNGWijNJbl2JwpVv9EVStbGM4OoqM-9st2MO5oVZJEK8PgtNp1LvuBr3Qkch_k2RXnSZJTfxs4aYZroTJTplZI2XEZS8bkK6Xlczod9rFAvsBdSK2G1A3rixmyBrTOkb7YE7Z8E5NRGWXx3mJns607eu00e69bzGlSe7kc_IpwN1wiYUtqWuRjABPqIhsV=w1046-h781-no&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
 </description>
         <pubDate>Fri, 22 Jul 2016 00:00:00 +0800</pubDate>
         <link>http://yukaii.tw/blog/2016/07/22/rbenv-fish-and-vscode/</link>
@@ -311,40 +239,41 @@ bundle install
     
       <item>
         <title>2016 年中、編輯器三雄大對決！</title>
-        <description>&lt;h2 id=&quot;section&quot;&gt;前言&lt;/h2&gt;
-&lt;p&gt;這題目一直以來都非常想寫，因為我就是一個「完完全全的設定狂」，什麼編輯器都要玩一玩、組合、自訂一下，惡搞到每個編輯器 startup time 都超久…&lt;/p&gt;
+        <description>&lt;h2&gt;前言&lt;/h2&gt;
+
+&lt;p&gt;這題目一直以來都非常想寫，因為我就是一個「完完全全的設定狂」，什麼編輯器都要玩一玩、組合、自訂一下，惡搞到每個編輯器 startup time 都超久...&lt;/p&gt;
 
 &lt;p&gt;這次就選了我主要使用的三個編輯器，Sublime Text、Atom、Visual Studio Code，分別簡介一下，以及本文最主要的目的：秀截圖，畢竟功能那些都講到爛了沒啥好說的。&lt;/p&gt;
 
-&lt;h2 id=&quot;sublime-text&quot;&gt;Sublime Text&lt;/h2&gt;
+&lt;h2&gt;Sublime Text&lt;/h2&gt;
 
-&lt;p&gt;最近作者重啟開發，加上有著原生的順暢，所以目前仍舊是我的主要編輯器。&lt;a href=&quot;https://github.com/SublimeLinter/SublimeLinter3&quot;&gt;SublimeLinter&lt;/a&gt; 套件加上 &lt;code class=&quot;highlighter-rouge&quot;&gt;eslint&lt;/code&gt; 還有 &lt;code class=&quot;highlighter-rouge&quot;&gt;rubocup&lt;/code&gt; ，平常主要使用的語言 &lt;code class=&quot;highlighter-rouge&quot;&gt;javascript&lt;/code&gt; 和 &lt;code class=&quot;highlighter-rouge&quot;&gt;ruby&lt;/code&gt; 的靜態語言檢查就不成問題；&lt;a href=&quot;https://github.com/divmain/GitSavvy&quot;&gt;GitSavvy&lt;/a&gt; 這個新興的 git 輔助套件，讓平時的 commit、diff、merge 不成問題（當然有時還是得用 SourceTree 或是 CLI 介面輔助），&lt;a href=&quot;https://github.com/tednaleid/sublime-EasyMotion&quot;&gt;EasyMotion&lt;/a&gt; 還有內建的 Vintage Mode 讓我幾乎不用動到鍵盤；最近出現的 &lt;a href=&quot;https://github.com/oivva/boxy/&quot;&gt;Boxy Theme&lt;/a&gt; 能讓我以即為簡便的設定檔方式設定介面，包含各元件的字體，讓我徹底換掉沒時間支援的自訂主題：&lt;a href=&quot;https://github.com/Yukaii/Oceanic-Seti-ST3&quot;&gt;Oceanic Seti&lt;/a&gt;，以及最近大神推薦的 &lt;a href=&quot;https://github.com/karelvuong/st-primer/&quot;&gt;primer theme&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;最近作者重啟開發，加上有著原生的順暢，所以目前仍舊是我的主要編輯器。&lt;a href=&quot;https://github.com/SublimeLinter/SublimeLinter3&quot;&gt;SublimeLinter&lt;/a&gt; 套件加上 &lt;code&gt;eslint&lt;/code&gt; 還有 &lt;code&gt;rubocup&lt;/code&gt; ，平常主要使用的語言 &lt;code&gt;javascript&lt;/code&gt; 和 &lt;code&gt;ruby&lt;/code&gt; 的靜態語言檢查就不成問題；&lt;a href=&quot;https://github.com/divmain/GitSavvy&quot;&gt;GitSavvy&lt;/a&gt; 這個新興的 git 輔助套件，讓平時的 commit、diff、merge 不成問題（當然有時還是得用 SourceTree 或是 CLI 介面輔助），&lt;a href=&quot;https://github.com/tednaleid/sublime-EasyMotion&quot;&gt;EasyMotion&lt;/a&gt; 還有內建的 Vintage Mode 讓我幾乎不用動到鍵盤；最近出現的 &lt;a href=&quot;https://github.com/oivva/boxy/&quot;&gt;Boxy Theme&lt;/a&gt; 能讓我以即為簡便的設定檔方式設定介面，包含各元件的字體，讓我徹底換掉沒時間支援的自訂主題：&lt;a href=&quot;https://github.com/Yukaii/Oceanic-Seti-ST3&quot;&gt;Oceanic Seti&lt;/a&gt;，以及最近大神推薦的 &lt;a href=&quot;https://github.com/karelvuong/st-primer/&quot;&gt;primer theme&lt;/a&gt;。&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://lh3.googleusercontent.com/1TzDNfasHb9xTGxOQikoklQf3QfROd1VxPgOXvdo1EOuaUiJViBLjIIP9-LXKAEEM34Az8th0As8wMny0EcaD8p4qqGdEK98CcAogGGhl9XF7H8fHQBx8c8oVJoL7YOgiWJLSLs-7CdaaFtJ5RFkY05wjpnD-k-9zu4HoOLQwSgYxmy2oW_DdocLB03-LOjr6pNb39_1eoNtM4DoXrsx-7C_jE3HBrD-lykeyXXr1PPUuSzPB5WtBapeFpgXUfeRuQOtoR83czm0p97qm6xdedotPhRYvj_CwkzFiFjGmjBUQTWmAFFsY_PRf5hve-kDSFfnXBQB5TPu3DqVluwAXNTpr5xYxRO94t6oIm1MUXhyj007ZG5YCHBSvc-Veoio0DYO16GHmCo45Z0Mxr2c0_WIKGXeQV1IDsra_kIIaIF5RyMh00Wev2TySo5qGWa-rbsy1WodZ4sXEGxprIjFqdsoY20P0OubaPtpv6c4JuN7NQZuPqkz-E-3m7nFoTvxJUcbg8M9rIGGP0qxHvYiwCfgD1vg281IhduUcvyFAJqS4S2qh5_X_YmoIfBzMohlcwuCmY_2egbIoltd0zFb_CGDg9RfIi4a=s800&quot; alt=&quot;Sublime Text&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://lh3.googleusercontent.com/1TzDNfasHb9xTGxOQikoklQf3QfROd1VxPgOXvdo1EOuaUiJViBLjIIP9-LXKAEEM34Az8th0As8wMny0EcaD8p4qqGdEK98CcAogGGhl9XF7H8fHQBx8c8oVJoL7YOgiWJLSLs-7CdaaFtJ5RFkY05wjpnD-k-9zu4HoOLQwSgYxmy2oW_DdocLB03-LOjr6pNb39_1eoNtM4DoXrsx-7C_jE3HBrD-lykeyXXr1PPUuSzPB5WtBapeFpgXUfeRuQOtoR83czm0p97qm6xdedotPhRYvj_CwkzFiFjGmjBUQTWmAFFsY_PRf5hve-kDSFfnXBQB5TPu3DqVluwAXNTpr5xYxRO94t6oIm1MUXhyj007ZG5YCHBSvc-Veoio0DYO16GHmCo45Z0Mxr2c0_WIKGXeQV1IDsra_kIIaIF5RyMh00Wev2TySo5qGWa-rbsy1WodZ4sXEGxprIjFqdsoY20P0OubaPtpv6c4JuN7NQZuPqkz-E-3m7nFoTvxJUcbg8M9rIGGP0qxHvYiwCfgD1vg281IhduUcvyFAJqS4S2qh5_X_YmoIfBzMohlcwuCmY_2egbIoltd0zFb_CGDg9RfIi4a=s800&quot; alt=&quot;Sublime Text&quot;&gt;&lt;/p&gt;
 
-&lt;h2 id=&quot;atom-text-editor&quot;&gt;Atom Text Editor&lt;/h2&gt;
+&lt;h2&gt;Atom Text Editor&lt;/h2&gt;
 
-&lt;p&gt;套件裝不完系列。有著更佳易用的套件安裝系統，不過在多開編輯檔案時，有時會發現程式碼高亮緩慢，捲動不順。介面單靠 css 就可以自訂，有著比起 Sublime 介面更好的 autocomplete，linter 提示更佳合理。有內嵌的 terminal 插件（&lt;code class=&quot;highlighter-rouge&quot;&gt;platformio-ide-terminal&lt;/code&gt;），不過多開仍舊頓挫；資料夾內搜尋預設排除 &lt;code class=&quot;highlighter-rouge&quot;&gt;.gitignore&lt;/code&gt; 列表。tab 無法摺疊（tab folding）十分困擾，不過社群力驚人，或許過不了多久效能又能一大躍進吧。atom 有 &lt;code class=&quot;highlighter-rouge&quot;&gt;timecop&lt;/code&gt; 這個插件，可以監看每次啟動各個插件所消耗的時間，真是走到另一個奇妙境界了 XD。&lt;/p&gt;
+&lt;p&gt;套件裝不完系列。有著更佳易用的套件安裝系統，不過在多開編輯檔案時，有時會發現程式碼高亮緩慢，捲動不順。介面單靠 css 就可以自訂，有著比起 Sublime 介面更好的 autocomplete，linter 提示更佳合理。有內嵌的 terminal 插件（&lt;code&gt;platformio-ide-terminal&lt;/code&gt;），不過多開仍舊頓挫；資料夾內搜尋預設排除 &lt;code&gt;.gitignore&lt;/code&gt; 列表。tab 無法摺疊（tab folding）十分困擾，不過社群力驚人，或許過不了多久效能又能一大躍進吧。atom 有 &lt;code&gt;timecop&lt;/code&gt; 這個插件，可以監看每次啟動各個插件所消耗的時間，真是走到另一個奇妙境界了 XD。&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://lh3.googleusercontent.com/K_Frf6tKJ4YwwG8LtG6YfqXpzC21AYbcb7vv7sbK0bnp9gYtoy3Wd2zJ3ncA3Nc5OYegV0ii3uLtfy5Z3MzZu5916zQ5AajJsa3kjvp5GEQr5BjVwEyFZE1QKNA3I2EzkovbdR4ZF-nGGssgwKrwzw6NBeQ8JnmClpXGKUJfiAsAPFNa8aOqakICu2SLbG0gfABtx86NPiRjgAD2h1hXZnj3S9ztdOO5F2-0-Fs-PVIhMGpy5yrj4SidVUn0OmjFmyaBGPANY_Xfkl5ulZF0WEl-ffPqu55G3SimXWnP6KEqCXj2ChuuO_HX3qiycazP0j3GMSxJY2MVLptzZXcACkowLs4gWMow09ZdH9oe1MSMxclNneoccvNSAZ9DyGsxTdZejgmcNT4harDopf9RteXI1CH6bwojar72Q4bQAXu00BwtBYQGWPFNknfvjG4HBoMf_8FQKruyTZqJVJx9R_JCsM8Lnr-7dnMLT1AEENRWt7zyxqFIg4t1dMCstbMECcjJueqANMCI--Hh4CxrCuKcNHAUmkOJh8_dBxTHZ9pxEuyrXoeyz5OxR2zxXIBiKtwBdX1RCxZU2Fp4dGSRbgAPYvpZfwd0=s800&quot; alt=&quot;Atom&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://lh3.googleusercontent.com/K_Frf6tKJ4YwwG8LtG6YfqXpzC21AYbcb7vv7sbK0bnp9gYtoy3Wd2zJ3ncA3Nc5OYegV0ii3uLtfy5Z3MzZu5916zQ5AajJsa3kjvp5GEQr5BjVwEyFZE1QKNA3I2EzkovbdR4ZF-nGGssgwKrwzw6NBeQ8JnmClpXGKUJfiAsAPFNa8aOqakICu2SLbG0gfABtx86NPiRjgAD2h1hXZnj3S9ztdOO5F2-0-Fs-PVIhMGpy5yrj4SidVUn0OmjFmyaBGPANY_Xfkl5ulZF0WEl-ffPqu55G3SimXWnP6KEqCXj2ChuuO_HX3qiycazP0j3GMSxJY2MVLptzZXcACkowLs4gWMow09ZdH9oe1MSMxclNneoccvNSAZ9DyGsxTdZejgmcNT4harDopf9RteXI1CH6bwojar72Q4bQAXu00BwtBYQGWPFNknfvjG4HBoMf_8FQKruyTZqJVJx9R_JCsM8Lnr-7dnMLT1AEENRWt7zyxqFIg4t1dMCstbMECcjJueqANMCI--Hh4CxrCuKcNHAUmkOJh8_dBxTHZ9pxEuyrXoeyz5OxR2zxXIBiKtwBdX1RCxZU2Fp4dGSRbgAPYvpZfwd0=s800&quot; alt=&quot;Atom&quot;&gt;&lt;/p&gt;
 
-&lt;h2 id=&quot;visual-studio-code&quot;&gt;Visual Studio Code&lt;/h2&gt;
+&lt;h2&gt;Visual Studio Code&lt;/h2&gt;
 
-&lt;p&gt;後起之秀，只能讚歎我軟技術力威能。同源自 Atom 的 Electron Framework，不過卻被我軟寫的更佳滑嫩順暢，順暢程度宛若 Native，&lt;del&gt;早就叫你不要用 CoffeScript 要用 TypeScript 了吼&lt;/del&gt;，在即將推出的六月份更新，也加入了 Tab 實作、多開 Terminal 支援（對你沒看錯，官方支援 Terminal），以及新的插件安裝介面。我軟不斷採納 &lt;a href=&quot;https://visualstudio.uservoice.com/forums/293070-visual-studio-code/&quot;&gt;UserVoice&lt;/a&gt; 上的使用者反饋，推出時最大賣點為內建 intellisense 的 code complete，官方支援的 debugger 還有 git tools，另外最近還出現了官方支援的 react-native 插件……&lt;a href=&quot;https://marketplace.visualstudio.com&quot;&gt;套件商店&lt;/a&gt;也是蓬勃發展中。你怎麽能不愛他呢？XD&lt;/p&gt;
+&lt;p&gt;後起之秀，只能讚歎我軟技術力威能。同源自 Atom 的 Electron Framework，不過卻被我軟寫的更佳滑嫩順暢，順暢程度宛若 Native，&lt;del&gt;早就叫你不要用 CoffeScript 要用 TypeScript 了吼&lt;/del&gt;，在即將推出的六月份更新，也加入了 Tab 實作、多開 Terminal 支援（對你沒看錯，官方支援 Terminal），以及新的插件安裝介面。我軟不斷採納 &lt;a href=&quot;https://visualstudio.uservoice.com/forums/293070-visual-studio-code/&quot;&gt;UserVoice&lt;/a&gt; 上的使用者反饋，推出時最大賣點為內建 intellisense 的 code complete，官方支援的 debugger 還有 git tools，另外最近還出現了官方支援的 react-native 插件......&lt;a href=&quot;https://marketplace.visualstudio.com&quot;&gt;套件商店&lt;/a&gt;也是蓬勃發展中。你怎麽能不愛他呢？XD&lt;/p&gt;
 
-&lt;p&gt;看看下圖，連 syntax highlight 程度都完勝……真是花俏啊，驕傲的兔子。&lt;/p&gt;
+&lt;p&gt;看看下圖，連 syntax highlight 程度都完勝......真是花俏啊，驕傲的兔子。&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://lh3.googleusercontent.com/qrZaLIwG3cYV_uKDbAxb-nh_OHt55TeUjg3krrNLgPsRI1X1_yc6vv6vLYDaCStUHoCWulFTx-AbayRUoGlh44tRnE84POO7WicMuFyWfIqmvfhUbAbGvOkggXT3Ekbr2eAlEKEP2kjfKTFTz3WrWwObX-W2Fti52m0QGdjLCGcjPt6qjPnLPhtdxCOLj_ZCpl_sxiYCHwd9DDrfL_FetwtPWQsWVze4BF7UY7Kz9y2RDL3G8k9b3bCtqAjiv7dIL03WP-WYWl3MDppt0imrxpZhOe_SD7g3csbJss_O2SOO20Og8Tcki4Q2rrQx8C4GkBI-SCwa_4Wi1cuNZX7zQ2_xxpSz0w4b4kEn72OxhK7rRKO7q9C1S9Sm9ULEYvMq2dZd4skEjKmS2xNkETEYgPDtyU_hutgyY5LcrfApAW6akLIY3sHNPK0SjdtmSuU_L_Z2A1bbRFeY548lyt9NizQn9ddUqn2WYBbw45UWBDiW-cCTLpiNCWjj7yED-04h6Tgw2yjEB_g-HAHujS6IGtQtgmHa56Tc_WqjzESOxIaCfCxYWMetCzMD-DDNi8c9wIGDXj-jDifMc3bGOVXQWf-9Jd6PKvDp=w1053-h735-no&quot; alt=&quot;VSCode&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://lh3.googleusercontent.com/qrZaLIwG3cYV_uKDbAxb-nh_OHt55TeUjg3krrNLgPsRI1X1_yc6vv6vLYDaCStUHoCWulFTx-AbayRUoGlh44tRnE84POO7WicMuFyWfIqmvfhUbAbGvOkggXT3Ekbr2eAlEKEP2kjfKTFTz3WrWwObX-W2Fti52m0QGdjLCGcjPt6qjPnLPhtdxCOLj_ZCpl_sxiYCHwd9DDrfL_FetwtPWQsWVze4BF7UY7Kz9y2RDL3G8k9b3bCtqAjiv7dIL03WP-WYWl3MDppt0imrxpZhOe_SD7g3csbJss_O2SOO20Og8Tcki4Q2rrQx8C4GkBI-SCwa_4Wi1cuNZX7zQ2_xxpSz0w4b4kEn72OxhK7rRKO7q9C1S9Sm9ULEYvMq2dZd4skEjKmS2xNkETEYgPDtyU_hutgyY5LcrfApAW6akLIY3sHNPK0SjdtmSuU_L_Z2A1bbRFeY548lyt9NizQn9ddUqn2WYBbw45UWBDiW-cCTLpiNCWjj7yED-04h6Tgw2yjEB_g-HAHujS6IGtQtgmHa56Tc_WqjzESOxIaCfCxYWMetCzMD-DDNi8c9wIGDXj-jDifMc3bGOVXQWf-9Jd6PKvDp=w1053-h735-no&quot; alt=&quot;VSCode&quot;&gt;&lt;/p&gt;
 
 &lt;p&gt;現在最阻擋我使用 VSCode 的功能只剩 minimap ，以及有時 cpu 資源消耗過高的情況。畢竟不是 Native 嘛，但我想再這樣發展下去，追上 Atom 也不是不可能啊。&lt;/p&gt;
 
 &lt;p&gt;值得一提的是，雖然 VSCode 的設定不像 Atom 有 GUI 可以勾選，也是和 Sublime 一樣需要編寫設定檔，不過設定檔有 two panel 對照，自行安裝插件的預設設定也會擁有自己的 namespace，被串接到預設設定檔的下方，再配上 VSCode 強大的 autocomplete，可遠超 Sublime 幾條街啊！&lt;/p&gt;
 
-&lt;h2 id=&quot;section-1&quot;&gt;結論&lt;/h2&gt;
+&lt;h2&gt;結論&lt;/h2&gt;
 
 &lt;p&gt;&lt;del&gt;你怎麽不去用 vim 呢？我都用 &lt;a href=&quot;http://vim-bootstrap.com/&quot;&gt;Vim Bootstrap&lt;/a&gt;&lt;/del&gt;。總之，平時我還是以 Sublime 作為主要工具，但也對 VSCode 的發展十分看好。那麼 Atom 呢？真的就是個 Hackable 的 Editor，十分適合拿來惡搞，只要你想，回到 90 年代也未嘗不可：&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://lh3.googleusercontent.com/79NInG4caoVFAZlGOUKajtxlw5692Y3dnQDHwDomsBGKoT3q4hOaYGnSUUQCTyvSJO7ikL1DvsAH6n81kDWsx-36QtQM8VnfK5R-aJiFqP2W5vdQpzfwKjw7iw771dzP_eWf9eMU2DYDVX-WAg_Q_V_LmmQDqJMyx9Jx_Rx05Td15P6hzAmnJhSXuHlKUtVg2dChf22kOwZU2AvtHEOa5qhbTBI2pu6nbUwEODaEKpX5MIG5D0r-fobk9NrgkdGrGr6ZdaLy0iFJtqVNdRB3JolAU3yttOgWG_Nfp3Rihn9YZ-WDexU_d4A9D-Vu241WKnl9B0Y9oZ9gVjC7vbfhkbliGI9hfLWuusUVCAMjdBfRcH1lohoLifYeEnDJz2m7Qa88wbJxmCdoK8pNy50fAks8KehaQYI4FcKHg6GvyBbCoxOqTbX37VcEj8KA7owoF9OaFjWnbM0ngWOrqvjz7xwjMsSQS0l_zZzmQZAmIT7Dw8IPZQ4yb_W-16-Qu3fdw3kjsGfPWpAnb1l2kPMpX-BPwjk8GCX7ao2cHdsJz1R_MDmnu-XtBPiNV05kXlfoTucjmCBnSWK4Agd5TE05YQRFtqWq-iJs=s800&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://lh3.googleusercontent.com/79NInG4caoVFAZlGOUKajtxlw5692Y3dnQDHwDomsBGKoT3q4hOaYGnSUUQCTyvSJO7ikL1DvsAH6n81kDWsx-36QtQM8VnfK5R-aJiFqP2W5vdQpzfwKjw7iw771dzP_eWf9eMU2DYDVX-WAg_Q_V_LmmQDqJMyx9Jx_Rx05Td15P6hzAmnJhSXuHlKUtVg2dChf22kOwZU2AvtHEOa5qhbTBI2pu6nbUwEODaEKpX5MIG5D0r-fobk9NrgkdGrGr6ZdaLy0iFJtqVNdRB3JolAU3yttOgWG_Nfp3Rihn9YZ-WDexU_d4A9D-Vu241WKnl9B0Y9oZ9gVjC7vbfhkbliGI9hfLWuusUVCAMjdBfRcH1lohoLifYeEnDJz2m7Qa88wbJxmCdoK8pNy50fAks8KehaQYI4FcKHg6GvyBbCoxOqTbX37VcEj8KA7owoF9OaFjWnbM0ngWOrqvjz7xwjMsSQS0l_zZzmQZAmIT7Dw8IPZQ4yb_W-16-Qu3fdw3kjsGfPWpAnb1l2kPMpX-BPwjk8GCX7ao2cHdsJz1R_MDmnu-XtBPiNV05kXlfoTucjmCBnSWK4Agd5TE05YQRFtqWq-iJs=s800&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
 </description>
         <pubDate>Wed, 22 Jun 2016 00:00:00 +0800</pubDate>
         <link>http://yukaii.tw/blog/2016/06/22/sublime-atom-vscode-comparison-mid-2016/</link>
@@ -355,50 +284,39 @@ bundle install
     
       <item>
         <title>在 GitHub 上設定 Jekyll 和自訂網域</title>
-        <description>&lt;p&gt;花了時間把 Jekyll 建起來。Ghost 是很棒沒錯，不過想要完全掌控還要多花許多時間，純粹靜態網頁更為靈活，再配上 &lt;code class=&quot;highlighter-rouge&quot;&gt;jekyll-assets&lt;/code&gt;，如果真的需要點 ES6 還是可以硬上的。&lt;/p&gt;
+        <description>&lt;p&gt;花了時間把 Jekyll 建起來。Ghost 是很棒沒錯，不過想要完全掌控還要多花許多時間，純粹靜態網頁更為靈活，再配上 &lt;code&gt;jekyll-assets&lt;/code&gt;，如果真的需要點 ES6 還是可以硬上的。&lt;/p&gt;
 
-&lt;h2 id=&quot;git-subtree&quot;&gt;Git Subtree&lt;/h2&gt;
+&lt;h2&gt;Git Subtree&lt;/h2&gt;
 
-&lt;p&gt;我把原始的 branch 命名為 &lt;code class=&quot;highlighter-rouge&quot;&gt;jekyll&lt;/code&gt;，用 subtree 把 Jekyll 產生的 &lt;code class=&quot;highlighter-rouge&quot;&gt;_site&lt;/code&gt; 資料夾切開：&lt;/p&gt;
-
-&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git checkout -b jekyll &lt;span class=&quot;c&quot;&gt;# 原本在 master&lt;/span&gt;
+&lt;p&gt;我把原始的 branch 命名為 &lt;code&gt;jekyll&lt;/code&gt;，用 subtree 把 Jekyll 產生的 &lt;code&gt;_site&lt;/code&gt; 資料夾切開：&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;git checkout -b jekyll &lt;span class=&quot;c&quot;&gt;# 原本在 master&lt;/span&gt;
 git branch -D master &lt;span class=&quot;c&quot;&gt;# 把原本 master branch 刪掉&lt;/span&gt;
 git subtree split --prefix&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;_site -b master &lt;span class=&quot;c&quot;&gt;# subtree 切割&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;到這算切割完畢，接下來每次更新時，都從原本 &lt;code class=&quot;highlighter-rouge&quot;&gt;jekyll&lt;/code&gt; branch commit，然後 push subtree 的 branch：&lt;/p&gt;
-
-&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git commit -m &lt;span class=&quot;s2&quot;&gt;&quot;commit on jekyll branch&quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;到這算切割完畢，接下來每次更新時，都從原本 &lt;code&gt;jekyll&lt;/code&gt; branch commit，然後 push subtree 的 branch：&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;git commit -m &lt;span class=&quot;s2&quot;&gt;&quot;commit on jekyll branch&quot;&lt;/span&gt;
 git subtree push --prefix _site origin master &lt;span class=&quot;c&quot;&gt;# 將 _site 的 subtree 推到 origin 的 master branch&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h2 id=&quot;github-user-page-custom-domain&quot;&gt;GitHub user page custom domain&lt;/h2&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h2&gt;GitHub user page custom domain&lt;/h2&gt;
 
 &lt;blockquote&gt;
-  &lt;p&gt;二圖流&lt;/p&gt;
+&lt;p&gt;二圖流&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;p&gt;&lt;img src=&quot;/assets/blog/cloudflare1.png&quot; width=&quot;967&quot; height=&quot;117&quot; alt=&quot;blog/cloudflare1.png&quot; /&gt;
-&lt;img src=&quot;/assets/blog/cloudflare2.png&quot; width=&quot;959&quot; height=&quot;59&quot; alt=&quot;blog/cloudflare2.png&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/blog/cloudflare1.png&quot; width=&quot;967&quot; height=&quot;117&quot; alt=&quot;blog/cloudflare1.png&quot;&gt;
+&lt;img src=&quot;/assets/blog/cloudflare2.png&quot; width=&quot;959&quot; height=&quot;59&quot; alt=&quot;blog/cloudflare2.png&quot;&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;CNAME&lt;/code&gt; 檔：&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;www.yukaii.tw
+&lt;p&gt;&lt;code&gt;CNAME&lt;/code&gt; 檔：&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-&quot; data-lang=&quot;&quot;&gt;www.yukaii.tw
 yukaii.tw
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h2 id=&quot;section&quot;&gt;其它自訂&lt;/h2&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h2&gt;其它自訂&lt;/h2&gt;
 
 &lt;p&gt;Jekyll 也有 partial 挺方便的，我用來做 image caption，比如以下這段：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-txt&quot;&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-txt&quot; data-lang=&quot;txt&quot;&gt;
 {% include image.html url=&quot;http://i.imgur.com/gqOPCwP.jpg&quot; description=&quot;六月不要啊啊啊，應該沒有第二行啦&quot; %}
 
-&lt;/code&gt;&lt;/pre&gt;
-
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;就會產生：&lt;/p&gt;
 
 &lt;table class=&quot;image&quot; style=&quot;margin-bottom: 15px&quot;&gt;
@@ -406,7 +324,7 @@ yukaii.tw
 &lt;tr&gt;&lt;td&gt;&lt;img src=&quot;http://i.imgur.com/gqOPCwP.jpg&quot; alt=&quot;六月不要啊啊啊，應該沒有第二行啦&quot; width=&quot;&quot; height=&quot;&quot; /&gt;&lt;/td&gt;&lt;/tr&gt;
 &lt;/table&gt;
 
-&lt;p&gt;需要在 &lt;code class=&quot;highlighter-rouge&quot;&gt;_includes&lt;/code&gt; 資料夾新增 &lt;code class=&quot;highlighter-rouge&quot;&gt;image.html&lt;/code&gt;，詳情可&lt;a href=&quot;http://stackoverflow.com/questions/19331362/using-an-image-caption-in-markdown-jekyll&quot;&gt;參考這裡&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;需要在 &lt;code&gt;_includes&lt;/code&gt; 資料夾新增 &lt;code&gt;image.html&lt;/code&gt;，詳情可&lt;a href=&quot;http://stackoverflow.com/questions/19331362/using-an-image-caption-in-markdown-jekyll&quot;&gt;參考這裡&lt;/a&gt;&lt;/p&gt;
 </description>
         <pubDate>Thu, 09 Jun 2016 00:30:54 +0800</pubDate>
         <link>http://yukaii.tw/blog/2016/06/09/setup-jekyll-on-github-page/</link>
@@ -432,13 +350,12 @@ yukaii.tw
 &lt;blockquote&gt;
 此份 Repo 是 118 104 第二學年度，CS5124701 巨量資料與分析的課堂作業一。作業一的要求就是寫一隻應用到 Twitter 或是 Github 的爬蟲，並把爬下的資料格式化成 json。在 3/29 的這週，教了 ELK Stack 設定方法，所以 Crawler 程式並沒有多做特別設定，直接套用課堂簡報上的 Logstash Twitter 樣板。
 
-&lt;br /&gt;&lt;br /&gt;
+&lt;br/&gt;&lt;br/&gt;
 
 以下記錄一下 ELK 安裝筆記，與課堂上略有不同的部分。說明一下，因為主力機 MBA 的儲存空間快炸了，所以我在 AWS 上開了一台 t2.medium 的機器當做跑 Spark 以及 ELK Stack 的平臺。在上週的課程簡報中 ELK 幾乎都是以下載 binary zip 包的方式設定，因為習慣用 apt 之流等套件管理程式，裝 ELK 相關設定檔也跟 binary zip 不太一樣。
 &lt;/blockquote&gt;
 
 &lt;p&gt;就是我龜毛所以要特別租一台機器操作。說到這，最近 Google Cloud Platform(GCP) 一註冊就送三百鎂的額度可以用，很讚，早知道就直接裝在上面了，幹嘛買啥 EC2 XDDD。詳情就請移駕到小弟 &lt;a href=&quot;https://github.com/Yukaii/CS5124701&quot;&gt;Github&lt;/a&gt;。&lt;/p&gt;
-
 </description>
         <pubDate>Thu, 07 Apr 2016 13:43:00 +0800</pubDate>
         <link>http://yukaii.tw/blog/2016/04/07/16th-elk-installation-notes/</link>
@@ -461,28 +378,29 @@ yukaii.tw
         <title>第十五篇 - 使用 AWS CodeDeploy 跑起你的 WordPress - 官方教學筆記</title>
         <description>&lt;p&gt;為何要部屬 WordPress？就因為他是 &lt;a href=&quot;http://docs.aws.amazon.com/codedeploy/latest/userguide/welcome.html&quot;&gt;CodeDeploy&lt;/a&gt; Tutorial 的第一個範例。AWS Documention 有個特點，就是到處 Reference 來 Reference 去，你很難在單一流程完整跑完所有的任務，非得要搭著其它份文件一起對照。筆者英文也沒那麼好，看著看著就會漏東漏西，文件又滿滿的都是字，沒有圖片可以參考，真令人崩潰。&lt;/p&gt;
 
-&lt;p&gt;CodeDeploy 是 AWS 眾多部屬方案中，看起來比較單純的一種。寫好 Setup 程式的 Shell Script，再聲明好 &lt;code class=&quot;highlighter-rouge&quot;&gt;appspec.yml&lt;/code&gt;，定義每個 deploy life cycle 不同的階段要跑的動作，用 AWS CLI Tool 把 repo 打包上傳到 S3，再到 CodeDeploy console 定義應用程式部屬規則、後臺發起一個 deployment（一個部屬行動），CodeDeploy Service 便會把你的 code 部屬到你設定的 Deployment Group，依照 Group 設定的機器不同，你可以在同一個機器部屬很多個 Application，或是同一個 Application 部屬到很多台機器，端看設定，啦。&lt;/p&gt;
+&lt;p&gt;CodeDeploy 是 AWS 眾多部屬方案中，看起來比較單純的一種。寫好 Setup 程式的 Shell Script，再聲明好 &lt;code&gt;appspec.yml&lt;/code&gt;，定義每個 deploy life cycle 不同的階段要跑的動作，用 AWS CLI Tool 把 repo 打包上傳到 S3，再到 CodeDeploy console 定義應用程式部屬規則、後臺發起一個 deployment（一個部屬行動），CodeDeploy Service 便會把你的 code 部屬到你設定的 Deployment Group，依照 Group 設定的機器不同，你可以在同一個機器部屬很多個 Application，或是同一個 Application 部屬到很多台機器，端看設定，啦。&lt;/p&gt;
 
 &lt;p&gt;當然，AWS 系列就是啥都可以用 CLI 跑，只要開好對應權限的 role 並拿到 Access ID 和 Secret Key，我們也可以交由第三方 CI 服務，比如說 CodeShip，來幫我們完成「打包程式碼並上傳 S3」、「發起部屬行動」這種的工作。&lt;/p&gt;
 
 &lt;p&gt;以下便大致記錄一下本日折騰的感想與流程。&lt;/p&gt;
 
 &lt;!--more--&gt;
-&lt;p&gt;## 概念&lt;/p&gt;
+
+&lt;h2&gt;概念&lt;/h2&gt;
 
 &lt;p&gt;CodeDeploy 約略是 14 年 11 月推出的服務，在此幹一張官圖，看圖說故事。
-&lt;img src=&quot;http://docs.aws.amazon.com/codedeploy/latest/userguide/images/sds_architecture.png&quot; alt=&quot;CD&quot; /&gt;&lt;/p&gt;
+&lt;img src=&quot;http://docs.aws.amazon.com/codedeploy/latest/userguide/images/sds_architecture.png&quot; alt=&quot;CD&quot;&gt;&lt;/p&gt;
 
 &lt;ol&gt;
-  &lt;li&gt;在你的開發機器上寫好 code 、設定好 appspec.yml，上傳到 github 或是打包傳到 s3&lt;/li&gt;
-  &lt;li&gt;在 CodeDeploy 設定好部屬邏輯&lt;/li&gt;
-  &lt;li&gt;每一台 instance 的 agent 把 codebase 從 s3 或 github 拉下來&lt;/li&gt;
-  &lt;li&gt;跑部屬 script！裝裝裝&lt;/li&gt;
+&lt;li&gt;在你的開發機器上寫好 code 、設定好 appspec.yml，上傳到 github 或是打包傳到 s3&lt;/li&gt;
+&lt;li&gt;在 CodeDeploy 設定好部屬邏輯&lt;/li&gt;
+&lt;li&gt;每一台 instance 的 agent 把 codebase 從 s3 或 github 拉下來&lt;/li&gt;
+&lt;li&gt;跑部屬 script！裝裝裝&lt;/li&gt;
 &lt;/ol&gt;
 
 &lt;p&gt;大概醬，英文版可以看&lt;a href=&quot;http://docs.aws.amazon.com/codedeploy/latest/userguide/welcome.html&quot;&gt;這&lt;/a&gt;，另外強烈建議 aws 系列最好都先從 &lt;a href=&quot;http://docs.aws.amazon.com/codedeploy/latest/userguide/concepts.html&quot;&gt;Concept&lt;/a&gt; 開始看，要不然鐵定被無限連結地獄搞死，崩潰。&lt;/p&gt;
 
-&lt;h2 id=&quot;section&quot;&gt;名詞解說&lt;/h2&gt;
+&lt;h2&gt;名詞解說&lt;/h2&gt;
 
 &lt;p&gt;可以開好&lt;a href=&quot;http://docs.aws.amazon.com/codedeploy/latest/userguide/getting-started-set-up-instance.html&quot;&gt;官方教學&lt;/a&gt;的分頁，淨身準備一下，接下來講解教學中會出現的名詞。其實名詞解釋放在教學開頭實在是挺不好的，我自己跑教學也是跟著實作之後才有點感覺，在還沒進行操作前做的說明都是廢話。話雖然是這樣說啦，可是這是筆記又不是演講，你翻到下面還是可以翻回來看啊，所以我還是寫在這了。呵呵。滿多中文名詞都我隨便翻的 XD，中文文件越少，我就掌握著更多的話語權（才怪），大家趕快來寫文件吧哈哈。&lt;/p&gt;
 
@@ -490,19 +408,18 @@ yukaii.tw
 
 &lt;p&gt;不同的權限，在 IAM 裡就叫做 Policy（方針）。當人有了多項 Policy 之後，能力越大，責任越重，你所要承擔的就是職責了（屁話），在 IAM 裡我們把他稱作角色職責 (Role）。在 AWS 裡面有不同的服務，Role 的類型也都不同，比如 EC2 Instance 的 Role 就叫 Instance Profile，用來管理 EC2 能有那些權限，在 CodeDeploy 官方教學裡，EC2 的職責是把用 agent 把 codebase 從 s3 拉下來，所以在啟動 Instance 之前，我們必須先設定好能夠存取 S3 的 Instance Profile，並在啟動(Launch) Instance 把 Role 指派給他。&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://i.imgur.com/0ulM7UH.png&quot; alt=&quot;&quot; /&gt;
+&lt;p&gt;&lt;img src=&quot;http://i.imgur.com/0ulM7UH.png&quot; alt=&quot;&quot;&gt;
 不同的 Role Type。CodeDeploy 教學中用到的分別是 CodeDeploy 和 EC2 的 Role Type。&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://i.imgur.com/on614NX.png&quot; alt=&quot;&quot; /&gt;
+&lt;p&gt;&lt;img src=&quot;http://i.imgur.com/on614NX.png&quot; alt=&quot;&quot;&gt;
 CodeDeploy 的 Service Role，直接掛上 AWS 建立好的 Policy，可以直接看出使用了那些權限。&lt;/p&gt;
 
-&lt;h2 id=&quot;section-1&quot;&gt;跑教學…咦&lt;/h2&gt;
+&lt;h2&gt;跑教學...咦&lt;/h2&gt;
 
 &lt;p&gt;我前面嫌的要死，就因為這次跑教學真的打死也找不到安裝 CodeDeploy agent 的步驟，反反覆覆翻了教學幾次，卻一直找不到哪裡出錯。以下來回顧一下。&lt;/p&gt;
 
 &lt;p&gt;首先，&lt;a href=&quot;http://docs.aws.amazon.com/codedeploy/latest/userguide/getting-started-set-up-instance.html&quot;&gt;照著教學&lt;/a&gt;的說明先在 EC2 Launch 一個 Instance。他第一步教學的作用其實就是給你一個預先裝好 aws cli tools 的環境，好使用 cli 界面打包上傳 code 到 s3，用你自己的電腦其實就可以了。設定好 Keypair，透過 pem 檔 ssh 進機器後，先來&lt;a href=&quot;http://docs.aws.amazon.com/codedeploy/latest/userguide/how-to-run-agent.html&quot;&gt;安裝 codedeploy agent 到機器上&lt;/a&gt;。裝到一半你會發現連 agent 的 aws s3 bucket 都抓不下來，原來是我們還沒設定 EC2 的 &lt;a href=&quot;http://docs.aws.amazon.com/codedeploy/latest/userguide/how-to-configure-existing-instance.html&quot;&gt;Instance Profile&lt;/a&gt;，也就是 EC2 類型的 Role。請去 IAM 設定，並如同連結裡面加上 S3 的存取權限。這權限一定要開，即使現在用 wget 直接拉 bucket 的 agent install script 下來裝完，之後要從 s3 部屬時沒開也沒法抓啊。&lt;/p&gt;
-
-&lt;div class=&quot;language-json highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-json&quot; data-lang=&quot;json&quot;&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
     &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;Version&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;2012-10-17&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
     &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;Statement&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
       &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
@@ -513,32 +430,28 @@ CodeDeploy 的 Service Role，直接掛上 AWS 建立好的 Policy，可以直�
       &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
     &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
   &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;&lt;em&gt;範例 S3 的 widecard 權限，當然還是詳細指定比較好。先新增 Policy，在建立 EC2 Type 的 Role Attach 上去，或是建立 Role 時寫成 Inline Policy。&lt;/em&gt;&lt;/p&gt;
 
 &lt;p&gt;是的。就是這兩點搞死我。&lt;strong&gt;第一，EC2 Role 要先設定 S3 存取權，並在 Instance 建立時掛載。第二，CodeDeploy Agent 要先裝上 Instance&lt;/strong&gt;。&lt;/p&gt;
 
 &lt;p&gt;教學是都搜尋的到啦，可是排成一個完整版不好嗎，都已經拆 Step by Step 了，還 Lost 一堆，崩潰啦，難怪各種 AWS 代管服務蓬勃發展啊無誤 XDDD&lt;/p&gt;
 
-&lt;h2 id=&quot;section-2&quot;&gt;再跑一次&lt;/h2&gt;
+&lt;h2&gt;再跑一次&lt;/h2&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;首先在 IAM 建立兩個 Role ，一個是給 EC2 的，一個是給 CodeDeploy 的。EC2 Role 直接用上面提到的 S3 Bucket 權限寫進去，EC2 的 Role 又稱 Instance Profile，呵。CodeDeploy 的 Role 直接掛上官方的 CodeDeployPolicy，如圖：
-&lt;img src=&quot;http://i.imgur.com/F15UVaN.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;依照教學 Launch Amazon 的 Linux Instance，記得掛上剛剛建立的 EC2 Role。成功 ssh 連進去後安裝 &lt;a href=&quot;http://docs.aws.amazon.com/codedeploy/latest/userguide/how-to-run-agent.html&quot;&gt;code deploy agent&lt;/a&gt;，ubuntu 就選 apt 的那個，Amazon 自家 Linux 就選 yum 的那個，把他裝起來。&lt;/li&gt;
-  &lt;li&gt;依照教學，把 WordPress 的 Repo 載下來，建立相應的 init script 還有 &lt;code class=&quot;highlighter-rouge&quot;&gt;appspec.yml&lt;/code&gt;。&lt;/li&gt;
-  &lt;li&gt;依照教學，利用 aws cli 建立 application，上傳 s3，這邊依照教學要開一份 IAM 的 User，掛上 s3 put 的權限，下載 User 的 credential (id &amp;amp; secret key)，跑 aws configure 填入設定，這樣才可以在這臺暫時的工作機上傳檔案到 s3。依照教學打包 WordPress 上傳 s3。&lt;/li&gt;
-  &lt;li&gt;到 CodeDeploy Console 建立 Deploy 設定。設定 DeployGroup，權限記得掛上之前建立的 CodeDeploy Service Role，其它照著跑。&lt;/li&gt;
-  &lt;li&gt;建立部屬行動(Deployment，the 名詞)，看有沒有部屬成功。假如連 Events 都沒顯示，大概是 IAM 權限設定有問題，看一下 EC2 Role 和 CodeDeploy Role 有沒有設定正確&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;首先在 IAM 建立兩個 Role ，一個是給 EC2 的，一個是給 CodeDeploy 的。EC2 Role 直接用上面提到的 S3 Bucket 權限寫進去，EC2 的 Role 又稱 Instance Profile，呵。CodeDeploy 的 Role 直接掛上官方的 CodeDeployPolicy，如圖：
+&lt;img src=&quot;http://i.imgur.com/F15UVaN.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;依照教學 Launch Amazon 的 Linux Instance，記得掛上剛剛建立的 EC2 Role。成功 ssh 連進去後安裝 &lt;a href=&quot;http://docs.aws.amazon.com/codedeploy/latest/userguide/how-to-run-agent.html&quot;&gt;code deploy agent&lt;/a&gt;，ubuntu 就選 apt 的那個，Amazon 自家 Linux 就選 yum 的那個，把他裝起來。&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;依照教學，把 WordPress 的 Repo 載下來，建立相應的 init script 還有 &lt;code&gt;appspec.yml&lt;/code&gt;。&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;依照教學，利用 aws cli 建立 application，上傳 s3，這邊依照教學要開一份 IAM 的 User，掛上 s3 put 的權限，下載 User 的 credential (id &amp;amp; secret key)，跑 aws configure 填入設定，這樣才可以在這臺暫時的工作機上傳檔案到 s3。依照教學打包 WordPress 上傳 s3。&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;到 CodeDeploy Console 建立 Deploy 設定。設定 DeployGroup，權限記得掛上之前建立的 CodeDeploy Service Role，其它照著跑。&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;建立部屬行動(Deployment，the 名詞)，看有沒有部屬成功。假如連 Events 都沒顯示，大概是 IAM 權限設定有問題，看一下 EC2 Role 和 CodeDeploy Role 有沒有設定正確&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;大概就這樣啦，這還只是 WordPress 而已，我要部屬的可是 Rails App 欸，之後想必有更細節的其它地方。這樣跑完了一次（還順便被雷了一下午），對 AWS 的理解就更深了，請期待之後的後續文章，哈哈哈（不要說一說就不寫了）&lt;/p&gt;
 
 &lt;p&gt;（完）&lt;/p&gt;
-
 </description>
         <pubDate>Fri, 01 Apr 2016 14:46:00 +0800</pubDate>
         <link>http://yukaii.tw/blog/2016/04/01/15th-use-aws-codedeploy-deploy-wordpress/</link>
@@ -567,32 +480,31 @@ CodeDeploy 的 Service Role，直接掛上 AWS 建立好的 Policy，可以直�
 
 &lt;p&gt;Quip 的好就不用多說了，由 Facebook 前 CTO Bret Taylor &lt;a href=&quot;https://en.wikipedia.org/wiki/Quip&quot;&gt;創立&lt;/a&gt;，最近才在 15 年十月拿到 &lt;a href=&quot;https://www.crunchbase.com/organization/quip/funding-rounds&quot;&gt;30M 的 B 輪投資金&lt;/a&gt;，結合 &lt;a href=&quot;https://medium.com/@btaylor/react-with-c-building-the-quip-mac-and-windows-apps-c63155c1531b#.cmtg0ajpc&quot;&gt;React Native C++ Binding&lt;/a&gt; 強大技術力的 Desktop Client，近幾個月來也&lt;a href=&quot;https://quip.com/blog/&quot;&gt;持續在 UI、功能&lt;/a&gt;上優化，前途真是一片光明啊。&lt;/p&gt;
 
-&lt;p&gt;把 Hackpad 轉移到 Quip 確實是個不錯的決定（鋪陳這麼久就為了這句XD），加上 Quip 官方也非常 Nice 的提供此功能：&lt;/p&gt;
-&lt;blockquote class=&quot;twitter-tweet&quot; data-lang=&quot;zh-tw&quot;&gt;&lt;p lang=&quot;en&quot; dir=&quot;ltr&quot;&gt;Some of our users have asked us for a &lt;a href=&quot;https://twitter.com/hackpad&quot;&gt;@Hackpad&lt;/a&gt; import tool, and we wanted to share it with you. Check it out! &lt;a href=&quot;https://t.co/VstwZVEiLb&quot;&gt;https://t.co/VstwZVEiLb&lt;/a&gt;&lt;/p&gt;&amp;mdash; Quip (@quip) &lt;a href=&quot;https://twitter.com/quip/status/475767564383961088&quot;&gt;2014年6月8日&lt;/a&gt;&lt;/blockquote&gt;
-&lt;script async=&quot;&quot; src=&quot;//platform.twitter.com/widgets.js&quot; charset=&quot;utf-8&quot;&gt;&lt;/script&gt;
+&lt;p&gt;把 Hackpad 轉移到 Quip 確實是個不錯的決定（鋪陳這麼久就為了這句XD），加上 Quip 官方也非常 Nice 的提供此功能：
+&lt;blockquote class=&quot;twitter-tweet&quot; data-lang=&quot;zh-tw&quot;&gt;&lt;p lang=&quot;en&quot; dir=&quot;ltr&quot;&gt;Some of our users have asked us for a &lt;a href=&quot;https://twitter.com/hackpad&quot;&gt;@Hackpad&lt;/a&gt; import tool, and we wanted to share it with you. Check it out! &lt;a href=&quot;https://t.co/VstwZVEiLb&quot;&gt;&lt;a href=&quot;https://t.co/VstwZVEiLb&quot;&gt;https://t.co/VstwZVEiLb&lt;/a&gt;&lt;/a&gt;&lt;/p&gt;&amp;mdash; Quip (@quip) &lt;a href=&quot;https://twitter.com/quip/status/475767564383961088&quot;&gt;2014年6月8日&lt;/a&gt;&lt;/blockquote&gt;
+&lt;script async src=&quot;//platform.twitter.com/widgets.js&quot; charset=&quot;utf-8&quot;&gt;&lt;/script&gt;&lt;/p&gt;
 
 &lt;p&gt;Well, 早在 14 年吶。雖然 Dropbox Paper（前 Hackpad）也有&lt;a href=&quot;https://paper.dropbox.com/doc/Dropbox-Paper-beta-Is-Ready-For-You-Xlvlkb3yI23hLvuZxvn2Q&quot;&gt;提供導入功能&lt;/a&gt;啦，不過還要寫信到客服信箱，產品變你們家的竟然還沒有無痛一鍵導入是哪招啦 XDD。於是我的 Quip 搬家行動是勢在必行了，以下就略述這個從 hackpad 搬家到 quip 的過程。&lt;/p&gt;
 
 &lt;!--more--&gt;
 
 &lt;p&gt;首先進入網頁版的 quip，點選右上的新增文件，選擇 Import、Hackpad：
-&lt;img src=&quot;http://user-image.logdown.io/user/1128/blog/1112/post/682044/fQIA64NTvGEeUis5Kor4_Screen%20Shot%202016-03-26%20at%2012.49.26%20PM.png&quot; alt=&quot;Screen Shot 2016-03-26 at 12.49.26 PM.png&quot; /&gt;
-&lt;img src=&quot;http://user-image.logdown.io/user/1128/blog/1112/post/682044/xfyJX8pgRryigqZyf1GL_Screen%20Shot%202016-03-26%20at%2012.49.33%20PM.png&quot; alt=&quot;Screen Shot 2016-03-26 at 12.49.33 PM.png&quot; /&gt;&lt;/p&gt;
+&lt;img src=&quot;http://user-image.logdown.io/user/1128/blog/1112/post/682044/fQIA64NTvGEeUis5Kor4_Screen%20Shot%202016-03-26%20at%2012.49.26%20PM.png&quot; alt=&quot;Screen Shot 2016-03-26 at 12.49.26 PM.png&quot;&gt;
+&lt;img src=&quot;http://user-image.logdown.io/user/1128/blog/1112/post/682044/xfyJX8pgRryigqZyf1GL_Screen%20Shot%202016-03-26%20at%2012.49.33%20PM.png&quot; alt=&quot;Screen Shot 2016-03-26 at 12.49.33 PM.png&quot;&gt;&lt;/p&gt;
 
 &lt;p&gt;填入 workspace id，還有依照連結點進去看到的 Client ID 和 API Key：
-&lt;img src=&quot;http://user-image.logdown.io/user/1128/blog/1112/post/682044/s6j3UXgnSkOgGrjhHJxS_Screen%20Shot%202016-03-26%20at%2012.49.43%20PM.png&quot; alt=&quot;Screen Shot 2016-03-26 at 12.49.43 PM.png&quot; /&gt;
-&lt;img src=&quot;http://user-image.logdown.io/user/1128/blog/1112/post/682044/75bxVjF0Sc6RSyb5JhCh_Screen%20Shot%202016-03-26%20at%2012.50.13%20PM.png&quot; alt=&quot;Screen Shot 2016-03-26 at 12.50.13 PM.png&quot; /&gt;&lt;/p&gt;
+&lt;img src=&quot;http://user-image.logdown.io/user/1128/blog/1112/post/682044/s6j3UXgnSkOgGrjhHJxS_Screen%20Shot%202016-03-26%20at%2012.49.43%20PM.png&quot; alt=&quot;Screen Shot 2016-03-26 at 12.49.43 PM.png&quot;&gt;
+&lt;img src=&quot;http://user-image.logdown.io/user/1128/blog/1112/post/682044/75bxVjF0Sc6RSyb5JhCh_Screen%20Shot%202016-03-26%20at%2012.50.13%20PM.png&quot; alt=&quot;Screen Shot 2016-03-26 at 12.50.13 PM.png&quot;&gt;&lt;/p&gt;
 
 &lt;p&gt;點開始匯入到單一 Folder 就完成了，但如果你是 workspace 的 admin，你會發現到，&lt;strong&gt;有些在 workspace 不是由你建立的 pads 是不會被匯入的&lt;/strong&gt;，到 Hackpad 的 workspace management 調整 Quip Importer 的權限：&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://i.imgur.com/13MF60X.png&quot; alt=&quot;&quot; /&gt;
-&lt;img src=&quot;http://i.imgur.com/hcLssW5.png&quot; alt=&quot;&quot; /&gt;
+&lt;p&gt;&lt;img src=&quot;http://i.imgur.com/13MF60X.png&quot; alt=&quot;&quot;&gt;
+&lt;img src=&quot;http://i.imgur.com/hcLssW5.png&quot; alt=&quot;&quot;&gt;
 由 Guest 調整成 Member。&lt;/p&gt;
 
 &lt;p&gt;再等一會兒，就會看到你的 Hackpad 們都匯入到 Quip 資料夾中囉。
-&lt;img src=&quot;http://i.imgur.com/NgGR1vi.png&quot; alt=&quot;&quot; /&gt;
+&lt;img src=&quot;http://i.imgur.com/NgGR1vi.png&quot; alt=&quot;&quot;&gt;
 （完）&lt;/p&gt;
-
 </description>
         <pubDate>Sat, 26 Mar 2016 04:25:00 +0800</pubDate>
         <link>http://yukaii.tw/blog/2016/03/26/from-hackpad-to-quip/</link>
@@ -611,25 +523,21 @@ CodeDeploy 的 Service Role，直接掛上 AWS 建立好的 Policy，可以直�
 
 &lt;p&gt;&lt;a href=&quot;https://github.com/Yukaii/uniform-invoice-lottery&quot;&gt;Uniform Invoice Lottery(Github)&lt;/a&gt;&lt;/p&gt;
 
-&lt;h2 id=&quot;section&quot;&gt;安裝&lt;/h2&gt;
-&lt;p&gt;一如往常在 &lt;code class=&quot;highlighter-rouge&quot;&gt;Gemfile&lt;/code&gt; 加上&lt;/p&gt;
+&lt;h2&gt;安裝&lt;/h2&gt;
 
-&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;gem&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;uniform_invoice_lottery&#39;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;p&gt;一如往常在 &lt;code&gt;Gemfile&lt;/code&gt; 加上&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;n&quot;&gt;gem&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;uniform_invoice_lottery&#39;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;然後跑 bundle&lt;/p&gt;
 
-&lt;h2 id=&quot;section-1&quot;&gt;使用範例&lt;/h2&gt;
-
-&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;require&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;uniform_invoice_lottery&#39;&lt;/span&gt;
+&lt;h2&gt;使用範例&lt;/h2&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;nb&quot;&gt;require&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;uniform_invoice_lottery&#39;&lt;/span&gt;
 &lt;span class=&quot;n&quot;&gt;prize&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;UniformInvoiceLottery&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;check&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;82930261&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;time: &lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Time&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2015&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;7&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;26&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 &lt;span class=&quot;n&quot;&gt;prize&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;UniformInvoiceLottery&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;check&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;82930261&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;year: &lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2015&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;month: &lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;7&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;day: &lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;26&lt;/span&gt;
 
 &lt;span class=&quot;nb&quot;&gt;puts&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;prize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;amount&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# =&amp;gt; &quot;10000000&quot;&lt;/span&gt;
 &lt;span class=&quot;nb&quot;&gt;puts&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;prize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;title&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;# =&amp;gt; &quot;特別獎&quot;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;大概這樣，資料是從&lt;a href=&quot;http://www.etax.nat.gov.tw/etwmain/front/ETW183W1&quot;&gt;財政部這&lt;/a&gt;抓的。不過我的 css selector 過了八個月又大修了一番，希望別再無效了 :p&lt;/p&gt;
 </description>
         <pubDate>Sat, 19 Mar 2016 13:17:00 +0800</pubDate>
@@ -651,98 +559,95 @@ CodeDeploy 的 Service Role，直接掛上 AWS 建立好的 Policy，可以直�
 
 &lt;p&gt;我用的是 &lt;a href=&quot;https://www.spexeshop.com&quot;&gt;SPEX eSHOP&lt;/a&gt; 這家服務，後來聽朋友說他們 Facebook 廣告打得也挺凶的，只不過我從來沒看過。當初只是在 Google 搜尋美國轉運時，出現在前幾項結果，看起來網站還不錯的就直接用了。&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/assets/blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-6-43-37-PM.png&quot; width=&quot;1175&quot; height=&quot;762&quot; alt=&quot;blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-6-43-37-PM.png&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-6-43-37-PM.png&quot; width=&quot;1175&quot; height=&quot;762&quot; alt=&quot;blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-6-43-37-PM.png&quot;&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/assets/blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-6-45-20-PM.png&quot; width=&quot;999&quot; height=&quot;73&quot; alt=&quot;blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-6-45-20-PM.png&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-6-45-20-PM.png&quot; width=&quot;999&quot; height=&quot;73&quot; alt=&quot;blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-6-45-20-PM.png&quot;&gt;&lt;/p&gt;
 
 &lt;p&gt;借用他們網站的步驟圖，步驟就是&lt;/p&gt;
 
 &lt;ol&gt;
-  &lt;li&gt;註冊網站帳號取得轉運地址&lt;/li&gt;
-  &lt;li&gt;在網路商城下定商品並填寫轉運地址為寄送地址&lt;/li&gt;
-  &lt;li&gt;SPEX eSHOP 集貨完畢將貨品運回臺灣&lt;/li&gt;
-  &lt;li&gt;貨品再透過宅急便或郵寄送達你家&lt;/li&gt;
+&lt;li&gt;註冊網站帳號取得轉運地址&lt;/li&gt;
+&lt;li&gt;在網路商城下定商品並填寫轉運地址為寄送地址&lt;/li&gt;
+&lt;li&gt;SPEX eSHOP 集貨完畢將貨品運回臺灣&lt;/li&gt;
+&lt;li&gt;貨品再透過宅急便或郵寄送達你家&lt;/li&gt;
 &lt;/ol&gt;
 
 &lt;p&gt;以下便以這次購買的&lt;a href=&quot;http://www.amazon.com/gp/product/B004X96JH2?redirect=true&amp;amp;ref_=cm_cr_ryp_prd_ttl_sol_0&amp;amp;ref_=nav_ya_signin&quot;&gt;綜合維他命&lt;/a&gt;為例子跑完全部流程。要注意的是維他命有進口數量限制，&lt;strong&gt;每種限十二瓶，總數不得超過三十六瓶&lt;/strong&gt;。&lt;/p&gt;
 
-&lt;h2 id=&quot;section&quot;&gt;註冊轉運服務帳號&lt;/h2&gt;
+&lt;h2&gt;註冊轉運服務帳號&lt;/h2&gt;
 
-&lt;p&gt;&lt;img src=&quot;/assets/blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-6-54-16-PM.png&quot; width=&quot;1149&quot; height=&quot;677&quot; alt=&quot;blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-6-54-16-PM.png&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-6-54-16-PM.png&quot; width=&quot;1149&quot; height=&quot;677&quot; alt=&quot;blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-6-54-16-PM.png&quot;&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;a href=&quot;2&quot;&gt;先到 SPEX eSHOP 註冊帳號&lt;/a&gt;，直接選 FB 快速註冊就可以了。會填寫一些如身份證字號等等的資訊。註冊完帳號後到&lt;a href=&quot;https://www.spexeshop.com&quot;&gt;首頁&lt;/a&gt;可以看到他們在美國的住址：&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;1321 W. Foothill Blvd. 
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-&quot; data-lang=&quot;&quot;&gt;1321 W. Foothill Blvd. 
 SPEX eSHOP ECT0012345
 Azusa, CA 91702
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;其中 ECT0012345 就是你在 SPEX eSHOP 的會員號碼。（這裡填的是範例）&lt;/p&gt;
 
-&lt;h3 id=&quot;section-1&quot;&gt;在網路商店購物並填寫運送資訊&lt;/h3&gt;
+&lt;h3&gt;在網路商店購物並填寫運送資訊&lt;/h3&gt;
 
-&lt;p&gt;&lt;img src=&quot;/assets/blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-8-17-33-PM-1.png&quot; width=&quot;1098&quot; height=&quot;566&quot; alt=&quot;blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-8-17-33-PM-1.png&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-8-17-33-PM-1.png&quot; width=&quot;1098&quot; height=&quot;566&quot; alt=&quot;blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-8-17-33-PM-1.png&quot;&gt;&lt;/p&gt;
 
 &lt;p&gt;在 Amazon 購物需要&lt;a href=&quot;3&quot;&gt;註冊&lt;/a&gt;，選完品項數量之後按放入購物車(Add to Car)&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/assets/blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-8-09-06-PM.png&quot; width=&quot;358&quot; height=&quot;215&quot; alt=&quot;blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-8-09-06-PM.png&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-8-09-06-PM.png&quot; width=&quot;358&quot; height=&quot;215&quot; alt=&quot;blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-8-09-06-PM.png&quot;&gt;&lt;/p&gt;
 
 &lt;p&gt;選擇 one-time perchase 就可以了，Amazon Prime 的 Free Shipping 也不用勾，剛好這個品項是免運費的。&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/assets/blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-8-11-24-PM.png&quot; width=&quot;999&quot; height=&quot;72&quot; alt=&quot;blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-8-11-24-PM.png&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-8-11-24-PM.png&quot; width=&quot;999&quot; height=&quot;72&quot; alt=&quot;blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-8-11-24-PM.png&quot;&gt;&lt;/p&gt;
 
 &lt;p&gt;結帳！&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/assets/blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-8-13-08-PM.png&quot; width=&quot;485&quot; height=&quot;757&quot; alt=&quot;blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-8-13-08-PM.png&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-8-13-08-PM.png&quot; width=&quot;485&quot; height=&quot;757&quot; alt=&quot;blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-8-13-08-PM.png&quot;&gt;&lt;/p&gt;
 
 &lt;p&gt;填寫運送地址，這邊填上從 SPEX eSHOP 拿到的地址。&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/assets/blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-8-15-12-PM.png&quot; width=&quot;558&quot; height=&quot;392&quot; alt=&quot;blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-8-15-12-PM.png&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-8-15-12-PM.png&quot; width=&quot;558&quot; height=&quot;392&quot; alt=&quot;blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-8-15-12-PM.png&quot;&gt;&lt;/p&gt;
 
 &lt;p&gt;選標準運送。&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/assets/blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-8-17-33-PM.png&quot; width=&quot;1098&quot; height=&quot;566&quot; alt=&quot;blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-8-17-33-PM.png&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-8-17-33-PM.png&quot; width=&quot;1098&quot; height=&quot;566&quot; alt=&quot;blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-8-17-33-PM.png&quot;&gt;&lt;/p&gt;
 
 &lt;p&gt;再下一步是用信用卡付款，填寫資訊即可。結束之後在你的訂單點選追蹤包裹(Track Package)後可以拿到一組 UPS 公司的物流編號。我們要將它回填到 SPEX eSHOP。這裡也有一組訂單編號(ORDER)要記下來。預計到達日期也要記起來。&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/assets/blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-8-21-43-PM.png&quot; width=&quot;875&quot; height=&quot;499&quot; alt=&quot;blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-8-21-43-PM.png&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-8-21-43-PM.png&quot; width=&quot;875&quot; height=&quot;499&quot; alt=&quot;blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-8-21-43-PM.png&quot;&gt;&lt;/p&gt;
 
 &lt;p&gt;物流編號在這裡。&lt;/p&gt;
 
-&lt;h3 id=&quot;spex-eshop-&quot;&gt;在 SPEX eSHOP 建立委託單&lt;/h3&gt;
+&lt;h3&gt;在 SPEX eSHOP 建立委託單&lt;/h3&gt;
 
 &lt;p&gt;回到 SPEX eSHOP 的&lt;a href=&quot;4&quot;&gt;首頁&lt;/a&gt;，我們就可以建立委託單讓轉運公司知道我們有買了那些東西。&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/assets/blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-8-30-00-PM.png&quot; width=&quot;345&quot; height=&quot;141&quot; alt=&quot;blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-8-30-00-PM.png&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-8-30-00-PM.png&quot; width=&quot;345&quot; height=&quot;141&quot; alt=&quot;blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-8-30-00-PM.png&quot;&gt;&lt;/p&gt;
 
 &lt;p&gt;填入剛剛拿到的物流編號，點立即查詢。&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/assets/blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-8-31-31-PM-3.png&quot; width=&quot;731&quot; height=&quot;273&quot; alt=&quot;blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-8-31-31-PM-3.png&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-8-31-31-PM-3.png&quot; width=&quot;731&quot; height=&quot;273&quot; alt=&quot;blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-8-31-31-PM-3.png&quot;&gt;&lt;/p&gt;
 
 &lt;p&gt;建立新包裹&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/assets/blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-8-36-47-PM.png&quot; width=&quot;1062&quot; height=&quot;703&quot; alt=&quot;blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-8-36-47-PM.png&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-8-36-47-PM.png&quot; width=&quot;1062&quot; height=&quot;703&quot; alt=&quot;blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-8-36-47-PM.png&quot;&gt;&lt;/p&gt;
 
 &lt;p&gt;下一步&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/assets/blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-8-37-05-PM.png&quot; width=&quot;1041&quot; height=&quot;630&quot; alt=&quot;blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-8-37-05-PM.png&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-8-37-05-PM.png&quot; width=&quot;1041&quot; height=&quot;630&quot; alt=&quot;blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-8-37-05-PM.png&quot;&gt;&lt;/p&gt;
 
 &lt;p&gt;在這邊填上包裹完整的資訊。新建完包裹後就等物流配送到 SPEX eSHOP。&lt;/p&gt;
 
-&lt;h2 id=&quot;section-2&quot;&gt;填寫委託單&lt;/h2&gt;
+&lt;h2&gt;填寫委託單&lt;/h2&gt;
 
 &lt;p&gt;待 SPEX eSHOP 收到包裹後他會用 Email 通知你，接下來就照著&lt;a href=&quot;https://www.spexeshop.com/tiro_useProcess.php&quot;&gt;指示&lt;/a&gt;填寫委託單即可。比較需要注意的點是得填寫&lt;a href=&quot;https://www.spexeshop.com/tiro_clearance.php&quot;&gt;清關文件&lt;/a&gt;。你需要列印他們提供的清關文件，並填寫蓋章後掃描成電子檔、上傳至 SPEX eSHOP 站上，也需要提供身份證影本。若不放心可以在身份證電子檔上加註「僅供 SPEX eSHOP 清關所用」的字樣。&lt;/p&gt;
 
 &lt;p&gt;待資料備齊後還需要付兩次錢，一次是國際運費，一次是關稅，兩次 SPEX eSHOP 都會以 Email 通知，跳轉到玉山銀行（好象是）的支付頁面填入信用卡資訊支付。&lt;/p&gt;
 
-&lt;h2 id=&quot;section-3&quot;&gt;耐心等待&lt;/h2&gt;
+&lt;h2&gt;耐心等待&lt;/h2&gt;
 
 &lt;p&gt;Amazon 的運送進度非常清楚就不用說了，不愧為全球最強電商，SPEX eSHOP 雖然網站 UI 還有進步的地方，但是各個階段的資訊都很透明，&lt;a href=&quot;https://www.facebook.com/spexeshopus/&quot;&gt;粉絲專頁&lt;/a&gt;的訊息回覆也很快。本來他們站上的 FB 快速登入是有些問題的，再我反應後沒幾天就修正了 :p，客服非常好。&lt;/p&gt;
 
-&lt;h2 id=&quot;section-4&quot;&gt;結語&lt;/h2&gt;
+&lt;h2&gt;結語&lt;/h2&gt;
 
 &lt;p&gt;以上就是上個月在 Amazon 購物轉運的經驗，有任何步驟有問題都可以留言哦，因為有些步驟沒法截圖，需要重新買一次商品才看得到，所以部分只能用文字說明帶過了。&lt;/p&gt;
-
 </description>
         <pubDate>Sat, 23 Jan 2016 21:20:00 +0800</pubDate>
         <link>http://yukaii.tw/blog/2016/01/23/spex-eshop-amazon/</link>
