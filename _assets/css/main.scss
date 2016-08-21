@@ -46,3 +46,12 @@ $on-laptop:        800px;
 @import "layout";
 @import "syntax-highlighting";
 @import "fonts";
+
+
+.tabnav-tab {
+  border-width: 3px 1px 1px;
+
+  &.selected {
+    border-color: #d26911 #ddd transparent;
+  }
+}
