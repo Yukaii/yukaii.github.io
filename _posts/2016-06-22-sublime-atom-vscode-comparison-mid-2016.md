@@ -59,6 +59,6 @@ title: "2016 年中、編輯器三雄大對決！"
 完。
 
 [^main-editor]: 作者已經變成微軟 VSCode 的形狀惹
-[^minimap]: 發現 VSCode 的 Intelligence Scrollbar 比 Minimap 更佳實用，已經完全不需要啦 XDDD
+[^minimap]: 發現 VSCode 的 Enhanced Scrollbar 比 Minimap 更佳實用，已經完全不需要啦 XDDD
 [^high-cpu]: 後來發現是第三方插件 Todo Parser 的問題，移除就沒事啦
 [^atom-compare]: 在我心目中已經遠超十條街了
