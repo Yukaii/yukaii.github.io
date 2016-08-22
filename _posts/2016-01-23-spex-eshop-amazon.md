@@ -2,7 +2,8 @@
 layout: post
 title: '在 Amazon.com 買東西，再利用 SPEX eSHOP 轉運服務回台'
 date: 2016-01-23 21:20
-categories: 
+categories:
+comments: true
 ---
 
 上個月用轉運服務把在 Amazon 訂的幾罐[綜合維他命][1]運回臺灣，在這裡記錄過程。
@@ -29,7 +30,7 @@ categories:
 [先到 SPEX eSHOP 註冊帳號](2)，直接選 FB 快速註冊就可以了。會填寫一些如身份證字號等等的資訊。註冊完帳號後到[首頁][4]可以看到他們在美國的住址：
 
 ```
-1321 W. Foothill Blvd. 
+1321 W. Foothill Blvd.
 SPEX eSHOP ECT0012345
 Azusa, CA 91702
 ```

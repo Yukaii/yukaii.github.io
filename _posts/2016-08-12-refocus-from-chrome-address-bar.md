@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "使用 Chrome 在快速鍵切換至網址列後，再用快速鍵切換回來"
+comments: true
 ---
 
 ## 啥？

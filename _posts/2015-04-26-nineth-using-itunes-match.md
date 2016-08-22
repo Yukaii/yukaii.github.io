@@ -3,7 +3,7 @@ layout: post
 title: '第九篇 - 使用 iTunes Match'
 date: 2015-04-26 15:46
 comments: true
-categories: 
+categories:
 ---
 曾經有一陣子很熱衷「試聽」音樂，iTunes Library 不知不覺就長到了 90GB。iTunes 實在方便，乾淨的專輯封面總攬，這樣選歌差不多也就夠了。但自從換了有 SSD 的電腦，90GB 的音樂對於硬碟空間也是太奢侈了。
 

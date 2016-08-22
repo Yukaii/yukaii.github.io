@@ -11,5 +11,11 @@ layout: default
   <div class="post-content" itemprop="articleBody">
     {{ content }}
   </div>
+  {% comment %}
+    disable only when comments_disable variable set in page
+  {% endcomment %}
+  {% unless page.comments_disable %}
+    {% include disqus.html %}
+  {% endunless %}
 
 </article>

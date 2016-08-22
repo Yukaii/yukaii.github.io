@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "部落格 GitHub 新版型主題"
+comments: true
 ---
 
 過程可以看 [PR#1](https://github.com/Yukaii/Blog/pull/1)，大致上是：

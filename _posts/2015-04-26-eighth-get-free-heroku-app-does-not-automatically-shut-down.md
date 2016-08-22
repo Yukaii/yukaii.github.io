@@ -3,7 +3,7 @@ layout: post
 title: '第八篇 - 讓免費 Heroku App 不會自動關機'
 date: 2015-04-26 15:44
 comments: true
-categories: 
+categories:
 ---
 免費的 Heroku 開的 App 只要過半小時，就會自動關機。雖然啟動很快，不過體驗就差了。
 

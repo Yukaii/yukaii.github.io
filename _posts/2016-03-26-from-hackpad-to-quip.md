@@ -3,7 +3,7 @@ layout: post
 title: '第十四篇 - 從 Hackpad 搬家到 Quip'
 date: 2016-03-26 04:25
 comments: true
-categories: 
+categories:
 ---
 你知道，Hackpad 自從[被 Dropbox 買走之後][1]就沒增加新功能了，從 15 年四月[收到信說要開源][2]，也是過了很久的[八月][3]才完成。當然技術公司的整並進去必定要做一堆的交接、磨合、修改成能開源的版本；不過十二月時又有 Dropbox 的[前車之鑑][4]，一路看下來我們還是多做幾個備份好 :p
 

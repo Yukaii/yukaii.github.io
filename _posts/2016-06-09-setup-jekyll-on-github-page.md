@@ -3,6 +3,7 @@ layout: post
 title:  "在 GitHub 上設定 Jekyll 和自訂網域"
 date:   2016-06-09 00:30:54 +0800
 categories: jekyll setup github git subtree
+comments: true
 ---
 
 花了時間把 Jekyll 建起來。Ghost 是很棒沒錯，不過想要完全掌控還要多花許多時間，純粹靜態網頁更為靈活，再配上 `jekyll-assets`，如果真的需要點 ES6 還是可以硬上的。

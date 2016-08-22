@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "2016 年中、編輯器三雄大對決！"
+comments: true
 ---
 
 ## 前言

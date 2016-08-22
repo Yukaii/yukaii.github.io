@@ -3,7 +3,7 @@ layout: post
 title: '第七篇 - 寫一封 html 的 email'
 date: 2015-04-10 15:46
 comments: true
-categories: 
+categories:
 ---
 # Prerequite
 一些簡單的 html/css 知識

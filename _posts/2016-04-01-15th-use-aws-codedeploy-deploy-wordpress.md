@@ -79,8 +79,8 @@ _範例 S3 的 widecard 權限，當然還是詳細指定比較好。先新增 P
 大概就這樣啦，這還只是 WordPress 而已，我要部屬的可是 Rails App 欸，之後想必有更細節的其它地方。這樣跑完了一次（還順便被雷了一下午），對 AWS 的理解就更深了，請期待之後的後續文章，哈哈哈（不要說一說就不寫了）
 
 （完）
- 
- 
+
+
 [1]: http://docs.aws.amazon.com/codedeploy/latest/userguide/welcome.html
 [2]: http://www.slideshare.net/masonmei37/aws-59233295
 [3]: http://docs.aws.amazon.com/codedeploy/latest/userguide/welcome.html

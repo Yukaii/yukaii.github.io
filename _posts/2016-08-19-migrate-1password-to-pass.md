@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "從 1Password 搬家到 pass"
+comments: true
 ---
 
 ## Why?
