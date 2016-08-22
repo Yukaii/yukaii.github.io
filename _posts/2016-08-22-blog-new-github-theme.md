@@ -3,6 +3,13 @@ layout: post
 title: "部落格 GitHub 新版型主題"
 ---
 
+過程可以看 [PR#1](https://github.com/Yukaii/Blog/pull/1)，大致上是：
+
+1. 引入 [primer css](https://primercss.io)
+2. 清掉原本沒用到的 css
+3. Post Layout 加上 `markdown-body` 的 class（[31360b](https://github.com/Yukaii/Blog/commit/31360b)）
+4. 從 GitHub 上面拿 css 來用 XD
+
 不囉嗦，直接上圖了。
 
 ## Before
