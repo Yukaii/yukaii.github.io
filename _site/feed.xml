@@ -6,9 +6,38 @@
 </description>
     <link>http://yukaii.tw/</link>
     <atom:link href="http://yukaii.tw/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sun, 21 Aug 2016 22:51:35 +0800</pubDate>
-    <lastBuildDate>Sun, 21 Aug 2016 22:51:35 +0800</lastBuildDate>
+    <pubDate>Mon, 22 Aug 2016 08:35:29 +0800</pubDate>
+    <lastBuildDate>Mon, 22 Aug 2016 08:35:29 +0800</lastBuildDate>
     <generator>Jekyll v3.1.6</generator>
+    
+      <item>
+        <title>部落格 GitHub 新版型主題</title>
+        <description>&lt;p&gt;不囉嗦，直接上圖了。&lt;/p&gt;
+
+&lt;h2&gt;Before&lt;/h2&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://i.imgur.com/3rBAve0.png&quot; alt=&quot;before-1&quot;&gt;
+&lt;img src=&quot;http://i.imgur.com/bXb19SE.png&quot; alt=&quot;before-2&quot;&gt;&lt;/p&gt;
+
+&lt;h2&gt;After&lt;/h2&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://i.imgur.com/McEpFdB.png&quot; alt=&quot;after-1&quot;&gt;
+&lt;img src=&quot;http://i.imgur.com/PqH6sup.png&quot; alt=&quot;after-2&quot;&gt;&lt;/p&gt;
+
+&lt;h2&gt;Misc&lt;/h2&gt;
+
+&lt;p&gt;另外附上最近弄的 VSCode Markdown Preview Theme。我習慣用暗色的 syntax highlight theme，但是 VSCode 的 Markdown Preview 會根據目前使用的 Theme，來使用亮色或暗色，所以我寫了一些覆蓋的 css，讓不論選亮色或是暗色主題都能使用明亮的 Markdown 預覽主題。與 &lt;a href=&quot;https://gist.github.com/BigstickCarpet/&quot;&gt;BigstickCarpet&lt;/a&gt; 的 GFM Theme 一起使用效果更佳 😁&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/Yukaii/vscode-markdown-github-css&quot;&gt;vscode-markdown-github-css&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://i.imgur.com/hHbhwHJ.png&quot; alt=&quot;md1&quot;&gt;&lt;/p&gt;
+</description>
+        <pubDate>Mon, 22 Aug 2016 00:00:00 +0800</pubDate>
+        <link>http://yukaii.tw/blog/2016/08/22/blog-new-github-theme/</link>
+        <guid isPermaLink="true">http://yukaii.tw/blog/2016/08/22/blog-new-github-theme/</guid>
+        
+        
+      </item>
     
       <item>
         <title>從 1Password 搬家到 pass</title>
@@ -550,109 +579,6 @@ CodeDeploy 的 Service Role，直接掛上 AWS 建立好的 Policy，可以直�
         <category>gem</category>
         
         <category>欸嘿</category>
-        
-      </item>
-    
-      <item>
-        <title>在 Amazon.com 買東西，再利用 SPEX eSHOP 轉運服務回台</title>
-        <description>&lt;p&gt;上個月用轉運服務把在 Amazon 訂的幾罐&lt;a href=&quot;http://www.amazon.com/gp/product/B004X96JH2?redirect=true&amp;amp;ref_=cm_cr_ryp_prd_ttl_sol_0&amp;amp;ref_=nav_ya_signin&quot;&gt;綜合維他命&lt;/a&gt;運回臺灣，在這裡記錄過程。&lt;/p&gt;
-
-&lt;p&gt;我用的是 &lt;a href=&quot;https://www.spexeshop.com&quot;&gt;SPEX eSHOP&lt;/a&gt; 這家服務，後來聽朋友說他們 Facebook 廣告打得也挺凶的，只不過我從來沒看過。當初只是在 Google 搜尋美國轉運時，出現在前幾項結果，看起來網站還不錯的就直接用了。&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-6-43-37-PM.png&quot; width=&quot;1175&quot; height=&quot;762&quot; alt=&quot;blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-6-43-37-PM.png&quot;&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-6-45-20-PM.png&quot; width=&quot;999&quot; height=&quot;73&quot; alt=&quot;blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-6-45-20-PM.png&quot;&gt;&lt;/p&gt;
-
-&lt;p&gt;借用他們網站的步驟圖，步驟就是&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;註冊網站帳號取得轉運地址&lt;/li&gt;
-&lt;li&gt;在網路商城下定商品並填寫轉運地址為寄送地址&lt;/li&gt;
-&lt;li&gt;SPEX eSHOP 集貨完畢將貨品運回臺灣&lt;/li&gt;
-&lt;li&gt;貨品再透過宅急便或郵寄送達你家&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;以下便以這次購買的&lt;a href=&quot;http://www.amazon.com/gp/product/B004X96JH2?redirect=true&amp;amp;ref_=cm_cr_ryp_prd_ttl_sol_0&amp;amp;ref_=nav_ya_signin&quot;&gt;綜合維他命&lt;/a&gt;為例子跑完全部流程。要注意的是維他命有進口數量限制，&lt;strong&gt;每種限十二瓶，總數不得超過三十六瓶&lt;/strong&gt;。&lt;/p&gt;
-
-&lt;h2&gt;註冊轉運服務帳號&lt;/h2&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-6-54-16-PM.png&quot; width=&quot;1149&quot; height=&quot;677&quot; alt=&quot;blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-6-54-16-PM.png&quot;&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;2&quot;&gt;先到 SPEX eSHOP 註冊帳號&lt;/a&gt;，直接選 FB 快速註冊就可以了。會填寫一些如身份證字號等等的資訊。註冊完帳號後到&lt;a href=&quot;https://www.spexeshop.com&quot;&gt;首頁&lt;/a&gt;可以看到他們在美國的住址：&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-&quot; data-lang=&quot;&quot;&gt;1321 W. Foothill Blvd. 
-SPEX eSHOP ECT0012345
-Azusa, CA 91702
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;其中 ECT0012345 就是你在 SPEX eSHOP 的會員號碼。（這裡填的是範例）&lt;/p&gt;
-
-&lt;h3&gt;在網路商店購物並填寫運送資訊&lt;/h3&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-8-17-33-PM-1.png&quot; width=&quot;1098&quot; height=&quot;566&quot; alt=&quot;blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-8-17-33-PM-1.png&quot;&gt;&lt;/p&gt;
-
-&lt;p&gt;在 Amazon 購物需要&lt;a href=&quot;3&quot;&gt;註冊&lt;/a&gt;，選完品項數量之後按放入購物車(Add to Car)&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-8-09-06-PM.png&quot; width=&quot;358&quot; height=&quot;215&quot; alt=&quot;blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-8-09-06-PM.png&quot;&gt;&lt;/p&gt;
-
-&lt;p&gt;選擇 one-time perchase 就可以了，Amazon Prime 的 Free Shipping 也不用勾，剛好這個品項是免運費的。&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-8-11-24-PM.png&quot; width=&quot;999&quot; height=&quot;72&quot; alt=&quot;blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-8-11-24-PM.png&quot;&gt;&lt;/p&gt;
-
-&lt;p&gt;結帳！&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-8-13-08-PM.png&quot; width=&quot;485&quot; height=&quot;757&quot; alt=&quot;blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-8-13-08-PM.png&quot;&gt;&lt;/p&gt;
-
-&lt;p&gt;填寫運送地址，這邊填上從 SPEX eSHOP 拿到的地址。&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-8-15-12-PM.png&quot; width=&quot;558&quot; height=&quot;392&quot; alt=&quot;blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-8-15-12-PM.png&quot;&gt;&lt;/p&gt;
-
-&lt;p&gt;選標準運送。&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-8-17-33-PM.png&quot; width=&quot;1098&quot; height=&quot;566&quot; alt=&quot;blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-8-17-33-PM.png&quot;&gt;&lt;/p&gt;
-
-&lt;p&gt;再下一步是用信用卡付款，填寫資訊即可。結束之後在你的訂單點選追蹤包裹(Track Package)後可以拿到一組 UPS 公司的物流編號。我們要將它回填到 SPEX eSHOP。這裡也有一組訂單編號(ORDER)要記下來。預計到達日期也要記起來。&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-8-21-43-PM.png&quot; width=&quot;875&quot; height=&quot;499&quot; alt=&quot;blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-8-21-43-PM.png&quot;&gt;&lt;/p&gt;
-
-&lt;p&gt;物流編號在這裡。&lt;/p&gt;
-
-&lt;h3&gt;在 SPEX eSHOP 建立委託單&lt;/h3&gt;
-
-&lt;p&gt;回到 SPEX eSHOP 的&lt;a href=&quot;4&quot;&gt;首頁&lt;/a&gt;，我們就可以建立委託單讓轉運公司知道我們有買了那些東西。&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-8-30-00-PM.png&quot; width=&quot;345&quot; height=&quot;141&quot; alt=&quot;blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-8-30-00-PM.png&quot;&gt;&lt;/p&gt;
-
-&lt;p&gt;填入剛剛拿到的物流編號，點立即查詢。&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-8-31-31-PM-3.png&quot; width=&quot;731&quot; height=&quot;273&quot; alt=&quot;blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-8-31-31-PM-3.png&quot;&gt;&lt;/p&gt;
-
-&lt;p&gt;建立新包裹&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-8-36-47-PM.png&quot; width=&quot;1062&quot; height=&quot;703&quot; alt=&quot;blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-8-36-47-PM.png&quot;&gt;&lt;/p&gt;
-
-&lt;p&gt;下一步&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-8-37-05-PM.png&quot; width=&quot;1041&quot; height=&quot;630&quot; alt=&quot;blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-8-37-05-PM.png&quot;&gt;&lt;/p&gt;
-
-&lt;p&gt;在這邊填上包裹完整的資訊。新建完包裹後就等物流配送到 SPEX eSHOP。&lt;/p&gt;
-
-&lt;h2&gt;填寫委託單&lt;/h2&gt;
-
-&lt;p&gt;待 SPEX eSHOP 收到包裹後他會用 Email 通知你，接下來就照著&lt;a href=&quot;https://www.spexeshop.com/tiro_useProcess.php&quot;&gt;指示&lt;/a&gt;填寫委託單即可。比較需要注意的點是得填寫&lt;a href=&quot;https://www.spexeshop.com/tiro_clearance.php&quot;&gt;清關文件&lt;/a&gt;。你需要列印他們提供的清關文件，並填寫蓋章後掃描成電子檔、上傳至 SPEX eSHOP 站上，也需要提供身份證影本。若不放心可以在身份證電子檔上加註「僅供 SPEX eSHOP 清關所用」的字樣。&lt;/p&gt;
-
-&lt;p&gt;待資料備齊後還需要付兩次錢，一次是國際運費，一次是關稅，兩次 SPEX eSHOP 都會以 Email 通知，跳轉到玉山銀行（好象是）的支付頁面填入信用卡資訊支付。&lt;/p&gt;
-
-&lt;h2&gt;耐心等待&lt;/h2&gt;
-
-&lt;p&gt;Amazon 的運送進度非常清楚就不用說了，不愧為全球最強電商，SPEX eSHOP 雖然網站 UI 還有進步的地方，但是各個階段的資訊都很透明，&lt;a href=&quot;https://www.facebook.com/spexeshopus/&quot;&gt;粉絲專頁&lt;/a&gt;的訊息回覆也很快。本來他們站上的 FB 快速登入是有些問題的，再我反應後沒幾天就修正了 :p，客服非常好。&lt;/p&gt;
-
-&lt;h2&gt;結語&lt;/h2&gt;
-
-&lt;p&gt;以上就是上個月在 Amazon 購物轉運的經驗，有任何步驟有問題都可以留言哦，因為有些步驟沒法截圖，需要重新買一次商品才看得到，所以部分只能用文字說明帶過了。&lt;/p&gt;
-</description>
-        <pubDate>Sat, 23 Jan 2016 21:20:00 +0800</pubDate>
-        <link>http://yukaii.tw/blog/2016/01/23/spex-eshop-amazon/</link>
-        <guid isPermaLink="true">http://yukaii.tw/blog/2016/01/23/spex-eshop-amazon/</guid>
-        
         
       </item>
     
