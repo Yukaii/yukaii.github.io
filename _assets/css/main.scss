@@ -123,3 +123,27 @@ $on-laptop:        800px;
     }
   }
 }
+
+a.comments-link {
+  color: #dadada;
+  text-decoration: none;
+
+  .disqus-comment-count {
+    font-size: small;
+  }
+
+  svg {
+    fill: #dadada;
+  }
+
+}
+
+.menu-item:hover {
+  a.comments-link {
+    color: #767676;
+
+    svg {
+      fill: #767676;
+    }
+  }
+}
