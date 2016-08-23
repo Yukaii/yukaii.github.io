@@ -9,7 +9,7 @@ order: 1
 
   <nav class="menu centered">
     {% for post in site.posts %}
-      <a href="{{ post.url | prepend: site.baseurl }}" class="menu-item">
+      <div class="menu-item">
         <h4>
           <a href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
           <a href="{{ post.url | prepend: site.baseurl | append: '#disqus_thread' }}" style="display: inline-block; float: right;" class="comments-link">
@@ -18,7 +18,7 @@ order: 1
           </a>
         </h4>
         <div class="post-meta">{{ post.date | date: "%b %-d, %Y" }}</div>
-      </a>
+      </div>
     {% endfor %}
   </nav>
 
