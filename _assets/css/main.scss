@@ -51,8 +51,16 @@ $on-laptop:        800px;
 .tabnav-tab {
   border-width: 3px 1px 1px;
 
+  svg {
+    fill: #bbb;
+  }
+
   &.selected {
     border-color: #d26911 #ddd transparent;
+
+    svg {
+      fill: #111;
+    }
   }
 }
 
