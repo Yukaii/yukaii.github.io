@@ -13,7 +13,7 @@ pass 也有一些社群版套件，引用一下官網：
 > The community has even produced a [cross-platform GUI client](http://qtpass.org/), an [Android app](https://github.com/zeapo/Android-Password-Store), an [iOS app](https://github.com/davidjb/pass-ios#readme), a [Firefox plugin](https://github.com/jvenant/passff#readme), a [Windows client](https://github.com/mbos/Pass4Win), a pretty [Python QML app](https://github.com/TheLastProject/Pext), a nice [Go GUI app](https://github.com/cortex/gopass),  an [interactive console UI](https://github.com/Kwpolska/upass), Alfred integration [(1)](https://github.com/CGenie/alfred-pass) [(2)](https://github.com/MatthewWest/pass-alfred) [(3)](https://github.com/johanthoren/simple-pass-alfred), a [dmenu script](https://git.zx2c4.com/password-store/tree/contrib/dmenu), [OS X integration](https://git.zx2c4.com/password-store/tree/contrib/pass.applescript), [git credential integration](https://github.com/languitar/pass-git-helper), and even an [emacs package](https://git.zx2c4.com/password-store/tree/contrib/emacs).
 
 
-不過 iOS App 版要 jailbreak 之後才能使用呀 QQ，不過身為一個還算熟悉 CLI 的使用者，這些當然都不是問題啊，哼☹。
+不過 iOS App 版要 jailbreak 之後才能使用呀 😭，不過身為一個還算熟悉 CLI 的使用者，這些當然都不是問題啊 😁。
 
 ## 安裝 pass
 

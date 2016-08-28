@@ -6,9 +6,90 @@
 </description>
     <link>http://yukaii.tw/</link>
     <atom:link href="http://yukaii.tw/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Wed, 24 Aug 2016 00:20:20 +0800</pubDate>
-    <lastBuildDate>Wed, 24 Aug 2016 00:20:20 +0800</lastBuildDate>
+    <pubDate>Sun, 28 Aug 2016 19:42:31 +0800</pubDate>
+    <lastBuildDate>Sun, 28 Aug 2016 19:42:31 +0800</lastBuildDate>
     <generator>Jekyll v3.1.6</generator>
+    
+      <item>
+        <title>Rails Girl #7</title>
+        <description>&lt;p&gt;有幸在第七屆的 Rails Girl 活動中擔任教練，就來寫寫感想好了 w&lt;/p&gt;
+
+&lt;p&gt;在當 Rails Girl 教練之前，我雖然「算是」有帶過幾位實習生，不過跟這種馬拉松式的教學完全不同，平常都不太說話的我，這兩天竟都沒怎麽停嘴，也真佩服自己了 😅&lt;/p&gt;
+
+&lt;h2&gt;Day 1 - 裝機&lt;/h2&gt;
+
+&lt;p&gt;對於這種體驗性質的活動，浪費時間在安裝開發環境就太可惜了。主辦的大大在會前教練通知信裡寄了一份 &lt;a href=&quot;https://codeanywhere.com/&quot;&gt;CodeAnywhere&lt;/a&gt; 網站的說明。如同名字所述，CodeAnywhere 可以讓你 &lt;strong&gt;Code Anywhere&lt;/strong&gt;（在哪裡都能寫程式），運用 Linux Container 和 Web 技術，使用瀏覽器便能連接機器、開發網站服務。只可惜 Bug 還是挺多的，比如說：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;無法做到即時 Filesystem Refresh，每次新增檔案後，都要手動重新整理專案，新增的資料夾才會出現在列表&lt;/li&gt;
+&lt;li&gt;Terminal SSH Session 在重新整理瀏覽器後不會自動 kill，所以開啟的 Rails server 佔用 port，但 Tab 已經消失，需要找出 pid 後 kill 掉（&lt;code&gt;lsof -i tcp:3000&lt;/code&gt;）&lt;/li&gt;
+&lt;li&gt;在 Terminal 界面無法使用貼上快捷鍵（&lt;code&gt;Ctrl + v&lt;/code&gt; or &lt;code&gt;CMD + v&lt;/code&gt;），對於經常性 Copy &amp;amp; Paste 的這堂課來說十分不便呀&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;附上 ruby 裝機過程，無論是 CodeAnywhere 環境或是 Ubuntu/macOS 應該都能使用。Ubuntu 需要事先安裝好 Git，macOS 則需安裝 XCode Developer Tools。&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3
+&lt;span class=&quot;se&quot;&gt;\c&lt;/span&gt;url -sSL https://get.rvm.io | bash -s stable
+
+rvm reload
+rvm install 2.3.1
+rvm use 2.3.1 --default
+
+&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;gem: --no-ri --no-rdoc&#39;&lt;/span&gt; &amp;gt;&amp;gt; ~/.gemrc &lt;span class=&quot;c&quot;&gt;# 不需要安裝 rdoc&lt;/span&gt;
+
+gem install bundler
+bundle config --global --jobs 4
+
+&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;source &quot;https://rubygems.org&quot;
+ruby &quot;2.3.1&quot;
+gem &quot;rails&quot;
+&#39;&lt;/span&gt; &amp;gt;&amp;gt; ~/Gemfile
+
+&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; &lt;span class=&quot;c&quot;&gt;# 切換至家目錄&lt;/span&gt;
+bundle install
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;個人認為裝機階段實在也不需要特別解釋，說明一下 Ruby 和 Rails 的關係和豐富的套件生態系就行了&lt;del&gt;（什麼？Rails 不是語言嗎？）&lt;/del&gt;&lt;/p&gt;
+
+&lt;p&gt;作為一個信仰不夠忠貞的 Rails 信徒，自然會從廣義的 Web 開始講起。想到在行前會說明時，提到有個萬用便當遊戲&lt;sup id=&quot;fnref1&quot;&gt;&lt;a href=&quot;#fn1&quot; rel=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt; 可以用，自然就偷跑進度，直接拿便當圖來講故事啦。講故事的重點就是&lt;strong&gt;凡事回顧個兩三次&lt;/strong&gt;，並在不同時機再次連結。另外身為一個自學者，當然還是把肌肉記憶拿出來講了講，我還是覺得這挺有用的 XD&lt;/p&gt;
+
+&lt;h2&gt;Day 2 - 跑跑進度啦&lt;/h2&gt;
+
+&lt;p&gt;CodeAnywhere 有分享專案和 pair programming 的功能。先對專案點右鍵，並在跳出的選單選擇 Share、並輸入對方 Email 即可；而 Pair Programming 比較麻煩，每個檔案或是 Terminal 都要分享一次。如下圖所示，按下紙飛機按鈕，並輸入對方 Email：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://i.imgur.com/ky0B3yd.png&quot; alt=&quot;Imgur&quot;&gt;&lt;/p&gt;
+
+&lt;p&gt;THE 紙飛機&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://i.imgur.com/8XTdMEr.png&quot; alt=&quot;Imgur&quot;&gt;&lt;/p&gt;
+
+&lt;p&gt;透過 Pair Programming 的方式，即使是一次帶兩個人，也只要維護一份環境、一份專案，真是怠惰啊 😇&lt;/p&gt;
+
+&lt;p&gt;第二天白天，我們這組跑了 Rails Girl 的兩篇教材，分別是 &lt;a href=&quot;http://railsgirls.tw/app&quot;&gt;Idea Scaffold&lt;/a&gt; 還有&lt;a href=&quot;http://railsgirls.tw/commenting&quot;&gt;留言功能&lt;/a&gt;，途中也不時對教練解釋的地方自我吐嘈了一番；下午就在各種&lt;del&gt;傳教&lt;/del&gt;閒聊之中度過了，比如 &lt;a href=&quot;https://medium.com/@juanitofatas/ruby-on-rails-%E5%9F%BA%E6%9C%AC%E4%B8%BB%E7%BE%A9-f4cde39292a4&quot;&gt;Rails 基本主義&lt;/a&gt;啦、&lt;a href=&quot;https://yukaii.tw/blog/2016/06/22/sublime-atom-vscode-comparison-mid-2016/&quot;&gt;編輯器之戰&lt;/a&gt;、&lt;a href=&quot;https://vinta.ws/blog/695&quot;&gt;鄙視鏈&lt;/a&gt;、GitHub 文化、&lt;a href=&quot;https://userstyles.org/&quot;&gt;Stylish&lt;/a&gt; 自訂網頁樣式表、&lt;a href=&quot;https://github.com/larsenwork/monoid&quot;&gt;Coding Font with Ligature support&lt;/a&gt;，還有 &lt;a href=&quot;https://djangogirls.org&quot;&gt;DjangoGirls&lt;/a&gt; 等等（在 Rails 的場子談 Django 是不是搞錯了什麼？）。畢竟這個圈子最好玩的就是聖戰以及用不完的攻城獅哏，體驗文化也是學習不可分割的一環啊！&lt;/p&gt;
+
+&lt;h2&gt;After Party&lt;/h2&gt;
+
+&lt;p&gt;據說 After Party 才是 Rails Girls 活動的精華......欸就這樣一行？&lt;/p&gt;
+
+&lt;h2&gt;結語&lt;/h2&gt;
+
+&lt;p&gt;Rails Girls 對於想接觸 Rails 或是網站入門的女性朋友來說，自然是個非常好的機會，手把手帶你寫程式還不用錢，實在是值回票價（等等！免費的活動哪來的票啊）；對身心疲憊、忙於工作的工程師教練們，也是個調劑身心的好時機，讓平常沉默的宅宅有了練蕭維的舞臺。最後感謝本活動的唯一贊助商&lt;a href=&quot;https://5xruby.tw&quot;&gt;五倍紅寶石&lt;/a&gt;，下次活動詳情就請繼續關注 &lt;a href=&quot;https://www.facebook.com/railsgirlstw/&quot;&gt;Rails Girls Taiwan&lt;/a&gt; 粉絲專頁啦！&lt;/p&gt;
+
+&lt;div class=&quot;footnotes&quot;&gt;
+&lt;hr&gt;
+&lt;ol&gt;
+
+&lt;li id=&quot;fn1&quot;&gt;
+&lt;p&gt;參見 &lt;a href=&quot;http://blog.railsgirls.com/post/20405930015/bentobox-learn-the-language-of-technology&quot;&gt;Rails Girls 官方部落格&lt;/a&gt;&amp;nbsp;&lt;a href=&quot;#fnref1&quot; rev=&quot;footnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+
+&lt;/ol&gt;
+&lt;/div&gt;
+</description>
+        <pubDate>Sun, 28 Aug 2016 00:00:00 +0800</pubDate>
+        <link>http://yukaii.tw/blog/2016/08/28/rails-girl-7/</link>
+        <guid isPermaLink="true">http://yukaii.tw/blog/2016/08/28/rails-girl-7/</guid>
+        
+        
+      </item>
     
       <item>
         <title>部落格 GitHub 新版型主題</title>
@@ -60,7 +141,7 @@
 &lt;p&gt;The community has even produced a &lt;a href=&quot;http://qtpass.org/&quot;&gt;cross-platform GUI client&lt;/a&gt;, an &lt;a href=&quot;https://github.com/zeapo/Android-Password-Store&quot;&gt;Android app&lt;/a&gt;, an &lt;a href=&quot;https://github.com/davidjb/pass-ios#readme&quot;&gt;iOS app&lt;/a&gt;, a &lt;a href=&quot;https://github.com/jvenant/passff#readme&quot;&gt;Firefox plugin&lt;/a&gt;, a &lt;a href=&quot;https://github.com/mbos/Pass4Win&quot;&gt;Windows client&lt;/a&gt;, a pretty &lt;a href=&quot;https://github.com/TheLastProject/Pext&quot;&gt;Python QML app&lt;/a&gt;, a nice &lt;a href=&quot;https://github.com/cortex/gopass&quot;&gt;Go GUI app&lt;/a&gt;,  an &lt;a href=&quot;https://github.com/Kwpolska/upass&quot;&gt;interactive console UI&lt;/a&gt;, Alfred integration &lt;a href=&quot;https://github.com/CGenie/alfred-pass&quot;&gt;(1)&lt;/a&gt; &lt;a href=&quot;https://github.com/MatthewWest/pass-alfred&quot;&gt;(2)&lt;/a&gt; &lt;a href=&quot;https://github.com/johanthoren/simple-pass-alfred&quot;&gt;(3)&lt;/a&gt;, a &lt;a href=&quot;https://git.zx2c4.com/password-store/tree/contrib/dmenu&quot;&gt;dmenu script&lt;/a&gt;, &lt;a href=&quot;https://git.zx2c4.com/password-store/tree/contrib/pass.applescript&quot;&gt;OS X integration&lt;/a&gt;, &lt;a href=&quot;https://github.com/languitar/pass-git-helper&quot;&gt;git credential integration&lt;/a&gt;, and even an &lt;a href=&quot;https://git.zx2c4.com/password-store/tree/contrib/emacs&quot;&gt;emacs package&lt;/a&gt;.&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;p&gt;不過 iOS App 版要 jailbreak 之後才能使用呀 QQ，不過身為一個還算熟悉 CLI 的使用者，這些當然都不是問題啊，哼☹。&lt;/p&gt;
+&lt;p&gt;不過 iOS App 版要 jailbreak 之後才能使用呀 😭，不過身為一個還算熟悉 CLI 的使用者，這些當然都不是問題啊 😁。&lt;/p&gt;
 
 &lt;h2&gt;安裝 pass&lt;/h2&gt;
 
@@ -596,46 +677,6 @@ CodeDeploy 的 Service Role，直接掛上 AWS 建立好的 Policy，可以直�
         <link>http://yukaii.tw/blog/2016/03/26/from-hackpad-to-quip/</link>
         <guid isPermaLink="true">http://yukaii.tw/blog/2016/03/26/from-hackpad-to-quip/</guid>
         
-        
-      </item>
-    
-      <item>
-        <title>第十三篇 - 弄了一個統一發票查詢的 gem</title>
-        <description>&lt;p&gt;感覺很久沒發文章了。&lt;/p&gt;
-
-&lt;p&gt;因為正在準備大重構敝司的程式碼，最近這兩天，就把八個多月前寫的一個「統一發票兌獎」的 gem 給重構了一番，順便找一下手感。&lt;/p&gt;
-
-&lt;p&gt;其實無非就是加些 class，修一些 bug，補些測試，還是來這邊記錄一下，畢竟也半年多沒更新了 XD&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://github.com/Yukaii/uniform-invoice-lottery&quot;&gt;Uniform Invoice Lottery(Github)&lt;/a&gt;&lt;/p&gt;
-
-&lt;h2&gt;安裝&lt;/h2&gt;
-
-&lt;p&gt;一如往常在 &lt;code&gt;Gemfile&lt;/code&gt; 加上&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;n&quot;&gt;gem&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;uniform_invoice_lottery&#39;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;然後跑 bundle&lt;/p&gt;
-
-&lt;h2&gt;使用範例&lt;/h2&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;nb&quot;&gt;require&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;uniform_invoice_lottery&#39;&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;prize&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;UniformInvoiceLottery&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;check&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;82930261&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;time: &lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Time&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2015&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;7&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;26&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;prize&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;UniformInvoiceLottery&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;check&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;82930261&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;year: &lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2015&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;month: &lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;7&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;day: &lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;26&lt;/span&gt;
-
-&lt;span class=&quot;nb&quot;&gt;puts&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;prize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;amount&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# =&amp;gt; &quot;10000000&quot;&lt;/span&gt;
-&lt;span class=&quot;nb&quot;&gt;puts&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;prize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;title&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;# =&amp;gt; &quot;特別獎&quot;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;大概這樣，資料是從&lt;a href=&quot;http://www.etax.nat.gov.tw/etwmain/front/ETW183W1&quot;&gt;財政部這&lt;/a&gt;抓的。不過我的 css selector 過了八個月又大修了一番，希望別再無效了 :p&lt;/p&gt;
-</description>
-        <pubDate>Sat, 19 Mar 2016 13:17:00 +0800</pubDate>
-        <link>http://yukaii.tw/blog/2016/03/19/taiwan-uniform-invoice-lottery-ruby-gem/</link>
-        <guid isPermaLink="true">http://yukaii.tw/blog/2016/03/19/taiwan-uniform-invoice-lottery-ruby-gem/</guid>
-        
-        
-        <category>ruby</category>
-        
-        <category>gem</category>
-        
-        <category>欸嘿</category>
         
       </item>
     
