@@ -162,11 +162,11 @@
 
 <ol>
 <li>無法做到即時 Filesystem Refresh，每次新增檔案後，都要手動重新整理專案，新增的資料夾才會出現在列表</li>
-<li>Terminal SSH Session 在重新整理瀏覽器後不會自動 kill，所以開啟的 Rails server 佔用 port，但 Tab 已經消失，需要找出 pid 後 kill 掉（<code>lsof -i tcp:3000</code>）</li>
+<li>Terminal SSH Session 在重新整理瀏覽器後不會自動 kill，所以開啟的 Rails server 佔用 port，但 terminal tab 已經消失，需要找出 pid 後 kill 掉（<code>lsof -i tcp:3000</code>）</li>
 <li>在 Terminal 界面無法使用貼上快捷鍵（<code>Ctrl + v</code> or <code>CMD + v</code>），對於經常性 Copy &amp; Paste 的這堂課來說十分不便呀</li>
 </ol>
 
-<p>附上 ruby 裝機過程，無論是 CodeAnywhere 環境或是 Ubuntu/macOS 應該都能使用。Ubuntu 需要事先安裝好 Git，macOS 則需安裝 XCode Developer Tools。</p>
+<p>附上 rails 簡易裝機指令，無論是 CodeAnywhere 環境或是 Ubuntu/macOS 應該都能使用。Ubuntu 需要事先安裝好 Git，macOS 則需安裝 XCode Developer Tools。</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash">gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3
 <span class="se">\c</span>url -sSL https://get.rvm.io | bash -s stable
 
