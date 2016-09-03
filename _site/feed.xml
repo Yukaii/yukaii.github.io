@@ -2,12 +2,12 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Daily Oops!</title>
-    <description>Yukai&#39;s blog. Life, music, web, and all the fun.
+    <description>Yukai&#39;s blog. Web tech, apps, photos, and notes.
 </description>
     <link>http://yukaii.tw/</link>
     <atom:link href="http://yukaii.tw/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Wed, 31 Aug 2016 19:24:20 +0800</pubDate>
-    <lastBuildDate>Wed, 31 Aug 2016 19:24:20 +0800</lastBuildDate>
+    <pubDate>Sun, 04 Sep 2016 00:09:44 +0800</pubDate>
+    <lastBuildDate>Sun, 04 Sep 2016 00:09:44 +0800</lastBuildDate>
     <generator>Jekyll v3.1.6</generator>
     
       <item>
