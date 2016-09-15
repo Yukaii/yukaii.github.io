@@ -8,6 +8,11 @@
   post: comics-reader
   github: Yukaii/ComicsReader
 
+- title: '課表行事曆製作工具'
+  description: '把學校課表轉成 ics 的工具'
+  post: ics-scheduler
+  github: Yukaii/ics-scheduler
+
 - title: '綜合外電施旖婕'
   description: 一個蘋果日報奇妙記者的新聞蒐集服務
   post: 41j
