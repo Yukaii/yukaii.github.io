@@ -2,13 +2,110 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Daily Oops!</title>
-    <description>Yukai&#39;s blog. Web tech, apps, photos, and notes.
+    <description>Yukai's blog. Web tech, apps, photos, and notes.
 </description>
     <link>http://yukaii.tw/</link>
     <atom:link href="http://yukaii.tw/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Thu, 15 Sep 2016 17:27:38 +0800</pubDate>
-    <lastBuildDate>Thu, 15 Sep 2016 17:27:38 +0800</lastBuildDate>
-    <generator>Jekyll v3.1.6</generator>
+    <pubDate>Fri, 23 Sep 2016 09:54:59 +0800</pubDate>
+    <lastBuildDate>Fri, 23 Sep 2016 09:54:59 +0800</lastBuildDate>
+    <generator>Jekyll v3.2.1</generator>
+    
+      <item>
+        <title>用 jadx 來玩玩 Android 逆向工程</title>
+        <description>&lt;h2&gt;你幹嘛沒事要來逆向工程啦&lt;/h2&gt;
+
+&lt;p&gt;&lt;del&gt;就是因為沒事啊&lt;/del&gt;。呃不對，其實以前就有聽說過 Android 逆向工具很成熟，不過自從換 iPhone 後就沒怎麼關注 Android 發展了，一直沒機會玩到。&lt;/p&gt;
+
+&lt;p&gt;昨天下午剛好就在臉書刷到一款課表 App，就簡稱為 「X 社小工具」好了，可以幫你匯入學校的課表，支援多個學校。看了看截圖，感覺是在手機端輸入校務系統登入帳密達成，X 社小工具會幫你抓下來，只是不知道後面 API 怎麽跑（誰知道）。秉持著好奇的心，就讓我來逆向看看吧 XDDD。&lt;/p&gt;
+
+&lt;h2&gt;沒手機也要下載 APK&lt;/h2&gt;
+
+&lt;p&gt;直接把 APK 的 bundle id 貼到 &lt;a href=&quot;https://androidappsapk.co/apkdownloader/&quot;&gt;androidapk&lt;/a&gt; 這個網站就可以下載了，bundle id 長得像 &lt;code&gt;com.facebook.katana&lt;/code&gt;。&lt;/p&gt;
+
+&lt;h2&gt;jadx 反編譯工具&lt;/h2&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://camo.githubusercontent.com/bd3c0ea851c23c4535e43590a86c940a0786faa6/687474703a2f2f736b796c6f742e6769746875622e696f2f6a6164782f6a6164782d6775692e706e67&quot; alt=&quot;jadx&quot;&gt;&lt;/p&gt;
+
+&lt;p&gt;借一下&lt;a href=&quot;https://github.com/skylot/jadx&quot;&gt;官方&lt;/a&gt;的截圖，&lt;a href=&quot;https://github.com/skylot/jadx&quot;&gt;jadx&lt;/a&gt; 可以直接開啟 apk 檔，把 decompile 過的原始碼顯示出來；除了 gui 界面也有 command line 工具可以讓你直接轉存 source。&lt;/p&gt;
+
+&lt;p&gt;載下來解壓縮後有四個檔案：&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;.
+├── jadx
+├── jadx-gui
+├── jadx-gui.bat
+└── jadx.bat
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;code&gt;cd&lt;/code&gt; 進去目錄後執行 &lt;code&gt;./jadx-gui&lt;/code&gt;，GUI 界面開啟照著操作，選擇你要解開的 apk 就會顯示 Java code 了，也可以選擇轉存，用你喜歡的 Editor 或 IDE 開起來。&lt;/p&gt;
+
+&lt;h2&gt;讀讀讀讀讀 code&lt;/h2&gt;
+
+&lt;p&gt;不像當初 &lt;a href=&quot;https://applidium.com/en/news/unbundling_pokemon_go/&quot;&gt;Pokemon Go 被逆向&lt;/a&gt; 一樣，竟然連個混淆都沒做，X 社小工具解出來的原始碼裡，變數都被換成英文字母 abcde，不過想想我的目的就是拿到 API，就直接搜尋 &lt;code&gt;http://&lt;/code&gt;、&lt;code&gt;https://&lt;/code&gt; 網址開頭的字串~~&lt;/p&gt;
+
+&lt;h3&gt;Retrofit&lt;/h3&gt;
+
+&lt;p&gt;然後就找到了這段：&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Retrofit&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;asVar&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;Builder&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;baseUrl&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;https://容我隱藏一下.appspot.com/&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;addConverterFactory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;GsonConverterFactory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;create&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()).&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;addCallAdapterFactory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;RxJavaCallAdapterFactory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;create&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()).&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;callbackExecutor&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;AsyncTask&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;THREAD_POOL_EXECUTOR&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;client&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;asVar&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;build&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;看網址 Server 還是用 Google App Engine 架的 XD&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://square.github.io/retrofit/&quot;&gt;Retrofit&lt;/a&gt; 是 Android 用的 HTTP 客戶端，雖然沒用過，不過對於 Retrofit 用 Decorator 標記各個 Endpoint 的寫法印象很深，Retrofit 首頁的範例就這樣寫：&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;interface&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;GitHubService&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;nd&quot;&gt;@GET&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;users/{user}/repos&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;Call&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;List&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Repo&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;listRepos&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nd&quot;&gt;@Path&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;user&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;user&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;接下來只要再找出各式 Decorator 就行啦！&lt;/p&gt;
+
+&lt;h3&gt;API Endpoints&lt;/h3&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;interface&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;
+
+    &lt;span class=&quot;nd&quot;&gt;@GET&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;schools&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;h&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Map&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;j&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+
+    &lt;span class=&quot;nd&quot;&gt;@POST&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;login&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;h&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nd&quot;&gt;@Body&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;e&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;eVar&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+
+    &lt;span class=&quot;nd&quot;&gt;@GET&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;users/{uid}/schedule&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;h&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;g&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nd&quot;&gt;@Path&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;uid&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;str&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nd&quot;&gt;@Header&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Authorization&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;str2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+
+    &lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;上面是其中一段程式碼，看起來主要的 API Endpoint 都在這了。&lt;/p&gt;
+
+&lt;p&gt;接下來可以用 &lt;code&gt;curl&lt;/code&gt; 或 &lt;a href=&quot;https://www.getpostman.com/&quot;&gt;Postman&lt;/a&gt; 來試打 API，從 GET 的 Endpoint 開始，照著 Login 流程做。不過打 schedule API 的時候卻發現重大問題：&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;我的課表根本就沒課啊！！&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;所以 &lt;code&gt;schedule&lt;/code&gt; 只好當做不知道怎麽解了哈哈哈😂&lt;/p&gt;
+
+&lt;h3&gt;RxJava&lt;/h3&gt;
+
+&lt;p&gt;題外話一下，X 社小工具也用了當紅的 Reactive Programming，反編譯後的原始碼就看到一堆短短的 presenter 檔案。&lt;/p&gt;
+
+&lt;h3&gt;其實要拿 API 也不需要反編譯&lt;/h3&gt;
+
+&lt;p&gt;可以用 &lt;a href=&quot;https://www.wireshark.org/&quot;&gt;Wireshark&lt;/a&gt; 之類的封包擷取工具撈一下，不過還是看原始碼直接啦😅&lt;/p&gt;
+
+&lt;h2&gt;感想&lt;/h2&gt;
+
+&lt;p&gt;看來 ProGuard 一類的混淆工具還是有用的，變數、類別都被換掉，腦內理解搜尋速度至少慢了十倍啊，還沒辦法直接 Go to Definition...&lt;/p&gt;
+
+&lt;p&gt;本來想寫個免責聲明，不過敏感資訊都已經藏起來了，應該還好吧 XD 這篇只是個人純粹玩工具、讀讀 code 的心得而已，不要追殺我啊 😂😂😂&lt;/p&gt;
+</description>
+        <pubDate>Fri, 23 Sep 2016 00:00:00 +0800</pubDate>
+        <link>http://yukaii.tw/blog/2016/09/23/play-android-reverse-engineering-with-jadx/</link>
+        <guid isPermaLink="true">http://yukaii.tw/blog/2016/09/23/play-android-reverse-engineering-with-jadx/</guid>
+        
+        
+      </item>
     
       <item>
         <title>Rails Girl #7</title>
@@ -34,15 +131,15 @@ rvm reload
 rvm install 2.3.1
 rvm use 2.3.1 --default
 
-&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;gem: --no-ri --no-rdoc&#39;&lt;/span&gt; &amp;gt;&amp;gt; ~/.gemrc &lt;span class=&quot;c&quot;&gt;# 不需要安裝 rdoc&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'gem: --no-ri --no-rdoc'&lt;/span&gt; &amp;gt;&amp;gt; ~/.gemrc &lt;span class=&quot;c&quot;&gt;# 不需要安裝 rdoc&lt;/span&gt;
 
 gem install bundler
 bundle config --global --jobs 4
 
-&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;source &quot;https://rubygems.org&quot;
+&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'source &quot;https://rubygems.org&quot;
 ruby &quot;2.3.1&quot;
 gem &quot;rails&quot;
-&#39;&lt;/span&gt; &amp;gt;&amp;gt; ~/Gemfile
+'&lt;/span&gt; &amp;gt;&amp;gt; ~/Gemfile
 
 &lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; &lt;span class=&quot;c&quot;&gt;# 切換至家目錄&lt;/span&gt;
 bundle install
@@ -272,7 +369,7 @@ javascript:
 &lt;p&gt;第二行的 &lt;code&gt;rbenv init -&lt;/code&gt; 指令輸出，在你一般開啟的 Terminal 會跑出：&lt;/p&gt;
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;nb&quot;&gt;export &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;PATH&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;/Users/USERNAME/.rbenv/shims:&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;PATH&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
 &lt;span class=&quot;nb&quot;&gt;export &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;RBENV_SHELL&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;zsh
-&lt;span class=&quot;nb&quot;&gt;source&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;/usr/local/Cellar/rbenv/1.0.0/libexec/../completions/rbenv.zsh&#39;&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;source&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'/usr/local/Cellar/rbenv/1.0.0/libexec/../completions/rbenv.zsh'&lt;/span&gt;
 &lt;span class=&quot;c&quot;&gt;# ... 下面一串&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;不過在 VSCode 內建終端機卻會跑出：&lt;/p&gt;
@@ -284,7 +381,7 @@ javascript:
 &lt;p&gt;大概是執行權限不同的關係吧，rbenv 執行的位置不同也會讓 &lt;code&gt;gem&lt;/code&gt;/&lt;code&gt;bundler&lt;/code&gt; 裝到不同的位置，為了方便起見，一律設成一般終端機跑出來的那串。把下面這串貼到 &lt;code&gt;~/.zshrc&lt;/code&gt; 最下面就是。&lt;/p&gt;
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;nb&quot;&gt;export &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;PATH&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;/Users/USERNAME/.rbenv/shims:&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;PATH&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
 &lt;span class=&quot;nb&quot;&gt;export &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;RBENV_SHELL&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;zsh
-&lt;span class=&quot;nb&quot;&gt;source&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;/usr/local/Cellar/rbenv/1.0.0/libexec/../completions/rbenv.zsh&#39;&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;source&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'/usr/local/Cellar/rbenv/1.0.0/libexec/../completions/rbenv.zsh'&lt;/span&gt;
 &lt;span class=&quot;nb&quot;&gt;command &lt;/span&gt;rbenv rehash 2&amp;gt;/dev/null
 rbenv&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
   &lt;span class=&quot;nb&quot;&gt;local command
@@ -302,9 +399,9 @@ rbenv&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot
 &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;若是 fish 就貼下面這個：&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-&quot; data-lang=&quot;&quot;&gt;setenv PATH &#39;/Users/USERNAME/.rbenv/shims&#39; $PATH
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-&quot; data-lang=&quot;&quot;&gt;setenv PATH '/Users/USERNAME/.rbenv/shims' $PATH
 setenv RBENV_SHELL fish
-. &#39;/usr/local/Cellar/rbenv/1.0.0/libexec/../completions/rbenv.fish&#39;
+. '/usr/local/Cellar/rbenv/1.0.0/libexec/../completions/rbenv.fish'
 command rbenv rehash 2&amp;gt;/dev/null
 function rbenv
   set command $argv[1]
@@ -313,7 +410,7 @@ function rbenv
   switch &quot;$command&quot;
   case rehash shell
     . (rbenv &quot;sh-$command&quot; $argv|psub)
-  case &#39;*&#39;
+  case '*'
     command rbenv &quot;$command&quot; $argv
   end
 end
@@ -638,45 +735,6 @@ CodeDeploy 的 Service Role，直接掛上 AWS 建立好的 Policy，可以直�
         <category>workthrough</category>
         
         <category>notes</category>
-        
-      </item>
-    
-      <item>
-        <title>第十四篇 - 從 Hackpad 搬家到 Quip</title>
-        <description>&lt;p&gt;你知道，Hackpad 自從&lt;a href=&quot;https://hackpad.com/Hackpad-is-teaming-up-with-Dropbox-m1Fne5A6Lzn&quot;&gt;被 Dropbox 買走之後&lt;/a&gt;就沒增加新功能了，從 15 年四月&lt;a href=&quot;https://github.com/hackpad/hackpad/issues/1&quot;&gt;收到信說要開源&lt;/a&gt;，也是過了很久的&lt;a href=&quot;http://venturebeat.com/2015/08/21/dropbox-finally-open-sources-its-hackpad-collaborative-document-editor/&quot;&gt;八月&lt;/a&gt;才完成。當然技術公司的整並進去必定要做一堆的交接、磨合、修改成能開源的版本；不過十二月時又有 Dropbox 的&lt;a href=&quot;http://venturebeat.com/2015/08/21/dropbox-finally-open-sources-its-hackpad-collaborative-document-editor/&quot;&gt;前車之鑑&lt;/a&gt;，一路看下來我們還是多做幾個備份好 :p&lt;/p&gt;
-
-&lt;p&gt;Quip 的好就不用多說了，由 Facebook 前 CTO Bret Taylor &lt;a href=&quot;https://en.wikipedia.org/wiki/Quip&quot;&gt;創立&lt;/a&gt;，最近才在 15 年十月拿到 &lt;a href=&quot;https://www.crunchbase.com/organization/quip/funding-rounds&quot;&gt;30M 的 B 輪投資金&lt;/a&gt;，結合 &lt;a href=&quot;https://medium.com/@btaylor/react-with-c-building-the-quip-mac-and-windows-apps-c63155c1531b#.cmtg0ajpc&quot;&gt;React Native C++ Binding&lt;/a&gt; 強大技術力的 Desktop Client，近幾個月來也&lt;a href=&quot;https://quip.com/blog/&quot;&gt;持續在 UI、功能&lt;/a&gt;上優化，前途真是一片光明啊。&lt;/p&gt;
-
-&lt;p&gt;把 Hackpad 轉移到 Quip 確實是個不錯的決定（鋪陳這麼久就為了這句XD），加上 Quip 官方也非常 Nice 的提供此功能：
-&lt;blockquote class=&quot;twitter-tweet&quot; data-lang=&quot;zh-tw&quot;&gt;&lt;p lang=&quot;en&quot; dir=&quot;ltr&quot;&gt;Some of our users have asked us for a &lt;a href=&quot;https://twitter.com/hackpad&quot;&gt;@Hackpad&lt;/a&gt; import tool, and we wanted to share it with you. Check it out! &lt;a href=&quot;https://t.co/VstwZVEiLb&quot;&gt;&lt;a href=&quot;https://t.co/VstwZVEiLb&quot;&gt;https://t.co/VstwZVEiLb&lt;/a&gt;&lt;/a&gt;&lt;/p&gt;&amp;mdash; Quip (@quip) &lt;a href=&quot;https://twitter.com/quip/status/475767564383961088&quot;&gt;2014年6月8日&lt;/a&gt;&lt;/blockquote&gt;
-&lt;script async src=&quot;//platform.twitter.com/widgets.js&quot; charset=&quot;utf-8&quot;&gt;&lt;/script&gt;&lt;/p&gt;
-
-&lt;p&gt;Well, 早在 14 年吶。雖然 Dropbox Paper（前 Hackpad）也有&lt;a href=&quot;https://paper.dropbox.com/doc/Dropbox-Paper-beta-Is-Ready-For-You-Xlvlkb3yI23hLvuZxvn2Q&quot;&gt;提供導入功能&lt;/a&gt;啦，不過還要寫信到客服信箱，產品變你們家的竟然還沒有無痛一鍵導入是哪招啦 XDD。於是我的 Quip 搬家行動是勢在必行了，以下就略述這個從 hackpad 搬家到 quip 的過程。&lt;/p&gt;
-
-&lt;!--more--&gt;
-
-&lt;p&gt;首先進入網頁版的 quip，點選右上的新增文件，選擇 Import、Hackpad：
-&lt;img src=&quot;http://user-image.logdown.io/user/1128/blog/1112/post/682044/fQIA64NTvGEeUis5Kor4_Screen%20Shot%202016-03-26%20at%2012.49.26%20PM.png&quot; alt=&quot;Screen Shot 2016-03-26 at 12.49.26 PM.png&quot;&gt;
-&lt;img src=&quot;http://user-image.logdown.io/user/1128/blog/1112/post/682044/xfyJX8pgRryigqZyf1GL_Screen%20Shot%202016-03-26%20at%2012.49.33%20PM.png&quot; alt=&quot;Screen Shot 2016-03-26 at 12.49.33 PM.png&quot;&gt;&lt;/p&gt;
-
-&lt;p&gt;填入 workspace id，還有依照連結點進去看到的 Client ID 和 API Key：
-&lt;img src=&quot;http://user-image.logdown.io/user/1128/blog/1112/post/682044/s6j3UXgnSkOgGrjhHJxS_Screen%20Shot%202016-03-26%20at%2012.49.43%20PM.png&quot; alt=&quot;Screen Shot 2016-03-26 at 12.49.43 PM.png&quot;&gt;
-&lt;img src=&quot;http://user-image.logdown.io/user/1128/blog/1112/post/682044/75bxVjF0Sc6RSyb5JhCh_Screen%20Shot%202016-03-26%20at%2012.50.13%20PM.png&quot; alt=&quot;Screen Shot 2016-03-26 at 12.50.13 PM.png&quot;&gt;&lt;/p&gt;
-
-&lt;p&gt;點開始匯入到單一 Folder 就完成了，但如果你是 workspace 的 admin，你會發現到，&lt;strong&gt;有些在 workspace 不是由你建立的 pads 是不會被匯入的&lt;/strong&gt;，到 Hackpad 的 workspace management 調整 Quip Importer 的權限：&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;http://i.imgur.com/13MF60X.png&quot; alt=&quot;&quot;&gt;
-&lt;img src=&quot;http://i.imgur.com/hcLssW5.png&quot; alt=&quot;&quot;&gt;
-由 Guest 調整成 Member。&lt;/p&gt;
-
-&lt;p&gt;再等一會兒，就會看到你的 Hackpad 們都匯入到 Quip 資料夾中囉。
-&lt;img src=&quot;http://i.imgur.com/NgGR1vi.png&quot; alt=&quot;&quot;&gt;
-（完）&lt;/p&gt;
-</description>
-        <pubDate>Sat, 26 Mar 2016 04:25:00 +0800</pubDate>
-        <link>http://yukaii.tw/blog/2016/03/26/from-hackpad-to-quip/</link>
-        <guid isPermaLink="true">http://yukaii.tw/blog/2016/03/26/from-hackpad-to-quip/</guid>
-        
         
       </item>
     
