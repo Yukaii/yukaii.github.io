@@ -6,7 +6,7 @@ order: 3
 ---
 
 {% for project in site.data.projects %}
-  <a href="{{ project.github | prepend: 'https://github.com/' }}" class="exploregrid-item">
+  <a href="{{ project.link }}" class="exploregrid-item">
     <h3>{{ project.title }}</h3>
     {{ project.description }}
   </a>

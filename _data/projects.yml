@@ -1,19 +1,19 @@
 - title: Kaif iOS App
   description: An unofficial React Native iOS App for kaif.io
   post: kaif-io
-  github: Yukaii/kaif-ios
+  link: https://github.com/Yukaii/kaif-ios
 
 - title: Comics Reader
   description: A Comics Reader App build on top of modern web technology
   post: comics-reader
-  github: Yukaii/ComicsReader
+  link: https://yukaii.tw/ComicsReader
 
 - title: '課表行事曆製作工具'
   description: '把學校課表轉成 ics 的工具'
   post: ics-scheduler
-  github: Yukaii/ics-scheduler
+  link: https://yukaii.tw/ics-scheduler
 
 - title: '綜合外電施旖婕'
   description: 一個蘋果日報奇妙記者的新聞蒐集服務
   post: 41j
-  github: Yukaii/Apple-Watch
+  link: https://github.com/Yukaii/Apple-Watch
