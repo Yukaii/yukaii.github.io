@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="shortcut icon" href="/favicon.ico?">
+  <link rel="icon" sizes="16x16 32x32 64x64" href="/favicon.ico?">
+  <link rel="icon" type="image/png" sizes="196x196" href="/assets/favicon-192.png?">
+  <link rel="icon" type="image/png" sizes="160x160" href="/assets/favicon-160.png?">
+  <link rel="icon" type="image/png" sizes="96x96" href="/assets/favicon-96.png?">
+  <link rel="icon" type="image/png" sizes="64x64" href="/assets/favicon-64.png?">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png?">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png?">
+  <link rel="apple-touch-icon" href="/assets/favicon-57.png?">
+  <link rel="apple-touch-icon" sizes="114x114" href="/assets/favicon-114.png?">
+  <link rel="apple-touch-icon" sizes="72x72" href="/assets/favicon-72.png?">
+  <link rel="apple-touch-icon" sizes="144x144" href="/assets/favicon-144.png?">
+  <link rel="apple-touch-icon" sizes="60x60" href="/assets/favicon-60.png?">
+  <link rel="apple-touch-icon" sizes="120x120" href="/assets/favicon-120.png?">
+  <link rel="apple-touch-icon" sizes="76x76" href="/assets/favicon-76.png?">
+  <link rel="apple-touch-icon" sizes="152x152" href="/assets/favicon-152.png?">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon-180.png?">
+
+  <title>開源貢獻初體驗</title>
+  <meta name="description" content="第一次的 PR">
+
+  <link type="text/css" rel="stylesheet" href="/assets/primer.css">
+  <link type="text/css" rel="stylesheet" href="/assets/main.css">
+  <link rel="canonical" href="http://yukaii.tw/blog/2016/10/17/contributing-to-open-source/">
+  <link rel="alternate" type="application/rss+xml" title="Daily Oops!" href="http://yukaii.tw/feed.xml">
+  <script src="/assets/turbolinks.js" type="text/javascript" charset="utf-8"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.16/webfont.js"></script>
+  <script>
+    WebFont.load({
+      custom: {
+        families: ['Noto Sans TC'],
+        urls: ['https://fonts.googleapis.com/earlyaccess/notosanstc.css']
+      }
+    });
+  </script>
+</head>
+
+
+  <body>
+    <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-49526118-7', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+    <header class="site-header">
+
+  <div class="title-wrapper">
+    <h1>
+      <a class="site-title" href="/">Daily Oops!</a>
+    </h1>
+  </div>
+
+  <div class="nav-wrapper">
+    <div class="tabnav">
+      <nav class="tabnav-tabs">
+        
+          <a href="/" class="tabnav-tab">
+            <svg class="octicon octicon-heart" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path d="M11.2 3c-.52-.63-1.25-.95-2.2-1-.97 0-1.69.42-2.2 1-.51.58-.78.92-.8 1-.02-.08-.28-.42-.8-1-.52-.58-1.17-1-2.2-1-.95.05-1.69.38-2.2 1-.52.61-.78 1.28-.8 2 0 .52.09 1.52.67 2.67C1.25 8.82 3.01 10.61 6 13c2.98-2.39 4.77-4.17 5.34-5.33C11.91 6.51 12 5.5 12 5c-.02-.72-.28-1.39-.8-2.02V3z"></path></svg>
+            Daily Oops!
+          </a>
+        
+
+        
+        
+          
+        
+          
+        
+          
+        
+          
+            
+
+
+
+
+<a href="/blog/" class="tabnav-tab selected">
+  
+      <svg class="octicon octicon-book" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="M3 5h4v1H3V5zm0 3h4V7H3v1zm0 2h4V9H3v1zm11-5h-4v1h4V5zm0 2h-4v1h4V7zm0 2h-4v1h4V9zm2-6v9c0 .55-.45 1-1 1H9.5l-1 1-1-1H2c-.55 0-1-.45-1-1V3c0-.55.45-1 1-1h5.5l1 1 1-1H15c.55 0 1 .45 1 1zm-8 .5L7.5 3H2v9h6V3.5zm7-.5H9.5l-.5.5V12h6V3z"></path></svg>
+    
+
+  Blog
+</a>
+
+          
+        
+          
+            
+
+
+
+
+<a href="/hi-tips/" class="tabnav-tab">
+  
+      <svg class="octicon octicon-file-code" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path d="M8.5 1H1c-.55 0-1 .45-1 1v12c0 .55.45 1 1 1h10c.55 0 1-.45 1-1V4.5L8.5 1zM11 14H1V2h7l3 3v9zM5 6.98L3.5 8.5 5 10l-.5 1L2 8.5 4.5 6l.5.98zM7.5 6L10 8.5 7.5 11l-.5-.98L8.5 8.5 7 7l.5-1z"></path></svg>
+    
+
+  Hi Tips!
+</a>
+
+          
+        
+          
+            
+
+
+
+
+<a href="/projects/" class="tabnav-tab">
+  
+      <svg class="octicon octicon-octoface" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="M14.7 5.34c.13-.32.55-1.59-.13-3.31 0 0-1.05-.33-3.44 1.3-1-.28-2.07-.32-3.13-.32s-2.13.04-3.13.32c-2.39-1.64-3.44-1.3-3.44-1.3-.68 1.72-.26 2.99-.13 3.31C.49 6.21 0 7.33 0 8.69 0 13.84 3.33 15 7.98 15S16 13.84 16 8.69c0-1.36-.49-2.48-1.3-3.35zM8 14.02c-3.3 0-5.98-.15-5.98-3.35 0-.76.38-1.48 1.02-2.07 1.07-.98 2.9-.46 4.96-.46 2.07 0 3.88-.52 4.96.46.65.59 1.02 1.3 1.02 2.07 0 3.19-2.68 3.35-5.98 3.35zM5.49 9.01c-.66 0-1.2.8-1.2 1.78s.54 1.79 1.2 1.79c.66 0 1.2-.8 1.2-1.79s-.54-1.78-1.2-1.78zm5.02 0c-.66 0-1.2.79-1.2 1.78s.54 1.79 1.2 1.79c.66 0 1.2-.8 1.2-1.79s-.53-1.78-1.2-1.78z"></path></svg>
+  
+
+  Projects
+</a>
+
+          
+        
+          
+            
+
+
+
+
+<a href="/about/" class="tabnav-tab">
+  
+      <svg class="octicon octicon-info" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path d="M6.3 5.69a.942.942 0 0 1-.28-.7c0-.28.09-.52.28-.7.19-.18.42-.28.7-.28.28 0 .52.09.7.28.18.19.28.42.28.7 0 .28-.09.52-.28.7a1 1 0 0 1-.7.3c-.28 0-.52-.11-.7-.3zM8 7.99c-.02-.25-.11-.48-.31-.69-.2-.19-.42-.3-.69-.31H6c-.27.02-.48.13-.69.31-.2.2-.3.44-.31.69h1v3c.02.27.11.5.31.69.2.2.42.31.69.31h1c.27 0 .48-.11.69-.31.2-.19.3-.42.31-.69H8V7.98v.01zM7 2.3c-3.14 0-5.7 2.54-5.7 5.68 0 3.14 2.56 5.7 5.7 5.7s5.7-2.55 5.7-5.7c0-3.15-2.56-5.69-5.7-5.69v.01zM7 .98c3.86 0 7 3.14 7 7s-3.14 7-7 7-7-3.12-7-7 3.14-7 7-7z"></path></svg>
+    
+
+  About Me
+</a>
+
+          
+        
+      </nav>
+    </div>
+  </div>
+
+</header>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <article class="post markdown-body" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title" itemprop="name headline">開源貢獻初體驗</h1>
+    <p class="post-meta"><time datetime="2016-10-17T00:00:00+08:00" itemprop="datePublished">Oct 17, 2016</time></p>
+  </header>
+
+  <div class="post-content" itemprop="articleBody">
+    <h2>第一次的 PR</h2>
+
+<p>在兩個月前的暑假，還在努力當個 Rails 工程師的我，為了進行我社產品的重構，想先找個專案練練手。當時 VSCode 開源專案管理的 GithHub 令我好生羨慕，覺得所有的開源專案，如果都能如此有條理的讓人參與貢獻，那該有多好呀。我找了找 Rails 專案，發現之前有在關注的校園專案 <a href="https://plus.nctu.edu.tw/">NCTU+</a> 當時也在進行改版。</p>
+
+<p>clone 下來看了看，發現 rubocop 上色還挺多的，於是就想也沒想開始玩了起來。煞有介事的開了個 <a href="https://github.com/Yukaii/nctuplus/issues/1">issue</a>，描述專案多有技術債云云，列出了各式 Todo。首先著手的就是升級 Rails，並且把過時的套件都升級一番。</p>
+
+<p>經過了兩天的折騰後，送出了第一支 <a href="https://github.com/nctuplus/nctuplus/pull/6">Pull Request</a>。結果就失敗了 XD。</p>
+
+<h2>自我愉悅</h2>
+
+<p>我想了想，覺得當時的問題有三：</p>
+
+<ol>
+<li>PR 太大包</li>
+<li>對 Roadmap 不瞭解</li>
+<li>沒有測試</li>
+</ol>
+
+<p>最後再附加一個，太自我中心，加了一堆東西卻又沒有附上 Getting Started。</p>
+
+<p>當時我覺得 PR 太大包，其實現在看來也還好，因為「順便」把重複的目錄移除，所以 Git 更改看起來比較多。但是這「順便」就是問題所在了。在跑 GitHub Flow 時，Feature branch 應該單一目的，我雖然 PR 名為「升級 Rails/Ruby/gems」，實際上還是混雜了<a href="https://github.com/nctuplus/nctuplus/pull/6#issuecomment-238025911">多個目標</a> ，現在看來有點可惜。</p>
+
+<p>對 Product Roadmap 的不瞭解這部分，其實也算該專案的特性。校園團隊的運作方式，大概是<a href="https://www.facebook.com/nctuplus/posts/1069989203046912">徵才</a> 後大家一起共同成長，所以 Roadmap 既沒有公佈在 GitHub 也沒有在粉專，我這個亂入的傢伙，照著自己意圖亂升級，終究也只是自己的實驗 XD。</p>
+
+<p>最後一點關於測試，其實專案本身就沒啥測試 XD，所以<a href="https://github.com/nctuplus/nctuplus/pull/6#issuecomment-238018884">幫忙 Review 的同學</a>也有提到，我的 PR 還需要花大把的時間確認能不能運作。這對於當時還在衝刺功能的 NCTU+ Team 來說，確實是個沒有必要的 PR。</p>
+
+<p>總結一下，我既不熟悉 NCTU+ 團隊的運作方式，開出的問題也是假議題（沒必要升級呀），還需要花大把的成本驗證，那這個 PR 就完全是自嗨嘛 :p。</p>
+
+<h2>於是跑來寫 JavaScript</h2>
+
+<p>在大約一個月前<del>把自己開除</del>轉職回學生之後，除了玩弄下 <a href="https://mitpress.mit.edu/sicp/">SICP</a> 之外，另一項規劃就是把幾個月前開的坑 <a href="https://github.com/ComicsReader/reader">Comics Reader</a> 補了補進度。該專案也是 <a href="https://github.com/zeroshine/ComicsScroller">fork</a> 來的，不過到後來幾乎整個重寫，除了一樣是用 <a href="http://www.material-ui.com/">Material-UI</a> 界面配色照著改之外，還多了一卡車東西。</p>
+
+<p>起初想要 fork 是因為與其砍掉重練專案，不如發 PR 給原專案，一步步<del>入侵</del>影響原專案，把它變成自己的形狀。要知道重寫專案成本也是很大的，現在輪子這麼多就別再造了啦，而且原本的插件我也用的很開心。儘管如此，每個人還是都有自己的主觀意識<del>工程師的浪漫</del>，這世界的輪子才這麼多，我終究還是重造了船 😂。</p>
+
+<h2>跳入神坑 HackMD - The Realtime Collaborate Markdown Platform</h2>
+
+<p>Comics Reader 寫著寫著，對於 JavaScript 這奇妙<del>垃圾</del>語言的熱情也回來了，也想跳個坑玩一下。常在 <a href="http://join.g0v.today/">g0v slack</a> 潛水的我注意到 hackfoldr 常常拿來搭配 <a href="https://hackmd.io">HackMD</a> 使用，一個支援多人即時協作的線上 Markdown 編輯平臺。看了看 <a href="https://github.com/hackmdio/hackmd">GitHub Repo</a>，發現技術架構剛好與我目前的技能表吻合，那就開始貢獻吧！</p>
+
+<h2>為 Legacy JavaScript 導入 Webpack</h2>
+
+<p>經過幾個開發流程改進的 PR 後(<a href="https://github.com/hackmdio/hackmd/pull/187">#187</a>、<a href="https://github.com/hackmdio/hackmd/pull/190">#190</a>)，我開始<a href="https://github.com/hackmdio/hackmd/pull/195">導入 Webpack</a> 前端打包器。</p>
+
+<p>此時我對 JavaScript 的理解還停留在 React 這種 SPA 應用上，於是把許多 vendor package 都轉到 npm，然後在進入點引用進來，產生的 JS Bundle 也隨著引用的套件增加而擴大。我後來才理解到把常用的 vendor 放在 CDN 才是好的優化方法，因為瀏覽器會幫你快取，於是我又慢慢地把放到 npm 的套件在 extract 出來，簡直是繞了一大圈啊（汗）。<a href="https://github.com/hackmdio/hackmd/pull/195">#195</a> 就記錄了這過程。</p>
+
+<p>隨著這份 PR 越來越大包，我也開始覺得緊張，要是合併回去之後，功能通通炸掉怎麽辦？結果確實也是如此，我另外花了 <a href="https://github.com/hackmdio/hackmd/pull/202">#202</a>、<a href="https://github.com/hackmdio/hackmd/pull/205">#205</a>、<a href="https://github.com/hackmdio/hackmd/pull/206">#206</a> 三個 PR 來把大部分的功能修復 😅。</p>
+
+<p><a href="https://github.com/hackmdio/hackmd/pull/195">#195</a> 做出改變實在太大了，當時也是邊做邊找資料學習，於是發生了這種繞圈子的意外。好險原作者 jacky 非常 nice 的接受了 PR，也一起確認了各功能是否運作正確 😂。現在上線的版本就是小弟我加料過的，實在緊張刺激 XD。</p>
+
+<h2>更多的 PR，更多的 Open Source</h2>
+
+<p>跳入一個新專案，從 run 起來開始瞭解架構，然後開始惡搞，這就是我最近在幹的事。時常有「挖坑給自己填」之感，這就是<em>惡搞系工程師</em>的人蔘啊。</p>
+
+<p>最後再推一下 <a href="https://hackmd.io">HackMD</a> 這個專案，作者 jacky 在設計上實在加入許多巧思，希望有一天能長成工程師每天用的筆記軟體，繼續填坑讓專案更好！</p>
+
+  </div>
+  
+  
+    <div id="disqus_thread"></div>
+<script>
+
+/**
+ *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+ *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */
+
+var disqus_config = function () {
+    this.page.url = 'https://yukaii.tw';  // Replace PAGE_URL with your page's canonical URL variable
+    this.page.identifier = "/blog/2016/10/17/contributing-to-open-source"; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+
+};
+(function() { // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    s.src = '//dailyoops.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+  
+
+</article>
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+    <div class="footer-col-wrapper footer-block">
+      © 2016 <a href="https://github.com/Yukaii">Yukai Huang</a>. Built with ❤ using <a href="https://jekyllrb.com">Jekyll</a>.
+    </div>
+  </div>
+
+</footer>
+
+
+    <script id="dsq-count-scr" src="//dailyoops.disqus.com/count.js" async></script>
+  </body>
+
+</html>

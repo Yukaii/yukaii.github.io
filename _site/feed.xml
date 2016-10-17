@@ -6,9 +6,72 @@
 </description>
     <link>http://yukaii.tw/</link>
     <atom:link href="http://yukaii.tw/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sat, 15 Oct 2016 22:07:29 +0800</pubDate>
-    <lastBuildDate>Sat, 15 Oct 2016 22:07:29 +0800</lastBuildDate>
+    <pubDate>Mon, 17 Oct 2016 19:58:36 +0800</pubDate>
+    <lastBuildDate>Mon, 17 Oct 2016 19:58:36 +0800</lastBuildDate>
     <generator>Jekyll v3.2.1</generator>
+    
+      <item>
+        <title>開源貢獻初體驗</title>
+        <description>&lt;h2&gt;第一次的 PR&lt;/h2&gt;
+
+&lt;p&gt;在兩個月前的暑假，還在努力當個 Rails 工程師的我，為了進行我社產品的重構，想先找個專案練練手。當時 VSCode 開源專案管理的 GithHub 令我好生羨慕，覺得所有的開源專案，如果都能如此有條理的讓人參與貢獻，那該有多好呀。我找了找 Rails 專案，發現之前有在關注的校園專案 &lt;a href=&quot;https://plus.nctu.edu.tw/&quot;&gt;NCTU+&lt;/a&gt; 當時也在進行改版。&lt;/p&gt;
+
+&lt;p&gt;clone 下來看了看，發現 rubocop 上色還挺多的，於是就想也沒想開始玩了起來。煞有介事的開了個 &lt;a href=&quot;https://github.com/Yukaii/nctuplus/issues/1&quot;&gt;issue&lt;/a&gt;，描述專案多有技術債云云，列出了各式 Todo。首先著手的就是升級 Rails，並且把過時的套件都升級一番。&lt;/p&gt;
+
+&lt;p&gt;經過了兩天的折騰後，送出了第一支 &lt;a href=&quot;https://github.com/nctuplus/nctuplus/pull/6&quot;&gt;Pull Request&lt;/a&gt;。結果就失敗了 XD。&lt;/p&gt;
+
+&lt;h2&gt;自我愉悅&lt;/h2&gt;
+
+&lt;p&gt;我想了想，覺得當時的問題有三：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;PR 太大包&lt;/li&gt;
+&lt;li&gt;對 Roadmap 不瞭解&lt;/li&gt;
+&lt;li&gt;沒有測試&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;最後再附加一個，太自我中心，加了一堆東西卻又沒有附上 Getting Started。&lt;/p&gt;
+
+&lt;p&gt;當時我覺得 PR 太大包，其實現在看來也還好，因為「順便」把重複的目錄移除，所以 Git 更改看起來比較多。但是這「順便」就是問題所在了。在跑 GitHub Flow 時，Feature branch 應該單一目的，我雖然 PR 名為「升級 Rails/Ruby/gems」，實際上還是混雜了&lt;a href=&quot;https://github.com/nctuplus/nctuplus/pull/6#issuecomment-238025911&quot;&gt;多個目標&lt;/a&gt; ，現在看來有點可惜。&lt;/p&gt;
+
+&lt;p&gt;對 Product Roadmap 的不瞭解這部分，其實也算該專案的特性。校園團隊的運作方式，大概是&lt;a href=&quot;https://www.facebook.com/nctuplus/posts/1069989203046912&quot;&gt;徵才&lt;/a&gt; 後大家一起共同成長，所以 Roadmap 既沒有公佈在 GitHub 也沒有在粉專，我這個亂入的傢伙，照著自己意圖亂升級，終究也只是自己的實驗 XD。&lt;/p&gt;
+
+&lt;p&gt;最後一點關於測試，其實專案本身就沒啥測試 XD，所以&lt;a href=&quot;https://github.com/nctuplus/nctuplus/pull/6#issuecomment-238018884&quot;&gt;幫忙 Review 的同學&lt;/a&gt;也有提到，我的 PR 還需要花大把的時間確認能不能運作。這對於當時還在衝刺功能的 NCTU+ Team 來說，確實是個沒有必要的 PR。&lt;/p&gt;
+
+&lt;p&gt;總結一下，我既不熟悉 NCTU+ 團隊的運作方式，開出的問題也是假議題（沒必要升級呀），還需要花大把的成本驗證，那這個 PR 就完全是自嗨嘛 :p。&lt;/p&gt;
+
+&lt;h2&gt;於是跑來寫 JavaScript&lt;/h2&gt;
+
+&lt;p&gt;在大約一個月前&lt;del&gt;把自己開除&lt;/del&gt;轉職回學生之後，除了玩弄下 &lt;a href=&quot;https://mitpress.mit.edu/sicp/&quot;&gt;SICP&lt;/a&gt; 之外，另一項規劃就是把幾個月前開的坑 &lt;a href=&quot;https://github.com/ComicsReader/reader&quot;&gt;Comics Reader&lt;/a&gt; 補了補進度。該專案也是 &lt;a href=&quot;https://github.com/zeroshine/ComicsScroller&quot;&gt;fork&lt;/a&gt; 來的，不過到後來幾乎整個重寫，除了一樣是用 &lt;a href=&quot;http://www.material-ui.com/&quot;&gt;Material-UI&lt;/a&gt; 界面配色照著改之外，還多了一卡車東西。&lt;/p&gt;
+
+&lt;p&gt;起初想要 fork 是因為與其砍掉重練專案，不如發 PR 給原專案，一步步&lt;del&gt;入侵&lt;/del&gt;影響原專案，把它變成自己的形狀。要知道重寫專案成本也是很大的，現在輪子這麼多就別再造了啦，而且原本的插件我也用的很開心。儘管如此，每個人還是都有自己的主觀意識&lt;del&gt;工程師的浪漫&lt;/del&gt;，這世界的輪子才這麼多，我終究還是重造了船 😂。&lt;/p&gt;
+
+&lt;h2&gt;跳入神坑 HackMD - The Realtime Collaborate Markdown Platform&lt;/h2&gt;
+
+&lt;p&gt;Comics Reader 寫著寫著，對於 JavaScript 這奇妙&lt;del&gt;垃圾&lt;/del&gt;語言的熱情也回來了，也想跳個坑玩一下。常在 &lt;a href=&quot;http://join.g0v.today/&quot;&gt;g0v slack&lt;/a&gt; 潛水的我注意到 hackfoldr 常常拿來搭配 &lt;a href=&quot;https://hackmd.io&quot;&gt;HackMD&lt;/a&gt; 使用，一個支援多人即時協作的線上 Markdown 編輯平臺。看了看 &lt;a href=&quot;https://github.com/hackmdio/hackmd&quot;&gt;GitHub Repo&lt;/a&gt;，發現技術架構剛好與我目前的技能表吻合，那就開始貢獻吧！&lt;/p&gt;
+
+&lt;h2&gt;為 Legacy JavaScript 導入 Webpack&lt;/h2&gt;
+
+&lt;p&gt;經過幾個開發流程改進的 PR 後(&lt;a href=&quot;https://github.com/hackmdio/hackmd/pull/187&quot;&gt;#187&lt;/a&gt;、&lt;a href=&quot;https://github.com/hackmdio/hackmd/pull/190&quot;&gt;#190&lt;/a&gt;)，我開始&lt;a href=&quot;https://github.com/hackmdio/hackmd/pull/195&quot;&gt;導入 Webpack&lt;/a&gt; 前端打包器。&lt;/p&gt;
+
+&lt;p&gt;此時我對 JavaScript 的理解還停留在 React 這種 SPA 應用上，於是把許多 vendor package 都轉到 npm，然後在進入點引用進來，產生的 JS Bundle 也隨著引用的套件增加而擴大。我後來才理解到把常用的 vendor 放在 CDN 才是好的優化方法，因為瀏覽器會幫你快取，於是我又慢慢地把放到 npm 的套件在 extract 出來，簡直是繞了一大圈啊（汗）。&lt;a href=&quot;https://github.com/hackmdio/hackmd/pull/195&quot;&gt;#195&lt;/a&gt; 就記錄了這過程。&lt;/p&gt;
+
+&lt;p&gt;隨著這份 PR 越來越大包，我也開始覺得緊張，要是合併回去之後，功能通通炸掉怎麽辦？結果確實也是如此，我另外花了 &lt;a href=&quot;https://github.com/hackmdio/hackmd/pull/202&quot;&gt;#202&lt;/a&gt;、&lt;a href=&quot;https://github.com/hackmdio/hackmd/pull/205&quot;&gt;#205&lt;/a&gt;、&lt;a href=&quot;https://github.com/hackmdio/hackmd/pull/206&quot;&gt;#206&lt;/a&gt; 三個 PR 來把大部分的功能修復 😅。&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/hackmdio/hackmd/pull/195&quot;&gt;#195&lt;/a&gt; 做出改變實在太大了，當時也是邊做邊找資料學習，於是發生了這種繞圈子的意外。好險原作者 jacky 非常 nice 的接受了 PR，也一起確認了各功能是否運作正確 😂。現在上線的版本就是小弟我加料過的，實在緊張刺激 XD。&lt;/p&gt;
+
+&lt;h2&gt;更多的 PR，更多的 Open Source&lt;/h2&gt;
+
+&lt;p&gt;跳入一個新專案，從 run 起來開始瞭解架構，然後開始惡搞，這就是我最近在幹的事。時常有「挖坑給自己填」之感，這就是&lt;em&gt;惡搞系工程師&lt;/em&gt;的人蔘啊。&lt;/p&gt;
+
+&lt;p&gt;最後再推一下 &lt;a href=&quot;https://hackmd.io&quot;&gt;HackMD&lt;/a&gt; 這個專案，作者 jacky 在設計上實在加入許多巧思，希望有一天能長成工程師每天用的筆記軟體，繼續填坑讓專案更好！&lt;/p&gt;
+</description>
+        <pubDate>Mon, 17 Oct 2016 00:00:00 +0800</pubDate>
+        <link>http://yukaii.tw/blog/2016/10/17/contributing-to-open-source/</link>
+        <guid isPermaLink="true">http://yukaii.tw/blog/2016/10/17/contributing-to-open-source/</guid>
+        
+        
+      </item>
     
       <item>
         <title>用 jadx 來玩玩 Android 逆向工程</title>
@@ -635,106 +698,6 @@ yukaii.tw
         <category>安裝魂</category>
         
         <category>就只是篇筆記</category>
-        
-      </item>
-    
-      <item>
-        <title>第十五篇 - 使用 AWS CodeDeploy 跑起你的 WordPress - 官方教學筆記</title>
-        <description>&lt;p&gt;為何要部屬 WordPress？就因為他是 &lt;a href=&quot;http://docs.aws.amazon.com/codedeploy/latest/userguide/welcome.html&quot;&gt;CodeDeploy&lt;/a&gt; Tutorial 的第一個範例。AWS Documention 有個特點，就是到處 Reference 來 Reference 去，你很難在單一流程完整跑完所有的任務，非得要搭著其它份文件一起對照。筆者英文也沒那麼好，看著看著就會漏東漏西，文件又滿滿的都是字，沒有圖片可以參考，真令人崩潰。&lt;/p&gt;
-
-&lt;p&gt;CodeDeploy 是 AWS 眾多部屬方案中，看起來比較單純的一種。寫好 Setup 程式的 Shell Script，再聲明好 &lt;code&gt;appspec.yml&lt;/code&gt;，定義每個 deploy life cycle 不同的階段要跑的動作，用 AWS CLI Tool 把 repo 打包上傳到 S3，再到 CodeDeploy console 定義應用程式部屬規則、後臺發起一個 deployment（一個部屬行動），CodeDeploy Service 便會把你的 code 部屬到你設定的 Deployment Group，依照 Group 設定的機器不同，你可以在同一個機器部屬很多個 Application，或是同一個 Application 部屬到很多台機器，端看設定，啦。&lt;/p&gt;
-
-&lt;p&gt;當然，AWS 系列就是啥都可以用 CLI 跑，只要開好對應權限的 role 並拿到 Access ID 和 Secret Key，我們也可以交由第三方 CI 服務，比如說 CodeShip，來幫我們完成「打包程式碼並上傳 S3」、「發起部屬行動」這種的工作。&lt;/p&gt;
-
-&lt;p&gt;以下便大致記錄一下本日折騰的感想與流程。&lt;/p&gt;
-
-&lt;!--more--&gt;
-
-&lt;h2&gt;概念&lt;/h2&gt;
-
-&lt;p&gt;CodeDeploy 約略是 14 年 11 月推出的服務，在此幹一張官圖，看圖說故事。
-&lt;img src=&quot;http://docs.aws.amazon.com/codedeploy/latest/userguide/images/sds_architecture.png&quot; alt=&quot;CD&quot;&gt;&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;在你的開發機器上寫好 code 、設定好 appspec.yml，上傳到 github 或是打包傳到 s3&lt;/li&gt;
-&lt;li&gt;在 CodeDeploy 設定好部屬邏輯&lt;/li&gt;
-&lt;li&gt;每一台 instance 的 agent 把 codebase 從 s3 或 github 拉下來&lt;/li&gt;
-&lt;li&gt;跑部屬 script！裝裝裝&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;大概醬，英文版可以看&lt;a href=&quot;http://docs.aws.amazon.com/codedeploy/latest/userguide/welcome.html&quot;&gt;這&lt;/a&gt;，另外強烈建議 aws 系列最好都先從 &lt;a href=&quot;http://docs.aws.amazon.com/codedeploy/latest/userguide/concepts.html&quot;&gt;Concept&lt;/a&gt; 開始看，要不然鐵定被無限連結地獄搞死，崩潰。&lt;/p&gt;
-
-&lt;h2&gt;名詞解說&lt;/h2&gt;
-
-&lt;p&gt;可以開好&lt;a href=&quot;http://docs.aws.amazon.com/codedeploy/latest/userguide/getting-started-set-up-instance.html&quot;&gt;官方教學&lt;/a&gt;的分頁，淨身準備一下，接下來講解教學中會出現的名詞。其實名詞解釋放在教學開頭實在是挺不好的，我自己跑教學也是跟著實作之後才有點感覺，在還沒進行操作前做的說明都是廢話。話雖然是這樣說啦，可是這是筆記又不是演講，你翻到下面還是可以翻回來看啊，所以我還是寫在這了。呵呵。滿多中文名詞都我隨便翻的 XD，中文文件越少，我就掌握著更多的話語權（才怪），大家趕快來寫文件吧哈哈。&lt;/p&gt;
-
-&lt;p&gt;AWS 在各種服務開 API 開很大開不用錢的狀況下，權限的管理便十分重要，阿罵爽雲端福利社使用 IAM 角色權限管理服務，來區分出不同服務或使用者，對於 AWS 服務使用的權限隔離。舉例來說，CodeDeploy 在 AWS 裡算是一個服務(Service)，雖然通通都是在 AWS 裡啦，但是你還是要給他一些對 AWS 資源的存取權限才可以，比如說當我們對好幾臺 EC2 Instances 設定了標籤（Tag），我們也要給 CodeDeploy 讀取 EC2 Intance 標籤的權限，CodeDeploy 才知道要部屬到哪幾台機器上啊，這就是權限管理的作用。&lt;/p&gt;
-
-&lt;p&gt;不同的權限，在 IAM 裡就叫做 Policy（方針）。當人有了多項 Policy 之後，能力越大，責任越重，你所要承擔的就是職責了（屁話），在 IAM 裡我們把他稱作角色職責 (Role）。在 AWS 裡面有不同的服務，Role 的類型也都不同，比如 EC2 Instance 的 Role 就叫 Instance Profile，用來管理 EC2 能有那些權限，在 CodeDeploy 官方教學裡，EC2 的職責是把用 agent 把 codebase 從 s3 拉下來，所以在啟動 Instance 之前，我們必須先設定好能夠存取 S3 的 Instance Profile，並在啟動(Launch) Instance 把 Role 指派給他。&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;http://i.imgur.com/0ulM7UH.png&quot; alt=&quot;&quot;&gt;
-不同的 Role Type。CodeDeploy 教學中用到的分別是 CodeDeploy 和 EC2 的 Role Type。&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;http://i.imgur.com/on614NX.png&quot; alt=&quot;&quot;&gt;
-CodeDeploy 的 Service Role，直接掛上 AWS 建立好的 Policy，可以直接看出使用了那些權限。&lt;/p&gt;
-
-&lt;h2&gt;跑教學...咦&lt;/h2&gt;
-
-&lt;p&gt;我前面嫌的要死，就因為這次跑教學真的打死也找不到安裝 CodeDeploy agent 的步驟，反反覆覆翻了教學幾次，卻一直找不到哪裡出錯。以下來回顧一下。&lt;/p&gt;
-
-&lt;p&gt;首先，&lt;a href=&quot;http://docs.aws.amazon.com/codedeploy/latest/userguide/getting-started-set-up-instance.html&quot;&gt;照著教學&lt;/a&gt;的說明先在 EC2 Launch 一個 Instance。他第一步教學的作用其實就是給你一個預先裝好 aws cli tools 的環境，好使用 cli 界面打包上傳 code 到 s3，用你自己的電腦其實就可以了。設定好 Keypair，透過 pem 檔 ssh 進機器後，先來&lt;a href=&quot;http://docs.aws.amazon.com/codedeploy/latest/userguide/how-to-run-agent.html&quot;&gt;安裝 codedeploy agent 到機器上&lt;/a&gt;。裝到一半你會發現連 agent 的 aws s3 bucket 都抓不下來，原來是我們還沒設定 EC2 的 &lt;a href=&quot;http://docs.aws.amazon.com/codedeploy/latest/userguide/how-to-configure-existing-instance.html&quot;&gt;Instance Profile&lt;/a&gt;，也就是 EC2 類型的 Role。請去 IAM 設定，並如同連結裡面加上 S3 的存取權限。這權限一定要開，即使現在用 wget 直接拉 bucket 的 agent install script 下來裝完，之後要從 s3 部屬時沒開也沒法抓啊。&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-json&quot; data-lang=&quot;json&quot;&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-    &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;Version&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;2012-10-17&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-    &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;Statement&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-      &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-        &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;Action&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-          &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;s3:Get*&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-          &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;s3:List*&quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-        &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-      &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-    &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-  &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;&lt;em&gt;範例 S3 的 widecard 權限，當然還是詳細指定比較好。先新增 Policy，在建立 EC2 Type 的 Role Attach 上去，或是建立 Role 時寫成 Inline Policy。&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;是的。就是這兩點搞死我。&lt;strong&gt;第一，EC2 Role 要先設定 S3 存取權，並在 Instance 建立時掛載。第二，CodeDeploy Agent 要先裝上 Instance&lt;/strong&gt;。&lt;/p&gt;
-
-&lt;p&gt;教學是都搜尋的到啦，可是排成一個完整版不好嗎，都已經拆 Step by Step 了，還 Lost 一堆，崩潰啦，難怪各種 AWS 代管服務蓬勃發展啊無誤 XDDD&lt;/p&gt;
-
-&lt;h2&gt;再跑一次&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;首先在 IAM 建立兩個 Role ，一個是給 EC2 的，一個是給 CodeDeploy 的。EC2 Role 直接用上面提到的 S3 Bucket 權限寫進去，EC2 的 Role 又稱 Instance Profile，呵。CodeDeploy 的 Role 直接掛上官方的 CodeDeployPolicy，如圖：
-&lt;img src=&quot;http://i.imgur.com/F15UVaN.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;依照教學 Launch Amazon 的 Linux Instance，記得掛上剛剛建立的 EC2 Role。成功 ssh 連進去後安裝 &lt;a href=&quot;http://docs.aws.amazon.com/codedeploy/latest/userguide/how-to-run-agent.html&quot;&gt;code deploy agent&lt;/a&gt;，ubuntu 就選 apt 的那個，Amazon 自家 Linux 就選 yum 的那個，把他裝起來。&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;依照教學，把 WordPress 的 Repo 載下來，建立相應的 init script 還有 &lt;code&gt;appspec.yml&lt;/code&gt;。&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;依照教學，利用 aws cli 建立 application，上傳 s3，這邊依照教學要開一份 IAM 的 User，掛上 s3 put 的權限，下載 User 的 credential (id &amp;amp; secret key)，跑 aws configure 填入設定，這樣才可以在這臺暫時的工作機上傳檔案到 s3。依照教學打包 WordPress 上傳 s3。&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;到 CodeDeploy Console 建立 Deploy 設定。設定 DeployGroup，權限記得掛上之前建立的 CodeDeploy Service Role，其它照著跑。&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;建立部屬行動(Deployment，the 名詞)，看有沒有部屬成功。假如連 Events 都沒顯示，大概是 IAM 權限設定有問題，看一下 EC2 Role 和 CodeDeploy Role 有沒有設定正確&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;大概就這樣啦，這還只是 WordPress 而已，我要部屬的可是 Rails App 欸，之後想必有更細節的其它地方。這樣跑完了一次（還順便被雷了一下午），對 AWS 的理解就更深了，請期待之後的後續文章，哈哈哈（不要說一說就不寫了）&lt;/p&gt;
-
-&lt;p&gt;（完）&lt;/p&gt;
-</description>
-        <pubDate>Fri, 01 Apr 2016 14:46:00 +0800</pubDate>
-        <link>http://yukaii.tw/blog/2016/04/01/15th-use-aws-codedeploy-deploy-wordpress/</link>
-        <guid isPermaLink="true">http://yukaii.tw/blog/2016/04/01/15th-use-aws-codedeploy-deploy-wordpress/</guid>
-        
-        
-        <category>aws</category>
-        
-        <category>codedeploy</category>
-        
-        <category>wordpress</category>
-        
-        <category>official</category>
-        
-        <category>tutorial</category>
-        
-        <category>workthrough</category>
-        
-        <category>notes</category>
         
       </item>
     
