@@ -1,6 +1,6 @@
 ---
 layout: post
-title: uncheck smart quotes if you want instead of
+title: Disable smart quotes
 date: '2015-12-11T19:51:00+08:00'
 tags:
 - osx
