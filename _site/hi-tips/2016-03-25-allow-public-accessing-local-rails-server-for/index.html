@@ -164,18 +164,21 @@
 
   <div class="post-content" itemprop="articleBody">
     <p>I list two different ways below.</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">rails s --binding<span class="o">=</span>0.0.0.0
-localtunnel npm package
-</code></pre></div>
-<p>For the first method, simplely run up rails server by that command, then access via ip address with port 3000 by default. If you don’t have a public ip address(only LAN address), you might need to configure your Router NAT to make port 3000 alow public access.</p>
 
-<p>The other way is using localtunnel npm package, install by</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>npm install localtunnel -g
+<ol>
+<li><code>rails s --binding=0.0.0.0</code></li>
+<li>localtunnel npm package</li>
+</ol>
+
+<p>For the first method, simply run up rails server by this command, then access our server through your local machine public ip address with port 3000(by default). If you don’t have a public ip address(only LAN address), you might need to configure your Router NAT to make port 3000 public visible.</p>
+
+<p>The other way is using localtunnel npm package, you can install it by:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">npm i localtunnel -g
 </code></pre></div>
-<p>then after running rails server command, run</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>lt –port 3000
+<p>After run up rails server(<code>rails s</code>), run</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">lt –port 3000
 </code></pre></div>
-<p>The localtunnel will give you an unique url like <a href="https://gqgh.localtunnel.me">https://gqgh.localtunnel.me</a>. Now you can accessing your local server via this url.</p>
+<p>The localtunnel will give you an unique url, something like <code>https://gqgh.localtunnel.me</code>. Now you can share this url with people who want to access your local server.</p>
 
   </div>
   

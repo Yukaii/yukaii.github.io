@@ -7,9 +7,6 @@ tags:
 - eventemitter
 tumblr_url: http://hi-tips.tumblr.com/post/137014836571/use-eventemitter-for-calling-child-component-event
 ---
-via http://stackoverflow.com/questions/31177366/react-native-call-function-of-child-from-navigatorios
-
-
 
 In parent component, writes
 
@@ -37,15 +34,17 @@ Then pass on this.eventEmitter as props to child component.
 Finally add a listener for handling events in child component.
 
 ```js
-import Subscribable from ''Subscribable'';
+import Subscribable from 'Subscribable';
 
 var ChildComponent = React.createClass({
   mixins: [Subscribable.Mixin],
   componentDidMount() {
-    this.addListenerOn(this.props.events, ''SomeEvent'', this.myEventHandler);
+    this.addListenerOn(this.props.events, 'SomeEvent', this.myEventHandler);
   },
-  //other code goes here
-}
+  //some other code goes here
+});
 ```
 
-Note that ES6 style classes do not support mixins, so you must write your child component class in legacy “createClass” style.
+Note that ES6 style classes do not support mixins, so you must write your child component class in legacy `createClass` style.
+
+via [http://stackoverflow.com/questions/31177366/react-native-call-function-of-child-from-navigatorios](http://stackoverflow.com/questions/31177366/react-native-call-function-of-child-from-navigatorios)

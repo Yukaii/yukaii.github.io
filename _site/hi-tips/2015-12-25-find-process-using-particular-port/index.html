@@ -163,7 +163,7 @@
   </header>
 
   <div class="post-content" itemprop="articleBody">
-    <p>I got three ways in this post</p>
+    <p>I got three ways in <a href="http://askubuntu.com/questions/227161/how-can-we-find-which-process-is-using-a-particular-port">this post</a></p>
 
 <ul>
 <li>netstat</li>
@@ -172,20 +172,20 @@
 </ul>
 
 <h3>netstat</h3>
-
-<p>sudo netstat -nlp</p>
-
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">sudo netstat -nlp
+</code></pre></div>
 <h3>lsof</h3>
-
-<p>lsof -i tcp:43796</p>
-
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">lsof -i tcp:43796
+</code></pre></div>
 <h3>fuser</h3>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">fuser 43796/tcp
+</code></pre></div>
+<h2>References</h2>
 
-<p>fuser 43796/tcp</p>
-
-<p>via 
-<a href="http://askubuntu.com/questions/227161/how-can-we-find-which-process-is-using-a-particular-port">http://askubuntu.com/questions/227161/how-can-we-find-which-process-is-using-a-particular-port</a>
-<a href="http://www.cyberciti.biz/faq/what-process-has-open-linux-port/">http://www.cyberciti.biz/faq/what-process-has-open-linux-port/</a></p>
+<ul>
+<li><a href="http://askubuntu.com/questions/227161/how-can-we-find-which-process-is-using-a-particular-port">http://askubuntu.com/questions/227161/how-can-we-find-which-process-is-using-a-particular-port</a></li>
+<li><a href="http://www.cyberciti.biz/faq/what-process-has-open-linux-port/">http://www.cyberciti.biz/faq/what-process-has-open-linux-port/</a></li>
+</ul>
 
   </div>
   

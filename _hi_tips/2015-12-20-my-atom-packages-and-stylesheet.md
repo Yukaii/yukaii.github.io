@@ -10,11 +10,14 @@ tags:
 - stylesheet
 tumblr_url: http://hi-tips.tumblr.com/post/135567258156/my-atom-packages-and-stylesheet
 ---
+
+![](http://67.media.tumblr.com/384e7e8fd9850284e73ca31106affc35/tumblr_inline_nznpugjcJI1svfyli_1280.png)
+
 Here’s my atom packages.
+
 The complete list will at the end. A lot of murmuring :p.
 
-
-```
+```text
 Sublime-Style-Column-Selection(sublime-style Alt + mouse drag multi-line selection, suprisingly not a built-in function in Atom)
 Zen(content focus writing)
 atom-notifier(for sending native notification)
@@ -49,7 +52,7 @@ aligner
 aligner-css
 aligner-ruby
 aligner-scss
-And stylesheet as follows. Only slightly changes. 
+And stylesheet as follows. Only slightly changes.
 ```
 
 ```css
@@ -119,13 +122,13 @@ atom-text-editor::shadow .lines .line .trailing-whitespace.trailing-whitespace {
 ```
 
 
-A complete list of my packages. Use can use
+A complete list of my packages. Use can use something like following command to quickly install them.
 
-  apm install package1 package2 package3
-
-quickly install them.
-
+```bash
+apm install package1 package2 package3
 ```
+
+```bash
   ├── Sublime-Style-Column-Selection@1.3.0
   ├── Zen@0.16.3
   ├── advanced-new-file@0.5.0

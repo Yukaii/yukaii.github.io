@@ -25,7 +25,7 @@
   <link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon-180.png?">
 
   <title>Upgrade OS X git to 2.7.4 | Daily Oops!</title>
-  <meta name="description" content="Due to the CVE-2016-2324, CVE-2016‑2315 (via https://ma.ttias.be/remote-code-execution-git-versions-client-server-2-7-1-cve-2016-2324-cve-2016-2315/), we sho...">
+  <meta name="description" content="Due to the CVE-2016-2324, CVE-2016‑2315, we should upgrade our git client immediatly to prevent remote code execution :p.">
 
   <link type="text/css" rel="stylesheet" href="/assets/primer.css">
   <link type="text/css" rel="stylesheet" href="/assets/main.css">
@@ -163,24 +163,27 @@
   </header>
 
   <div class="post-content" itemprop="articleBody">
-    <p>Due to the CVE-2016-2324, CVE-2016‑2315 (via <a href="https://ma.ttias.be/remote-code-execution-git-versions-client-server-2-7-1-cve-2016-2324-cve-2016-2315/">https://ma.ttias.be/remote-code-execution-git-versions-client-server-2-7-1-cve-2016-2324-cve-2016-2315/</a>), we should upgrade our git client immediatly to prevent remote code execution :p.</p>
+    <p>Due to the <a href="https://ma.ttias.be/remote-code-execution-git-versions-client-server-2-7-1-cve-2016-2324-cve-2016-2315/">CVE-2016-2324, CVE-2016‑2315</a>, we should upgrade our git client immediatly to prevent remote code execution :p.</p>
 
 <p>In OS X, git comes with XCode Developer tool, but if we want to use the lastest git, it can be installed through Homebrew.</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash">brew install git
+which git <span class="c"># check git path</span>
 </code></pre></div>
-<p>and then run command</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">which git
-</code></pre></div>
-<p>You may find the path still in /usr/bin/git.</p>
+<p>For second command, you may find that the path still in /usr/bin/git.</p>
 
-<p>Then edit your shell configuration file(~/.bash_profile or ~/.profile or even ~/.zshrc) to place /usr/local/bin/git before /usr/bin </p>
+<p>Edit your shell configuration file(<code>~/.bash_profile</code> or <code>~/.profile</code> or even <code>~/.zshrc</code>) to place <code>/usr/local/bin/git</code> before <code>/usr/bin</code></p>
 
 <p>For example</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nb">export </span><span class="nv">PATH</span><span class="o">=</span><span class="s2">"/usr/local/bin/git:</span><span class="nv">$PATH</span><span class="s2">"</span>
 </code></pre></div>
-<p>start a new shell check git version by git --version</p>
+<p>start a new shell check git version by</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">git --version
+</code></pre></div>
+<p><img src="http://i.imgur.com/FrHKOmD.png" alt=""></p>
 
 <p>Also remember to set SourceTree git to System provided.</p>
+
+<p><img src="http://i.imgur.com/U9e2aDW.png" alt=""></p>
 
   </div>
   

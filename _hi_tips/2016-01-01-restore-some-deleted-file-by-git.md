@@ -9,14 +9,12 @@ tags:
 - file
 tumblr_url: http://hi-tips.tumblr.com/post/136385649997/restore-some-deleted-file-by-git
 ---
-Find the commit SHA when you deleted the file then checkout back to restore it.
+
+Find the commit SHA when you've deleted the file, then checkout back to restore it.
 
 ```bash
 git log --all -- <path-to-file>
 git checkout <SHA>^ -- /path/to/file
 ```
 
-
-For more you can read from original post on stackoverflow.
-
-via http://stackoverflow.com/questions/7203515/how-to-locate-a-deleted-file-in-the-commit-history
+For more you can read from the original post on [stackoverflow](http://stackoverflow.com/questions/7203515/how-to-locate-a-deleted-file-in-the-commit-history).

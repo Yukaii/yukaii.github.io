@@ -8,7 +8,10 @@ tags:
 - code
 tumblr_url: http://hi-tips.tumblr.com/post/135558385801/tumblr-code-highlightingcont
 ---
-No line wrap config for highlight.jsAdd following snippets to your customed stylesheet.
+
+## "No line wrap" configuration for highlight.js
+
+Add following snippets into your css.
 
 ```css
 pre, code {
@@ -22,14 +25,11 @@ pre, code {
 }
 ```
 
+via [http://stackoverflow.com/questions/31152421/highlight-js-with-blogger-cant-disable-auto-line-wrap](http://stackoverflow.com/questions/31152421/highlight-js-with-blogger-cant-disable-auto-line-wrap)
 
-via http://stackoverflow.com/questions/31152421/highlight-js-with-blogger-cant-disable-auto-line-wrap
+And what’s more, if you wants line numbers looks like:
 
+![](http://67.media.tumblr.com/c5e5c42ece8fd3970ad59b59985287a5/tumblr_inline_nznco3uAic1svfyli_500.png)
 
-
-And what’s more, if you wants line numbers like
-
-
-
-try 
-http://idodev.co.uk/2013/03/syntax-highlighting-with-highlightjs/
+try
+[http://idodev.co.uk/2013/03/syntax-highlighting-with-highlightjs/](http://idodev.co.uk/2013/03/syntax-highlighting-with-highlightjs/)

@@ -10,7 +10,8 @@ tags:
 - save
 tumblr_url: http://hi-tips.tumblr.com/post/136111758219/save-activerecord-model-without-validation
 ---
-Simple:
+
+One-liner:
 
 ```ruby
 model.save(validate: false)

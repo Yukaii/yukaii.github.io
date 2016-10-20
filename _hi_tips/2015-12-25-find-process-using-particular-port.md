@@ -8,7 +8,8 @@ tags:
 - port
 tumblr_url: http://hi-tips.tumblr.com/post/135908729626/find-process-using-particular-port
 ---
-I got three ways in this post
+
+I got three ways in [this post](http://askubuntu.com/questions/227161/how-can-we-find-which-process-is-using-a-particular-port)
 
 - netstat
 - fuser
@@ -16,18 +17,23 @@ I got three ways in this post
 
 ### netstat
 
-  sudo netstat -nlp
-
+```bash
+sudo netstat -nlp
+```
 
 ### lsof
 
-  lsof -i tcp:43796
+```bash
+lsof -i tcp:43796
+```
 
 ### fuser
 
-  fuser 43796/tcp
+```bash
+fuser 43796/tcp
+```
 
+## References
 
-via 
-http://askubuntu.com/questions/227161/how-can-we-find-which-process-is-using-a-particular-port
-http://www.cyberciti.biz/faq/what-process-has-open-linux-port/
+* [http://askubuntu.com/questions/227161/how-can-we-find-which-process-is-using-a-particular-port](http://askubuntu.com/questions/227161/how-can-we-find-which-process-is-using-a-particular-port)
+* [http://www.cyberciti.biz/faq/what-process-has-open-linux-port/](http://www.cyberciti.biz/faq/what-process-has-open-linux-port/)

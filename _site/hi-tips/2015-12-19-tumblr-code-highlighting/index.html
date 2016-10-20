@@ -164,21 +164,25 @@
 
   <div class="post-content" itemprop="articleBody">
     <p>Add following snippets into your html header</p>
-<div class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;header&gt;</span> 
+<div class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;header&gt;</span>
    <span class="c">&lt;!-- some other things here --&gt;</span>
-   <span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">"stylesheet"</span> <span class="na">href=</span><span class="s">"//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.0.0/styles/solarized-dark.min.css"</span><span class="nt">&gt;</span> 
+   <span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">"stylesheet"</span> <span class="na">href=</span><span class="s">"//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.0.0/styles/solarized-dark.min.css"</span><span class="nt">&gt;</span>
    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.0.0/highlight.min.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
    <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">"text/javascript"</span><span class="nt">&gt;</span>
-     <span class="nx">hljs</span><span class="p">.</span><span class="nx">initHighlightingOnLoad</span><span class="p">();</span> 
-   <span class="nt">&lt;/script&gt;</span> 
+     <span class="nx">hljs</span><span class="p">.</span><span class="nx">initHighlightingOnLoad</span><span class="p">();</span>
+   <span class="nt">&lt;/script&gt;</span>
 <span class="nt">&lt;/header&gt;</span>
 </code></pre></div>
 <p>You can pick one theme(syntax hightlight scheme) from <a href="https://github.com/isagalaev/highlight.js/tree/master/src/styles">https://github.com/isagalaev/highlight.js/tree/master/src/styles</a></p>
 
-<p>Then you can wrap your code into html</p>
+<p>Then wrap your code into <code>&lt;pre&gt;&lt;code&gt;</code> tags.</p>
 
-<p><code>&lt;pre&gt;&lt;code&gt;</code> tags.</p>
-
+<p>example:</p>
+<div class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;pre&gt;&lt;code&gt;</span>
+int a = 5;
+console.log(a)
+<span class="nt">&lt;/code&gt;&lt;/pre&gt;</span>
+</code></pre></div>
   </div>
   
   

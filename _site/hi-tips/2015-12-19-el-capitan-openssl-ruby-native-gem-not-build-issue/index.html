@@ -25,7 +25,7 @@
   <link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon-180.png?">
 
   <title>El Capitan openssl ruby native gem not build issue | Daily Oops!</title>
-  <meta name="description" content="Take eventmachine gem for example, run:">
+  <meta name="description" content="">
 
   <link type="text/css" rel="stylesheet" href="/assets/primer.css">
   <link type="text/css" rel="stylesheet" href="/assets/main.css">
@@ -163,13 +163,17 @@
   </header>
 
   <div class="post-content" itemprop="articleBody">
-    <p>Take <code>eventmachine</code> gem for example, run:</p>
-<div class="highlight"><pre><code class="language-" data-lang="">bundle config build.eventmachine --with-cppflags=-I/usr/local/opt/openssl/include
+    <p><img src="http://66.media.tumblr.com/5311feff623435ffcdf5315586c506a4/tumblr_inline_nzlzo1Qa8E1svfyli_540.png" alt=""></p>
+
+<p>Take <code>eventmachine</code> gem for example, run:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">bundle config build.eventmachine --with-cppflags<span class="o">=</span>-I/usr/local/opt/openssl/include
 </code></pre></div>
 <p>then run</p>
-<div class="highlight"><pre><code class="language-" data-lang="">bundle install
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">bundle install
 </code></pre></div>
-<p>will build.via <a href="https://github.com/eventmachine/eventmachine/issues/602">https://github.com/eventmachine/eventmachine/issues/602</a></p>
+<p>will build.</p>
+
+<p>via <a href="https://github.com/eventmachine/eventmachine/issues/602">https://github.com/eventmachine/eventmachine/issues/602</a></p>
 
   </div>
   

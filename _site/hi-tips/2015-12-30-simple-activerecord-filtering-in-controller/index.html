@@ -26,7 +26,7 @@
   <link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon-180.png?">
 
   <title>Simple ActiveRecord filtering in controller | Daily Oops!</title>
-  <meta name="description" content="In Search and Filter Rails Models Without Bloating Your Controller this article, he described that you can filtering by multiple params like:">
+  <meta name="description" content="In the article Search and Filter Rails Models Without Bloating Your Controller, the author described a way to filter records by multiple params:">
 
   <link type="text/css" rel="stylesheet" href="/assets/primer.css">
   <link type="text/css" rel="stylesheet" href="/assets/main.css">
@@ -164,14 +164,16 @@
   </header>
 
   <div class="post-content" itemprop="articleBody">
-    <p>In Search and Filter Rails Models Without Bloating Your Controller this article, he described that you can filtering by multiple params like:</p>
+    <p>In the article <a href="http://www.justinweiss.com/articles/search-and-filter-rails-models-without-bloating-your-controller/">Search and Filter Rails Models Without Bloating Your Controller</a>, the author described a way to filter records by multiple params:</p>
 <div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">params</span><span class="p">.</span><span class="nf">slice</span><span class="p">(</span><span class="ss">:status</span><span class="p">,</span> <span class="ss">:location</span><span class="p">,</span> <span class="ss">:starts_with</span><span class="p">).</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="o">|</span>
   <span class="vi">@products</span> <span class="o">=</span> <span class="vi">@products</span><span class="p">.</span><span class="nf">public_send</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="k">if</span> <span class="n">value</span><span class="p">.</span><span class="nf">present?</span>
 <span class="k">end</span>
 </code></pre></div>
-<p>Alternatively you can write:</p>
+<p>As an alternative, you can write:</p>
 <div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="no">YourModel</span><span class="p">.</span><span class="nf">where</span><span class="p">(</span><span class="n">params</span><span class="p">.</span><span class="nf">slice</span><span class="p">(</span><span class="o">*</span><span class="p">[</span><span class="n">your_filtering_params_array</span><span class="p">]))</span>
 </code></pre></div>
+<p>This is for a newer Rails version.</p>
+
   </div>
   
   

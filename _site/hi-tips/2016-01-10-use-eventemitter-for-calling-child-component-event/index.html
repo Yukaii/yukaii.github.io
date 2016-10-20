@@ -25,7 +25,7 @@
   <link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon-180.png?">
 
   <title>Use EventEmitter for calling child component event from parent in React | Daily Oops!</title>
-  <meta name="description" content="via http://stackoverflow.com/questions/31177366/react-native-call-function-of-child-from-navigatorios">
+  <meta name="description" content="In parent component, writes">
 
   <link type="text/css" rel="stylesheet" href="/assets/primer.css">
   <link type="text/css" rel="stylesheet" href="/assets/main.css">
@@ -163,9 +163,7 @@
   </header>
 
   <div class="post-content" itemprop="articleBody">
-    <p>via <a href="http://stackoverflow.com/questions/31177366/react-native-call-function-of-child-from-navigatorios">http://stackoverflow.com/questions/31177366/react-native-call-function-of-child-from-navigatorios</a></p>
-
-<p>In parent component, writes</p>
+    <p>In parent component, writes</p>
 <div class="highlight"><pre><code class="language-js" data-lang="js"><span class="c1">// in import package parts</span>
 <span class="kr">import</span> <span class="nx">EventEmitter</span> <span class="nx">from</span> <span class="s1">'EventEmitter'</span><span class="p">;</span>
 
@@ -182,17 +180,19 @@
 <div class="highlight"><pre><code class="language-js" data-lang="js"><span class="o">&lt;</span><span class="nx">ChildComponent</span> <span class="nx">event</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">eventEmitter</span><span class="p">}</span> <span class="sr">/</span><span class="err">&gt;
 </span></code></pre></div>
 <p>Finally add a listener for handling events in child component.</p>
-<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="kr">import</span> <span class="nx">Subscribable</span> <span class="nx">from</span> <span class="s1">''</span><span class="nx">Subscribable</span><span class="s1">''</span><span class="p">;</span>
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="kr">import</span> <span class="nx">Subscribable</span> <span class="nx">from</span> <span class="s1">'Subscribable'</span><span class="p">;</span>
 
 <span class="kd">var</span> <span class="nx">ChildComponent</span> <span class="o">=</span> <span class="nx">React</span><span class="p">.</span><span class="nx">createClass</span><span class="p">({</span>
   <span class="na">mixins</span><span class="p">:</span> <span class="p">[</span><span class="nx">Subscribable</span><span class="p">.</span><span class="nx">Mixin</span><span class="p">],</span>
   <span class="nx">componentDidMount</span><span class="p">()</span> <span class="p">{</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">addListenerOn</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">events</span><span class="p">,</span> <span class="s1">''</span><span class="nx">SomeEvent</span><span class="s1">''</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">myEventHandler</span><span class="p">);</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">addListenerOn</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">events</span><span class="p">,</span> <span class="s1">'SomeEvent'</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">myEventHandler</span><span class="p">);</span>
   <span class="p">},</span>
-  <span class="c1">//other code goes here</span>
-<span class="p">}</span>
+  <span class="c1">//some other code goes here</span>
+<span class="p">});</span>
 </code></pre></div>
-<p>Note that ES6 style classes do not support mixins, so you must write your child component class in legacy “createClass” style.</p>
+<p>Note that ES6 style classes do not support mixins, so you must write your child component class in legacy <code>createClass</code> style.</p>
+
+<p>via <a href="http://stackoverflow.com/questions/31177366/react-native-call-function-of-child-from-navigatorios">http://stackoverflow.com/questions/31177366/react-native-call-function-of-child-from-navigatorios</a></p>
 
   </div>
   

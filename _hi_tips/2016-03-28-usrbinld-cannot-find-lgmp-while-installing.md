@@ -7,7 +7,8 @@ tags:
 - gem
 tumblr_url: http://hi-tips.tumblr.com/post/141841907026/usrbinld-cannot-find-lgmp-while-installing
 ---
-Install the missing library:
+
+Install the missing library to solve the problem.
 
 ```bash
 sudo apt-get install libgmp3-dev

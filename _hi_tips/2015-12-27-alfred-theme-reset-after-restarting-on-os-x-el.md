@@ -10,4 +10,5 @@ tags:
 - restart
 tumblr_url: http://hi-tips.tumblr.com/post/136058773048/alfred-theme-reset-after-restarting-on-os-x-el
 ---
-http://www.alfredforum.com/topic/5197-restart-resets-alfred/page-2#entry40853
+
+[http://www.alfredforum.com/topic/5197-restart-resets-alfred/page-2#entry40853](http://www.alfredforum.com/topic/5197-restart-resets-alfred/page-2#entry40853)

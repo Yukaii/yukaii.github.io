@@ -25,7 +25,7 @@
   <link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon-180.png?">
 
   <title>Hosting a mongo db instance on Google Cloud Platform | Daily Oops!</title>
-  <meta name="description" content="I just signed up Google Cloud Platform(GCP) and got $300 free usage. It’s handy starting at cloud launcher mongo instance if you don’t care about the price :p.">
+  <meta name="description" content="I just signed up Google Cloud Platform(GCP) and got $300 free usage. It’s handy for starting a new mongo instance if you don’t care about the price.">
 
   <link type="text/css" rel="stylesheet" href="/assets/primer.css">
   <link type="text/css" rel="stylesheet" href="/assets/main.css">
@@ -163,15 +163,15 @@
   </header>
 
   <div class="post-content" itemprop="articleBody">
-    <p>I just signed up Google Cloud Platform(GCP) and got $300 free usage. It’s handy starting at cloud launcher mongo instance if you don’t care about the price :p.</p>
+    <p>I just signed up Google Cloud Platform(GCP) and got $300 free usage. It’s handy for starting a new mongo instance if you don’t care about the price.</p>
 
 <p>The following is the installation checklist.</p>
 
 <ul>
 <li>create a cloud computing resource</li>
-<li>follow the official guide for installation mongo db</li>
+<li>follow <a href="https://docs.mongodb.com/manual/tutorial/install-mongodb-on-ubuntu/">the official guide</a> for installation mongo db</li>
 <li>setup iptable rules</li>
-<li>set bindIp to 0.0.0.0 in /etc/mongo.conf</li>
+<li>set bindIp to 0.0.0.0 in <code>/etc/mongo.conf</code>(should better use reverse proxy or somewhat)</li>
 <li>allow tcp 27017 port in firewall rules</li>
 </ul>
 
