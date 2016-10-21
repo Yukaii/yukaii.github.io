@@ -14,7 +14,7 @@ I list two different ways below.
 1. `rails s --binding=0.0.0.0`
 2. localtunnel npm package
 
-For the first method, simply run up rails server by this command, then access our server through your local machine public ip address with port 3000(by default). If you don’t have a public ip address(only LAN address), you might need to configure your Router NAT to make port 3000 public visible.
+For the first method, simply run up rails server by this command, then access our server through your local machine public ip address with port 3000(by default). If you don't have a public ip address(only LAN address), you might need to configure your Router NAT to make port 3000 public visible.
 
 The other way is using localtunnel npm package, you can install it by:
 

@@ -1,6 +1,6 @@
 ---
 layout: post
-title: git can’t commit with vim
+title: git cannot commit with vim
 date: '2016-03-18T09:06:22+08:00'
 tags:
 - git

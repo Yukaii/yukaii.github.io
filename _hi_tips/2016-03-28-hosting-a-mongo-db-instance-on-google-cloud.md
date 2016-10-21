@@ -8,7 +8,7 @@ tags:
 tumblr_url: http://hi-tips.tumblr.com/post/141840189541/hosting-a-mongo-db-instance-on-google-cloud
 ---
 
-I just signed up Google Cloud Platform(GCP) and got $300 free usage. It’s handy for starting a new mongo instance if you don’t care about the price.
+I just signed up Google Cloud Platform(GCP) and got $300 free usage. It’s handy for starting a new mongo instance if you don't care about the price.
 
 The following is the installation checklist.
 
