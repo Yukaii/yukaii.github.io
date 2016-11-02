@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="shortcut icon" href="/favicon.ico?">
+  <link rel="icon" sizes="16x16 32x32 64x64" href="/favicon.ico?">
+  <link rel="icon" type="image/png" sizes="196x196" href="/assets/favicon-192.png?">
+  <link rel="icon" type="image/png" sizes="160x160" href="/assets/favicon-160.png?">
+  <link rel="icon" type="image/png" sizes="96x96" href="/assets/favicon-96.png?">
+  <link rel="icon" type="image/png" sizes="64x64" href="/assets/favicon-64.png?">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png?">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png?">
+  <link rel="apple-touch-icon" href="/assets/favicon-57.png?">
+  <link rel="apple-touch-icon" sizes="114x114" href="/assets/favicon-114.png?">
+  <link rel="apple-touch-icon" sizes="72x72" href="/assets/favicon-72.png?">
+  <link rel="apple-touch-icon" sizes="144x144" href="/assets/favicon-144.png?">
+  <link rel="apple-touch-icon" sizes="60x60" href="/assets/favicon-60.png?">
+  <link rel="apple-touch-icon" sizes="120x120" href="/assets/favicon-120.png?">
+  <link rel="apple-touch-icon" sizes="76x76" href="/assets/favicon-76.png?">
+  <link rel="apple-touch-icon" sizes="152x152" href="/assets/favicon-152.png?">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon-180.png?">
+
+  <title>在 Electron 的 Renderer Process 裡，使用 IPC 呼叫跑在 Main Process 的 API | Daily Oops!</title>
+  <meta name="description" content="這次我最近在實作噗浪 electron app - Puraku 時使用的抽象化寫法。">
+
+  <link type="text/css" rel="stylesheet" href="/assets/primer.css">
+  <link type="text/css" rel="stylesheet" href="/assets/main.css">
+  <link rel="canonical" href="http://yukaii.tw/blog/2016/11/02/use-electron-ipc-to-call-api-from-main-process/">
+  <link rel="alternate" type="application/rss+xml" title="Daily Oops!" href="http://yukaii.tw/feed.xml">
+  <script src="/assets/turbolinks.js" type="text/javascript" charset="utf-8"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.16/webfont.js"></script>
+  <script>
+    WebFont.load({
+      custom: {
+        families: ['Noto Sans TC'],
+        urls: ['https://fonts.googleapis.com/earlyaccess/notosanstc.css']
+      }
+    });
+  </script>
+</head>
+
+
+  <body>
+    <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-49526118-7', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+    <header class="site-header">
+
+  <div class="title-wrapper">
+    <h1>
+      <a class="site-title" href="/">Daily Oops!</a>
+    </h1>
+  </div>
+
+  <div class="nav-wrapper">
+    <div class="tabnav">
+      <nav class="tabnav-tabs">
+        
+          <a href="/" class="tabnav-tab">
+            <svg class="octicon octicon-heart" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path d="M11.2 3c-.52-.63-1.25-.95-2.2-1-.97 0-1.69.42-2.2 1-.51.58-.78.92-.8 1-.02-.08-.28-.42-.8-1-.52-.58-1.17-1-2.2-1-.95.05-1.69.38-2.2 1-.52.61-.78 1.28-.8 2 0 .52.09 1.52.67 2.67C1.25 8.82 3.01 10.61 6 13c2.98-2.39 4.77-4.17 5.34-5.33C11.91 6.51 12 5.5 12 5c-.02-.72-.28-1.39-.8-2.02V3z"></path></svg>
+            Daily Oops!
+          </a>
+        
+
+        
+        
+          
+        
+          
+        
+          
+        
+          
+            
+
+
+
+
+<a href="/blog/" class="tabnav-tab selected">
+  
+      <svg class="octicon octicon-book" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="M3 5h4v1H3V5zm0 3h4V7H3v1zm0 2h4V9H3v1zm11-5h-4v1h4V5zm0 2h-4v1h4V7zm0 2h-4v1h4V9zm2-6v9c0 .55-.45 1-1 1H9.5l-1 1-1-1H2c-.55 0-1-.45-1-1V3c0-.55.45-1 1-1h5.5l1 1 1-1H15c.55 0 1 .45 1 1zm-8 .5L7.5 3H2v9h6V3.5zm7-.5H9.5l-.5.5V12h6V3z"></path></svg>
+    
+
+  Blog
+</a>
+
+          
+        
+          
+            
+
+
+
+
+<a href="/hi-tips/" class="tabnav-tab">
+  
+      <svg class="octicon octicon-file-code" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path d="M8.5 1H1c-.55 0-1 .45-1 1v12c0 .55.45 1 1 1h10c.55 0 1-.45 1-1V4.5L8.5 1zM11 14H1V2h7l3 3v9zM5 6.98L3.5 8.5 5 10l-.5 1L2 8.5 4.5 6l.5.98zM7.5 6L10 8.5 7.5 11l-.5-.98L8.5 8.5 7 7l.5-1z"></path></svg>
+    
+
+  Hi Tips!
+</a>
+
+          
+        
+          
+            
+
+
+
+
+<a href="/projects/" class="tabnav-tab">
+  
+      <svg class="octicon octicon-octoface" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="M14.7 5.34c.13-.32.55-1.59-.13-3.31 0 0-1.05-.33-3.44 1.3-1-.28-2.07-.32-3.13-.32s-2.13.04-3.13.32c-2.39-1.64-3.44-1.3-3.44-1.3-.68 1.72-.26 2.99-.13 3.31C.49 6.21 0 7.33 0 8.69 0 13.84 3.33 15 7.98 15S16 13.84 16 8.69c0-1.36-.49-2.48-1.3-3.35zM8 14.02c-3.3 0-5.98-.15-5.98-3.35 0-.76.38-1.48 1.02-2.07 1.07-.98 2.9-.46 4.96-.46 2.07 0 3.88-.52 4.96.46.65.59 1.02 1.3 1.02 2.07 0 3.19-2.68 3.35-5.98 3.35zM5.49 9.01c-.66 0-1.2.8-1.2 1.78s.54 1.79 1.2 1.79c.66 0 1.2-.8 1.2-1.79s-.54-1.78-1.2-1.78zm5.02 0c-.66 0-1.2.79-1.2 1.78s.54 1.79 1.2 1.79c.66 0 1.2-.8 1.2-1.79s-.53-1.78-1.2-1.78z"></path></svg>
+  
+
+  Projects
+</a>
+
+          
+        
+          
+            
+
+
+
+
+<a href="/about/" class="tabnav-tab">
+  
+      <svg class="octicon octicon-info" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path d="M6.3 5.69a.942.942 0 0 1-.28-.7c0-.28.09-.52.28-.7.19-.18.42-.28.7-.28.28 0 .52.09.7.28.18.19.28.42.28.7 0 .28-.09.52-.28.7a1 1 0 0 1-.7.3c-.28 0-.52-.11-.7-.3zM8 7.99c-.02-.25-.11-.48-.31-.69-.2-.19-.42-.3-.69-.31H6c-.27.02-.48.13-.69.31-.2.2-.3.44-.31.69h1v3c.02.27.11.5.31.69.2.2.42.31.69.31h1c.27 0 .48-.11.69-.31.2-.19.3-.42.31-.69H8V7.98v.01zM7 2.3c-3.14 0-5.7 2.54-5.7 5.68 0 3.14 2.56 5.7 5.7 5.7s5.7-2.55 5.7-5.7c0-3.15-2.56-5.69-5.7-5.69v.01zM7 .98c3.86 0 7 3.14 7 7s-3.14 7-7 7-7-3.12-7-7 3.14-7 7-7z"></path></svg>
+    
+
+  About Me
+</a>
+
+          
+        
+      </nav>
+    </div>
+  </div>
+
+</header>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <article class="post markdown-body" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title" itemprop="name headline">在 Electron 的 Renderer Process 裡，使用 IPC 呼叫跑在 Main Process 的 API</h1>
+    <p class="post-meta"><time datetime="2016-11-02T00:00:00+08:00" itemprop="datePublished">Nov 2, 2016</time></p>
+  </header>
+
+  <div class="post-content" itemprop="articleBody">
+    <p>這次我最近在實作噗浪 electron app - <a href="https://github.com/puraku/client"><strong>Puraku</strong></a> 時使用的抽象化寫法。</p>
+
+<p>先談一下背景。其實在 <a href="https://www.plurk.com/API">Plurk API</a> 的網頁上就已經有 Plurk 的 <a href="https://github.com/puraku/purakujs">JavaScript API Library</a>，不過它沒有包成 npm 可以直接使用，而且也是相依於 <a href="https://github.com/ciaranj/node-oauth">node-oauth</a> 套件，看名字就知道和 Node 有關。</p>
+
+<p>這次寫的 <a href="https://github.com/puraku/client">puraku</a> 是一個以前端為主的桌面軟體，所以我勢必要對 API Client Library 做些改寫。</p>
+
+<h2>重新封裝 API Library</h2>
+
+<p>請直接參考 <a href="https://github.com/puraku/purakujs">purakujs</a>，也是個可以直接使用的 Plurk API Node library，雖然這年頭也沒多少工程師在串噗浪了 😅 。值得一提的是 yarn 對 <code>npm link</code> 的支援不太好，在設定本機開發環境跑完 <code>npm link</code> 後，不要在 <code>package.json</code> 加上套件名稱，防止在跑 <code>yarn install</code> 指令時又噴錯。</p>
+
+<h3>Electron</h3>
+
+<p>關於 Electron 是啥便不再贅述。首先在 Electron 的 Main Process 可以呼叫 node 的 api，所以把 oauth library 放在這跑是完全沒問題的，但 Renderer Process 才是主要觸發 API 的地方。Electron 提供了 IPC 的 API 界面實作，可以這樣寫：</p>
+
+<blockquote>
+<p>commit <a href="https://github.com/puraku/client/pull/5/commits/df4c8a225a36485747f7022b1391b50ee9e9f19c">df4c8a2</a></p>
+</blockquote>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="c1">// Renderer Process</span>
+<span class="kr">import</span> <span class="p">{</span> <span class="nx">ipcRenderer</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">'electron'</span><span class="p">;</span>
+
+<span class="kr">export</span> <span class="kd">function</span> <span class="nx">request</span><span class="p">(</span><span class="nx">method</span><span class="p">,</span> <span class="nx">endpoint</span><span class="p">,</span> <span class="nx">params</span><span class="o">=</span><span class="kc">null</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="nx">ipcRenderer</span><span class="p">.</span><span class="nx">sendSync</span><span class="p">(</span><span class="s1">'puraku:api'</span><span class="p">,</span> <span class="p">{</span><span class="nx">method</span><span class="p">,</span> <span class="nx">endpoint</span><span class="p">,</span> <span class="nx">params</span><span class="p">});</span>
+<span class="p">}</span>
+
+<span class="c1">// Main Process</span>
+<span class="nx">ipcMain</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">'puraku:api'</span><span class="p">,</span> <span class="p">(</span><span class="nx">event</span><span class="p">,</span> <span class="nx">args</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kr">const</span> <span class="p">{</span> <span class="nx">method</span><span class="p">,</span> <span class="nx">endpoint</span><span class="p">,</span> <span class="nx">params</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">args</span><span class="p">;</span>
+  <span class="nx">myApiClient</span><span class="p">.</span><span class="nx">request</span><span class="p">(</span><span class="nx">method</span><span class="p">,</span> <span class="nx">endpoint</span><span class="p">,</span> <span class="nx">params</span><span class="p">).</span><span class="nx">then</span><span class="p">(({</span><span class="nx">data</span><span class="p">})</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">event</span><span class="p">.</span><span class="nx">returnValue</span> <span class="o">=</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">data</span><span class="p">);</span>
+  <span class="p">}).</span><span class="k">catch</span><span class="p">(</span><span class="nx">error</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">event</span><span class="p">.</span><span class="nx">returnValue</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">error</span> <span class="p">};</span>
+  <span class="p">});</span>
+<span class="p">});</span>
+</code></pre></div>
+<p>這是 ipc api 的同步寫法。不過一旦使用同步，整個 Renderer Process 會被 Block 掉，所以我們要改用非同步的 message passing，以及相應的 Promise 封裝。</p>
+
+<h3>Asyncronous IPC</h3>
+
+<blockquote>
+<p>commit <a href="https://github.com/puraku/client/pull/5/commits/3f2fee64664c4082520a3a8b9ffe6d90cb6cfdbd">3f2fee</a></p>
+</blockquote>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="c1">// Renderer Process</span>
+<span class="kr">import</span> <span class="p">{</span> <span class="nx">ipcRenderer</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">'electron'</span><span class="p">;</span>
+
+<span class="kr">export</span> <span class="kd">function</span> <span class="nx">request</span><span class="p">(</span><span class="nx">method</span><span class="p">,</span> <span class="nx">endpoint</span><span class="p">,</span> <span class="nx">params</span><span class="o">=</span><span class="kc">null</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="k">new</span> <span class="nx">Promise</span><span class="p">((</span><span class="nx">resolve</span><span class="p">,</span> <span class="nx">reject</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="kr">const</span> <span class="nx">timestamp</span> <span class="o">=</span> <span class="nb">Date</span><span class="p">.</span><span class="nx">now</span><span class="p">();</span>
+    <span class="kr">const</span> <span class="nx">result</span> <span class="o">=</span> <span class="nx">ipcRenderer</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="s1">'puraku:api'</span><span class="p">,</span> <span class="p">{</span><span class="nx">method</span><span class="p">,</span> <span class="nx">endpoint</span><span class="p">,</span> <span class="nx">params</span><span class="p">,</span> <span class="nx">timestamp</span><span class="p">});</span>
+
+    <span class="nx">ipcRenderer</span><span class="p">.</span><span class="nx">once</span><span class="p">(</span><span class="err">`</span><span class="na">puraku</span><span class="p">:</span><span class="na">api</span><span class="p">:</span><span class="nx">$</span><span class="p">{</span><span class="nx">endpoint</span><span class="p">}:</span><span class="nx">$</span><span class="p">{</span><span class="nx">timestamp</span><span class="p">}</span><span class="err">`</span><span class="p">,</span> <span class="p">(</span><span class="nx">event</span><span class="p">,</span> <span class="nx">result</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">result</span><span class="p">.</span><span class="nx">hasOwnProperty</span><span class="p">(</span><span class="s1">'error'</span><span class="p">))</span> <span class="p">{</span>
+        <span class="nx">reject</span><span class="p">(</span><span class="nx">result</span><span class="p">);</span>
+      <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="nx">resolve</span><span class="p">(</span><span class="nx">result</span><span class="p">);</span>
+      <span class="p">}</span>
+    <span class="p">});</span>
+  <span class="p">});</span>
+<span class="p">}</span>
+
+<span class="c1">// Main Process</span>
+<span class="nx">ipcMain</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">'puraku:api'</span><span class="p">,</span> <span class="p">(</span><span class="nx">event</span><span class="p">,</span> <span class="nx">args</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kr">const</span> <span class="p">{</span> <span class="nx">method</span><span class="p">,</span> <span class="nx">endpoint</span><span class="p">,</span> <span class="nx">params</span><span class="p">,</span> <span class="nx">timestamp</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">args</span><span class="p">;</span>
+  <span class="nx">myApiClient</span><span class="p">.</span><span class="nx">request</span><span class="p">(</span><span class="nx">method</span><span class="p">,</span> <span class="nx">endpoint</span><span class="p">,</span> <span class="nx">params</span><span class="p">).</span><span class="nx">then</span><span class="p">(({</span><span class="nx">data</span><span class="p">})</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">event</span><span class="p">.</span><span class="nx">sender</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="err">`</span><span class="na">puraku</span><span class="p">:</span><span class="na">api</span><span class="p">:</span><span class="nx">$</span><span class="p">{</span><span class="nx">endpoint</span><span class="p">}:</span><span class="nx">$</span><span class="p">{</span><span class="nx">timestamp</span><span class="p">}</span><span class="err">`</span><span class="p">,</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">data</span><span class="p">));</span>
+  <span class="p">}).</span><span class="k">catch</span><span class="p">(</span><span class="nx">error</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">event</span><span class="p">.</span><span class="nx">sender</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="err">`</span><span class="na">puraku</span><span class="p">:</span><span class="na">api</span><span class="p">:</span><span class="nx">$</span><span class="p">{</span><span class="nx">endpoint</span><span class="p">}:</span><span class="nx">$</span><span class="p">{</span><span class="nx">timestamp</span><span class="p">}</span><span class="err">`</span><span class="p">,</span> <span class="p">{</span><span class="nx">error</span><span class="p">});</span>
+  <span class="p">});</span>
+<span class="p">});</span>
+</code></pre></div>
+<h3>IPC 事件一對一對應</h3>
+
+<p>可以發現在這一版的 Renderer Process 我加了一個 <code>timestamp</code> 來簡單的區分不同的 API request，因為如果光用 API 的 Endpoint 當做事件的鍵值，戳相同 API 兩次時就會衝到。</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">const</span> <span class="nx">timestamp</span> <span class="o">=</span> <span class="nb">Date</span><span class="p">.</span><span class="nx">now</span><span class="p">();</span>
+<span class="kr">const</span> <span class="nx">eventKey</span> <span class="o">=</span> <span class="err">`</span><span class="nx">puraku</span><span class="err">:</span><span class="nx">api</span><span class="err">:</span><span class="nx">$</span><span class="p">{</span><span class="nx">endpoint</span><span class="p">}</span><span class="err">:</span><span class="nx">$</span><span class="p">{</span><span class="nx">timestamp</span><span class="p">}</span><span class="err">`</span><span class="p">;</span>
+</code></pre></div>
+<p>不過卻發現每次取的 timestamp 還是有機會一樣，經過 Google 之後我們把 <code>timestamp</code> 亂數的產生方法改成 <code>performance.now()</code>：</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">const</span> <span class="nx">randomSeed</span> <span class="o">=</span> <span class="nx">performance</span><span class="p">.</span><span class="nx">now</span><span class="p">();</span>
+<span class="kr">const</span> <span class="nx">eventKey</span> <span class="o">=</span> <span class="err">`</span><span class="nx">puraku</span><span class="err">:</span><span class="nx">api</span><span class="err">:</span><span class="nx">$</span><span class="p">{</span><span class="nx">endpoint</span><span class="p">}</span><span class="err">:</span><span class="nx">$</span><span class="p">{</span><span class="nx">randomSeed</span><span class="p">}</span><span class="err">`</span><span class="p">;</span>
+</code></pre></div>
+<p>到這裡，我們就可以用熟悉的 Promise 介面，在 Renderer Process 輕鬆地串接 Main Process 的 API 啦！以下是目前的實作：</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="c1">// Renderer Process</span>
+<span class="kr">import</span> <span class="p">{</span> <span class="nx">ipcRenderer</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">'electron'</span><span class="p">;</span>
+
+<span class="kr">export</span> <span class="kd">function</span> <span class="nx">request</span><span class="p">(</span><span class="nx">method</span><span class="p">,</span> <span class="nx">endpoint</span><span class="p">,</span> <span class="nx">params</span> <span class="o">=</span> <span class="kc">null</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="k">new</span> <span class="nx">Promise</span><span class="p">((</span><span class="nx">resolve</span><span class="p">,</span> <span class="nx">reject</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="kr">const</span> <span class="nx">randomSeed</span> <span class="o">=</span> <span class="nx">performance</span><span class="p">.</span><span class="nx">now</span><span class="p">();</span>
+    <span class="nx">ipcRenderer</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="s1">'puraku:api'</span><span class="p">,</span> <span class="p">{</span> <span class="nx">method</span><span class="p">,</span> <span class="nx">endpoint</span><span class="p">,</span> <span class="nx">params</span><span class="p">,</span> <span class="nx">randomSeed</span> <span class="p">});</span>
+
+    <span class="nx">ipcRenderer</span><span class="p">.</span><span class="nx">once</span><span class="p">(</span><span class="err">`</span><span class="na">puraku</span><span class="p">:</span><span class="na">api</span><span class="p">:</span><span class="nx">$</span><span class="p">{</span><span class="nx">endpoint</span><span class="p">}:</span><span class="nx">$</span><span class="p">{</span><span class="nx">randomSeed</span><span class="p">}</span><span class="err">`</span><span class="p">,</span> <span class="p">(</span><span class="nx">event</span><span class="p">,</span> <span class="nx">result</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">result</span><span class="p">.</span><span class="nx">hasOwnProperty</span><span class="p">(</span><span class="s1">'error'</span><span class="p">))</span> <span class="p">{</span>
+        <span class="nx">reject</span><span class="p">(</span><span class="nx">result</span><span class="p">);</span>
+      <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="nx">resolve</span><span class="p">(</span><span class="nx">result</span><span class="p">);</span>
+      <span class="p">}</span>
+    <span class="p">});</span>
+  <span class="p">});</span>
+<span class="p">}</span>
+
+<span class="c1">// Main Process</span>
+<span class="kr">const</span> <span class="p">{</span> <span class="nx">ipcMain</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'electron'</span><span class="p">);</span>
+
+<span class="nx">ipcMain</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">'puraku:api'</span><span class="p">,</span> <span class="p">(</span><span class="nx">event</span><span class="p">,</span> <span class="nx">args</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kr">const</span> <span class="p">{</span> <span class="nx">method</span><span class="p">,</span> <span class="nx">endpoint</span><span class="p">,</span> <span class="nx">params</span><span class="p">,</span> <span class="nx">randomSeed</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">args</span><span class="p">;</span>
+  <span class="nx">myApiClient</span><span class="p">.</span><span class="nx">request</span><span class="p">(</span><span class="nx">method</span><span class="p">,</span> <span class="nx">endpoint</span><span class="p">,</span> <span class="nx">params</span><span class="p">).</span><span class="nx">then</span><span class="p">(({</span><span class="nx">data</span><span class="p">})</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">event</span><span class="p">.</span><span class="nx">sender</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="err">`</span><span class="na">puraku</span><span class="p">:</span><span class="na">api</span><span class="p">:</span><span class="nx">$</span><span class="p">{</span><span class="nx">endpoint</span><span class="p">}:</span><span class="nx">$</span><span class="p">{</span><span class="nx">randomSeed</span><span class="p">}</span><span class="err">`</span><span class="p">,</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">data</span><span class="p">));</span>
+  <span class="p">}).</span><span class="k">catch</span><span class="p">(</span><span class="nx">error</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">event</span><span class="p">.</span><span class="nx">sender</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="err">`</span><span class="na">puraku</span><span class="p">:</span><span class="na">api</span><span class="p">:</span><span class="nx">$</span><span class="p">{</span><span class="nx">endpoint</span><span class="p">}:</span><span class="nx">$</span><span class="p">{</span><span class="nx">randomSeed</span><span class="p">}</span><span class="err">`</span><span class="p">,</span> <span class="p">{</span><span class="nx">error</span><span class="p">});</span>
+  <span class="p">});</span>
+<span class="p">});</span>
+</code></pre></div>
+<h2>其它</h2>
+
+<p>聽說用 message queue 來實作比較好，不過 It works for now，就暫時沒有更新實作的動力（懶）</p>
+
+<p>可以在 <a href="https://github.com/puraku/client/pull/5">puraku/client PR#5</a> 閱讀實作的過程。在本專案，我堅持一個功能就開 Branch 做成 Pull Request，可謂單人的 GitHub Flow XD</p>
+
+  </div>
+  
+  
+    <div id="disqus_thread"></div>
+<script>
+
+/**
+ *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+ *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */
+
+var disqus_config = function () {
+    this.page.url = 'https://yukaii.tw';  // Replace PAGE_URL with your page's canonical URL variable
+    this.page.identifier = "/blog/2016/11/02/use-electron-ipc-to-call-api-from-main-process"; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+
+};
+(function() { // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    s.src = '//dailyoops.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+  
+
+</article>
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+    <div class="footer-col-wrapper footer-block">
+      © 2016 <a href="https://github.com/Yukaii">Yukai Huang</a>. Built with ❤ using <a href="https://jekyllrb.com">Jekyll</a>.
+    </div>
+  </div>
+
+</footer>
+
+
+    <script id="dsq-count-scr" src="//dailyoops.disqus.com/count.js" async></script>
+  </body>
+
+</html>
