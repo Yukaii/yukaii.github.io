@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="shortcut icon" href="/favicon.ico?">
+  <link rel="icon" sizes="16x16 32x32 64x64" href="/favicon.ico?">
+  <link rel="icon" type="image/png" sizes="196x196" href="/assets/favicon-192.png?">
+  <link rel="icon" type="image/png" sizes="160x160" href="/assets/favicon-160.png?">
+  <link rel="icon" type="image/png" sizes="96x96" href="/assets/favicon-96.png?">
+  <link rel="icon" type="image/png" sizes="64x64" href="/assets/favicon-64.png?">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png?">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png?">
+  <link rel="apple-touch-icon" href="/assets/favicon-57.png?">
+  <link rel="apple-touch-icon" sizes="114x114" href="/assets/favicon-114.png?">
+  <link rel="apple-touch-icon" sizes="72x72" href="/assets/favicon-72.png?">
+  <link rel="apple-touch-icon" sizes="144x144" href="/assets/favicon-144.png?">
+  <link rel="apple-touch-icon" sizes="60x60" href="/assets/favicon-60.png?">
+  <link rel="apple-touch-icon" sizes="120x120" href="/assets/favicon-120.png?">
+  <link rel="apple-touch-icon" sizes="76x76" href="/assets/favicon-76.png?">
+  <link rel="apple-touch-icon" sizes="152x152" href="/assets/favicon-152.png?">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon-180.png?">
+
+  <title>Electron 的 Trello 桌面版應用程式 | Daily Oops!</title>
+  <meta name="description" content="啊 Electron 不就好棒棒">
+
+  <link type="text/css" rel="stylesheet" href="/assets/primer.css">
+  <link type="text/css" rel="stylesheet" href="/assets/main.css">
+  <link rel="canonical" href="http://yukaii.tw/blog/2016/11/12/patching-trello-desktop-electron-app/">
+  <link rel="alternate" type="application/rss+xml" title="Daily Oops!" href="http://yukaii.tw/feed.xml">
+  <script src="/assets/turbolinks.js" type="text/javascript" charset="utf-8"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.16/webfont.js"></script>
+  <script>
+    WebFont.load({
+      custom: {
+        families: ['Noto Sans TC'],
+        urls: ['https://fonts.googleapis.com/earlyaccess/notosanstc.css']
+      }
+    });
+  </script>
+</head>
+
+
+  <body>
+    <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-49526118-7', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+    <header class="site-header">
+
+  <div class="title-wrapper">
+    <h1>
+      <a class="site-title" href="/">Daily Oops!</a>
+    </h1>
+  </div>
+
+  <div class="nav-wrapper">
+    <div class="tabnav">
+      <nav class="tabnav-tabs">
+        
+          <a href="/" class="tabnav-tab">
+            <svg class="octicon octicon-heart" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path d="M11.2 3c-.52-.63-1.25-.95-2.2-1-.97 0-1.69.42-2.2 1-.51.58-.78.92-.8 1-.02-.08-.28-.42-.8-1-.52-.58-1.17-1-2.2-1-.95.05-1.69.38-2.2 1-.52.61-.78 1.28-.8 2 0 .52.09 1.52.67 2.67C1.25 8.82 3.01 10.61 6 13c2.98-2.39 4.77-4.17 5.34-5.33C11.91 6.51 12 5.5 12 5c-.02-.72-.28-1.39-.8-2.02V3z"></path></svg>
+            Daily Oops!
+          </a>
+        
+
+        
+        
+          
+        
+          
+        
+          
+        
+          
+            
+
+
+
+
+<a href="/blog/" class="tabnav-tab selected">
+  
+      <svg class="octicon octicon-book" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="M3 5h4v1H3V5zm0 3h4V7H3v1zm0 2h4V9H3v1zm11-5h-4v1h4V5zm0 2h-4v1h4V7zm0 2h-4v1h4V9zm2-6v9c0 .55-.45 1-1 1H9.5l-1 1-1-1H2c-.55 0-1-.45-1-1V3c0-.55.45-1 1-1h5.5l1 1 1-1H15c.55 0 1 .45 1 1zm-8 .5L7.5 3H2v9h6V3.5zm7-.5H9.5l-.5.5V12h6V3z"></path></svg>
+    
+
+  Blog
+</a>
+
+          
+        
+          
+            
+
+
+
+
+<a href="/hi-tips/" class="tabnav-tab">
+  
+      <svg class="octicon octicon-file-code" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path d="M8.5 1H1c-.55 0-1 .45-1 1v12c0 .55.45 1 1 1h10c.55 0 1-.45 1-1V4.5L8.5 1zM11 14H1V2h7l3 3v9zM5 6.98L3.5 8.5 5 10l-.5 1L2 8.5 4.5 6l.5.98zM7.5 6L10 8.5 7.5 11l-.5-.98L8.5 8.5 7 7l.5-1z"></path></svg>
+    
+
+  Hi Tips!
+</a>
+
+          
+        
+          
+            
+
+
+
+
+<a href="/projects/" class="tabnav-tab">
+  
+      <svg class="octicon octicon-octoface" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="M14.7 5.34c.13-.32.55-1.59-.13-3.31 0 0-1.05-.33-3.44 1.3-1-.28-2.07-.32-3.13-.32s-2.13.04-3.13.32c-2.39-1.64-3.44-1.3-3.44-1.3-.68 1.72-.26 2.99-.13 3.31C.49 6.21 0 7.33 0 8.69 0 13.84 3.33 15 7.98 15S16 13.84 16 8.69c0-1.36-.49-2.48-1.3-3.35zM8 14.02c-3.3 0-5.98-.15-5.98-3.35 0-.76.38-1.48 1.02-2.07 1.07-.98 2.9-.46 4.96-.46 2.07 0 3.88-.52 4.96.46.65.59 1.02 1.3 1.02 2.07 0 3.19-2.68 3.35-5.98 3.35zM5.49 9.01c-.66 0-1.2.8-1.2 1.78s.54 1.79 1.2 1.79c.66 0 1.2-.8 1.2-1.79s-.54-1.78-1.2-1.78zm5.02 0c-.66 0-1.2.79-1.2 1.78s.54 1.79 1.2 1.79c.66 0 1.2-.8 1.2-1.79s-.53-1.78-1.2-1.78z"></path></svg>
+  
+
+  Projects
+</a>
+
+          
+        
+          
+            
+
+
+
+
+<a href="/about/" class="tabnav-tab">
+  
+      <svg class="octicon octicon-info" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path d="M6.3 5.69a.942.942 0 0 1-.28-.7c0-.28.09-.52.28-.7.19-.18.42-.28.7-.28.28 0 .52.09.7.28.18.19.28.42.28.7 0 .28-.09.52-.28.7a1 1 0 0 1-.7.3c-.28 0-.52-.11-.7-.3zM8 7.99c-.02-.25-.11-.48-.31-.69-.2-.19-.42-.3-.69-.31H6c-.27.02-.48.13-.69.31-.2.2-.3.44-.31.69h1v3c.02.27.11.5.31.69.2.2.42.31.69.31h1c.27 0 .48-.11.69-.31.2-.19.3-.42.31-.69H8V7.98v.01zM7 2.3c-3.14 0-5.7 2.54-5.7 5.68 0 3.14 2.56 5.7 5.7 5.7s5.7-2.55 5.7-5.7c0-3.15-2.56-5.69-5.7-5.69v.01zM7 .98c3.86 0 7 3.14 7 7s-3.14 7-7 7-7-3.12-7-7 3.14-7 7-7z"></path></svg>
+    
+
+  About Me
+</a>
+
+          
+        
+      </nav>
+    </div>
+  </div>
+
+</header>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <article class="post markdown-body" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title" itemprop="name headline">Electron 的 Trello 桌面版應用程式</h1>
+    <p class="post-meta"><time datetime="2016-11-12T00:00:00+08:00" itemprop="datePublished">Nov 12, 2016</time></p>
+  </header>
+
+  <div class="post-content" itemprop="articleBody">
+    <h2>啊 Electron 不就好棒棒</h2>
+
+<p>Electron 簡單來說就是加料版的 Chromium，可以跑 node 環境，還能讓 Web App 也能使用原生桌面環境的 API。現在你我的桌面早就被一堆 Web App 攻佔，比如我最常用的：</p>
+
+<ul>
+<li><a href="https://nylas.com/">Nylas N1</a> - Email 軟體</li>
+<li><a href="https://code.visualstudio.com/">Visual Studio Code</a> - 微軟出的輕量級編輯器</li>
+<li><a href="https://www.getpostman.com/">Postman</a> - REST 測試御用輔助工具</li>
+<li><a href="https://slack.com/">Slack</a> - 社內通訊</li>
+<li><a href="https://www.notion.so/">Notion</a> - 筆記，雜想</li>
+<li><a href="https://hyper.is/">Hyper</a> - 終端機，不過不能輸入中文所以就沒再用了。開發的 <a href="https://github.com/zeit">zeit</a> 社也滿猛的</li>
+<li><a href="https://github.com/sindresorhus/caprine">Caprine</a> - Facebook messenger 桌面版</li>
+</ul>
+
+<p>隨便列就一堆了，相當於電腦裝了十幾個網頁瀏覽器，有夠肥一個就一百多 MB 😅，根本快速開發的代價。</p>
+
+<p>Web App 相對於傳統的桌面軟體迭代應該算十分快速了啦，光 Flexbox Layout 就不知道方便多少了...好啦其實我唯一寫過的傳統桌面軟體也只有用 JavaFX 學校作業，也只花了三天趕工哈哈哈...也是沒慢到哪裡去啦，咦？</p>
+
+<h2>Nativefier</h2>
+
+<p>有段時間我很喜歡用瀏覽器的「Pin Tab」功能，現在 SPA 又那麼猖狂，App 用 Chrome 開就行了，只要用 Chrome 的快速鍵 cmd + 1/2 就直接跳回前幾個 pin 好的 App。不過因為使用的 Extension 實在有點多，所以常常感到 Chrome 頓挫，此時用 Electron App 就相當於用一個乾淨的瀏覽器，速度快了許多。<del>其實你把 Extension 移乾淨不就得了。</del></p>
+
+<p>社群前陣子也有大大推了一個叫 <a href="https://github.com/jiahaog/nativefier"><code>nativefier</code></a> 的工具，只要設定一下，就能把網站包到 Electron 的 WebView，立馬變桌面 App。</p>
+
+<p>通常我們在實作這種網頁直接包成 App 的，除了單純用 Electron <code>BrowserWindow</code> 或 <code>webview</code> API 載入 Web App 網址外，還需要 inject 一些額外的 JavaScript 來整合桌面功能，比如快捷鍵跳轉特定功能啦、改變配色啦。</p>
+
+<p>大神 sindresorhus 的 <a href="https://github.com/sindresorhus/caprine">Caprine</a> 便是個好例子，還有 terkelg 的 <a href="https://github.com/terkelg/ramme">Ramme</a>，單純的改變原本就已經用 React 做成 SPA 的 Instagram 的排版，也加入了快速鍵功能，便是一個堪用的 Instragm 桌面應用軟體了。當然真正好用的 IG 桌面 App 還是非原生莫屬，在此推薦一下 <a href="https://itunes.apple.com/us/app/flume-for-instagram/id792425898">Flume for Instagram</a>。</p>
+
+<h2>Trello feat. Electron</h2>
+
+<p>最近重回 Trello 懷抱。為配合我的使用習慣，就找了找對應的桌面軟體，找到了兩個：</p>
+
+<ul>
+<li><a href="http://friendlyfox.es/pawsfortrello/">Paws for Trello</a></li>
+<li><a href="https://github.com/danielchatfield/trello-desktop">Trello Desktop</a></li>
+</ul>
+
+<p>這兩個 App 幾乎一樣，就是把 macOS 的 titlebar 藏起來讓紅綠燈好看一些。儘管前者在 App Store 上架，可是功能沒比後者多多少哈哈。</p>
+
+<p><img src="https://lh3.googleusercontent.com/gDwO7Rcc_DiHTqNTa9W8_u5WggQxm1km4TL630k66fGucUYCKoU4PEjqVodsSsB5wtw1rHket9Mnh-2qSyPWIU0Nn0TZsoLOitMniwifs2JFkgQJysppEK0rTDsPasRDvj1-axpA6oEanesF-42NvwTAWxeVmN-SjspdOPUxgdj8P9LkJPHACA49dCYXPfHrfbqP_SsFYKL7FlReq9b0Xbs5VWQmCPlWewyN12bZQq7-j3_POwhXRwPqFwvb5zfx9in7AibIxgz5wQAgNR-TUVwiPvN0nKIX5XrMVPCLHOgsHsIeFfQuHZuJaJ56kZ5kc-t9m11F5x0_BB6uoODrHd8UEumqEDA9hHGh8P4jnVMXYXmBZjGCcpSaIK_076JKVgUZ_cVxzcC_oDa0_YfS4Si-9qbT8RKEK-AMhvNKYVhsJ6z1N1ZCeG4O57uqmn0TzM6iBMQ_01LXYt1Db4AQxRdoE7m5PgbUU-WOkN_ZhJhRFcsIDxLoZT9gngSJlAZJT0j9t0G9hniF5uImwh7onklliQayTsA8N9PpJc-CpkrVjko3WjAbXyNqzrdm1QCDScI0PV2cEhFy4BJvsFFfZUrXl1W7PdYJJKHYfVUTRrDeAIIfiQ=w971-h626-no" alt=""></p>
+
+<p>後者 Trello Desktop 雖然免費，目前有個最大的問題：沒辦法<a href="https://github.com/danielchatfield/trello-desktop/issues/6">拖拉視窗</a>。</p>
+
+<p>當然也有開發者直接發了 <a href="https://github.com/danielchatfield/trello-desktop/pull/13">Pull Request</a> ，不過專案好像已經被放生了一樣，坑主都不回的。作為一個略懂 Electron 的開發者就來自行修正一下吧。</p>
+
+<p>仔細看下 <a href="https://github.com/danielchatfield/trello-desktop/pull/13">PR</a> 其實也就加三行 css，我們要做的就是把這個 PR，patch 到我們本機的 Trello Desktop App 裡。</p>
+
+<p>做法有兩種，其中一種是 clone 改完的版本，重新建構 Electron App，不過太麻煩了，我們就直接 patch 本機的 css 比較快。</p>
+
+<h2>Patch Elecron Client code</h2>
+
+<p><a href="https://github.com/electron/asar">asar</a> 簡而言之就是 electron 封裝 client code 的格式，一般在建構 Electron App 會預設使用。我們先安裝下：</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">npm install asar -g
+</code></pre></div>
+<p>現在就可以解開 asar 檔了，進到 App Package 裡：</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nb">cd</span> /Applications/Trello.app/Contents/Resources/
+asar extract app.asar app <span class="c"># 解開 app.asar 檔案到 app 目錄</span>
+<span class="nb">cd </span>app <span class="c"># 進去 app 目錄</span>
+</code></pre></div>
+<p>編輯 <code>browser.css</code> 加入更改的 css</p>
+<div class="highlight"><pre><code class="language-css" data-lang="css"><span class="nf">#header</span> <span class="p">{</span>
+  <span class="nl">-webkit-app-region</span><span class="p">:</span> <span class="n">drag</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Electron 預設便會讀 app 目錄或 app.asar 檔案，重新開啟 App 後就可以自由移動視窗啦，跟桌面軟體有 87% 像！</p>
+
+<p><img src="https://lh3.googleusercontent.com/w7WF_SiDo7mrJanSRR72ieb_NTOPpblGcK-nMovxrnQvAG_1fcKuZ_EhIC_5_8-kXSIztIoEMk3l2gqoNlQx8VOS1UW98E6YVlBqV8qJOLD7YPAeY_eVZWWpdHkbtuBQh3O5g_xcFU-_IiHlVOcDVWiAdfdQipK7AmN7RHNs5fuTMLEo4ZDRZGH3ic9u92FT4A8n2z75P9y7kWMmYhQ_lyuFWaOSyxwXke_iJR0UY9L1uMnW856i651cuQNlp2br9rGAB-LSGKElDQpI64h2HxTk9eln2tMcvMG1SO9Qz6AF7kcbFanCL7uKv1AoGGX81qlGugiUtkq_I8uNASIVbPaeVxSdJniKa46DJuc-twautw6qdHUQ5jgpJyKOmUtbosVeJK5DS50jrsGzyOQPVbH7SzVpavlpKqnUAxOZ9AEAsxX0sf6cROCPtvHe3UvUqSTEwXk841vTgoxrS27ysLXVRVhdZe8CEE5vSbDIIObdHkV0CVULCWRKspmFInNEd4m-cvE4pHWdycItvMJo7dqN5gydHPIBZzU7z50b8Hn2_wYzUA7miYPvpMpOmsaW4BSOwkW1bPHGG0_2mf0gGWlR8URwayBvSouObSCoaDDGostsNw=w1188-h737-no" alt=""></p>
+
+  </div>
+  
+  
+    <div id="disqus_thread"></div>
+<script>
+
+/**
+ *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+ *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */
+
+var disqus_config = function () {
+    this.page.url = 'https://yukaii.tw';  // Replace PAGE_URL with your page's canonical URL variable
+    this.page.identifier = "/blog/2016/11/12/patching-trello-desktop-electron-app"; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+
+};
+(function() { // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    s.src = '//dailyoops.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+  
+
+</article>
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+    <div class="footer-col-wrapper footer-block">
+      © 2016 <a href="https://github.com/Yukaii">Yukai Huang</a>. Built with ❤ using <a href="https://jekyllrb.com">Jekyll</a>.
+    </div>
+  </div>
+
+</footer>
+
+
+    <script id="dsq-count-scr" src="//dailyoops.disqus.com/count.js" async></script>
+  </body>
+
+</html>

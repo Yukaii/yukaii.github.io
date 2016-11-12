@@ -6,9 +6,86 @@
 </description>
     <link>http://yukaii.tw/</link>
     <atom:link href="http://yukaii.tw/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Wed, 02 Nov 2016 17:17:12 +0800</pubDate>
-    <lastBuildDate>Wed, 02 Nov 2016 17:17:12 +0800</lastBuildDate>
+    <pubDate>Sat, 12 Nov 2016 10:09:40 +0800</pubDate>
+    <lastBuildDate>Sat, 12 Nov 2016 10:09:40 +0800</lastBuildDate>
     <generator>Jekyll v3.2.1</generator>
+    
+      <item>
+        <title>Electron 的 Trello 桌面版應用程式</title>
+        <description>&lt;h2&gt;啊 Electron 不就好棒棒&lt;/h2&gt;
+
+&lt;p&gt;Electron 簡單來說就是加料版的 Chromium，可以跑 node 環境，還能讓 Web App 也能使用原生桌面環境的 API。現在你我的桌面早就被一堆 Web App 攻佔，比如我最常用的：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://nylas.com/&quot;&gt;Nylas N1&lt;/a&gt; - Email 軟體&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://code.visualstudio.com/&quot;&gt;Visual Studio Code&lt;/a&gt; - 微軟出的輕量級編輯器&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.getpostman.com/&quot;&gt;Postman&lt;/a&gt; - REST 測試御用輔助工具&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://slack.com/&quot;&gt;Slack&lt;/a&gt; - 社內通訊&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.notion.so/&quot;&gt;Notion&lt;/a&gt; - 筆記，雜想&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://hyper.is/&quot;&gt;Hyper&lt;/a&gt; - 終端機，不過不能輸入中文所以就沒再用了。開發的 &lt;a href=&quot;https://github.com/zeit&quot;&gt;zeit&lt;/a&gt; 社也滿猛的&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/sindresorhus/caprine&quot;&gt;Caprine&lt;/a&gt; - Facebook messenger 桌面版&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;隨便列就一堆了，相當於電腦裝了十幾個網頁瀏覽器，有夠肥一個就一百多 MB 😅，根本快速開發的代價。&lt;/p&gt;
+
+&lt;p&gt;Web App 相對於傳統的桌面軟體迭代應該算十分快速了啦，光 Flexbox Layout 就不知道方便多少了...好啦其實我唯一寫過的傳統桌面軟體也只有用 JavaFX 學校作業，也只花了三天趕工哈哈哈...也是沒慢到哪裡去啦，咦？&lt;/p&gt;
+
+&lt;h2&gt;Nativefier&lt;/h2&gt;
+
+&lt;p&gt;有段時間我很喜歡用瀏覽器的「Pin Tab」功能，現在 SPA 又那麼猖狂，App 用 Chrome 開就行了，只要用 Chrome 的快速鍵 cmd + 1/2 就直接跳回前幾個 pin 好的 App。不過因為使用的 Extension 實在有點多，所以常常感到 Chrome 頓挫，此時用 Electron App 就相當於用一個乾淨的瀏覽器，速度快了許多。&lt;del&gt;其實你把 Extension 移乾淨不就得了。&lt;/del&gt;&lt;/p&gt;
+
+&lt;p&gt;社群前陣子也有大大推了一個叫 &lt;a href=&quot;https://github.com/jiahaog/nativefier&quot;&gt;&lt;code&gt;nativefier&lt;/code&gt;&lt;/a&gt; 的工具，只要設定一下，就能把網站包到 Electron 的 WebView，立馬變桌面 App。&lt;/p&gt;
+
+&lt;p&gt;通常我們在實作這種網頁直接包成 App 的，除了單純用 Electron &lt;code&gt;BrowserWindow&lt;/code&gt; 或 &lt;code&gt;webview&lt;/code&gt; API 載入 Web App 網址外，還需要 inject 一些額外的 JavaScript 來整合桌面功能，比如快捷鍵跳轉特定功能啦、改變配色啦。&lt;/p&gt;
+
+&lt;p&gt;大神 sindresorhus 的 &lt;a href=&quot;https://github.com/sindresorhus/caprine&quot;&gt;Caprine&lt;/a&gt; 便是個好例子，還有 terkelg 的 &lt;a href=&quot;https://github.com/terkelg/ramme&quot;&gt;Ramme&lt;/a&gt;，單純的改變原本就已經用 React 做成 SPA 的 Instagram 的排版，也加入了快速鍵功能，便是一個堪用的 Instragm 桌面應用軟體了。當然真正好用的 IG 桌面 App 還是非原生莫屬，在此推薦一下 &lt;a href=&quot;https://itunes.apple.com/us/app/flume-for-instagram/id792425898&quot;&gt;Flume for Instagram&lt;/a&gt;。&lt;/p&gt;
+
+&lt;h2&gt;Trello feat. Electron&lt;/h2&gt;
+
+&lt;p&gt;最近重回 Trello 懷抱。為配合我的使用習慣，就找了找對應的桌面軟體，找到了兩個：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://friendlyfox.es/pawsfortrello/&quot;&gt;Paws for Trello&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/danielchatfield/trello-desktop&quot;&gt;Trello Desktop&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;這兩個 App 幾乎一樣，就是把 macOS 的 titlebar 藏起來讓紅綠燈好看一些。儘管前者在 App Store 上架，可是功能沒比後者多多少哈哈。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://lh3.googleusercontent.com/gDwO7Rcc_DiHTqNTa9W8_u5WggQxm1km4TL630k66fGucUYCKoU4PEjqVodsSsB5wtw1rHket9Mnh-2qSyPWIU0Nn0TZsoLOitMniwifs2JFkgQJysppEK0rTDsPasRDvj1-axpA6oEanesF-42NvwTAWxeVmN-SjspdOPUxgdj8P9LkJPHACA49dCYXPfHrfbqP_SsFYKL7FlReq9b0Xbs5VWQmCPlWewyN12bZQq7-j3_POwhXRwPqFwvb5zfx9in7AibIxgz5wQAgNR-TUVwiPvN0nKIX5XrMVPCLHOgsHsIeFfQuHZuJaJ56kZ5kc-t9m11F5x0_BB6uoODrHd8UEumqEDA9hHGh8P4jnVMXYXmBZjGCcpSaIK_076JKVgUZ_cVxzcC_oDa0_YfS4Si-9qbT8RKEK-AMhvNKYVhsJ6z1N1ZCeG4O57uqmn0TzM6iBMQ_01LXYt1Db4AQxRdoE7m5PgbUU-WOkN_ZhJhRFcsIDxLoZT9gngSJlAZJT0j9t0G9hniF5uImwh7onklliQayTsA8N9PpJc-CpkrVjko3WjAbXyNqzrdm1QCDScI0PV2cEhFy4BJvsFFfZUrXl1W7PdYJJKHYfVUTRrDeAIIfiQ=w971-h626-no&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+
+&lt;p&gt;後者 Trello Desktop 雖然免費，目前有個最大的問題：沒辦法&lt;a href=&quot;https://github.com/danielchatfield/trello-desktop/issues/6&quot;&gt;拖拉視窗&lt;/a&gt;。&lt;/p&gt;
+
+&lt;p&gt;當然也有開發者直接發了 &lt;a href=&quot;https://github.com/danielchatfield/trello-desktop/pull/13&quot;&gt;Pull Request&lt;/a&gt; ，不過專案好像已經被放生了一樣，坑主都不回的。作為一個略懂 Electron 的開發者就來自行修正一下吧。&lt;/p&gt;
+
+&lt;p&gt;仔細看下 &lt;a href=&quot;https://github.com/danielchatfield/trello-desktop/pull/13&quot;&gt;PR&lt;/a&gt; 其實也就加三行 css，我們要做的就是把這個 PR，patch 到我們本機的 Trello Desktop App 裡。&lt;/p&gt;
+
+&lt;p&gt;做法有兩種，其中一種是 clone 改完的版本，重新建構 Electron App，不過太麻煩了，我們就直接 patch 本機的 css 比較快。&lt;/p&gt;
+
+&lt;h2&gt;Patch Elecron Client code&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/electron/asar&quot;&gt;asar&lt;/a&gt; 簡而言之就是 electron 封裝 client code 的格式，一般在建構 Electron App 會預設使用。我們先安裝下：&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;npm install asar -g
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;現在就可以解開 asar 檔了，進到 App Package 裡：&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; /Applications/Trello.app/Contents/Resources/
+asar extract app.asar app &lt;span class=&quot;c&quot;&gt;# 解開 app.asar 檔案到 app 目錄&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;app &lt;span class=&quot;c&quot;&gt;# 進去 app 目錄&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;編輯 &lt;code&gt;browser.css&lt;/code&gt; 加入更改的 css&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-css&quot; data-lang=&quot;css&quot;&gt;&lt;span class=&quot;nf&quot;&gt;#header&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;nl&quot;&gt;-webkit-app-region&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;drag&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Electron 預設便會讀 app 目錄或 app.asar 檔案，重新開啟 App 後就可以自由移動視窗啦，跟桌面軟體有 87% 像！&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://lh3.googleusercontent.com/w7WF_SiDo7mrJanSRR72ieb_NTOPpblGcK-nMovxrnQvAG_1fcKuZ_EhIC_5_8-kXSIztIoEMk3l2gqoNlQx8VOS1UW98E6YVlBqV8qJOLD7YPAeY_eVZWWpdHkbtuBQh3O5g_xcFU-_IiHlVOcDVWiAdfdQipK7AmN7RHNs5fuTMLEo4ZDRZGH3ic9u92FT4A8n2z75P9y7kWMmYhQ_lyuFWaOSyxwXke_iJR0UY9L1uMnW856i651cuQNlp2br9rGAB-LSGKElDQpI64h2HxTk9eln2tMcvMG1SO9Qz6AF7kcbFanCL7uKv1AoGGX81qlGugiUtkq_I8uNASIVbPaeVxSdJniKa46DJuc-twautw6qdHUQ5jgpJyKOmUtbosVeJK5DS50jrsGzyOQPVbH7SzVpavlpKqnUAxOZ9AEAsxX0sf6cROCPtvHe3UvUqSTEwXk841vTgoxrS27ysLXVRVhdZe8CEE5vSbDIIObdHkV0CVULCWRKspmFInNEd4m-cvE4pHWdycItvMJo7dqN5gydHPIBZzU7z50b8Hn2_wYzUA7miYPvpMpOmsaW4BSOwkW1bPHGG0_2mf0gGWlR8URwayBvSouObSCoaDDGostsNw=w1188-h737-no&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+</description>
+        <pubDate>Sat, 12 Nov 2016 00:00:00 +0800</pubDate>
+        <link>http://yukaii.tw/blog/2016/11/12/patching-trello-desktop-electron-app/</link>
+        <guid isPermaLink="true">http://yukaii.tw/blog/2016/11/12/patching-trello-desktop-electron-app/</guid>
+        
+        
+      </item>
     
       <item>
         <title>在 Electron 的 Renderer Process 裡，使用 IPC 呼叫跑在 Main Process 的 API</title>
@@ -731,67 +808,6 @@ bundle install
         <link>http://yukaii.tw/blog/2016/06/22/sublime-atom-vscode-comparison-mid-2016/</link>
         <guid isPermaLink="true">http://yukaii.tw/blog/2016/06/22/sublime-atom-vscode-comparison-mid-2016/</guid>
         
-        
-      </item>
-    
-      <item>
-        <title>在 GitHub 上設定 Jekyll 和自訂網域</title>
-        <description>&lt;p&gt;花了時間把 Jekyll 建起來。Ghost 是很棒沒錯，不過想要完全掌控還要多花許多時間，純粹靜態網頁更為靈活，再配上 &lt;code&gt;jekyll-assets&lt;/code&gt;，如果真的需要點 ES6 還是可以硬上的。&lt;/p&gt;
-
-&lt;h2&gt;Git Subtree&lt;/h2&gt;
-
-&lt;p&gt;我把原始的 branch 命名為 &lt;code&gt;jekyll&lt;/code&gt;，用 subtree 把 Jekyll 產生的 &lt;code&gt;_site&lt;/code&gt; 資料夾切開：&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;git checkout -b jekyll &lt;span class=&quot;c&quot;&gt;# 原本在 master&lt;/span&gt;
-git branch -D master &lt;span class=&quot;c&quot;&gt;# 把原本 master branch 刪掉&lt;/span&gt;
-git subtree split --prefix&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;_site -b master &lt;span class=&quot;c&quot;&gt;# subtree 切割&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;到這算切割完畢，接下來每次更新時，都從原本 &lt;code&gt;jekyll&lt;/code&gt; branch commit，然後 push subtree 的 branch：&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;git commit -m &lt;span class=&quot;s2&quot;&gt;&quot;commit on jekyll branch&quot;&lt;/span&gt;
-git subtree push --prefix _site origin master &lt;span class=&quot;c&quot;&gt;# 將 _site 的 subtree 推到 origin 的 master branch&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;h2&gt;GitHub user page custom domain&lt;/h2&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;二圖流&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/blog/cloudflare1.png&quot; width=&quot;967&quot; height=&quot;117&quot; alt=&quot;blog/cloudflare1.png&quot;&gt;
-&lt;img src=&quot;/assets/blog/cloudflare2.png&quot; width=&quot;959&quot; height=&quot;59&quot; alt=&quot;blog/cloudflare2.png&quot;&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;code&gt;CNAME&lt;/code&gt; 檔：&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-&quot; data-lang=&quot;&quot;&gt;www.yukaii.tw
-yukaii.tw
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;h2&gt;其它自訂&lt;/h2&gt;
-
-&lt;p&gt;Jekyll 也有 partial 挺方便的，我用來做 image caption，比如以下這段：&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-txt&quot; data-lang=&quot;txt&quot;&gt;
-{% include image.html url=&quot;http://i.imgur.com/gqOPCwP.jpg&quot; description=&quot;六月不要啊啊啊，應該沒有第二行啦&quot; %}
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;就會產生：&lt;/p&gt;
-
-&lt;table class=&quot;image&quot; style=&quot;margin-bottom: 15px&quot;&gt;
-&lt;caption align=&quot;bottom&quot;&gt;六月不要啊啊啊，應該沒有第二行啦&lt;/caption&gt;
-&lt;tr&gt;&lt;td&gt;&lt;img src=&quot;http://i.imgur.com/gqOPCwP.jpg&quot; alt=&quot;六月不要啊啊啊，應該沒有第二行啦&quot; width=&quot;&quot; height=&quot;&quot; /&gt;&lt;/td&gt;&lt;/tr&gt;
-&lt;/table&gt;
-
-&lt;p&gt;需要在 &lt;code&gt;_includes&lt;/code&gt; 資料夾新增 &lt;code&gt;image.html&lt;/code&gt;，詳情可&lt;a href=&quot;http://stackoverflow.com/questions/19331362/using-an-image-caption-in-markdown-jekyll&quot;&gt;參考這裡&lt;/a&gt;&lt;/p&gt;
-</description>
-        <pubDate>Thu, 09 Jun 2016 00:30:54 +0800</pubDate>
-        <link>http://yukaii.tw/blog/2016/06/09/setup-jekyll-on-github-page/</link>
-        <guid isPermaLink="true">http://yukaii.tw/blog/2016/06/09/setup-jekyll-on-github-page/</guid>
-        
-        
-        <category>jekyll</category>
-        
-        <category>setup</category>
-        
-        <category>github</category>
-        
-        <category>git</category>
-        
-        <category>subtree</category>
         
       </item>
     
