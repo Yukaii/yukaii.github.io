@@ -4,9 +4,14 @@
   link: https://github.com/Yukaii/kaif-ios
 
 - title: Comics Reader
-  description: A Comics Reader App build on top of modern web technology
+  description: 用網頁前端工具打造的漫畫閱讀器
   post: comics-reader
-  link: http://comicsreader.github.io
+  link: https://comicsreader.github.io
+
+- title: Puraku
+  description: 用網頁前端工具打造的 Plurk 噗浪桌面軟體
+  post: puraku-app
+  link: https://github.com/puraku/app
 
 - title: '課表行事曆製作工具'
   description: '把學校課表轉成 ics 的工具'
@@ -17,3 +22,8 @@
   description: 一個蘋果日報奇妙記者的新聞蒐集服務
   post: 41j
   link: https://github.com/Yukaii/Apple-Watch
+
+- title: 'Mp3tag KKBox web source'
+  description: 讓 mp3tag 支援 KKBox tag 搜尋
+  post: mp3tag-kkbox-websource
+  link: https://github.com/Yukaii/KKBox-web-source
