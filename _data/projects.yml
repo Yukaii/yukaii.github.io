@@ -13,6 +13,11 @@
   post: puraku-app
   link: https://github.com/puraku/app
 
+- title: Cafe Nomad App
+  description: 臺灣工作咖啡廳 App，找出你想去的高品質咖啡廳
+  post: cafenomad-app
+  link: https://github.com/Yukaii/cafenomad-app
+
 - title: '課表行事曆製作工具'
   description: '把學校課表轉成 ics 的工具'
   post: ics-scheduler

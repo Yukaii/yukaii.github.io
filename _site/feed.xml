@@ -6,9 +6,52 @@
 </description>
     <link>http://yukaii.tw/</link>
     <atom:link href="http://yukaii.tw/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Fri, 30 Dec 2016 22:35:35 +0800</pubDate>
-    <lastBuildDate>Fri, 30 Dec 2016 22:35:35 +0800</lastBuildDate>
+    <pubDate>Sun, 01 Jan 2017 16:40:24 +0800</pubDate>
+    <lastBuildDate>Sun, 01 Jan 2017 16:40:24 +0800</lastBuildDate>
     <generator>Jekyll v3.2.1</generator>
+    
+      <item>
+        <title>總結一下我身為開發者的 2016</title>
+        <description>&lt;h2&gt;新年快樂&lt;/h2&gt;
+
+&lt;p&gt;你說一月一號放假要幹嘛？除了出門曬曬太陽走走之外（天氣有夠好！），當然按照慣例的要來發一篇「新年新希望新目標」、「過往一年的總結」。不過常常年底到了，卻悔恨今年又一堆目標沒有達成。為了防止這種狀況發生，我們就別寫展望了，直接來寫回顧就好啦 XD！未來總是充滿變數而不可預知，總結過往一年的種種，應該能帶來一些前進的動力吧。&lt;/p&gt;
+
+&lt;p&gt;作為一個&lt;strong&gt;混亂邪惡&lt;/strong&gt;的學生開發者，學生當然只是個好用的擋箭牌身份，其實我的真實身份是...&lt;del&gt;昆庫星團第十五號小行星的混血王子&lt;/del&gt;（太二了這個）。2016 是我個人專案多產的一年，雖然沒有到一個月一個作品，不過上的了檯面的倒是不少。「上的了檯面」當然是以目前自己的標準來看，再過不久可能就通通打入垃圾玩具的等級了哈哈！QAQ&lt;/p&gt;
+
+&lt;h2&gt;前端大平台&lt;/h2&gt;
+
+&lt;p&gt;從整整一年前的 &lt;a href=&quot;https://github.com/Yukaii/ImgurDownloader&quot;&gt;Imgur 相簿下載器&lt;/a&gt; 開始，踏入了 React/Redux 的大坑，再於過年期間開發了 &lt;a href=&quot;https://github.com/Yukaii/kaif-ios&quot;&gt;Kaif.io 論壇 iOS App&lt;/a&gt;，對 React/Redux 更進一步熟悉；五月左右，承先啟後的再度使用 React/Redux 加上 Electron 開發了 &lt;a href=&quot;https://github.com/ComicsReader/app&quot;&gt;Comics Reader 漫畫閱讀器&lt;/a&gt; ，然後到最近兩週的 &lt;a href=&quot;https://github.com/Yukaii/cafenomad-app/&quot;&gt;cafenomad 臺灣工作咖啡廳&lt;/a&gt; 專案。&lt;/p&gt;
+
+&lt;p&gt;四月多時，把原本在 &lt;a href=&quot;http://yukaihuang93.logdown.com&quot;&gt;Logdown&lt;/a&gt; 的部落格搬到 &lt;a href=&quot;https://github.com/Yukaii/yukaii.github.io&quot;&gt;GitHub Pages&lt;/a&gt; 上，用 &lt;a href=&quot;https://github.com/Yukaii/Blog&quot;&gt;Jekyll 建置&lt;/a&gt;。承襲「用力操壞 GitHub Pages」的中心思想，在九月底做了致敬好碰友 Neson 前作的&lt;a href=&quot;https://github.com/Yukaii/ics-scheduler&quot;&gt;行事曆課表產生器&lt;/a&gt;，又在十月底開始了&lt;a href=&quot;https://github.com/puraku/app&quot;&gt;桌面版噗浪 App 計劃 - Puraku&lt;/a&gt;，首次嘗試 Vue.js 並結合 Electron。&lt;/p&gt;
+
+&lt;h2&gt;各式玩具&lt;/h2&gt;
+
+&lt;p&gt;大概在四月左右，在學校選了永遠做不爛的&lt;a href=&quot;https://github.com/Yukaii/reversi-js&quot;&gt;黑白棋&lt;/a&gt;當題目，於網頁上重新實作（Team Project）。&lt;/p&gt;
+
+&lt;p&gt;大概六七月在寫 Comics Reader 時開了 &lt;a href=&quot;https://livecoding.tv/yukaii/&quot;&gt;LiveCoding.tv 的直播&lt;/a&gt;，第一次享受當直播主，雖然自嗨放歌居多但也挺有趣的。&lt;/p&gt;
+
+&lt;h2&gt;胎死腹中&lt;/h2&gt;
+
+&lt;p&gt;六七月時漸漸的對 Redmine 專案管理工具上癮，無奈沒有一個非常現代的 App 可以用，跟同事&lt;a href=&quot;https://github.com/ChengHsuanLiu/redminePro&quot;&gt;開了個坑&lt;/a&gt;不過就這樣放到現在......&lt;/p&gt;
+
+&lt;p&gt;其它還有從 NTU Garage Demo Day 聽來的 &lt;a href=&quot;https://github.com/Yukaii/IgHero/issues/1&quot;&gt;Idea&lt;/a&gt; 啦、從 Reddit AppIdeas 版幹來的 &lt;a href=&quot;https://github.com/Yukaii/read-n-share/issues/1&quot;&gt;Idea&lt;/a&gt; 等等。&lt;/p&gt;
+
+&lt;h2&gt;總結&lt;/h2&gt;
+
+&lt;p&gt;總的來說 2016 是我自稱前端工程師&lt;strong&gt;花式練手招搖撞騙&lt;/strong&gt;的一年，可惜的是作品平均完成度就差不多六七成上下，坑開的多，做完的少。因為時間有限又常常有緊急主線任務，一個個 Context Switch 間，原專案的衝刺週期斷了線，頓時失去維護前一個專案的拼勁。（怎麽說的好像 Side Project 才是我的本業 XDDD）&lt;/p&gt;
+
+&lt;p&gt;前端大環境 Hype Driven Development 之下也讓我幾乎沒有忠誠度，反正就挑順手的，遵守拼湊型軟體工程師的教條，成品有出來就好。雖然也有對少數開源 Library 做點貢獻，但跳來跳去之下總沒有對框架工具深入研究，甚至發展出自己的，工程水平沒多少長進。&lt;/p&gt;
+
+&lt;p&gt;另外，儘管做這些 Side Projects 之初，幾乎是以完整產品為目標開發的，但後續的打磨以及推廣宣傳幾乎沒達成，大多當成自己的玩具，除了噗浪桌面版 Puraku 好不容易有在臉書前端社群貼過一次文（好笑的是貼完就沒 commit 了）。&lt;/p&gt;
+
+&lt;p&gt;對 2015 年的我來說，或許 2016 是個充滿驚喜的一年，在如此多產是 15 年的我無法企及的；不過說到底，工程師的價值也不在這種地方，只能說是興趣驅使吧。雖然文章開頭說了「沒有展望沒有期待」，但還是小小期許一下，希望 2017 的我能在這條路上走的更深入些（&lt;del&gt;然後就被抓去當兵了&lt;/del&gt;）&lt;/p&gt;
+</description>
+        <pubDate>Sun, 01 Jan 2017 00:00:00 +0800</pubDate>
+        <link>http://yukaii.tw/blog/2017/01/01/my-2016-summary-as-a-developer/</link>
+        <guid isPermaLink="true">http://yukaii.tw/blog/2017/01/01/my-2016-summary-as-a-developer/</guid>
+        
+        
+      </item>
     
       <item>
         <title>React Native Facebook Native Ads 奮鬥戰記</title>
@@ -683,122 +726,6 @@ javascript:
         <pubDate>Fri, 12 Aug 2016 00:00:00 +0800</pubDate>
         <link>http://yukaii.tw/blog/2016/08/12/refocus-from-chrome-address-bar/</link>
         <guid isPermaLink="true">http://yukaii.tw/blog/2016/08/12/refocus-from-chrome-address-bar/</guid>
-        
-        
-      </item>
-    
-      <item>
-        <title>rbenv、fish 與 VSCode 設置之路</title>
-        <description>&lt;p&gt;在最新的 VSCode 1.3.1 版裡，Integrated Terminal 變得更加好用，但由於上游套件 &lt;code&gt;xterm.js&lt;/code&gt; 的緣故，&lt;code&gt;zsh&lt;/code&gt; 還是有無法捲動的問題。不過作為一個 Rails 開發者，VSCode 已經是個足夠好用的、足矣媲美 Sublime Text 的編輯器了。為了能夠在 VSCode 開發 Rails，特別對目前的開發環境做出調整。&lt;/p&gt;
-
-&lt;h2&gt;由 RVM 轉換至 rbenv&lt;/h2&gt;
-
-&lt;p&gt;聽聞 &lt;a href=&quot;https://github.com/rbenv/rbenv&quot;&gt;rbenv&lt;/a&gt; 相較 rvm 來說，是對系統較為乾淨的 ruby 版本管理工具。就趁這次更新開發環境一起重置吧！&lt;/p&gt;
-
-&lt;h3&gt;移除 rvm&lt;/h3&gt;
-
-&lt;p&gt;套件也內建了一鍵移除的方式：&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;rvm implode
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;做完之後也可以將 rvm 剩餘的檔案移掉：&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;rm -rf ~/.rvm
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;h3&gt;安裝 rbenv&lt;/h3&gt;
-
-&lt;p&gt;參照了&lt;a href=&quot;https://github.com/rbenv/rbenv&quot;&gt;專案官網&lt;/a&gt;的說明，只要把該 repo clone 下來，設置好 &lt;code&gt;PATH&lt;/code&gt; 變數，在為 shell 加上一些設定便可以開始安裝 ruby 了。在 OS X 環境又更容易，只要用 Homebrew 一鍵安裝便成。&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;brew install rbenv
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;裝完之後就可以發現 rbenv 已經被裝到 Homebrew 的可執行位置了，可以跑 &lt;code&gt;which&lt;/code&gt; 指令檢驗&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;which rbenv
-&lt;span class=&quot;c&quot;&gt;# =&amp;gt; /usr/local/bin/rbenv&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;在 Homebrew 安裝跑完之後，安裝腳本會提示已在 shell profile(.zshrc/.profile/.bash_profile) 加上 rbenv 初始化腳本，預設內容如下：&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;nb&quot;&gt;export &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;PATH&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$HOME&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;/.rbenv/bin:&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$PATH&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
-&lt;span class=&quot;nb&quot;&gt;eval&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;$(&lt;/span&gt;rbenv init -&lt;span class=&quot;k&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;第二行的 &lt;code&gt;rbenv init -&lt;/code&gt; 指令輸出，在你一般開啟的 Terminal 會跑出：&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;nb&quot;&gt;export &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;PATH&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;/Users/USERNAME/.rbenv/shims:&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;PATH&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
-&lt;span class=&quot;nb&quot;&gt;export &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;RBENV_SHELL&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;zsh
-&lt;span class=&quot;nb&quot;&gt;source&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'/usr/local/Cellar/rbenv/1.0.0/libexec/../completions/rbenv.zsh'&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# ... 下面一串&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;不過在 VSCode 內建終端機卻會跑出：&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;nb&quot;&gt;export &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;PATH&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;/usr/local/opt/rbenv/shims:&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;PATH&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;c&quot;&gt;# 就這行不同&lt;/span&gt;
-&lt;span class=&quot;nb&quot;&gt;export &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;RBENV_SHELL&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;zsh
-
-&lt;span class=&quot;c&quot;&gt;# ... 下面一樣&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;大概是執行權限不同的關係吧，rbenv 執行的位置不同也會讓 &lt;code&gt;gem&lt;/code&gt;/&lt;code&gt;bundler&lt;/code&gt; 裝到不同的位置，為了方便起見，一律設成一般終端機跑出來的那串。把下面這串貼到 &lt;code&gt;~/.zshrc&lt;/code&gt; 最下面就是。&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;nb&quot;&gt;export &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;PATH&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;/Users/USERNAME/.rbenv/shims:&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;PATH&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
-&lt;span class=&quot;nb&quot;&gt;export &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;RBENV_SHELL&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;zsh
-&lt;span class=&quot;nb&quot;&gt;source&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'/usr/local/Cellar/rbenv/1.0.0/libexec/../completions/rbenv.zsh'&lt;/span&gt;
-&lt;span class=&quot;nb&quot;&gt;command &lt;/span&gt;rbenv rehash 2&amp;gt;/dev/null
-rbenv&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;nb&quot;&gt;local command
-  command&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$1&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;$#&quot;&lt;/span&gt; -gt 0 &lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;; &lt;span class=&quot;k&quot;&gt;then
-    &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;shift
-  &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;fi
-
-  case&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$command&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in
-  &lt;/span&gt;rehash|shell&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;nb&quot;&gt;eval&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;$(&lt;/span&gt;rbenv &lt;span class=&quot;s2&quot;&gt;&quot;sh-&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$command&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$@&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;;&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;nb&quot;&gt;command &lt;/span&gt;rbenv &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$command&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$@&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;;&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;esac&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;若是 fish 就貼下面這個：&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-&quot; data-lang=&quot;&quot;&gt;setenv PATH '/Users/USERNAME/.rbenv/shims' $PATH
-setenv RBENV_SHELL fish
-. '/usr/local/Cellar/rbenv/1.0.0/libexec/../completions/rbenv.fish'
-command rbenv rehash 2&amp;gt;/dev/null
-function rbenv
-  set command $argv[1]
-  set -e argv[1]
-
-  switch &quot;$command&quot;
-  case rehash shell
-    . (rbenv &quot;sh-$command&quot; $argv|psub)
-  case '*'
-    command rbenv &quot;$command&quot; $argv
-  end
-end
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;h3&gt;裝 ruby&lt;/h3&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;rbenv install 2.3.1
-rbenv global 2.3.1
-gem install bundler
-
-bundle install
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;搞定！&lt;/p&gt;
-
-&lt;h3&gt;Pow 的額外設定&lt;/h3&gt;
-
-&lt;p&gt;其實在 Pow 的 &lt;a href=&quot;https://github.com/basecamp/pow/wiki/Troubleshooting&quot;&gt;wiki&lt;/a&gt; 就有解答，不過因為我又對 rbenv 做了 PATH 的改動，所以設定也不太一樣。&lt;/p&gt;
-
-&lt;p&gt;打開 ~/.powconfig 並貼入&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;nb&quot;&gt;export &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;PATH&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;/Users/USERNAME/.rbenv/shims:/Users/USERNAME/.rbenv/shims/bin:&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$PATH&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;然後重啟 pow service&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;touch ~/.pow/restart.txt
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;h2&gt;將主要 shell 由 zsh 換成 fish&lt;/h2&gt;
-
-&lt;p&gt;zsh 有著非常有名的 &lt;a href=&quot;https://github.com/robbyrussell/oh-my-zsh&quot;&gt;oh-my-zsh&lt;/a&gt; 設定檔管理框架，fish 底下也有個好用的叫 &lt;a href=&quot;https://github.com/fisherman/fisherman&quot;&gt;fisherman&lt;/a&gt;。不過我終究是沒有把系統預設的 shell 換掉(&lt;code&gt;chsh&lt;/code&gt; 指令)，因為挺多工具與 fish 不相容。&lt;/p&gt;
-
-&lt;p&gt;fish 啟動速度飛快，帶我重回還沒有裝一堆 zsh 套件的美好往日時光。&lt;/p&gt;
-
-&lt;h3&gt;VSCode&lt;/h3&gt;
-
-&lt;p&gt;講來講去這篇好像跟 VSCode 沒啥關係耶？那就附張截圖好了，VSCode 也是十分優秀的 Markdown 編輯器，內建了快速的 Preview，碼 code、寫文件、Terminal、Task Runner 全都內建了，還夠輕量快速，Extension 也陸續多了起來，還真不好挑剔啊 XD。&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://lh3.googleusercontent.com/-o17HvZ1w7k6NzK0kw84uJNdhTmnWCH1hGyHduSokRnhgdeoaIh8reqDVrlAc43uGIN9K5KZYpujZuuSdqrV5BiuBhYNsQlubHEfAPut1pGvbkYzw3zKLfuEpphlj7JpBKj9x3m-Zk-rA4s-xFXnagC3vO8otXWOAH7qXYg47kx8D1qHVDpwHjD4WW8yd1jV_CYZlL5VWfrbbiVAdlwBDalB_UexT8emkhqTMjNwQMhIwMyqEXk8LcsfuI5IqgpdR488KovW9Z3ckMJjMbMWSpYOUfMuJ4_pRgYPMla9cm-h6QcP5PXIyhfTERUTRUyUAawcJAWC74R519UVe_gLizh0RqvKazWU0ISCjXVOmbH_bljBAwRIBZobMme9W3deBztAMd0asjKFJnjsviDKDgb1n5y8wS6z5nfNGWijNJbl2JwpVv9EVStbGM4OoqM-9st2MO5oVZJEK8PgtNp1LvuBr3Qkch_k2RXnSZJTfxs4aYZroTJTplZI2XEZS8bkK6Xlczod9rFAvsBdSK2G1A3rixmyBrTOkb7YE7Z8E5NRGWXx3mJns607eu00e69bzGlSe7kc_IpwN1wiYUtqWuRjABPqIhsV=w1046-h781-no&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
-</description>
-        <pubDate>Fri, 22 Jul 2016 00:00:00 +0800</pubDate>
-        <link>http://yukaii.tw/blog/2016/07/22/rbenv-fish-and-vscode/</link>
-        <guid isPermaLink="true">http://yukaii.tw/blog/2016/07/22/rbenv-fish-and-vscode/</guid>
         
         
       </item>
