@@ -25,7 +25,7 @@
   <link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon-180.png?">
 
   <title>在 Electron 使用 IPC 串聯前端和 Node API | Daily Oops!</title>
-  <meta name="description" content="這次我最近在實作噗浪 electron app - Puraku 時使用的抽象化寫法。">
+  <meta name="description" content="這是我最近在實作噗浪 electron app - Puraku 時，使用的抽象化寫法。">
 
   <link type="text/css" rel="stylesheet" href="/assets/primer.css">
   <link type="text/css" rel="stylesheet" href="/assets/main.css">
@@ -163,19 +163,19 @@
   </header>
 
   <div class="post-content" itemprop="articleBody">
-    <p>這次我最近在實作噗浪 electron app - <a href="https://github.com/puraku/client"><strong>Puraku</strong></a> 時使用的抽象化寫法。</p>
+    <p>這是我最近在實作噗浪 electron app - <a href="https://github.com/puraku/client"><strong>Puraku</strong></a> 時，使用的抽象化寫法。</p>
 
-<p>先談一下背景。其實在 <a href="https://www.plurk.com/API">Plurk API</a> 的網頁上就已經有 Plurk 的 <a href="https://github.com/puraku/purakujs">JavaScript API Library</a>，不過它沒有包成 npm 可以直接使用，而且也是相依於 <a href="https://github.com/ciaranj/node-oauth">node-oauth</a> 套件，看名字就知道和 Node 有關。</p>
+<p>先談一下背景。其實在官方的 <a href="https://www.plurk.com/API">Plurk API</a> 頁面上就已經有 <a href="https://github.com/puraku/purakujs">JavaScript 的噗浪 API Library</a>了，不過它沒有包成 npm 可以直接使用，而且還相依於 <a href="https://github.com/ciaranj/node-oauth">node-oauth</a> 套件，看名字就知道和 Node 有關。</p>
 
-<p>這次寫的 <a href="https://github.com/puraku/client">puraku</a> 是一個以前端為主的桌面軟體，所以我勢必要對 API Client Library 做些改寫。</p>
+<p>這次寫的 <a href="https://github.com/puraku/client">puraku</a> 是一個以前端為主的桌面軟體，所以我勢必要對噗浪的 API 套件做些改寫。</p>
 
 <h2>重新封裝 API Library</h2>
 
-<p>請直接參考 <a href="https://github.com/puraku/purakujs">purakujs</a>，也是個可以直接使用的 Plurk API Node library，雖然這年頭也沒多少工程師在串噗浪了 😅 。值得一提的是 yarn 對 <code>npm link</code> 的支援不太好，在設定本機開發環境跑完 <code>npm link</code> 後，不要在 <code>package.json</code> 加上套件名稱，防止在跑 <code>yarn install</code> 指令時又噴錯。</p>
+<p>我已經包裝成 <a href="https://github.com/puraku/purakujs">purakujs</a>，它是個可以直接使用的 Plurk API Node library，雖然這年頭也沒多少工程師在串噗浪 API 了 😅 。值得一提的是 yarn 對 <code>npm link</code> 的支援不太好，在設定本機開發環境跑完 <code>npm link</code> 後，不要在 <code>package.json</code> 修改套件版本，防止在跑 <code>yarn install</code> 指令時又噴錯。</p>
 
 <h3>Electron</h3>
 
-<p>關於 Electron 是啥便不再贅述。首先在 Electron 的 Main Process 可以呼叫 node 的 api，所以把 oauth library 放在這跑是完全沒問題的，但 Renderer Process 才是主要觸發 API 的地方。Electron 提供了 IPC 的 API 界面實作，可以這樣寫：</p>
+<p>關於 Electron 是啥便不再贅述。要知道的是只有在 Electron 的 Main Process 裡才可以呼叫 node 的 api，所以把 node-oauth 套件放在這跑是沒問題的，但 Renderer Process 才是主要觸發 API 的地方（換頁、捲動、按鈕等）。Electron 提供了 IPC 的 API 界面實作，可以這樣寫：</p>
 
 <blockquote>
 <p>commit <a href="https://github.com/puraku/client/pull/5/commits/df4c8a225a36485747f7022b1391b50ee9e9f19c">df4c8a2</a></p>
@@ -197,7 +197,7 @@
   <span class="p">});</span>
 <span class="p">});</span>
 </code></pre></div>
-<p>這是 ipc api 的同步寫法。不過一旦使用同步，整個 Renderer Process 會被 Block 掉，所以我們要改用非同步的 message passing，以及相應的 Promise 封裝。</p>
+<p>Renderer Process 送出 API 請求到 Main Process，已經正在監聽的 Main Process 在呼叫完 API 請求(<code>myAPIClient.request</code>)之後，返還資料給 Renderer Process。在這裡透過 ipcMain 建立叫做 <code>puraku:api</code> 的事件監聽，由 <code>ipcRenderer</code> 送出事件請求。<code>event.returnValue</code> 是 ipc 的同步寫法。一旦使用同步，整個 Renderer Process 在送出事件請求(<code>ipcRenderer.sendSync</code>)之後會被 Block，所以我改用非同步的 IPC 寫法，再用 Promise 封裝。</p>
 
 <h3>Asyncronous IPC</h3>
 
@@ -232,13 +232,49 @@
   <span class="p">});</span>
 <span class="p">});</span>
 </code></pre></div>
+<p>這一版跟上面的差別在於，Renderer Process 送請求給 Main Process 之後，馬上建立另一個 IPC 的 Listener 等待 Main Process 回調，而 Main Process 在處裡完 API 請求之後(<code>myAPIClient.request</code>) 再用 IPC 非同步寫法回傳資料(<code>event.sender.send</code>)。在這個版本 IPC 關係變得比較複雜，簡單畫了一下：</p>
+<div class="highlight"><pre><code class="language-txt" data-lang="txt">Promise start  +-----+
+                     |           Renerer Process                 Main Process
+                     |
+                     +-----&gt; +--------------------+
+                             |                    |
+                             |  ipcRenderer.send  |
+                             |                    |         +---------------------+
+                             +------------------------------+                     |
+                             |                    |         |  API request        |
+                             |  ipcRenderer.once  |         |                     |
+                             |                    |         |  event.sender.send  |
+                             |  create listener   |         |                     |
+                             |                    |         |                     |
+                             +---------+----------+         +-----------+---------+
+                                       |                                |
+                                       |                                |
+                                       |                                |
+                             +---------+----------+                     |
+                             |                    &lt;---------------------+
+                             |   Event received   |
+                             |                    |
+                     +-----+ +---------+----------+
+                     |                 |
+                     |                 |
+ Promise end   &lt;-----+                 |
+                                       |
+                                       |
+                                       |
+                                       |
+                                       |
+                                       |
+                                       |
+                                       |
+                                       v
+</code></pre></div>
 <h3>IPC 事件一對一對應</h3>
 
 <p>可以發現在這一版的 Renderer Process 我加了一個 <code>timestamp</code> 來簡單的區分不同的 API request，因為如果光用 API 的 Endpoint 當做事件的鍵值，戳相同 API 兩次時就會衝到。</p>
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">const</span> <span class="nx">timestamp</span> <span class="o">=</span> <span class="nb">Date</span><span class="p">.</span><span class="nx">now</span><span class="p">();</span>
 <span class="kr">const</span> <span class="nx">eventKey</span> <span class="o">=</span> <span class="err">`</span><span class="nx">puraku</span><span class="err">:</span><span class="nx">api</span><span class="err">:</span><span class="nx">$</span><span class="p">{</span><span class="nx">endpoint</span><span class="p">}</span><span class="err">:</span><span class="nx">$</span><span class="p">{</span><span class="nx">timestamp</span><span class="p">}</span><span class="err">`</span><span class="p">;</span>
 </code></pre></div>
-<p>不過卻發現每次取的 timestamp 還是有機會一樣，經過 Google 之後我們把 <code>timestamp</code> 亂數的產生方法改成 <code>performance.now()</code>：</p>
+<p>不過卻發現每次取的 timestamp 還是有機會一樣，經過 Google 之後我把 <code>timestamp</code> 亂數的產生方法改成 <code>performance.now()</code>：</p>
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">const</span> <span class="nx">randomSeed</span> <span class="o">=</span> <span class="nx">performance</span><span class="p">.</span><span class="nx">now</span><span class="p">();</span>
 <span class="kr">const</span> <span class="nx">eventKey</span> <span class="o">=</span> <span class="err">`</span><span class="nx">puraku</span><span class="err">:</span><span class="nx">api</span><span class="err">:</span><span class="nx">$</span><span class="p">{</span><span class="nx">endpoint</span><span class="p">}</span><span class="err">:</span><span class="nx">$</span><span class="p">{</span><span class="nx">randomSeed</span><span class="p">}</span><span class="err">`</span><span class="p">;</span>
 </code></pre></div>
@@ -273,11 +309,13 @@
   <span class="p">});</span>
 <span class="p">});</span>
 </code></pre></div>
+<p>在 Renderer Process 裡（在我的例子裡是 Vue 前端 App）就可以用簡單的介面來呼叫 API 啦！</p>
+
 <h2>其它</h2>
 
 <p>聽說用 message queue 來實作比較好，不過 It works for now，就暫時沒有更新實作的動力（懶）</p>
 
-<p>可以在 <a href="https://github.com/puraku/client/pull/5">puraku/client PR#5</a> 閱讀實作的過程。在本專案，我堅持一個功能就開 Branch 做成 Pull Request，可謂單人的 GitHub Flow XD</p>
+<p>可以在 <a href="https://github.com/puraku/client/pull/5">puraku/client PR#5</a> 閱讀實作的過程。自從對 Redmine 上癮之後，連 GitHub Flow 也一併愛上了，在本 Repo 一個功能就開 Branch 做成 Pull Request，就算一個人的 GitHub Flow 也能玩的愉悅 XD</p>
 
   </div>
   

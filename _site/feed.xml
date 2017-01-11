@@ -6,8 +6,8 @@
 </description>
     <link>http://yukaii.tw/</link>
     <atom:link href="http://yukaii.tw/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Wed, 11 Jan 2017 21:15:37 +0800</pubDate>
-    <lastBuildDate>Wed, 11 Jan 2017 21:15:37 +0800</lastBuildDate>
+    <pubDate>Wed, 11 Jan 2017 21:59:00 +0800</pubDate>
+    <lastBuildDate>Wed, 11 Jan 2017 21:59:00 +0800</lastBuildDate>
     <generator>Jekyll v3.2.1</generator>
     
       <item>
@@ -217,19 +217,19 @@ asar extract app.asar app &lt;span class=&quot;c&quot;&gt;# 解開 app.asar 檔�
     
       <item>
         <title>在 Electron 使用 IPC 串聯前端和 Node API</title>
-        <description>&lt;p&gt;這次我最近在實作噗浪 electron app - &lt;a href=&quot;https://github.com/puraku/client&quot;&gt;&lt;strong&gt;Puraku&lt;/strong&gt;&lt;/a&gt; 時使用的抽象化寫法。&lt;/p&gt;
+        <description>&lt;p&gt;這是我最近在實作噗浪 electron app - &lt;a href=&quot;https://github.com/puraku/client&quot;&gt;&lt;strong&gt;Puraku&lt;/strong&gt;&lt;/a&gt; 時，使用的抽象化寫法。&lt;/p&gt;
 
-&lt;p&gt;先談一下背景。其實在 &lt;a href=&quot;https://www.plurk.com/API&quot;&gt;Plurk API&lt;/a&gt; 的網頁上就已經有 Plurk 的 &lt;a href=&quot;https://github.com/puraku/purakujs&quot;&gt;JavaScript API Library&lt;/a&gt;，不過它沒有包成 npm 可以直接使用，而且也是相依於 &lt;a href=&quot;https://github.com/ciaranj/node-oauth&quot;&gt;node-oauth&lt;/a&gt; 套件，看名字就知道和 Node 有關。&lt;/p&gt;
+&lt;p&gt;先談一下背景。其實在官方的 &lt;a href=&quot;https://www.plurk.com/API&quot;&gt;Plurk API&lt;/a&gt; 頁面上就已經有 &lt;a href=&quot;https://github.com/puraku/purakujs&quot;&gt;JavaScript 的噗浪 API Library&lt;/a&gt;了，不過它沒有包成 npm 可以直接使用，而且還相依於 &lt;a href=&quot;https://github.com/ciaranj/node-oauth&quot;&gt;node-oauth&lt;/a&gt; 套件，看名字就知道和 Node 有關。&lt;/p&gt;
 
-&lt;p&gt;這次寫的 &lt;a href=&quot;https://github.com/puraku/client&quot;&gt;puraku&lt;/a&gt; 是一個以前端為主的桌面軟體，所以我勢必要對 API Client Library 做些改寫。&lt;/p&gt;
+&lt;p&gt;這次寫的 &lt;a href=&quot;https://github.com/puraku/client&quot;&gt;puraku&lt;/a&gt; 是一個以前端為主的桌面軟體，所以我勢必要對噗浪的 API 套件做些改寫。&lt;/p&gt;
 
 &lt;h2&gt;重新封裝 API Library&lt;/h2&gt;
 
-&lt;p&gt;請直接參考 &lt;a href=&quot;https://github.com/puraku/purakujs&quot;&gt;purakujs&lt;/a&gt;，也是個可以直接使用的 Plurk API Node library，雖然這年頭也沒多少工程師在串噗浪了 😅 。值得一提的是 yarn 對 &lt;code&gt;npm link&lt;/code&gt; 的支援不太好，在設定本機開發環境跑完 &lt;code&gt;npm link&lt;/code&gt; 後，不要在 &lt;code&gt;package.json&lt;/code&gt; 加上套件名稱，防止在跑 &lt;code&gt;yarn install&lt;/code&gt; 指令時又噴錯。&lt;/p&gt;
+&lt;p&gt;我已經包裝成 &lt;a href=&quot;https://github.com/puraku/purakujs&quot;&gt;purakujs&lt;/a&gt;，它是個可以直接使用的 Plurk API Node library，雖然這年頭也沒多少工程師在串噗浪 API 了 😅 。值得一提的是 yarn 對 &lt;code&gt;npm link&lt;/code&gt; 的支援不太好，在設定本機開發環境跑完 &lt;code&gt;npm link&lt;/code&gt; 後，不要在 &lt;code&gt;package.json&lt;/code&gt; 修改套件版本，防止在跑 &lt;code&gt;yarn install&lt;/code&gt; 指令時又噴錯。&lt;/p&gt;
 
 &lt;h3&gt;Electron&lt;/h3&gt;
 
-&lt;p&gt;關於 Electron 是啥便不再贅述。首先在 Electron 的 Main Process 可以呼叫 node 的 api，所以把 oauth library 放在這跑是完全沒問題的，但 Renderer Process 才是主要觸發 API 的地方。Electron 提供了 IPC 的 API 界面實作，可以這樣寫：&lt;/p&gt;
+&lt;p&gt;關於 Electron 是啥便不再贅述。要知道的是只有在 Electron 的 Main Process 裡才可以呼叫 node 的 api，所以把 node-oauth 套件放在這跑是沒問題的，但 Renderer Process 才是主要觸發 API 的地方（換頁、捲動、按鈕等）。Electron 提供了 IPC 的 API 界面實作，可以這樣寫：&lt;/p&gt;
 
 &lt;blockquote&gt;
 &lt;p&gt;commit &lt;a href=&quot;https://github.com/puraku/client/pull/5/commits/df4c8a225a36485747f7022b1391b50ee9e9f19c&quot;&gt;df4c8a2&lt;/a&gt;&lt;/p&gt;
@@ -251,7 +251,7 @@ asar extract app.asar app &lt;span class=&quot;c&quot;&gt;# 解開 app.asar 檔�
   &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;這是 ipc api 的同步寫法。不過一旦使用同步，整個 Renderer Process 會被 Block 掉，所以我們要改用非同步的 message passing，以及相應的 Promise 封裝。&lt;/p&gt;
+&lt;p&gt;Renderer Process 送出 API 請求到 Main Process，已經正在監聽的 Main Process 在呼叫完 API 請求(&lt;code&gt;myAPIClient.request&lt;/code&gt;)之後，返還資料給 Renderer Process。在這裡透過 ipcMain 建立叫做 &lt;code&gt;puraku:api&lt;/code&gt; 的事件監聽，由 &lt;code&gt;ipcRenderer&lt;/code&gt; 送出事件請求。&lt;code&gt;event.returnValue&lt;/code&gt; 是 ipc 的同步寫法。一旦使用同步，整個 Renderer Process 在送出事件請求(&lt;code&gt;ipcRenderer.sendSync&lt;/code&gt;)之後會被 Block，所以我改用非同步的 IPC 寫法，再用 Promise 封裝。&lt;/p&gt;
 
 &lt;h3&gt;Asyncronous IPC&lt;/h3&gt;
 
@@ -286,13 +286,49 @@ asar extract app.asar app &lt;span class=&quot;c&quot;&gt;# 解開 app.asar 檔�
   &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;這一版跟上面的差別在於，Renderer Process 送請求給 Main Process 之後，馬上建立另一個 IPC 的 Listener 等待 Main Process 回調，而 Main Process 在處裡完 API 請求之後(&lt;code&gt;myAPIClient.request&lt;/code&gt;) 再用 IPC 非同步寫法回傳資料(&lt;code&gt;event.sender.send&lt;/code&gt;)。在這個版本 IPC 關係變得比較複雜，簡單畫了一下：&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-txt&quot; data-lang=&quot;txt&quot;&gt;Promise start  +-----+
+                     |           Renerer Process                 Main Process
+                     |
+                     +-----&amp;gt; +--------------------+
+                             |                    |
+                             |  ipcRenderer.send  |
+                             |                    |         +---------------------+
+                             +------------------------------+                     |
+                             |                    |         |  API request        |
+                             |  ipcRenderer.once  |         |                     |
+                             |                    |         |  event.sender.send  |
+                             |  create listener   |         |                     |
+                             |                    |         |                     |
+                             +---------+----------+         +-----------+---------+
+                                       |                                |
+                                       |                                |
+                                       |                                |
+                             +---------+----------+                     |
+                             |                    &amp;lt;---------------------+
+                             |   Event received   |
+                             |                    |
+                     +-----+ +---------+----------+
+                     |                 |
+                     |                 |
+ Promise end   &amp;lt;-----+                 |
+                                       |
+                                       |
+                                       |
+                                       |
+                                       |
+                                       |
+                                       |
+                                       |
+                                       v
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;h3&gt;IPC 事件一對一對應&lt;/h3&gt;
 
 &lt;p&gt;可以發現在這一版的 Renderer Process 我加了一個 &lt;code&gt;timestamp&lt;/code&gt; 來簡單的區分不同的 API request，因為如果光用 API 的 Endpoint 當做事件的鍵值，戳相同 API 兩次時就會衝到。&lt;/p&gt;
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;timestamp&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;Date&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;now&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
 &lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;eventKey&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;puraku&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;api&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;endpoint&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;timestamp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;不過卻發現每次取的 timestamp 還是有機會一樣，經過 Google 之後我們把 &lt;code&gt;timestamp&lt;/code&gt; 亂數的產生方法改成 &lt;code&gt;performance.now()&lt;/code&gt;：&lt;/p&gt;
+&lt;p&gt;不過卻發現每次取的 timestamp 還是有機會一樣，經過 Google 之後我把 &lt;code&gt;timestamp&lt;/code&gt; 亂數的產生方法改成 &lt;code&gt;performance.now()&lt;/code&gt;：&lt;/p&gt;
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;randomSeed&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;performance&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;now&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
 &lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;eventKey&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;puraku&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;api&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;endpoint&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;randomSeed&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
@@ -327,11 +363,13 @@ asar extract app.asar app &lt;span class=&quot;c&quot;&gt;# 解開 app.asar 檔�
   &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;在 Renderer Process 裡（在我的例子裡是 Vue 前端 App）就可以用簡單的介面來呼叫 API 啦！&lt;/p&gt;
+
 &lt;h2&gt;其它&lt;/h2&gt;
 
 &lt;p&gt;聽說用 message queue 來實作比較好，不過 It works for now，就暫時沒有更新實作的動力（懶）&lt;/p&gt;
 
-&lt;p&gt;可以在 &lt;a href=&quot;https://github.com/puraku/client/pull/5&quot;&gt;puraku/client PR#5&lt;/a&gt; 閱讀實作的過程。在本專案，我堅持一個功能就開 Branch 做成 Pull Request，可謂單人的 GitHub Flow XD&lt;/p&gt;
+&lt;p&gt;可以在 &lt;a href=&quot;https://github.com/puraku/client/pull/5&quot;&gt;puraku/client PR#5&lt;/a&gt; 閱讀實作的過程。自從對 Redmine 上癮之後，連 GitHub Flow 也一併愛上了，在本 Repo 一個功能就開 Branch 做成 Pull Request，就算一個人的 GitHub Flow 也能玩的愉悅 XD&lt;/p&gt;
 </description>
         <pubDate>Wed, 02 Nov 2016 00:00:00 +0800</pubDate>
         <link>http://yukaii.tw/blog/2016/11/02/use-electron-ipc-to-call-api-from-main-process/</link>
