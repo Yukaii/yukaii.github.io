@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "在 Electron 的 Renderer Process 裡，使用 IPC 呼叫跑在 Main Process 的 API"
+title: "在 Electron 使用 IPC 串聯前端和 Node API"
 ---
 
 這次我最近在實作噗浪 electron app - [**Puraku**][puraku] 時使用的抽象化寫法。

@@ -6,8 +6,8 @@
 </description>
     <link>http://yukaii.tw/</link>
     <atom:link href="http://yukaii.tw/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sun, 01 Jan 2017 16:40:24 +0800</pubDate>
-    <lastBuildDate>Sun, 01 Jan 2017 16:40:24 +0800</lastBuildDate>
+    <pubDate>Wed, 11 Jan 2017 21:15:37 +0800</pubDate>
+    <lastBuildDate>Wed, 11 Jan 2017 21:15:37 +0800</lastBuildDate>
     <generator>Jekyll v3.2.1</generator>
     
       <item>
@@ -216,7 +216,7 @@ asar extract app.asar app &lt;span class=&quot;c&quot;&gt;# 解開 app.asar 檔�
       </item>
     
       <item>
-        <title>在 Electron 的 Renderer Process 裡，使用 IPC 呼叫跑在 Main Process 的 API</title>
+        <title>在 Electron 使用 IPC 串聯前端和 Node API</title>
         <description>&lt;p&gt;這次我最近在實作噗浪 electron app - &lt;a href=&quot;https://github.com/puraku/client&quot;&gt;&lt;strong&gt;Puraku&lt;/strong&gt;&lt;/a&gt; 時使用的抽象化寫法。&lt;/p&gt;
 
 &lt;p&gt;先談一下背景。其實在 &lt;a href=&quot;https://www.plurk.com/API&quot;&gt;Plurk API&lt;/a&gt; 的網頁上就已經有 Plurk 的 &lt;a href=&quot;https://github.com/puraku/purakujs&quot;&gt;JavaScript API Library&lt;/a&gt;，不過它沒有包成 npm 可以直接使用，而且也是相依於 &lt;a href=&quot;https://github.com/ciaranj/node-oauth&quot;&gt;node-oauth&lt;/a&gt; 套件，看名字就知道和 Node 有關。&lt;/p&gt;
