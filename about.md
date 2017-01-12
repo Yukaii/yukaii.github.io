@@ -5,9 +5,10 @@ permalink: /about/
 order: 4
 ---
 
-* 惡搞系工程師
+* 混亂邪惡開發者
+* XDDeveloper
 * Rubist
-* React JS
+* React/Vue/Electron
 * macOS
 * VSCode
 * 自幹是藝術，追求一人之力極致
