@@ -14,7 +14,7 @@ layout: default
           <a href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
           <a href="{{ post.url | prepend: site.baseurl | append: '#disqus_thread' }}" style="display: inline-block; float: right;" class="comments-link">
             {% octicon comment %}
-            <span class="disqus-comment-count" data-disqus-identifier="{{post.url}}"></span>
+            <span class="disqus-comment-count" data-disqus-identifier="{{post.url | prepend: site.url}}"></span>
           </a>
         </h4>
         <div class="post-meta">{{ post.date | date: "%b %-d, %Y" }}</div>
