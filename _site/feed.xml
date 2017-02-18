@@ -6,8 +6,8 @@
 </description>
     <link>http://yukaii.tw/</link>
     <atom:link href="http://yukaii.tw/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Wed, 15 Feb 2017 20:43:24 +0800</pubDate>
-    <lastBuildDate>Wed, 15 Feb 2017 20:43:24 +0800</lastBuildDate>
+    <pubDate>Sat, 18 Feb 2017 16:20:39 +0800</pubDate>
+    <lastBuildDate>Sat, 18 Feb 2017 16:20:39 +0800</lastBuildDate>
     <generator>Jekyll v3.2.1</generator>
     
       <item>
@@ -258,13 +258,15 @@ asar extract app.asar app &lt;span class=&quot;c&quot;&gt;# 解開 app.asar 檔�
 
 &lt;p&gt;這次寫的 &lt;a href=&quot;https://github.com/puraku/client&quot;&gt;puraku&lt;/a&gt; 是一個以前端為主的桌面軟體，所以我勢必要對噗浪的 API 套件做些改寫。&lt;/p&gt;
 
+&lt;p&gt;&lt;strong&gt;更新&lt;/strong&gt;： 其實 Electron renderer process 就能呼叫 node API 了，只是我先入為主的以為 main process 才能使用，所以引發了這個軟體問題 XDrz。&lt;/p&gt;
+
 &lt;h2&gt;重新封裝 API Library&lt;/h2&gt;
 
 &lt;p&gt;我已經包裝成 &lt;a href=&quot;https://github.com/puraku/purakujs&quot;&gt;purakujs&lt;/a&gt;，它是個可以直接使用的 Plurk API Node library，雖然這年頭也沒多少工程師在串噗浪 API 了 😅 。值得一提的是 yarn 對 &lt;code&gt;npm link&lt;/code&gt; 的支援不太好，在設定本機開發環境跑完 &lt;code&gt;npm link&lt;/code&gt; 後，不要在 &lt;code&gt;package.json&lt;/code&gt; 修改套件版本，防止在跑 &lt;code&gt;yarn install&lt;/code&gt; 指令時又噴錯。&lt;/p&gt;
 
 &lt;h3&gt;Electron&lt;/h3&gt;
 
-&lt;p&gt;關於 Electron 是啥便不再贅述。要知道的是只有在 Electron 的 Main Process 裡才可以呼叫 node 的 api，所以把 node-oauth 套件放在這跑是沒問題的，但 Renderer Process 才是主要觸發 API 的地方（換頁、捲動、按鈕等）。Electron 提供了 IPC 的 API 界面實作，可以這樣寫：&lt;/p&gt;
+&lt;p&gt;關於 Electron 是啥便不再贅述。&lt;del&gt;要知道的是只有在 Electron 的 Main Process 裡才可以呼叫 node 的 api&lt;/del&gt;（錯了），所以把 node-oauth 套件放在這跑是沒問題的，但 Renderer Process 才是主要觸發 API 的地方（換頁、捲動、按鈕等）。Electron 提供了 IPC 的 API 界面實作，可以這樣寫：&lt;/p&gt;
 
 &lt;blockquote&gt;
 &lt;p&gt;commit &lt;a href=&quot;https://github.com/puraku/client/pull/5/commits/df4c8a225a36485747f7022b1391b50ee9e9f19c&quot;&gt;df4c8a2&lt;/a&gt;&lt;/p&gt;

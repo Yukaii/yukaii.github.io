@@ -162,13 +162,15 @@
 
 <p>這次寫的 <a href="https://github.com/puraku/client">puraku</a> 是一個以前端為主的桌面軟體，所以我勢必要對噗浪的 API 套件做些改寫。</p>
 
+<p><strong>更新</strong>： 其實 Electron renderer process 就能呼叫 node API 了，只是我先入為主的以為 main process 才能使用，所以引發了這個軟體問題 XDrz。</p>
+
 <h2>重新封裝 API Library</h2>
 
 <p>我已經包裝成 <a href="https://github.com/puraku/purakujs">purakujs</a>，它是個可以直接使用的 Plurk API Node library，雖然這年頭也沒多少工程師在串噗浪 API 了 😅 。值得一提的是 yarn 對 <code>npm link</code> 的支援不太好，在設定本機開發環境跑完 <code>npm link</code> 後，不要在 <code>package.json</code> 修改套件版本，防止在跑 <code>yarn install</code> 指令時又噴錯。</p>
 
 <h3>Electron</h3>
 
-<p>關於 Electron 是啥便不再贅述。要知道的是只有在 Electron 的 Main Process 裡才可以呼叫 node 的 api，所以把 node-oauth 套件放在這跑是沒問題的，但 Renderer Process 才是主要觸發 API 的地方（換頁、捲動、按鈕等）。Electron 提供了 IPC 的 API 界面實作，可以這樣寫：</p>
+<p>關於 Electron 是啥便不再贅述。<del>要知道的是只有在 Electron 的 Main Process 裡才可以呼叫 node 的 api</del>（錯了），所以把 node-oauth 套件放在這跑是沒問題的，但 Renderer Process 才是主要觸發 API 的地方（換頁、捲動、按鈕等）。Electron 提供了 IPC 的 API 界面實作，可以這樣寫：</p>
 
 <blockquote>
 <p>commit <a href="https://github.com/puraku/client/pull/5/commits/df4c8a225a36485747f7022b1391b50ee9e9f19c">df4c8a2</a></p>
