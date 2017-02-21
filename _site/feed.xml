@@ -6,9 +6,66 @@
 </description>
     <link>http://yukaii.tw/</link>
     <atom:link href="http://yukaii.tw/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sat, 18 Feb 2017 16:20:39 +0800</pubDate>
-    <lastBuildDate>Sat, 18 Feb 2017 16:20:39 +0800</lastBuildDate>
+    <pubDate>Tue, 21 Feb 2017 22:27:06 +0800</pubDate>
+    <lastBuildDate>Tue, 21 Feb 2017 22:27:06 +0800</lastBuildDate>
     <generator>Jekyll v3.2.1</generator>
+    
+      <item>
+        <title>用 restore-source-tree 套件來還原網站原始碼</title>
+        <description>&lt;h2&gt;前提是在 Production 環境下有 sourcemap 可以拿辣！&lt;/h2&gt;
+
+&lt;p&gt;本篇內容也不多，大概就是介紹一下思路。&lt;/p&gt;
+
+&lt;p&gt;前幾天看到這篇 &lt;a href=&quot;https://medium.com/statuscode/dissecting-twitters-redux-store-d7280b62c6b1&quot;&gt;Dissecting Twitter&amp;#39;s Redux Store&lt;/a&gt; 覺得十分優雅，今天猛地想起某國內網站也是用 React/Redux 弄的，便依樣畫葫蘆，想從 redux store 裡看出些端倪。&lt;/p&gt;
+
+&lt;p&gt;打開 Chrome Devtool，不開還好，一開便發現他們的 sourcemap 在 production 竟然拿得到啊 😂，於是就來找了 &lt;code&gt;restore-source-tree&lt;/code&gt; 套件。&lt;/p&gt;
+
+&lt;p&gt;由於該套件會把 webpack 產生的註解給移掉，而新版 webpack 註解格式又和舊版不太一樣，如下：&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;WEBPACK_FOOTER&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'/** WEBPACK FOOTER **'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// 舊版註解&lt;/span&gt;
+
+&lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;WEBPACK_FOOTER&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'// WEBPACK FOOTER //'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// 新版註解&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;會造成該套件解析不出原始碼，不對啊，DevTool 明明就看得到。&lt;/p&gt;
+
+&lt;p&gt;更麻煩的，Extract css plugin 產生出來的註解又和新版的不太一樣（搞啥啊），所以我在 &lt;a href=&quot;https://github.com/Yukaii/restore-source-tree/commit/74b32d5beb73f28393a2a6fa152ba8a5e2633907&quot;&gt;&lt;code&gt;74b32d&lt;/code&gt;&lt;/a&gt; 這個 commit，乾脆就把移除註解的方法拿掉了 XD&lt;/p&gt;
+
+&lt;p&gt;若大家想要使用我修改過版本的 &lt;code&gt;restore-source-tree&lt;/code&gt; 請直接在終端機打上以下指令安裝吧：&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;npm install -g Yukaii/restore-source-tree#98ccfc2
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h2&gt;然後呢？&lt;/h2&gt;
+
+&lt;p&gt;比如說某站 production 的 js bundle file 長這樣：&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;https://xxxx.com/build/bundle-54fbd34f.js
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;strong&gt;如果&lt;/strong&gt;有 sourcemap 的話，檔案結尾註解部分會長的像這樣：&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;c1&quot;&gt;//# sourceMappingURL=bundle-54fbd34f.js.map&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;那我們就把 sourcemap 載下來：&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;curl https://xxxx.com/build/bundle-54fbd34f.js.map &amp;gt; bundle-54fbd34f.js.map
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;然後用剛剛裝好的 &lt;code&gt;restore-source-tree&lt;/code&gt; 還原原始碼：&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;restore-source-tree -n --out-dir &amp;lt;dir&amp;gt; bundle-54fbd34f.js.map
+
+&lt;span class=&quot;c&quot;&gt;# -n 參數是包含 node_modules 資料夾&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# --out-dir 參數後面加要存進的目錄&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# 請參考原專案 github 說明：https://github.com/alexkuz/restore-source-tree&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;登愣，就好啦！（好了是長怎樣？不告訴你）&lt;/p&gt;
+
+&lt;h2&gt;欸嘿&lt;/h2&gt;
+
+&lt;p&gt;看到這邊就知道，其實我們要逆向操作網站的開源也是可以的，可以寫一個 cronjob，定時把 sourcemap 抓下來，如果 bundle hash  有更新的話，就重新還原一次並 commit 進某 repo。&lt;/p&gt;
+
+&lt;p&gt;當我沒說啦(X)&lt;/p&gt;
+
+&lt;p&gt;（完）&lt;/p&gt;
+</description>
+        <pubDate>Tue, 21 Feb 2017 00:00:00 +0800</pubDate>
+        <link>http://yukaii.tw/blog/2017/02/21/restore-source-code-from-sourcemap-file/</link>
+        <guid isPermaLink="true">http://yukaii.tw/blog/2017/02/21/restore-source-code-from-sourcemap-file/</guid>
+        
+        
+      </item>
     
       <item>
         <title>在 2017 年，我是怎麽看動畫的</title>
@@ -690,79 +747,6 @@ bundle install
         <pubDate>Mon, 22 Aug 2016 00:00:00 +0800</pubDate>
         <link>http://yukaii.tw/blog/2016/08/22/blog-new-github-theme/</link>
         <guid isPermaLink="true">http://yukaii.tw/blog/2016/08/22/blog-new-github-theme/</guid>
-        
-        
-      </item>
-    
-      <item>
-        <title>從 1Password 搬家到 pass</title>
-        <description>&lt;h2&gt;Why?&lt;/h2&gt;
-
-&lt;p&gt;pass 照&lt;a href=&quot;https://www.passwordstore.org/&quot;&gt;官網&lt;/a&gt;的說法，是一套 「標準 unix 密碼管理」（the standard unix password manager），開源簡單好用。雖然 1Password 我是用 Dropbox 同步，應該還算安全，不過多個開源選擇也不錯。&lt;/p&gt;
-
-&lt;p&gt;pass 也有一些社群版套件，引用一下官網：&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;The community has even produced a &lt;a href=&quot;http://qtpass.org/&quot;&gt;cross-platform GUI client&lt;/a&gt;, an &lt;a href=&quot;https://github.com/zeapo/Android-Password-Store&quot;&gt;Android app&lt;/a&gt;, an &lt;a href=&quot;https://github.com/davidjb/pass-ios#readme&quot;&gt;iOS app&lt;/a&gt;, a &lt;a href=&quot;https://github.com/jvenant/passff#readme&quot;&gt;Firefox plugin&lt;/a&gt;, a &lt;a href=&quot;https://github.com/mbos/Pass4Win&quot;&gt;Windows client&lt;/a&gt;, a pretty &lt;a href=&quot;https://github.com/TheLastProject/Pext&quot;&gt;Python QML app&lt;/a&gt;, a nice &lt;a href=&quot;https://github.com/cortex/gopass&quot;&gt;Go GUI app&lt;/a&gt;,  an &lt;a href=&quot;https://github.com/Kwpolska/upass&quot;&gt;interactive console UI&lt;/a&gt;, Alfred integration &lt;a href=&quot;https://github.com/CGenie/alfred-pass&quot;&gt;(1)&lt;/a&gt; &lt;a href=&quot;https://github.com/MatthewWest/pass-alfred&quot;&gt;(2)&lt;/a&gt; &lt;a href=&quot;https://github.com/johanthoren/simple-pass-alfred&quot;&gt;(3)&lt;/a&gt;, a &lt;a href=&quot;https://git.zx2c4.com/password-store/tree/contrib/dmenu&quot;&gt;dmenu script&lt;/a&gt;, &lt;a href=&quot;https://git.zx2c4.com/password-store/tree/contrib/pass.applescript&quot;&gt;OS X integration&lt;/a&gt;, &lt;a href=&quot;https://github.com/languitar/pass-git-helper&quot;&gt;git credential integration&lt;/a&gt;, and even an &lt;a href=&quot;https://git.zx2c4.com/password-store/tree/contrib/emacs&quot;&gt;emacs package&lt;/a&gt;.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;不過 iOS App 版要 jailbreak 之後才能使用呀 😭，不過身為一個還算熟悉 CLI 的使用者，這些當然都不是問題啊 😁。&lt;/p&gt;
-
-&lt;h2&gt;安裝 pass&lt;/h2&gt;
-
-&lt;p&gt;OS X 安裝十分容易：&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;brew install pass
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;就好了。他也提供一些 shell completion 可以使用，&lt;code&gt;fish&lt;/code&gt; 需要在 &lt;code&gt;~/.config/fish/config.fish&lt;/code&gt; 裡加上：&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;nb&quot;&gt;source&lt;/span&gt; /usr/local/share/fish/vendor_completions.d/pass.fish
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;h2&gt;設定 pass&lt;/h2&gt;
-
-&lt;p&gt;完成之後我們要看一下有沒有 gpg 金鑰，如果沒有的話要新增個&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;gpg --gen-key &lt;span class=&quot;c&quot;&gt;# 產生 gpg key&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;記得輸入的 key phrase 呀，之後會拿來解鎖的。用 &lt;code&gt;gpg --list-keys&lt;/code&gt; 查看剛剛產生的 key，類似下面這樣：&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;/Users/username/.gnupg/pubring.gpg
--------------------------------
-pub   2048R/A534B400 2016-08-18
-uid                  My Name &amp;lt;your_email@gmail.com&amp;gt;
-sub   2048R/E1001945 2016-08-18
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;pubic id 就是 &lt;code&gt;A534B400&lt;/code&gt;，拿這組 id 來初始化 pass&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;pass init A534B400
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;完成！之後就可以用 pass 指令管理密碼了，可以下一些測試的指令試試，比如 insert 一組 foo 的密碼：&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;pass insert foo
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;然後顯示 foo 的密碼&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;pass show foo
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;h2&gt;由 1Password 匯入&lt;/h2&gt;
-
-&lt;p&gt;官網上就寫上匯入 1password 的 &lt;a href=&quot;https://git.zx2c4.com/password-store/tree/contrib/importers/1password2pass.rb&quot;&gt;ruby script&lt;/a&gt; 😍 ，直接使用就行了。在 1Password 匯出 txt 時，記得勾選 &lt;code&gt;Include Column Labels&lt;/code&gt;，如下圖：&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;http://i.imgur.com/YsoUQcv.png&quot; alt=&quot;1password-export-option&quot;&gt;&lt;/p&gt;
-
-&lt;p&gt;把匯出的檔案和匯入腳本準備好，跑一下：&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-&quot; data-lang=&quot;&quot;&gt;ruby 1password2pass.rb /path/to/1password_exported.txt
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;h2&gt;基礎使用&lt;/h2&gt;
-
-&lt;p&gt;pass 的管理可以說是相當自由，通通放在 &lt;code&gt;~/.password-store&lt;/code&gt; 目錄，底下可以建立任意的目錄分類，或是乾脆不分 XD&lt;/p&gt;
-
-&lt;p&gt;一些基本指令：&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;pass show PROFILE &lt;span class=&quot;c&quot;&gt;# 印出 PROFILE 的密碼&lt;/span&gt;
-pass -c PROFILE &lt;span class=&quot;c&quot;&gt;# 複製 PROFILE 的密碼到剪貼簿&lt;/span&gt;
-pass ls &lt;span class=&quot;c&quot;&gt;# 列出所有密碼設定檔&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;我做了以下 alias，方便快速密碼搜尋：&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;nb&quot;&gt;alias &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;passgrep&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;pass ls | grep -i&quot;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;就可以用 &lt;code&gt;passgrep&lt;/code&gt; 來搜尋現有設定檔了。&lt;/p&gt;
-</description>
-        <pubDate>Fri, 19 Aug 2016 00:00:00 +0800</pubDate>
-        <link>http://yukaii.tw/blog/2016/08/19/migrate-1password-to-pass/</link>
-        <guid isPermaLink="true">http://yukaii.tw/blog/2016/08/19/migrate-1password-to-pass/</guid>
         
         
       </item>
