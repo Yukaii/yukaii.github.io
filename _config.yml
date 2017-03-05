@@ -21,6 +21,7 @@ permalink: /blog/:year/:month/:day/:title/
 exclude:
   - Gemfile
   - Gemfile.lock
+  - bin
   # Prevent demo files to be included in the sitemap.xml
 
 # Build settings
