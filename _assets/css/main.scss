@@ -49,6 +49,8 @@ $on-laptop:        800px;
 
 .tabnav-tabs {
   @include media-query($on-palm) {
+    overflow-x: scroll;
+    -webkit-overflow-scrolling: touch;
     overflow-y: hidden;
     white-space: nowrap;
   }
