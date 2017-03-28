@@ -6,9 +6,44 @@
 </description>
     <link>http://yukaii.tw/</link>
     <atom:link href="http://yukaii.tw/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Wed, 29 Mar 2017 00:09:05 +0800</pubDate>
-    <lastBuildDate>Wed, 29 Mar 2017 00:09:05 +0800</lastBuildDate>
+    <pubDate>Wed, 29 Mar 2017 00:29:07 +0800</pubDate>
+    <lastBuildDate>Wed, 29 Mar 2017 00:29:07 +0800</lastBuildDate>
     <generator>Jekyll v3.2.1</generator>
+    
+      <item>
+        <title>部落格主題微調 - PrimerCSS 更新</title>
+        <description>&lt;h2&gt;沒哏的時候就來換換主題&lt;/h2&gt;
+
+&lt;p&gt;沒哏也要想哏來寫，動物朋友也準備迎來最後一話了，不論要不要崩潰，動畫還是要看，生活還是要過，碼字的繼續碼，該睡時還是得去睡。&lt;/p&gt;
+
+&lt;p&gt;最近最大的男性交友社群 GitHub 改了改樣式。說是最近，其實也一個月了。先是 Navbar 調成黑色，再來連按鈕顏色、超連結都改了。剛改變的那幾天為避免眼睛不適(?)，還特別找了 &lt;a href=&quot;https://github.com/DennisSnijder/MakeGithubGreatAgain&quot;&gt;MakeGithubGreatAgain&lt;/a&gt;、&lt;a href=&quot;https://github.com/ricordisamoa/MakeGithubPaleAgain&quot;&gt;MakeGithubPaleAgain&lt;/a&gt;、&lt;a href=&quot;https://userstyles.org/&quot;&gt;各式第三方樣式表&lt;/a&gt;來自救，沒想到過沒多久眼睛就自己適應了，該不會 GitHub 又偷偷調整了吧（喂）&lt;/p&gt;
+
+&lt;p&gt;本站就是利用 GitHub 的 PrimerCSS 打造，依照慣例，每次換主題都應該發一篇文，截圖炫耀兼記錄一下。&lt;/p&gt;
+
+&lt;h3&gt;Before&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://lh3.googleusercontent.com/_SWzvhF7-wB1dzmRRO0CRdbi2jQyqTEgbH294XcTdQr3OnZgmzKxg6wYbvnNAjAJwQmoua_6g18W_RXk1OdJVtu_Ot9k5eav4qsUsvPugPGYPOttmaC7uQ8VZD6SU2etaZlCq0rvja86XHH_buL8trOSs7SLXnvI1MNd8Vt3C7fzJ42L4QhGmXyFWaOguqf-9manBJBR4aVEcJCW5kUiCW7T8gTBa7QHgccckSWV_LM-vjEMJhb5GGf16mkYyO0kJanYFu20jK3PNHMauvlHHTxBs6nLIgyMlo-VIeAr2Lgyy2aJiPdc8HNHraBmFN3krTTeJMw2VFUfPfdp2UMkjJUQ3N43KEphpeOCIVCpXevYlVfdayh4x8__r3D8Sy9gqAjHX_J8Ny5TC4LwP54BoL8r4zj0HhOAQUbLDwWyjvGwuWzMXBz6uZyplFIH39HcSzptclkESQLWkwhUkhcQQX-1MHGBIZKpYED7X_-x-vlqsxRbM28RxzOKWuS7zsrGke_EDAXjdy88Z74efyWu79WnepRyTk519tcRcG7I-3qSgj9AIRr6mcX-3XS3pZ-LjAh346eH77al5UpKi3AYy3aKdyzUnmFVQMDiaiPu_-mcG-xF34z2_g=w867-h765-no&quot; alt=&quot;before&quot;&gt;&lt;/p&gt;
+
+&lt;h3&gt;After&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://lh3.googleusercontent.com/YazoIwe38_G40-g1sQNpktPrEUtbQxtGTBQqpyhZ-nQ5CzBoeQJzrgKGDLzjpQ206WYPFKywtzgRIpAjCj2HhG-o1fqYNuGOvYorJlRKVw_lzjUKFRxCXXcBQUhXyf601yWICtljNeiT2hK4DjPikb_3McotGE_rmaYNJHVAecB70o4Cwjea50Qux8uKYBcTmtbs5I0-_247C-MstkrWPRRb-8k0kBnGymkmE5OQufFhh8cnOZHYj60FT3Y4ZQOmGwl0AojSOAvr7tjo_ihi-YeFmYu2zJFvHB1UWFdOklTfmGBt-E0F7O2tT8ccE9H0eB1ij6jmGbkfgguOmVqnFhJN52SuK2las75hYX8LeWS32z0wzr6GtaNaxElMQ-gH0-Gt8Qe5JSEr3G-q0Yiu8qYXd9j3th6HBM_J6iCUJLXY8KD1abtamacX8cBr5XZ0HI067Geb_JHo6VKzfCH4CCKm2ARnQRlfPTZwXgvOVk_umPYzb7oeCGpymQQKkcCtBE5GBlrUb0B47ZAKkO1fJCiUne1hR1EXdCtHfAlFOl2VqMTAQBnWNc49tOZN3meXw-Dp9ODWEpnKx-7ocrvOOjmLHzss45ORw41Ja4-v5A6AHDrWY2tPLA=w869-h765-no&quot; alt=&quot;after&quot;&gt;&lt;/p&gt;
+
+&lt;p&gt;為求完美，連黑色 Navbar 也要照抄一下：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://lh3.googleusercontent.com/JqHTFTmS4gGxjQygnJfH7ZwBI3bz0qT834X5fspQ2q-579HCYV0zoIgh5MbnYssnh8UpBD0XIPmnagd13pVbdag5-laqNevBHpJ0mu-3N1J_B2Fg66z1_p9mcXb3APRzBSUPbccebUz1HMRbLaAMh4NfwGDyY9nwjA3gk15QqPC3OB0VmO0jZYlp-sRHrgzSLLhZII7k9yuuWyHtmSaiMF0zJtsgAf0cDOR0yvb_beoXm7cGZwRqULL3ziKyMv5H7qaDZLFKFKKLE7ebtadNeTDA0RRt-0XbIL2eCG31CRHiLWS_7VYlz4BpAVGD0rm-85fk_WBRo0rdm278A0VWqQ7c6IoYdGWb1c97mO69zf46KAiMWo0V5eJqyMERPqtErZLjT6ZOZD1YvUv-N8kyEz_bhJXGcZ0P-PHE7W7ewfAblX823-bgtA5r1Ay_09uyqpofNq8hyB5_8KcuAHaGocxk4NaKV2Kcw5149l-k2Hz3qZ6zFzMwg1Jyob7TWWO-2NIiYSn_eOSq5Tkh6IQbLlu4B1eAjoxzsibjuvMNqxemO7mGilw0qj3PIMH9-fvE_xeatydxtBncjGJvbENBx7wbv2G8Bmo_a9Y3t-3JBbLZ8INxlDvSug=w399-h684-no&quot; alt=&quot;mobile&quot;&gt;&lt;/p&gt;
+
+&lt;p&gt;大GUY 4這樣&lt;/p&gt;
+
+&lt;p&gt;認同請分享&lt;/p&gt;
+
+&lt;p&gt;（完）&lt;/p&gt;
+</description>
+        <pubDate>Wed, 29 Mar 2017 00:00:00 +0800</pubDate>
+        <link>http://yukaii.tw/blog/2017/03/29/new-primer-css-github-theme/</link>
+        <guid isPermaLink="true">http://yukaii.tw/blog/2017/03/29/new-primer-css-github-theme/</guid>
+        
+        
+      </item>
     
       <item>
         <title>用 restore-source-tree 套件來還原網站原始碼</title>
@@ -709,44 +744,6 @@ bundle install
         <pubDate>Sun, 28 Aug 2016 00:00:00 +0800</pubDate>
         <link>http://yukaii.tw/blog/2016/08/28/rails-girl-7/</link>
         <guid isPermaLink="true">http://yukaii.tw/blog/2016/08/28/rails-girl-7/</guid>
-        
-        
-      </item>
-    
-      <item>
-        <title>部落格 GitHub 新版型主題</title>
-        <description>&lt;p&gt;過程可以看 &lt;a href=&quot;https://github.com/Yukaii/Blog/pull/1&quot;&gt;PR#1&lt;/a&gt;，大致上是：&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;引入 &lt;a href=&quot;https://primercss.io&quot;&gt;primer css&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;清掉原本沒用到的 css&lt;/li&gt;
-&lt;li&gt;Post Layout 加上 &lt;code&gt;markdown-body&lt;/code&gt; 的 class（&lt;a href=&quot;https://github.com/Yukaii/Blog/commit/31360b&quot;&gt;31360b&lt;/a&gt;）&lt;/li&gt;
-&lt;li&gt;從 GitHub 上面拿 css 來用 XD&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;不囉嗦，直接上圖了。&lt;/p&gt;
-
-&lt;h2&gt;Before&lt;/h2&gt;
-
-&lt;p&gt;&lt;img src=&quot;http://i.imgur.com/3rBAve0.png&quot; alt=&quot;before-1&quot;&gt;
-&lt;img src=&quot;http://i.imgur.com/bXb19SE.png&quot; alt=&quot;before-2&quot;&gt;&lt;/p&gt;
-
-&lt;h2&gt;After&lt;/h2&gt;
-
-&lt;p&gt;&lt;img src=&quot;http://i.imgur.com/McEpFdB.png&quot; alt=&quot;after-1&quot;&gt;
-&lt;img src=&quot;http://i.imgur.com/PqH6sup.png&quot; alt=&quot;after-2&quot;&gt;&lt;/p&gt;
-
-&lt;h2&gt;Misc&lt;/h2&gt;
-
-&lt;p&gt;另外附上最近弄的 VSCode Markdown Preview Theme。我習慣用暗色的 syntax highlight theme，但是 VSCode 的 Markdown Preview 會根據目前使用的 Theme，來使用亮色或暗色，所以我寫了一些覆蓋的 css，讓不論選亮色或是暗色主題都能使用明亮的 Markdown 預覽主題。與 &lt;a href=&quot;https://gist.github.com/BigstickCarpet/&quot;&gt;BigstickCarpet&lt;/a&gt; 的 GFM Theme 一起使用效果更佳 😁&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://github.com/Yukaii/vscode-markdown-github-css&quot;&gt;vscode-markdown-github-css&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;http://i.imgur.com/hHbhwHJ.png&quot; alt=&quot;md1&quot;&gt;&lt;/p&gt;
-</description>
-        <pubDate>Mon, 22 Aug 2016 00:00:00 +0800</pubDate>
-        <link>http://yukaii.tw/blog/2016/08/22/blog-new-github-theme/</link>
-        <guid isPermaLink="true">http://yukaii.tw/blog/2016/08/22/blog-new-github-theme/</guid>
         
         
       </item>
