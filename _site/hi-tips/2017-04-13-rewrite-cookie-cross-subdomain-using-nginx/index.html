@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#000000">
+
+  <link rel="shortcut icon" href="/favicon.ico?">
+  <link rel="icon" sizes="16x16 32x32 64x64" href="/favicon.ico?">
+  <link rel="icon" type="image/png" sizes="196x196" href="/assets/favicon-192-73984ba8cba1509126578a27bc69ae7f18bcb995ed7f8b4a0f8bd78d62548ff7.png?">
+  <link rel="icon" type="image/png" sizes="160x160" href="/assets/favicon-160-8206daf609d04dc4473a2190724c3d02f8b3f85dfc698258c01847806ea0795c.png?">
+  <link rel="icon" type="image/png" sizes="96x96" href="/assets/favicon-96-4606af31b4f04ea907a73c0da851f1f086ce1478845c41468776ec58e906c204.png?">
+  <link rel="icon" type="image/png" sizes="64x64" href="/assets/favicon-64-b30ca1911fc5d3fde27a942b3c35f85d10bb04c156465399e71f12a05b50f773.png?">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32-e2b570898efa41ba4bc657137dc4b89363befd4c6e3e07262a6c882fd1d9e988.png?">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16-6267918ee5c8cfda8e417724395280c4d4c4d1635f800a50bb5cd4dbec457e84.png?">
+  <link rel="apple-touch-icon" href="/assets/favicon-57-01a1206e730de26baf0e8d09d076f13456dcb4e7e3671e2cea7c8c605f25548b.png?">
+  <link rel="apple-touch-icon" sizes="114x114" href="/assets/favicon-114-752043dd62f714baf71508152d53aa5c5b64fa1cd343ce90ba32ccaa9105f0d3.png?">
+  <link rel="apple-touch-icon" sizes="72x72" href="/assets/favicon-72-a817aa192b90b287599cf53a818a9579c4951902a0c5a427f26ed8def445755f.png?">
+  <link rel="apple-touch-icon" sizes="144x144" href="/assets/favicon-144-8f3db63e51145cd158153cac3898692a4a4de9a76073ff05a7047142e1ef2dee.png?">
+  <link rel="apple-touch-icon" sizes="60x60" href="/assets/favicon-60-864870a243ce7a812fa24f39eb66cc6693a192c69fffac8537bb92e56db88ac7.png?">
+  <link rel="apple-touch-icon" sizes="120x120" href="/assets/favicon-120-02e36dfbe9506e491fd63827bf709b6880362204e16481ba6a7b46e90ec47985.png?">
+  <link rel="apple-touch-icon" sizes="76x76" href="/assets/favicon-76-6125924227301585397995daf941f7f11c59f43eee5ac8daa7688f95356f7c3b.png?">
+  <link rel="apple-touch-icon" sizes="152x152" href="/assets/favicon-152-d9f7ca79ce4c88dd0ed8998f0679bcc28b3cb5b783765afa631a35b0d7026816.png?">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon-180-fc0d853924b010f640456772711dfc22134e22c5e8a2fc48cf65273c7ccaf45f.png?">
+
+  <title>Rewrite cookie cross subdomain using nginx | Daily Oops!</title>
+  <meta name="description" content="Imagine this case. Running an application in the root domain https://hello.world, and we want to share cookie across subdomain(like oh.hello.world). The easi...">
+
+  <link type="text/css" rel="stylesheet" href="/assets/primer-6dec4d71d1d251c73bb9a9c9cb48e1d747ab2a3b8c8f5035361973c3a2fa346a.css">
+  <link type="text/css" rel="stylesheet" href="/assets/main-c6e768966b2dbeb3929b055748fc87a2981745285ee14b639dec2602d5524396.css">
+  <link rel="canonical" href="http://yukaii.tw/hi-tips/2017-04-13-rewrite-cookie-cross-subdomain-using-nginx/">
+  <link rel="alternate" type="application/rss+xml" title="Daily Oops!" href="http://yukaii.tw/feed.xml">
+  <script src="/assets/turbolinks-bf5ce4ac252ac50bd64d48004ffbab79d19523547d615799438329842bfb9d1e.js" type="text/javascript" charset="utf-8" defer></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.16/webfont.js" defer></script>
+  <script src="/assets/webfont-2caeca0621f3e8a992c058c552601fb32ab14d3e51afaa4332fcf69f8916aa52.js" type="text/javascript" charset="utf-8" defer></script>
+</head>
+
+
+  <body>
+    <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-49526118-7', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+    <header class="site-header">
+
+  <div class="title-wrapper">
+    <h1>
+      <a class="site-title" href="/">Daily Oops!</a>
+    </h1>
+  </div>
+
+  <div class="nav-wrapper">
+    <div class="tabnav">
+      <nav class="tabnav-tabs">
+        
+          <a href="/" class="tabnav-tab">
+            <svg class="octicon octicon-octoface" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="M14.7 5.34c.13-.32.55-1.59-.13-3.31 0 0-1.05-.33-3.44 1.3-1-.28-2.07-.32-3.13-.32s-2.13.04-3.13.32c-2.39-1.64-3.44-1.3-3.44-1.3-.68 1.72-.26 2.99-.13 3.31C.49 6.21 0 7.33 0 8.69 0 13.84 3.33 15 7.98 15S16 13.84 16 8.69c0-1.36-.49-2.48-1.3-3.35zM8 14.02c-3.3 0-5.98-.15-5.98-3.35 0-.76.38-1.48 1.02-2.07 1.07-.98 2.9-.46 4.96-.46 2.07 0 3.88-.52 4.96.46.65.59 1.02 1.3 1.02 2.07 0 3.19-2.68 3.35-5.98 3.35zM5.49 9.01c-.66 0-1.2.8-1.2 1.78s.54 1.79 1.2 1.79c.66 0 1.2-.8 1.2-1.79s-.54-1.78-1.2-1.78zm5.02 0c-.66 0-1.2.79-1.2 1.78s.54 1.79 1.2 1.79c.66 0 1.2-.8 1.2-1.79s-.53-1.78-1.2-1.78z"></path></svg>
+            Daily Oops!
+          </a>
+        
+
+        
+        
+          
+        
+          
+        
+          
+        
+          
+            
+
+
+
+
+<a href="/blog/" class="tabnav-tab">
+  
+      <svg class="octicon octicon-book" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="M3 5h4v1H3V5zm0 3h4V7H3v1zm0 2h4V9H3v1zm11-5h-4v1h4V5zm0 2h-4v1h4V7zm0 2h-4v1h4V9zm2-6v9c0 .55-.45 1-1 1H9.5l-1 1-1-1H2c-.55 0-1-.45-1-1V3c0-.55.45-1 1-1h5.5l1 1 1-1H15c.55 0 1 .45 1 1zm-8 .5L7.5 3H2v9h6V3.5zm7-.5H9.5l-.5.5V12h6V3z"></path></svg>
+    
+
+  Blog
+</a>
+
+          
+        
+          
+            
+
+
+
+
+<a href="/hi-tips/" class="tabnav-tab selected">
+  
+      <svg class="octicon octicon-repo" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path d="M4 9H3V8h1v1zm0-3H3v1h1V6zm0-2H3v1h1V4zm0-2H3v1h1V2zm8-1v12c0 .55-.45 1-1 1H6v2l-1.5-1.5L3 16v-2H1c-.55 0-1-.45-1-1V1c0-.55.45-1 1-1h10c.55 0 1 .45 1 1zm-1 10H1v2h2v-1h3v1h5v-2zm0-10H2v9h9V1z"></path></svg>
+    
+
+  Hi Tips!
+</a>
+
+          
+        
+          
+            
+
+
+
+
+<a href="/projects/" class="tabnav-tab">
+  
+      <svg class="octicon octicon-code" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path d="M9.5 3L8 4.5 11.5 8 8 11.5 9.5 13 14 8 9.5 3zm-5 0L0 8l4.5 5L6 11.5 2.5 8 6 4.5 4.5 3z"></path></svg>
+  
+
+  Projects
+</a>
+
+          
+        
+          
+            
+
+
+
+
+<a href="/about/" class="tabnav-tab">
+  
+      <svg class="octicon octicon-info" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path d="M6.3 5.69a.942.942 0 0 1-.28-.7c0-.28.09-.52.28-.7.19-.18.42-.28.7-.28.28 0 .52.09.7.28.18.19.28.42.28.7 0 .28-.09.52-.28.7a1 1 0 0 1-.7.3c-.28 0-.52-.11-.7-.3zM8 7.99c-.02-.25-.11-.48-.31-.69-.2-.19-.42-.3-.69-.31H6c-.27.02-.48.13-.69.31-.2.2-.3.44-.31.69h1v3c.02.27.11.5.31.69.2.2.42.31.69.31h1c.27 0 .48-.11.69-.31.2-.19.3-.42.31-.69H8V7.98v.01zM7 2.3c-3.14 0-5.7 2.54-5.7 5.68 0 3.14 2.56 5.7 5.7 5.7s5.7-2.55 5.7-5.7c0-3.15-2.56-5.69-5.7-5.69v.01zM7 .98c3.86 0 7 3.14 7 7s-3.14 7-7 7-7-3.12-7-7 3.14-7 7-7z"></path></svg>
+    
+
+  About Me
+</a>
+
+          
+        
+      </nav>
+    </div>
+  </div>
+
+</header>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <article class="post markdown-body" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <div class="post-title" itemprop="name headline">Rewrite cookie cross subdomain using nginx</div>
+    <p class="post-meta"><svg class="octicon octicon-calendar" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path d="M13 2h-1v1.5c0 .28-.22.5-.5.5h-2c-.28 0-.5-.22-.5-.5V2H6v1.5c0 .28-.22.5-.5.5h-2c-.28 0-.5-.22-.5-.5V2H2c-.55 0-1 .45-1 1v11c0 .55.45 1 1 1h11c.55 0 1-.45 1-1V3c0-.55-.45-1-1-1zm0 12H2V5h11v9zM5 3H4V1h1v2zm6 0h-1V1h1v2zM6 7H5V6h1v1zm2 0H7V6h1v1zm2 0H9V6h1v1zm2 0h-1V6h1v1zM4 9H3V8h1v1zm2 0H5V8h1v1zm2 0H7V8h1v1zm2 0H9V8h1v1zm2 0h-1V8h1v1zm-8 2H3v-1h1v1zm2 0H5v-1h1v1zm2 0H7v-1h1v1zm2 0H9v-1h1v1zm2 0h-1v-1h1v1zm-8 2H3v-1h1v1zm2 0H5v-1h1v1zm2 0H7v-1h1v1zm2 0H9v-1h1v1z"></path></svg> <time datetime="2017-04-13T00:00:00+08:00" itemprop="datePublished">Apr 13, 2017</time></p>
+  </header>
+
+  <div class="post-content" itemprop="articleBody">
+    <p>Imagine this case. Running an application in the root domain <code>https://hello.world</code>, and we want to share cookie across subdomain(like oh.hello.world). The easiest way come to mind is modifying the <code>Domain</code> value in <code>Set-Cookie</code> header.</p>
+
+<p>Change</p>
+<div class="highlight"><pre><code class="language-txt" data-lang="txt">Set-Cookie: xxx.id=123nfasdf;lkjn; Domain=hello.world
+</code></pre></div>
+<p>to</p>
+<div class="highlight"><pre><code class="language-txt" data-lang="txt">Set-Cookie: xxx.id=123nfasdf;lkjn; Domain=.hello.world
+</code></pre></div>
+<hr>
+
+<p>By <code>express</code> or any other modern web framework, this change could be done in the application layer(via some cookie/session configuration). However in my case, I can&#39;t simply change cookie domain due to some <strong>legacy package problem</strong>. (I JUST CANT find out why...)</p>
+
+<p>Since the app runs behind nginx reverse proxy, I do some googling and found that there is a built-in module for solving these kind of problem in nginx.</p>
+
+<h3>proxy<em>cookie</em>domain</h3>
+
+<p>Here are the patterns I&#39;ve tried(but none of them works):</p>
+<div class="highlight"><pre><code class="language-nginx" data-lang="nginx"><span class="k">proxy_cookie_domain</span> <span class="s">hello.world</span> <span class="s">".hello.world"</span><span class="p">;</span>
+<span class="k">proxy_cookie_domain</span> <span class="s">hello.world</span> <span class="s">.hello.world</span><span class="p">;</span>
+<span class="k">proxy_cookie_domain</span> <span class="s">*</span> <span class="s">.hello.world</span><span class="p">;</span>
+<span class="k">proxy_cookie_domain</span> <span class="s">localhost</span> <span class="s">.hello.world</span><span class="p">;</span>
+</code></pre></div>
+<p>And finally this works:</p>
+<div class="highlight"><pre><code class="language-nginx" data-lang="nginx"><span class="k">proxy_cookie_domain</span> <span class="p">~</span><span class="sr">^(.+)(Domain=hello.world)(.+)$</span> <span class="s">"</span><span class="nv">$1</span> <span class="s">Domain=.hello.world</span> <span class="nv">$3</span><span class="s">"</span><span class="p">;</span>
+</code></pre></div>
+<p>The regex split original cookie and rewrite the middle part(domain part).</p>
+
+<h3>Why?</h3>
+
+<p>I think it&#39;s related to the complex of current cookie. The above example not match server cookie, so I need to specify the regex pattern explicitly.</p>
+
+<p>That&#39;s it :p</p>
+
+  </div>
+  
+  
+    <div id="disqus_thread"></div>
+<script>
+
+/**
+ *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+ *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */
+var disqus_url = 'http://yukaii.tw/hi-tips/rewrite-cookie-cross-subdomain-using-nginx';
+var disqus_identifier = 'http://yukaii.tw/hi-tips/rewrite-cookie-cross-subdomain-using-nginx';
+var disqus_shortname = 'dailyoops';
+
+(function() {
+    var d = document, s = d.createElement('script');
+    s.type = 'text/javascript';
+    s.async = true;
+    s.src = '//dailyoops.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+  
+
+</article>
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+    <div class="footer-col-wrapper footer-block">
+      © 2017 <a href="https://github.com/Yukaii">Yukai Huang</a>. Built with ❤ using <a href="https://jekyllrb.com">Jekyll</a>.
+    </div>
+  </div>
+
+</footer>
+
+
+    <script id="dsq-count-scr" src="//dailyoops.disqus.com/count.js" async></script>
+  </body>
+
+</html>
