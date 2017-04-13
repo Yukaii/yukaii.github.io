@@ -171,7 +171,7 @@
 
 <p>Since the app runs behind nginx reverse proxy, I do some googling and found that there is a built-in module for solving these kind of problem in nginx.</p>
 
-<h3>proxy<em>cookie</em>domain</h3>
+<h3>proxy_cookie_domain module</h3>
 
 <p>Here are the patterns I&#39;ve tried(but none of them works):</p>
 <div class="highlight"><pre><code class="language-nginx" data-lang="nginx"><span class="k">proxy_cookie_domain</span> <span class="s">hello.world</span> <span class="s">".hello.world"</span><span class="p">;</span>

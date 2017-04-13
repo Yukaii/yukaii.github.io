@@ -23,7 +23,7 @@ By `express` or any other modern web framework, this change could be done in the
 
 Since the app runs behind nginx reverse proxy, I do some googling and found that there is a built-in module for solving these kind of problem in nginx.
 
-### proxy_cookie_domain
+### proxy\_cookie\_domain module
 
 Here are the patterns I've tried(but none of them works):
 
