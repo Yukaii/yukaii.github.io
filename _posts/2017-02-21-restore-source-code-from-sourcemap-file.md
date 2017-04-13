@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "用 restore-source-tree 套件來還原網站原始碼"
+title: "用 restore-source-tree 一次還原 source map 網站原始碼"
 ---
 
 ## 前提是在 Production 環境下有 sourcemap 可以拿辣！

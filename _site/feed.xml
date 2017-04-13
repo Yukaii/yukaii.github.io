@@ -6,8 +6,8 @@
 </description>
     <link>http://yukaii.tw/</link>
     <atom:link href="http://yukaii.tw/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sat, 08 Apr 2017 23:10:14 +0800</pubDate>
-    <lastBuildDate>Sat, 08 Apr 2017 23:10:14 +0800</lastBuildDate>
+    <pubDate>Thu, 13 Apr 2017 21:49:21 +0800</pubDate>
+    <lastBuildDate>Thu, 13 Apr 2017 21:49:21 +0800</lastBuildDate>
     <generator>Jekyll v3.2.1</generator>
     
       <item>
@@ -46,7 +46,7 @@
       </item>
     
       <item>
-        <title>用 restore-source-tree 套件來還原網站原始碼</title>
+        <title>用 restore-source-tree 一次還原 source map 網站原始碼</title>
         <description>&lt;h2&gt;前提是在 Production 環境下有 sourcemap 可以拿辣！&lt;/h2&gt;
 
 &lt;p&gt;本篇內容也不多，大概就是介紹一下思路。&lt;/p&gt;
