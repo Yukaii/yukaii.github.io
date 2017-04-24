@@ -6,8 +6,8 @@
 </description>
     <link>http://yukaii.tw/</link>
     <atom:link href="http://yukaii.tw/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Mon, 24 Apr 2017 21:26:46 +0800</pubDate>
-    <lastBuildDate>Mon, 24 Apr 2017 21:26:46 +0800</lastBuildDate>
+    <pubDate>Mon, 24 Apr 2017 21:28:23 +0800</pubDate>
+    <lastBuildDate>Mon, 24 Apr 2017 21:28:23 +0800</lastBuildDate>
     <generator>Jekyll v3.4.3</generator>
     
       <item>
@@ -20,7 +20,7 @@
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;git cherry-pick COMMIT_SHA1
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;或是你想要 cherry-pick 多個 commit 也行：&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;git cherry-pick START_SHA1^..START_SHA2
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;git cherry-pick START_SHA1^..END_SHA1
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;多加了一個 &lt;code&gt;^&lt;/code&gt; 是表示開始 SHA1 的前一個 commit。&lt;/p&gt;
 

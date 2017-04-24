@@ -16,7 +16,7 @@ git cherry-pick COMMIT_SHA1
 或是你想要 cherry-pick 多個 commit 也行：
 
 ```bash
-git cherry-pick START_SHA1^..START_SHA2
+git cherry-pick START_SHA1^..END_SHA1
 ```
 
 多加了一個 `^` 是表示開始 SHA1 的前一個 commit。
