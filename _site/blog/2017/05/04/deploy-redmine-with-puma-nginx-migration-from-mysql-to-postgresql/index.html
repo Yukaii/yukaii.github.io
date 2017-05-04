@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#000000">
+
+  <link rel="shortcut icon" href="/favicon.ico?">
+  <link rel="icon" sizes="16x16 32x32 64x64" href="/favicon.ico?">
+  <link rel="icon" type="image/png" sizes="196x196" href="/assets/favicon-192-73984ba8cba1509126578a27bc69ae7f18bcb995ed7f8b4a0f8bd78d62548ff7.png?">
+  <link rel="icon" type="image/png" sizes="160x160" href="/assets/favicon-160-8206daf609d04dc4473a2190724c3d02f8b3f85dfc698258c01847806ea0795c.png?">
+  <link rel="icon" type="image/png" sizes="96x96" href="/assets/favicon-96-4606af31b4f04ea907a73c0da851f1f086ce1478845c41468776ec58e906c204.png?">
+  <link rel="icon" type="image/png" sizes="64x64" href="/assets/favicon-64-b30ca1911fc5d3fde27a942b3c35f85d10bb04c156465399e71f12a05b50f773.png?">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32-e2b570898efa41ba4bc657137dc4b89363befd4c6e3e07262a6c882fd1d9e988.png?">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16-6267918ee5c8cfda8e417724395280c4d4c4d1635f800a50bb5cd4dbec457e84.png?">
+  <link rel="apple-touch-icon" href="/assets/favicon-57-01a1206e730de26baf0e8d09d076f13456dcb4e7e3671e2cea7c8c605f25548b.png?">
+  <link rel="apple-touch-icon" sizes="114x114" href="/assets/favicon-114-752043dd62f714baf71508152d53aa5c5b64fa1cd343ce90ba32ccaa9105f0d3.png?">
+  <link rel="apple-touch-icon" sizes="72x72" href="/assets/favicon-72-a817aa192b90b287599cf53a818a9579c4951902a0c5a427f26ed8def445755f.png?">
+  <link rel="apple-touch-icon" sizes="144x144" href="/assets/favicon-144-8f3db63e51145cd158153cac3898692a4a4de9a76073ff05a7047142e1ef2dee.png?">
+  <link rel="apple-touch-icon" sizes="60x60" href="/assets/favicon-60-864870a243ce7a812fa24f39eb66cc6693a192c69fffac8537bb92e56db88ac7.png?">
+  <link rel="apple-touch-icon" sizes="120x120" href="/assets/favicon-120-02e36dfbe9506e491fd63827bf709b6880362204e16481ba6a7b46e90ec47985.png?">
+  <link rel="apple-touch-icon" sizes="76x76" href="/assets/favicon-76-6125924227301585397995daf941f7f11c59f43eee5ac8daa7688f95356f7c3b.png?">
+  <link rel="apple-touch-icon" sizes="152x152" href="/assets/favicon-152-d9f7ca79ce4c88dd0ed8998f0679bcc28b3cb5b783765afa631a35b0d7026816.png?">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon-180-fc0d853924b010f640456772711dfc22134e22c5e8a2fc48cf65273c7ccaf45f.png?">
+
+  <title>使用 puma 和 nginx 部屬 Redmine（加上從 MySQL 搬到 PostgreSQL） | Daily Oops!</title>
+  <meta name="description" content="有鑑於前陣子看太多 Linode 軟文，每月五鎂的機器好像就 Linode CP 值最高惹，管理界面雖然初次看起來陽春，使用起來倒挺有效率的。這幾天就把擺在 Vultr 上的自用服務 (Redmine，幾個 crontab 腳本) 搬到了 Linode 上。">
+
+  <link type="text/css" rel="stylesheet" href="/assets/primer-6dec4d71d1d251c73bb9a9c9cb48e1d747ab2a3b8c8f5035361973c3a2fa346a.css">
+  <link type="text/css" rel="stylesheet" href="/assets/main-c6e768966b2dbeb3929b055748fc87a2981745285ee14b639dec2602d5524396.css">
+  <link rel="canonical" href="http://yukaii.tw/blog/2017/05/04/deploy-redmine-with-puma-nginx-migration-from-mysql-to-postgresql/">
+  <link rel="alternate" type="application/rss+xml" title="Daily Oops!" href="http://yukaii.tw/feed.xml">
+  <script src="/assets/turbolinks-428b9704bfb571c0487adabc30bd4d4a363f4d353265388cb79c5b3649ce058c.js" type="text/javascript" charset="utf-8" defer></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.16/webfont.js" defer></script>
+  <script src="/assets/webfont-2caeca0621f3e8a992c058c552601fb32ab14d3e51afaa4332fcf69f8916aa52.js" type="text/javascript" charset="utf-8" defer></script>
+</head>
+
+
+  <body>
+    <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-49526118-7', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+    <header class="site-header">
+
+  <div class="title-wrapper">
+    <h1>
+      <a class="site-title" href="/">Daily Oops!</a>
+    </h1>
+  </div>
+
+  <div class="nav-wrapper">
+    <div class="tabnav">
+      <nav class="tabnav-tabs">
+        
+          <a href="/" class="tabnav-tab">
+            <svg class="octicon octicon-octoface" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M14.7 5.34c.13-.32.55-1.59-.13-3.31 0 0-1.05-.33-3.44 1.3-1-.28-2.07-.32-3.13-.32s-2.13.04-3.13.32c-2.39-1.64-3.44-1.3-3.44-1.3-.68 1.72-.26 2.99-.13 3.31C.49 6.21 0 7.33 0 8.69 0 13.84 3.33 15 7.98 15S16 13.84 16 8.69c0-1.36-.49-2.48-1.3-3.35zM8 14.02c-3.3 0-5.98-.15-5.98-3.35 0-.76.38-1.48 1.02-2.07 1.07-.98 2.9-.46 4.96-.46 2.07 0 3.88-.52 4.96.46.65.59 1.02 1.3 1.02 2.07 0 3.19-2.68 3.35-5.98 3.35zM5.49 9.01c-.66 0-1.2.8-1.2 1.78s.54 1.79 1.2 1.79c.66 0 1.2-.8 1.2-1.79s-.54-1.78-1.2-1.78zm5.02 0c-.66 0-1.2.79-1.2 1.78s.54 1.79 1.2 1.79c.66 0 1.2-.8 1.2-1.79s-.53-1.78-1.2-1.78z"></path></svg>
+            Daily Oops!
+          </a>
+        
+
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+            
+
+
+
+
+<a href="/blog/" class="tabnav-tab selected">
+  
+      <svg class="octicon octicon-book" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M3 5h4v1H3V5zm0 3h4V7H3v1zm0 2h4V9H3v1zm11-5h-4v1h4V5zm0 2h-4v1h4V7zm0 2h-4v1h4V9zm2-6v9c0 .55-.45 1-1 1H9.5l-1 1-1-1H2c-.55 0-1-.45-1-1V3c0-.55.45-1 1-1h5.5l1 1 1-1H15c.55 0 1 .45 1 1zm-8 .5L7.5 3H2v9h6V3.5zm7-.5H9.5l-.5.5V12h6V3z"></path></svg>
+    
+
+  Blog
+</a>
+
+          
+        
+          
+            
+
+
+
+
+<a href="/hi-tips/" class="tabnav-tab">
+  
+      <svg class="octicon octicon-repo" viewbox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9H3V8h1v1zm0-3H3v1h1V6zm0-2H3v1h1V4zm0-2H3v1h1V2zm8-1v12c0 .55-.45 1-1 1H6v2l-1.5-1.5L3 16v-2H1c-.55 0-1-.45-1-1V1c0-.55.45-1 1-1h10c.55 0 1 .45 1 1zm-1 10H1v2h2v-1h3v1h5v-2zm0-10H2v9h9V1z"></path></svg>
+    
+
+  Hi Tips!
+</a>
+
+          
+        
+          
+            
+
+
+
+
+<a href="/projects/" class="tabnav-tab">
+  
+      <svg class="octicon octicon-code" viewbox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M9.5 3L8 4.5 11.5 8 8 11.5 9.5 13 14 8 9.5 3zm-5 0L0 8l4.5 5L6 11.5 2.5 8 6 4.5 4.5 3z"></path></svg>
+  
+
+  Projects
+</a>
+
+          
+        
+          
+            
+
+
+
+
+<a href="/about/" class="tabnav-tab">
+  
+      <svg class="octicon octicon-info" viewbox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M6.3 5.69a.942.942 0 0 1-.28-.7c0-.28.09-.52.28-.7.19-.18.42-.28.7-.28.28 0 .52.09.7.28.18.19.28.42.28.7 0 .28-.09.52-.28.7a1 1 0 0 1-.7.3c-.28 0-.52-.11-.7-.3zM8 7.99c-.02-.25-.11-.48-.31-.69-.2-.19-.42-.3-.69-.31H6c-.27.02-.48.13-.69.31-.2.2-.3.44-.31.69h1v3c.02.27.11.5.31.69.2.2.42.31.69.31h1c.27 0 .48-.11.69-.31.2-.19.3-.42.31-.69H8V7.98v.01zM7 2.3c-3.14 0-5.7 2.54-5.7 5.68 0 3.14 2.56 5.7 5.7 5.7s5.7-2.55 5.7-5.7c0-3.15-2.56-5.69-5.7-5.69v.01zM7 .98c3.86 0 7 3.14 7 7s-3.14 7-7 7-7-3.12-7-7 3.14-7 7-7z"></path></svg>
+    
+
+  About Me
+</a>
+
+          
+        
+      </nav>
+    </div>
+  </div>
+
+</header>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <article class="post markdown-body" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <div class="post-title" itemprop="name headline">使用 puma 和 nginx 部屬 Redmine（加上從 MySQL 搬到 PostgreSQL）</div>
+    <p class="post-meta"><svg class="octicon octicon-calendar" viewbox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M13 2h-1v1.5c0 .28-.22.5-.5.5h-2c-.28 0-.5-.22-.5-.5V2H6v1.5c0 .28-.22.5-.5.5h-2c-.28 0-.5-.22-.5-.5V2H2c-.55 0-1 .45-1 1v11c0 .55.45 1 1 1h11c.55 0 1-.45 1-1V3c0-.55-.45-1-1-1zm0 12H2V5h11v9zM5 3H4V1h1v2zm6 0h-1V1h1v2zM6 7H5V6h1v1zm2 0H7V6h1v1zm2 0H9V6h1v1zm2 0h-1V6h1v1zM4 9H3V8h1v1zm2 0H5V8h1v1zm2 0H7V8h1v1zm2 0H9V8h1v1zm2 0h-1V8h1v1zm-8 2H3v-1h1v1zm2 0H5v-1h1v1zm2 0H7v-1h1v1zm2 0H9v-1h1v1zm2 0h-1v-1h1v1zm-8 2H3v-1h1v1zm2 0H5v-1h1v1zm2 0H7v-1h1v1zm2 0H9v-1h1v1z"></path></svg> <time datetime="2017-05-04T00:00:00+08:00" itemprop="datePublished">May 4, 2017</time></p>
+  </header>
+
+  <div class="post-content" itemprop="articleBody">
+    <p>有鑑於前陣子看太多 Linode 軟文，每月五鎂的機器好像就 Linode CP 值最高惹，管理界面雖然初次看起來陽春，使用起來倒挺有效率的。這幾天就把擺在 Vultr 上的自用服務 (Redmine，幾個 crontab 腳本) 搬到了 Linode 上。</p>
+
+<p>除了單純的搬家外，Redmine 也做了一次大升級：</p>
+
+<ul>
+<li>資料庫由 MySQL 轉換到 PostgreSQL</li>
+<li>Application server 由 passenger 換成 puma</li>
+<li>版控由 Redmine 官方的 svn 換成 git mirror，方便升級 XD</li>
+</ul>
+
+<p>其它就一樣用 nginx 架起來了。總之本篇除了是我的搬家筆記，還可以視為<strong>自架 Redmine 指南</strong>（大概啦）。</p>
+
+<h2>設定新伺服器</h2>
+
+<p>直接在 Linode 東京開了台 Ubuntu 的 Instance，直接 ssh 打密碼連進去。</p>
+
+<h3>解決 apt-get update 卡住問題</h3>
+
+<p>直接參考 <a href="https://askubuntu.com/a/787491">apt-get update stuck: Connecting to security.ubuntu.com</a></p>
+
+<h3>裝 Dependency</h3>
+
+<p>包含 tmux、postgres 資料庫等等。滿建議學習一下 tmux 的。下面就可以開兩個 tab，一個 root 權限，一個 deploy 權限，方便許多。</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">apt-get update <span class="o">&amp;&amp;</span> apt-get upgrade <span class="o">&amp;&amp;</span> apt-get install -y git build-essential tmux postgresql libpq-dev <span class="c"># database</span>
+apt-get install -y libssl-dev libreadline-dev zlib1g-dev <span class="c"># ruby dependency</span>
+apt-get install -y imagemagick libmagickcore-dev libmagickwand-dev <span class="c"># redmine dependency</span>
+</code></pre></div>
+<h3>建立 deploy 用的使用者</h3>
+
+<p>我不希望直接用 root 帳號跑起 Redmine 服務。總之就是安全性疑慮啦 XD。直接打 <code>adduser</code> 走完過程：</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">adduser deploy
+</code></pre></div>
+<h3>安裝 Redmine</h3>
+
+<h4>下載原始碼</h4>
+
+<p>切到 <code>deploy</code> 帳號，把 redmine clone 下來，並把設定檔弄好：</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">su deploy
+<span class="nb">cd</span> ~ <span class="c"># 切到家目錄</span>
+git clone https://github.com/redmine/redmine
+
+<span class="nb">cd </span>redmine
+git checkout -b 3.3-stable origin/3.3-stable
+
+cp config/database.yml.example cp config/database.yml
+cp config/configuration.yml.example cp config/configuration.yml
+</code></pre></div>
+<h4>建立 Ruby 環境</h4>
+
+<p>安裝 <a href="https://github.com/rbenv/rbenv">rbenv</a> 準備裝 ruby（照著官方教學做就好了）</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">git clone https://github.com/rbenv/rbenv.git ~/.rbenv
+<span class="nb">cd</span> ~/.rbenv <span class="o">&amp;&amp;</span> src/configure <span class="o">&amp;&amp;</span> make -C src
+<span class="nb">echo</span> <span class="s1">'export PATH="$HOME/.rbenv/bin:$PATH"'</span> &gt;&gt; ~/.bash_profile <span class="c"># linode 上是 .bashrc</span>
+~/.rbenv/bin/rbenv init <span class="c"># 貼上輸出到 .bash_profile 或 .bashrc</span>
+git clone https://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build <span class="c"># 裝 ruby build</span>
+</code></pre></div>
+<p>用 rbenv 裝 ruby</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">rbenv install 2.3.4
+rbenv global 2.3.4
+<span class="nb">echo</span> <span class="s1">'gem: --no-ri --no-rdoc'</span> &gt;&gt; ~/.gemrc
+gem install bundler
+</code></pre></div>
+<h4>設定資料庫</h4>
+
+<p>用好棒棒的 <a href="https://github.com/dbcli/pgcli"><code>pgcli</code></a> 建立連線</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">apt-get install pgcli
+sudo -i -u postgres
+pgcli
+</code></pre></div>
+<p>建立使用者和資料庫</p>
+<div class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="k">CREATE</span> <span class="k">USER</span> <span class="n">redmine</span> <span class="k">WITH</span> <span class="n">PASSWORD</span> <span class="s1">'PASSWORD'</span><span class="p">;</span>
+<span class="k">CREATE</span> <span class="k">DATABASE</span> <span class="n">redmine</span><span class="p">;</span>
+<span class="k">GRANT</span> <span class="k">ALL</span> <span class="k">PRIVILEGES</span> <span class="k">ON</span> <span class="k">DATABASE</span> <span class="n">redmine</span> <span class="k">to</span> <span class="n">redmine</span><span class="p">;</span>
+</code></pre></div>
+<h5>測試連線(Optional)</h5>
+
+<p>打開 <code>/etc/postgresql/9.5/main/pg_hba.conf</code>，找到下面加入這行：</p>
+<div class="highlight"><pre><code class="language-txt" data-lang="txt">local   all             redmine                                 md5
+</code></pre></div>
+<p>用 <code>psql</code> 連線本機測試：</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">psql -U redmine -d redmine -W
+</code></pre></div>
+<h4>設定 Redmine 資料庫</h4>
+
+<ol>
+<li>編輯 <code>config/database.yml</code> 填入資料庫帳密，把 <code>mysql</code> 相關的都註解掉</li>
+<li>然後安裝 redmine 的 gem dependency
+<code>bash
+bundle install --without development test
+</code>
+</li>
+</ol>
+
+<h5>Migrate from old redmine (Optinoal)</h5>
+
+<p>複製以下檔案：</p>
+
+<ul>
+<li><code>config/initializers/secret_token.rb</code></li>
+<li><code>config/database.yml</code></li>
+<li><code>config/configuration.yml</code></li>
+</ul>
+
+<p>從 MySQL 搬家到 Postgres 的部分，因為都是同一個 App，Redmine 版本也只是小升沒有大型 migration，我直接利用<a href="https://github.com/yamldb/yaml_db"><code>yaml_db</code></a> 套件，把資料庫 dump 出來成 yaml，然後在 load 就行了 <img class="emoji" title=":heart:" alt=":heart:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/2764.png" height="20" width="20" align="absmiddle"> 可以參考 <a href="https://github.com/yamldb/yaml_db"><code>yaml_db</code></a> 套件 GitHub 說明。</p>
+
+<h2>設定 Puma</h2>
+
+<p>在 Gemfile 加上 <code>gem 'puma'</code>，跑 <code>bundle install --without development test</code> ，然後編輯 <code>config/puma.rb</code> 貼上以下內容：</p>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1">#!/usr/bin/env puma</span>
+
+<span class="n">application_path</span> <span class="o">=</span> <span class="s1">'/home/deploy/redmine'</span>
+<span class="n">directory</span> <span class="n">application_path</span>
+<span class="n">environment</span> <span class="s1">'production'</span>
+<span class="c1"># daemonize true</span>
+<span class="n">pidfile</span> <span class="s2">"</span><span class="si">#{</span><span class="n">application_path</span><span class="si">}</span><span class="s2">/tmp/pids/redmine.pid"</span>
+<span class="n">state_path</span> <span class="s2">"</span><span class="si">#{</span><span class="n">application_path</span><span class="si">}</span><span class="s2">/tmp/pids/redmine.state"</span>
+<span class="n">stdout_redirect</span> <span class="s2">"</span><span class="si">#{</span><span class="n">application_path</span><span class="si">}</span><span class="s2">/log/redmine.stdout.log"</span><span class="p">,</span> <span class="s2">"</span><span class="si">#{</span><span class="n">application_path</span><span class="si">}</span><span class="s2">/log/redmine.stderr.log"</span>
+<span class="n">bind</span> <span class="s2">"unix://</span><span class="si">#{</span><span class="n">application_path</span><span class="si">}</span><span class="s2">/tmp/sockets/redmine.sock"</span>
+</code></pre></div>
+<p>記得建立 <code>pids</code> 和 <code>sockets</code> 資料夾：</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nb">cd</span> ~/redmine
+mkdir tmp/sockets tmp/pids
+</code></pre></div>
+<p>可以用以下指令試跑 Server：</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">RAILS_ENV</span><span class="o">=</span>production bundle <span class="nb">exec </span>puma -C config/puma.rb
+</code></pre></div>
+<h2>設定 systemctl 自啟動</h2>
+
+<p>用 root 權限編輯 <code>/etc/systemd/system/redmine.service</code>：</p>
+<div class="highlight"><pre><code class="language-Ini" data-lang="Ini">[Unit]
+Description=Rails-Puma Webserver
+
+[Service]
+Type=simple
+User=deploy
+WorkingDirectory=/home/deploy/redmine
+ExecStart=/bin/bash -lc 'bundle exec puma -C config/puma.rb'
+TimeoutSec=15
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+</code></pre></div>
+<p>跑起來：</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">systemd daemon-reload <span class="c"># 重新載入設定檔</span>
+systemd <span class="nb">enable </span>redmine.service <span class="c"># 設為開機啟動</span>
+systemd start redmine.service <span class="c"># 啟動</span>
+systemd status redmine.service <span class="c"># 看狀態</span>
+</code></pre></div>
+<h2>把 nginx 跟 puma socket server 接起來</h2>
+
+<p>編輯 <code>/etc/nginx/sites-available/redmine</code>：</p>
+<div class="highlight"><pre><code class="language-nginx" data-lang="nginx"><span class="k">upstream</span> <span class="s">app</span> <span class="p">{</span>
+        <span class="kn">server</span> <span class="s">unix:/home/deploy/redmine/tmp/sockets/redmine.sock</span> <span class="s">fail_timeout=0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">server</span> <span class="p">{</span>
+        <span class="kn">listen</span> <span class="mi">80</span> <span class="s">default_server</span><span class="p">;</span>
+        <span class="kn">listen</span> <span class="s">[::]:80</span> <span class="s">default_server</span><span class="p">;</span>
+
+        <span class="kn">server_name</span> <span class="s">localhost</span><span class="p">;</span>
+        <span class="kn">root</span> <span class="n">/home/deploy/redmine/public</span><span class="p">;</span>
+        <span class="kn">try_files</span> <span class="nv">$uri</span><span class="n">/index.html</span> <span class="nv">$uri</span> <span class="s">@app</span><span class="p">;</span>
+
+        <span class="kn">location</span> <span class="s">@app</span> <span class="p">{</span>
+                <span class="kn">proxy_pass</span> <span class="s">http://app</span><span class="p">;</span>
+                <span class="kn">proxy_set_header</span> <span class="s">X-Forwarded-For</span> <span class="nv">$proxy_add_x_forwarded_for</span><span class="p">;</span>
+                <span class="kn">proxy_set_header</span> <span class="s">Host</span> <span class="nv">$http_host</span><span class="p">;</span>
+                <span class="kn">proxy_redirect</span> <span class="no">off</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="kn">error_page</span> <span class="mi">500</span> <span class="mi">502</span> <span class="mi">503</span> <span class="mi">504</span> <span class="n">/500.html</span><span class="p">;</span>
+        <span class="kn">client_max_body_size</span> <span class="mi">4G</span><span class="p">;</span>
+        <span class="kn">keepalive_timeout</span> <span class="mi">10</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>記得 soft link 回 <code>/etc/nginx/sites-enabled/</code>底下：</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nb">cd</span> /etc/nginx/sites-enabled
+ln -s ../sites-available/redmine .
+</code></pre></div>
+<p>重啟 <code>nginx</code>：</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">service nginx restart
+service nginx status
+</code></pre></div>
+<p>打開瀏覽器連 IP 應該就能看到辣！</p>
+
+<h2>References</h2>
+
+<ul>
+<li><a href="https://gist.github.com/velenux/6883dc221a7d2eae7dcb">https://gist.github.com/velenux/6883dc221a7d2eae7dcb</a></li>
+<li>
+<a href="https://gist.github.com/jbradach/6ee5842e5e2543d59adb">https://gist.github.com/jbradach/6ee5842e5e2543d59adb</a> for config/puma.rb</li>
+<li><a href="https://www.digitalocean.com/community/tutorials/how-to-deploy-a-rails-app-with-puma-and-nginx-on-ubuntu-14-04">https://www.digitalocean.com/community/tutorials/how-to-deploy-a-rails-app-with-puma-and-nginx-on-ubuntu-14-04</a></li>
+<li><a href="https://github.com/puma/puma/blob/master/docs/systemd.md">https://github.com/puma/puma/blob/master/docs/systemd.md</a></li>
+<li><a href="https://github.com/puma/puma/blob/master/docs/nginx.md">https://github.com/puma/puma/blob/master/docs/nginx.md</a></li>
+<li><a href="https://github.com/yamldb/yaml_db">https://github.com/yamldb/yaml_db</a></li>
+</ul>
+
+  </div>
+  
+  
+    <div id="disqus_thread"></div>
+<script>
+
+/**
+ *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+ *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */
+var disqus_url = 'http://yukaii.tw/blog/2017/05/04/deploy-redmine-with-puma-nginx-migration-from-mysql-to-postgresql';
+var disqus_identifier = 'http://yukaii.tw/blog/2017/05/04/deploy-redmine-with-puma-nginx-migration-from-mysql-to-postgresql';
+var disqus_shortname = 'dailyoops';
+
+(function() {
+    var d = document, s = d.createElement('script');
+    s.type = 'text/javascript';
+    s.async = true;
+    s.src = '//dailyoops.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+</noscript>
+
+  
+
+</article>
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+    <div class="footer-col-wrapper footer-block">
+      © 2017 <a href="https://github.com/Yukaii">Yukai Huang</a>. Built with ❤ using <a href="https://jekyllrb.com">Jekyll</a>.
+    </div>
+  </div>
+
+</footer>
+
+
+    <script id="dsq-count-scr" src="//dailyoops.disqus.com/count.js" async></script>
+  </body>
+
+</html>

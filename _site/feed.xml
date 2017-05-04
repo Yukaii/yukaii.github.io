@@ -6,9 +6,214 @@
 </description>
     <link>http://yukaii.tw/</link>
     <atom:link href="http://yukaii.tw/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Mon, 24 Apr 2017 21:28:23 +0800</pubDate>
-    <lastBuildDate>Mon, 24 Apr 2017 21:28:23 +0800</lastBuildDate>
+    <pubDate>Thu, 04 May 2017 14:43:00 +0800</pubDate>
+    <lastBuildDate>Thu, 04 May 2017 14:43:00 +0800</lastBuildDate>
     <generator>Jekyll v3.4.3</generator>
+    
+      <item>
+        <title>使用 puma 和 nginx 部屬 Redmine（加上從 MySQL 搬到 PostgreSQL）</title>
+        <description>&lt;p&gt;有鑑於前陣子看太多 Linode 軟文，每月五鎂的機器好像就 Linode CP 值最高惹，管理界面雖然初次看起來陽春，使用起來倒挺有效率的。這幾天就把擺在 Vultr 上的自用服務 (Redmine，幾個 crontab 腳本) 搬到了 Linode 上。&lt;/p&gt;
+
+&lt;p&gt;除了單純的搬家外，Redmine 也做了一次大升級：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;資料庫由 MySQL 轉換到 PostgreSQL&lt;/li&gt;
+&lt;li&gt;Application server 由 passenger 換成 puma&lt;/li&gt;
+&lt;li&gt;版控由 Redmine 官方的 svn 換成 git mirror，方便升級 XD&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;其它就一樣用 nginx 架起來了。總之本篇除了是我的搬家筆記，還可以視為&lt;strong&gt;自架 Redmine 指南&lt;/strong&gt;（大概啦）。&lt;/p&gt;
+
+&lt;h2&gt;設定新伺服器&lt;/h2&gt;
+
+&lt;p&gt;直接在 Linode 東京開了台 Ubuntu 的 Instance，直接 ssh 打密碼連進去。&lt;/p&gt;
+
+&lt;h3&gt;解決 apt-get update 卡住問題&lt;/h3&gt;
+
+&lt;p&gt;直接參考 &lt;a href=&quot;https://askubuntu.com/a/787491&quot;&gt;apt-get update stuck: Connecting to security.ubuntu.com&lt;/a&gt;&lt;/p&gt;
+
+&lt;h3&gt;裝 Dependency&lt;/h3&gt;
+
+&lt;p&gt;包含 tmux、postgres 資料庫等等。滿建議學習一下 tmux 的。下面就可以開兩個 tab，一個 root 權限，一個 deploy 權限，方便許多。&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;apt-get update &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; apt-get upgrade &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; apt-get install -y git build-essential tmux postgresql libpq-dev &lt;span class=&quot;c&quot;&gt;# database&lt;/span&gt;
+apt-get install -y libssl-dev libreadline-dev zlib1g-dev &lt;span class=&quot;c&quot;&gt;# ruby dependency&lt;/span&gt;
+apt-get install -y imagemagick libmagickcore-dev libmagickwand-dev &lt;span class=&quot;c&quot;&gt;# redmine dependency&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h3&gt;建立 deploy 用的使用者&lt;/h3&gt;
+
+&lt;p&gt;我不希望直接用 root 帳號跑起 Redmine 服務。總之就是安全性疑慮啦 XD。直接打 &lt;code&gt;adduser&lt;/code&gt; 走完過程：&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;adduser deploy
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h3&gt;安裝 Redmine&lt;/h3&gt;
+
+&lt;h4&gt;下載原始碼&lt;/h4&gt;
+
+&lt;p&gt;切到 &lt;code&gt;deploy&lt;/code&gt; 帳號，把 redmine clone 下來，並把設定檔弄好：&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;su deploy
+&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; ~ &lt;span class=&quot;c&quot;&gt;# 切到家目錄&lt;/span&gt;
+git clone https://github.com/redmine/redmine
+
+&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;redmine
+git checkout -b 3.3-stable origin/3.3-stable
+
+cp config/database.yml.example cp config/database.yml
+cp config/configuration.yml.example cp config/configuration.yml
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h4&gt;建立 Ruby 環境&lt;/h4&gt;
+
+&lt;p&gt;安裝 &lt;a href=&quot;https://github.com/rbenv/rbenv&quot;&gt;rbenv&lt;/a&gt; 準備裝 ruby（照著官方教學做就好了）&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;git clone https://github.com/rbenv/rbenv.git ~/.rbenv
+&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; ~/.rbenv &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; src/configure &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; make -C src
+&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'export PATH=&quot;$HOME/.rbenv/bin:$PATH&quot;'&lt;/span&gt; &amp;gt;&amp;gt; ~/.bash_profile &lt;span class=&quot;c&quot;&gt;# linode 上是 .bashrc&lt;/span&gt;
+~/.rbenv/bin/rbenv init &lt;span class=&quot;c&quot;&gt;# 貼上輸出到 .bash_profile 或 .bashrc&lt;/span&gt;
+git clone https://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build &lt;span class=&quot;c&quot;&gt;# 裝 ruby build&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;用 rbenv 裝 ruby&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;rbenv install 2.3.4
+rbenv global 2.3.4
+&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'gem: --no-ri --no-rdoc'&lt;/span&gt; &amp;gt;&amp;gt; ~/.gemrc
+gem install bundler
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h4&gt;設定資料庫&lt;/h4&gt;
+
+&lt;p&gt;用好棒棒的 &lt;a href=&quot;https://github.com/dbcli/pgcli&quot;&gt;&lt;code&gt;pgcli&lt;/code&gt;&lt;/a&gt; 建立連線&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;apt-get install pgcli
+sudo -i -u postgres
+pgcli
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;建立使用者和資料庫&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-sql&quot; data-lang=&quot;sql&quot;&gt;&lt;span class=&quot;k&quot;&gt;CREATE&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;USER&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;redmine&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;WITH&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PASSWORD&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'PASSWORD'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;CREATE&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;DATABASE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;redmine&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;GRANT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;ALL&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;PRIVILEGES&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;ON&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;DATABASE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;redmine&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;to&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;redmine&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h5&gt;測試連線(Optional)&lt;/h5&gt;
+
+&lt;p&gt;打開 &lt;code&gt;/etc/postgresql/9.5/main/pg_hba.conf&lt;/code&gt;，找到下面加入這行：&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-txt&quot; data-lang=&quot;txt&quot;&gt;local   all             redmine                                 md5
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;用 &lt;code&gt;psql&lt;/code&gt; 連線本機測試：&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;psql -U redmine -d redmine -W
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h4&gt;設定 Redmine 資料庫&lt;/h4&gt;
+
+&lt;ol&gt;
+&lt;li&gt;編輯 &lt;code&gt;config/database.yml&lt;/code&gt; 填入資料庫帳密，把 &lt;code&gt;mysql&lt;/code&gt; 相關的都註解掉&lt;/li&gt;
+&lt;li&gt;然後安裝 redmine 的 gem dependency
+&lt;code&gt;bash
+bundle install --without development test
+&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h5&gt;Migrate from old redmine (Optinoal)&lt;/h5&gt;
+
+&lt;p&gt;複製以下檔案：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;config/initializers/secret_token.rb&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;config/database.yml&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;config/configuration.yml&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;從 MySQL 搬家到 Postgres 的部分，因為都是同一個 App，Redmine 版本也只是小升沒有大型 migration，我直接利用&lt;a href=&quot;https://github.com/yamldb/yaml_db&quot;&gt;&lt;code&gt;yaml_db&lt;/code&gt;&lt;/a&gt; 套件，把資料庫 dump 出來成 yaml，然後在 load 就行了 :heart: 可以參考 &lt;a href=&quot;https://github.com/yamldb/yaml_db&quot;&gt;&lt;code&gt;yaml_db&lt;/code&gt;&lt;/a&gt; 套件 GitHub 說明。&lt;/p&gt;
+
+&lt;h2&gt;設定 Puma&lt;/h2&gt;
+
+&lt;p&gt;在 Gemfile 加上 &lt;code&gt;gem &amp;#39;puma&amp;#39;&lt;/code&gt;，跑 &lt;code&gt;bundle install --without development test&lt;/code&gt; ，然後編輯 &lt;code&gt;config/puma.rb&lt;/code&gt; 貼上以下內容：&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;c1&quot;&gt;#!/usr/bin/env puma&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;application_path&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'/home/deploy/redmine'&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;directory&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;application_path&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;environment&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'production'&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# daemonize true&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;pidfile&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;#{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;application_path&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;/tmp/pids/redmine.pid&quot;&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;state_path&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;#{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;application_path&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;/tmp/pids/redmine.state&quot;&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;stdout_redirect&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;#{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;application_path&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;/log/redmine.stdout.log&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;#{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;application_path&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;/log/redmine.stderr.log&quot;&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;bind&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;unix://&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;#{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;application_path&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;/tmp/sockets/redmine.sock&quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;記得建立 &lt;code&gt;pids&lt;/code&gt; 和 &lt;code&gt;sockets&lt;/code&gt; 資料夾：&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; ~/redmine
+mkdir tmp/sockets tmp/pids
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;可以用以下指令試跑 Server：&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;RAILS_ENV&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;production bundle &lt;span class=&quot;nb&quot;&gt;exec &lt;/span&gt;puma -C config/puma.rb
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h2&gt;設定 systemctl 自啟動&lt;/h2&gt;
+
+&lt;p&gt;用 root 權限編輯 &lt;code&gt;/etc/systemd/system/redmine.service&lt;/code&gt;：&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-Ini&quot; data-lang=&quot;Ini&quot;&gt;[Unit]
+Description=Rails-Puma Webserver
+
+[Service]
+Type=simple
+User=deploy
+WorkingDirectory=/home/deploy/redmine
+ExecStart=/bin/bash -lc 'bundle exec puma -C config/puma.rb'
+TimeoutSec=15
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;跑起來：&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;systemd daemon-reload &lt;span class=&quot;c&quot;&gt;# 重新載入設定檔&lt;/span&gt;
+systemd &lt;span class=&quot;nb&quot;&gt;enable &lt;/span&gt;redmine.service &lt;span class=&quot;c&quot;&gt;# 設為開機啟動&lt;/span&gt;
+systemd start redmine.service &lt;span class=&quot;c&quot;&gt;# 啟動&lt;/span&gt;
+systemd status redmine.service &lt;span class=&quot;c&quot;&gt;# 看狀態&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h2&gt;把 nginx 跟 puma socket server 接起來&lt;/h2&gt;
+
+&lt;p&gt;編輯 &lt;code&gt;/etc/nginx/sites-available/redmine&lt;/code&gt;：&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-nginx&quot; data-lang=&quot;nginx&quot;&gt;&lt;span class=&quot;k&quot;&gt;upstream&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;app&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;kn&quot;&gt;server&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;unix:/home/deploy/redmine/tmp/sockets/redmine.sock&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;fail_timeout=0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;server&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;kn&quot;&gt;listen&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;80&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;default_server&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;kn&quot;&gt;listen&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;[::]:80&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;default_server&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+        &lt;span class=&quot;kn&quot;&gt;server_name&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;localhost&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;kn&quot;&gt;root&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;/home/deploy/redmine/public&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;kn&quot;&gt;try_files&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$uri&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;/index.html&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$uri&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;@app&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+        &lt;span class=&quot;kn&quot;&gt;location&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;@app&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+                &lt;span class=&quot;kn&quot;&gt;proxy_pass&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;http://app&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+                &lt;span class=&quot;kn&quot;&gt;proxy_set_header&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;X-Forwarded-For&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$proxy_add_x_forwarded_for&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+                &lt;span class=&quot;kn&quot;&gt;proxy_set_header&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;Host&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$http_host&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+                &lt;span class=&quot;kn&quot;&gt;proxy_redirect&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;off&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+        &lt;span class=&quot;kn&quot;&gt;error_page&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;500&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;502&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;503&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;504&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;/500.html&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;kn&quot;&gt;client_max_body_size&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;4G&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;kn&quot;&gt;keepalive_timeout&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;記得 soft link 回 &lt;code&gt;/etc/nginx/sites-enabled/&lt;/code&gt;底下：&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; /etc/nginx/sites-enabled
+ln -s ../sites-available/redmine .
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;重啟 &lt;code&gt;nginx&lt;/code&gt;：&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;service nginx restart
+service nginx status
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;打開瀏覽器連 IP 應該就能看到辣！&lt;/p&gt;
+
+&lt;h2&gt;References&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://gist.github.com/velenux/6883dc221a7d2eae7dcb&quot;&gt;https://gist.github.com/velenux/6883dc221a7d2eae7dcb&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://gist.github.com/jbradach/6ee5842e5e2543d59adb&quot;&gt;https://gist.github.com/jbradach/6ee5842e5e2543d59adb&lt;/a&gt; for config/puma.rb&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.digitalocean.com/community/tutorials/how-to-deploy-a-rails-app-with-puma-and-nginx-on-ubuntu-14-04&quot;&gt;https://www.digitalocean.com/community/tutorials/how-to-deploy-a-rails-app-with-puma-and-nginx-on-ubuntu-14-04&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/puma/puma/blob/master/docs/systemd.md&quot;&gt;https://github.com/puma/puma/blob/master/docs/systemd.md&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/puma/puma/blob/master/docs/nginx.md&quot;&gt;https://github.com/puma/puma/blob/master/docs/nginx.md&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/yamldb/yaml_db&quot;&gt;https://github.com/yamldb/yaml_db&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        <pubDate>Thu, 04 May 2017 00:00:00 +0800</pubDate>
+        <link>http://yukaii.tw/blog/2017/05/04/deploy-redmine-with-puma-nginx-migration-from-mysql-to-postgresql/</link>
+        <guid isPermaLink="true">http://yukaii.tw/blog/2017/05/04/deploy-redmine-with-puma-nginx-migration-from-mysql-to-postgresql/</guid>
+        
+        
+      </item>
     
       <item>
         <title>git cherry-pick 小技巧</title>
@@ -593,103 +798,6 @@ asar extract app.asar app &lt;span class=&quot;c&quot;&gt;# 解開 app.asar 檔�
         <pubDate>Mon, 17 Oct 2016 00:00:00 +0800</pubDate>
         <link>http://yukaii.tw/blog/2016/10/17/contributing-to-open-source/</link>
         <guid isPermaLink="true">http://yukaii.tw/blog/2016/10/17/contributing-to-open-source/</guid>
-        
-        
-      </item>
-    
-      <item>
-        <title>用 jadx 來玩玩 Android 逆向工程</title>
-        <description>&lt;h2&gt;你幹嘛沒事要來逆向工程啦&lt;/h2&gt;
-
-&lt;p&gt;&lt;del&gt;就是因為沒事啊&lt;/del&gt;。呃不對，其實以前就有聽說過 Android 逆向工具很成熟，不過自從換 iPhone 後就沒怎麼關注 Android 發展了，一直沒機會玩到。&lt;/p&gt;
-
-&lt;p&gt;昨天下午剛好就在臉書刷到一款課表 App，就簡稱為 「X 社小工具」好了，可以幫你匯入學校的課表，支援多個學校。看了看截圖，感覺是在手機端輸入校務系統登入帳密達成，X 社小工具會幫你抓下來，只是不知道後面 API 怎麽跑（誰知道）。秉持著好奇的心，就讓我來逆向看看吧 XDDD。&lt;/p&gt;
-
-&lt;h2&gt;沒手機也要下載 APK&lt;/h2&gt;
-
-&lt;p&gt;直接把 APK 的 bundle id 貼到 &lt;a href=&quot;https://androidappsapk.co/apkdownloader/&quot;&gt;androidapk&lt;/a&gt; 這個網站就可以下載了，bundle id 長得像 &lt;code&gt;com.facebook.katana&lt;/code&gt;。&lt;/p&gt;
-
-&lt;h2&gt;jadx 反編譯工具&lt;/h2&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://camo.githubusercontent.com/bd3c0ea851c23c4535e43590a86c940a0786faa6/687474703a2f2f736b796c6f742e6769746875622e696f2f6a6164782f6a6164782d6775692e706e67&quot; alt=&quot;jadx&quot;&gt;&lt;/p&gt;
-
-&lt;p&gt;借一下&lt;a href=&quot;https://github.com/skylot/jadx&quot;&gt;官方&lt;/a&gt;的截圖，&lt;a href=&quot;https://github.com/skylot/jadx&quot;&gt;jadx&lt;/a&gt; 可以直接開啟 apk 檔，把 decompile 過的原始碼顯示出來；除了 gui 界面也有 command line 工具可以讓你直接轉存 source。&lt;/p&gt;
-
-&lt;p&gt;載下來解壓縮後有四個檔案：&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;.
-├── jadx
-├── jadx-gui
-├── jadx-gui.bat
-└── jadx.bat
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;&lt;code&gt;cd&lt;/code&gt; 進去目錄後執行 &lt;code&gt;./jadx-gui&lt;/code&gt;，GUI 界面開啟照著操作，選擇你要解開的 apk 就會顯示 Java code 了，也可以選擇轉存，用你喜歡的 Editor 或 IDE 開起來。&lt;/p&gt;
-
-&lt;h2&gt;讀讀讀讀讀 code&lt;/h2&gt;
-
-&lt;p&gt;不像當初 &lt;a href=&quot;https://applidium.com/en/news/unbundling_pokemon_go/&quot;&gt;Pokemon Go 被逆向&lt;/a&gt; 一樣，竟然連個混淆都沒做，X 社小工具解出來的原始碼裡，變數都被換成英文字母 abcde，不過想想我的目的就是拿到 API，就直接搜尋 &lt;code&gt;http://&lt;/code&gt;、&lt;code&gt;https://&lt;/code&gt; 網址開頭的字串~~&lt;/p&gt;
-
-&lt;h3&gt;Retrofit&lt;/h3&gt;
-
-&lt;p&gt;然後就找到了這段：&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Retrofit&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;asVar&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;Builder&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;baseUrl&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;https://容我隱藏一下.appspot.com/&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;addConverterFactory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;GsonConverterFactory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;create&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()).&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;addCallAdapterFactory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;RxJavaCallAdapterFactory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;create&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()).&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;callbackExecutor&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;AsyncTask&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;THREAD_POOL_EXECUTOR&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;client&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;asVar&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;build&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;看網址 Server 還是用 Google App Engine 架的 XD&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://square.github.io/retrofit/&quot;&gt;Retrofit&lt;/a&gt; 是 Android 用的 HTTP 客戶端，雖然沒用過，不過對於 Retrofit 用 Decorator 標記各個 Endpoint 的寫法印象很深，Retrofit 首頁的範例就這樣寫：&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;interface&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;GitHubService&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;nd&quot;&gt;@GET&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;users/{user}/repos&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;Call&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;List&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Repo&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;listRepos&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nd&quot;&gt;@Path&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;user&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;user&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;接下來只要再找出各式 Decorator 就行啦！&lt;/p&gt;
-
-&lt;h3&gt;API Endpoints&lt;/h3&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;interface&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;
-
-    &lt;span class=&quot;nd&quot;&gt;@GET&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;schools&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;h&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Map&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;j&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
-
-    &lt;span class=&quot;nd&quot;&gt;@POST&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;login&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;h&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nd&quot;&gt;@Body&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;e&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;eVar&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-
-    &lt;span class=&quot;nd&quot;&gt;@GET&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;users/{uid}/schedule&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;h&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;g&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nd&quot;&gt;@Path&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;uid&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;str&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nd&quot;&gt;@Header&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Authorization&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;str2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-
-    &lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;上面是其中一段程式碼，看起來主要的 API Endpoint 都在這了。&lt;/p&gt;
-
-&lt;p&gt;接下來可以用 &lt;code&gt;curl&lt;/code&gt; 或 &lt;a href=&quot;https://www.getpostman.com/&quot;&gt;Postman&lt;/a&gt; 來試打 API，從 GET 的 Endpoint 開始，照著 Login 流程做。不過打 schedule API 的時候卻發現重大問題：&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;我的課表根本就沒課啊！！&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;所以 &lt;code&gt;schedule&lt;/code&gt; 只好當做不知道怎麽解了哈哈哈😂&lt;/p&gt;
-
-&lt;h3&gt;RxJava&lt;/h3&gt;
-
-&lt;p&gt;題外話一下，X 社小工具也用了當紅的 Reactive Programming，反編譯後的原始碼就看到一堆短短的 presenter 檔案。&lt;/p&gt;
-
-&lt;h3&gt;其實要拿 API 也不需要反編譯&lt;/h3&gt;
-
-&lt;p&gt;可以用 &lt;a href=&quot;https://www.wireshark.org/&quot;&gt;Wireshark&lt;/a&gt; 之類的封包擷取工具撈一下，不過還是看原始碼直接啦😅&lt;/p&gt;
-
-&lt;h2&gt;感想&lt;/h2&gt;
-
-&lt;p&gt;看來 ProGuard 一類的混淆工具還是有用的，變數、類別都被換掉，腦內理解搜尋速度至少慢了十倍啊，還沒辦法直接 Go to Definition...&lt;/p&gt;
-
-&lt;p&gt;本來想寫個免責聲明，不過敏感資訊都已經藏起來了，應該還好吧 XD 這篇只是個人純粹玩工具、讀讀 code 的心得而已，不要追殺我啊 😂😂😂&lt;/p&gt;
-</description>
-        <pubDate>Fri, 23 Sep 2016 00:00:00 +0800</pubDate>
-        <link>http://yukaii.tw/blog/2016/09/23/play-android-reverse-engineering-with-jadx/</link>
-        <guid isPermaLink="true">http://yukaii.tw/blog/2016/09/23/play-android-reverse-engineering-with-jadx/</guid>
         
         
       </item>
