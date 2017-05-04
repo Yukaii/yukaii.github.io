@@ -3,27 +3,28 @@ layout: post
 title: "使用 puma 和 nginx 部屬 Redmine（加上從 MySQL 搬到 PostgreSQL）"
 ---
 
-有鑑於前陣子看太多 Linode 軟文，每月五鎂的機器好像就 Linode CP 值最高惹，管理界面雖然初次看起來陽春，使用起來倒挺有效率的。這幾天就把擺在 Vultr 上的自用服務 (Redmine，幾個 crontab 腳本) 搬到了 Linode 上。
+前陣子看了幾篇 Linode 安利文，每月五鎂的機器好像就 Linode CP 值最高惹，管理界面雖然看起來陽春，使用起來倒挺有效率的。這幾天就把擺在 Vultr 上的自用服務 (Redmine，幾個 crontab 腳本) 搬到了 Linode 上。
 
-除了單純的搬家外，Redmine 也做了一次大升級：
+除了單純的搬家外，部屬的 Redmine 也做了一些調整：
 
+- 3.2 到 3.3
 - 資料庫由 MySQL 轉換到 PostgreSQL
 - Application server 由 passenger 換成 puma
-- 版控由 Redmine 官方的 svn 換成 git mirror，方便升級 XD
+- 版控由官方 svn 換成 git mirror，方便操作 XD
 
-其它就一樣用 nginx 架起來了。總之本篇除了是我的搬家筆記，還可以視為**自架 Redmine 指南**（大概啦）。
+總之本篇除了是我的搬家筆記，還可以視為**自架 Redmine 指南**（大概啦）。
 
 ## 設定新伺服器
 
-直接在 Linode 東京開了台 Ubuntu 的 Instance，直接 ssh 打密碼連進去。
+直接在 Linode 東京開了台 Ubuntu 的 Instance，然後 ssh 打密碼連進去。
 
 ### 解決 apt-get update 卡住問題
 
-直接參考 [apt-get update stuck: Connecting to security.ubuntu.com](https://askubuntu.com/a/787491)
+請參考 [apt-get update stuck: Connecting to security.ubuntu.com](https://askubuntu.com/a/787491)
 
 ### 裝 Dependency
 
-包含 tmux、postgres 資料庫等等。滿建議學習一下 tmux 的。下面就可以開兩個 tab，一個 root 權限，一個 deploy 權限，方便許多。
+首先當然就把系統的相依套件裝一裝，包含 tmux、postgres 資料庫等等。滿建議學習一下 tmux 的。可以開兩個 tab，一個 root 權限，一個一般權限，方便許多，不用一直切 su。
 
 ```bash
 apt-get update && apt-get upgrade && apt-get install -y git build-essential tmux postgresql libpq-dev # database
@@ -59,7 +60,7 @@ cp config/configuration.yml.example cp config/configuration.yml
 
 #### 建立 Ruby 環境
 
-安裝 [rbenv](https://github.com/rbenv/rbenv) 準備裝 ruby（照著官方教學做就好了）
+使用 [rbenv](https://github.com/rbenv/rbenv) 裝 ruby，直接照著步驟跑：
 
 ```bash
 git clone https://github.com/rbenv/rbenv.git ~/.rbenv
@@ -69,7 +70,7 @@ echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bash_profile # linode 上是 .
 git clone https://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build # 裝 ruby build
 ```
 
-用 rbenv 裝 ruby
+裝 ruby：
 
 ```bash
 rbenv install 2.3.4
@@ -80,7 +81,7 @@ gem install bundler
 
 #### 設定資料庫
 
-用好棒棒的 [`pgcli`](https://github.com/dbcli/pgcli) 建立連線
+用好棒棒的 [`pgcli`](https://github.com/dbcli/pgcli) 與本機 postgres 建立連線。上面 APT 套件裝完後應該就會自己跑起來了。
 
 ```bash
 apt-get install pgcli
@@ -88,7 +89,7 @@ sudo -i -u postgres
 pgcli
 ```
 
-建立使用者和資料庫
+進去以後，建立使用者和資料庫：
 
 ```sql
 CREATE USER redmine WITH PASSWORD 'PASSWORD';
@@ -98,21 +99,23 @@ GRANT ALL PRIVILEGES ON DATABASE redmine to redmine;
 
 ##### 測試連線(Optional)
 
-打開 `/etc/postgresql/9.5/main/pg_hba.conf`，找到下面加入這行：
+以防密碼打錯這種奇妙事件發生，我們可以測試一下連線。打開 `/etc/postgresql/9.5/main/pg_hba.conf`，找到下面加入這行：
 
 ```txt
 local   all             redmine                                 md5
 ```
 
-用 `psql` 連線本機測試：
+這行開啟本地端的帳密授權登入。然後用 `psql` 連線本機測試：
 
 ```bash
 psql -U redmine -d redmine -W
 ```
 
+成功連進去就 Ok 啦。
+
 #### 設定 Redmine 資料庫
 
-1. 編輯 `config/database.yml` 填入資料庫帳密，把 `mysql` 相關的都註解掉
+1. 編輯 `config/database.yml` 填入資料庫帳密，把 `mysql` 相關的都註解掉(development 等等)
 1. 然後安裝 redmine 的 gem dependency
     ```bash
     bundle install --without development test
@@ -128,9 +131,11 @@ psql -U redmine -d redmine -W
 
 從 MySQL 搬家到 Postgres 的部分，因為都是同一個 App，Redmine 版本也只是小升沒有大型 migration，我直接利用[`yaml_db`](https://github.com/yamldb/yaml_db) 套件，把資料庫 dump 出來成 yaml，然後在 load 就行了 :heart: 可以參考 [`yaml_db`](https://github.com/yamldb/yaml_db) 套件 GitHub 說明。
 
+先跑 `RAILS_ENV=production bundle exec rake db:setup` 建立資料庫，然後在 `bundle exec rake db:data:load` 把檔案載入進來。
+
 ## 設定 Puma
 
-在 Gemfile 加上 `gem 'puma'`，跑 `bundle install --without development test` ，然後編輯 `config/puma.rb` 貼上以下內容：
+在 Gemfile 加上 `gem 'puma'` 一行，然後跑 `bundle install --without development test` 安裝。再來編輯 `config/puma.rb` 貼上以下內容：
 
 ```ruby
 #!/usr/bin/env puma

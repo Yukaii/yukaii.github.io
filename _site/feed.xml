@@ -6,6 +6,7 @@
 </description>
     <link>http://yukaii.tw/</link>
     <atom:link href="http://yukaii.tw/feed.xml" rel="self" type="application/rss+xml"/>
+<<<<<<< HEAD
     <pubDate>Wed, 28 Jun 2017 16:50:35 +0800</pubDate>
     <lastBuildDate>Wed, 28 Jun 2017 16:50:35 +0800</lastBuildDate>
     <generator>Jekyll v3.5.0</generator>
@@ -100,32 +101,38 @@
         
         
       </item>
+=======
+    <pubDate>Thu, 04 May 2017 20:40:42 +0800</pubDate>
+    <lastBuildDate>Thu, 04 May 2017 20:40:42 +0800</lastBuildDate>
+    <generator>Jekyll v3.4.3</generator>
+>>>>>>> Fix wording
     
       <item>
         <title>使用 puma 和 nginx 部屬 Redmine（加上從 MySQL 搬到 PostgreSQL）</title>
-        <description>&lt;p&gt;有鑑於前陣子看太多 Linode 軟文，每月五鎂的機器好像就 Linode CP 值最高惹，管理界面雖然初次看起來陽春，使用起來倒挺有效率的。這幾天就把擺在 Vultr 上的自用服務 (Redmine，幾個 crontab 腳本) 搬到了 Linode 上。&lt;/p&gt;
+        <description>&lt;p&gt;前陣子看了幾篇 Linode 安利文，每月五鎂的機器好像就 Linode CP 值最高惹，管理界面雖然看起來陽春，使用起來倒挺有效率的。這幾天就把擺在 Vultr 上的自用服務 (Redmine，幾個 crontab 腳本) 搬到了 Linode 上。&lt;/p&gt;
 
-&lt;p&gt;除了單純的搬家外，Redmine 也做了一次大升級：&lt;/p&gt;
+&lt;p&gt;除了單純的搬家外，部屬的 Redmine 也做了一些調整：&lt;/p&gt;
 
 &lt;ul&gt;
+&lt;li&gt;3.2 到 3.3&lt;/li&gt;
 &lt;li&gt;資料庫由 MySQL 轉換到 PostgreSQL&lt;/li&gt;
 &lt;li&gt;Application server 由 passenger 換成 puma&lt;/li&gt;
-&lt;li&gt;版控由 Redmine 官方的 svn 換成 git mirror，方便升級 XD&lt;/li&gt;
+&lt;li&gt;版控由官方 svn 換成 git mirror，方便操作 XD&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;其它就一樣用 nginx 架起來了。總之本篇除了是我的搬家筆記，還可以視為&lt;strong&gt;自架 Redmine 指南&lt;/strong&gt;（大概啦）。&lt;/p&gt;
+&lt;p&gt;總之本篇除了是我的搬家筆記，還可以視為&lt;strong&gt;自架 Redmine 指南&lt;/strong&gt;（大概啦）。&lt;/p&gt;
 
 &lt;h2&gt;設定新伺服器&lt;/h2&gt;
 
-&lt;p&gt;直接在 Linode 東京開了台 Ubuntu 的 Instance，直接 ssh 打密碼連進去。&lt;/p&gt;
+&lt;p&gt;直接在 Linode 東京開了台 Ubuntu 的 Instance，然後 ssh 打密碼連進去。&lt;/p&gt;
 
 &lt;h3&gt;解決 apt-get update 卡住問題&lt;/h3&gt;
 
-&lt;p&gt;直接參考 &lt;a href=&quot;https://askubuntu.com/a/787491&quot;&gt;apt-get update stuck: Connecting to security.ubuntu.com&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;請參考 &lt;a href=&quot;https://askubuntu.com/a/787491&quot;&gt;apt-get update stuck: Connecting to security.ubuntu.com&lt;/a&gt;&lt;/p&gt;
 
 &lt;h3&gt;裝 Dependency&lt;/h3&gt;
 
-&lt;p&gt;包含 tmux、postgres 資料庫等等。滿建議學習一下 tmux 的。下面就可以開兩個 tab，一個 root 權限，一個 deploy 權限，方便許多。&lt;/p&gt;
+&lt;p&gt;首先當然就把系統的相依套件裝一裝，包含 tmux、postgres 資料庫等等。滿建議學習一下 tmux 的。可以開兩個 tab，一個 root 權限，一個一般權限，方便許多，不用一直切 su。&lt;/p&gt;
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;apt-get update &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; apt-get upgrade &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; apt-get install -y git build-essential tmux postgresql libpq-dev &lt;span class=&quot;c&quot;&gt;# database&lt;/span&gt;
 apt-get install -y libssl-dev libreadline-dev zlib1g-dev &lt;span class=&quot;c&quot;&gt;# ruby dependency&lt;/span&gt;
 apt-get install -y imagemagick libmagickcore-dev libmagickwand-dev &lt;span class=&quot;c&quot;&gt;# redmine dependency&lt;/span&gt;
@@ -152,14 +159,14 @@ cp config/configuration.yml.example cp config/configuration.yml
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;h4&gt;建立 Ruby 環境&lt;/h4&gt;
 
-&lt;p&gt;安裝 &lt;a href=&quot;https://github.com/rbenv/rbenv&quot;&gt;rbenv&lt;/a&gt; 準備裝 ruby（照著官方教學做就好了）&lt;/p&gt;
+&lt;p&gt;使用 &lt;a href=&quot;https://github.com/rbenv/rbenv&quot;&gt;rbenv&lt;/a&gt; 裝 ruby，直接照著步驟跑：&lt;/p&gt;
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;git clone https://github.com/rbenv/rbenv.git ~/.rbenv
 &lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; ~/.rbenv &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; src/configure &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; make -C src
 &lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'export PATH=&quot;$HOME/.rbenv/bin:$PATH&quot;'&lt;/span&gt; &amp;gt;&amp;gt; ~/.bash_profile &lt;span class=&quot;c&quot;&gt;# linode 上是 .bashrc&lt;/span&gt;
 ~/.rbenv/bin/rbenv init &lt;span class=&quot;c&quot;&gt;# 貼上輸出到 .bash_profile 或 .bashrc&lt;/span&gt;
 git clone https://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build &lt;span class=&quot;c&quot;&gt;# 裝 ruby build&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;用 rbenv 裝 ruby&lt;/p&gt;
+&lt;p&gt;裝 ruby：&lt;/p&gt;
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;rbenv install 2.3.4
 rbenv global 2.3.4
 &lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'gem: --no-ri --no-rdoc'&lt;/span&gt; &amp;gt;&amp;gt; ~/.gemrc
@@ -167,28 +174,30 @@ gem install bundler
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;h4&gt;設定資料庫&lt;/h4&gt;
 
-&lt;p&gt;用好棒棒的 &lt;a href=&quot;https://github.com/dbcli/pgcli&quot;&gt;&lt;code&gt;pgcli&lt;/code&gt;&lt;/a&gt; 建立連線&lt;/p&gt;
+&lt;p&gt;用好棒棒的 &lt;a href=&quot;https://github.com/dbcli/pgcli&quot;&gt;&lt;code&gt;pgcli&lt;/code&gt;&lt;/a&gt; 與本機 postgres 建立連線。上面 APT 套件裝完後應該就會自己跑起來了。&lt;/p&gt;
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;apt-get install pgcli
 sudo -i -u postgres
 pgcli
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;建立使用者和資料庫&lt;/p&gt;
+&lt;p&gt;進去以後，建立使用者和資料庫：&lt;/p&gt;
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-sql&quot; data-lang=&quot;sql&quot;&gt;&lt;span class=&quot;k&quot;&gt;CREATE&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;USER&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;redmine&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;WITH&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PASSWORD&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'PASSWORD'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
 &lt;span class=&quot;k&quot;&gt;CREATE&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;DATABASE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;redmine&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
 &lt;span class=&quot;k&quot;&gt;GRANT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;ALL&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;PRIVILEGES&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;ON&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;DATABASE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;redmine&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;to&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;redmine&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;h5&gt;測試連線(Optional)&lt;/h5&gt;
 
-&lt;p&gt;打開 &lt;code&gt;/etc/postgresql/9.5/main/pg_hba.conf&lt;/code&gt;，找到下面加入這行：&lt;/p&gt;
+&lt;p&gt;以防密碼打錯這種奇妙事件發生，我們可以測試一下連線。打開 &lt;code&gt;/etc/postgresql/9.5/main/pg_hba.conf&lt;/code&gt;，找到下面加入這行：&lt;/p&gt;
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-txt&quot; data-lang=&quot;txt&quot;&gt;local   all             redmine                                 md5
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;用 &lt;code&gt;psql&lt;/code&gt; 連線本機測試：&lt;/p&gt;
+&lt;p&gt;這行開啟本地端的帳密授權登入。然後用 &lt;code&gt;psql&lt;/code&gt; 連線本機測試：&lt;/p&gt;
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;psql -U redmine -d redmine -W
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;成功連進去就 Ok 啦。&lt;/p&gt;
+
 &lt;h4&gt;設定 Redmine 資料庫&lt;/h4&gt;
 
 &lt;ol&gt;
-&lt;li&gt;編輯 &lt;code&gt;config/database.yml&lt;/code&gt; 填入資料庫帳密，把 &lt;code&gt;mysql&lt;/code&gt; 相關的都註解掉&lt;/li&gt;
+&lt;li&gt;編輯 &lt;code&gt;config/database.yml&lt;/code&gt; 填入資料庫帳密，把 &lt;code&gt;mysql&lt;/code&gt; 相關的都註解掉(development 等等)&lt;/li&gt;
 &lt;li&gt;然後安裝 redmine 的 gem dependency
 &lt;code&gt;bash
 bundle install --without development test
@@ -207,9 +216,11 @@ bundle install --without development test
 
 &lt;p&gt;從 MySQL 搬家到 Postgres 的部分，因為都是同一個 App，Redmine 版本也只是小升沒有大型 migration，我直接利用&lt;a href=&quot;https://github.com/yamldb/yaml_db&quot;&gt;&lt;code&gt;yaml_db&lt;/code&gt;&lt;/a&gt; 套件，把資料庫 dump 出來成 yaml，然後在 load 就行了 :heart: 可以參考 &lt;a href=&quot;https://github.com/yamldb/yaml_db&quot;&gt;&lt;code&gt;yaml_db&lt;/code&gt;&lt;/a&gt; 套件 GitHub 說明。&lt;/p&gt;
 
+&lt;p&gt;先跑 &lt;code&gt;RAILS_ENV=production bundle exec rake db:setup&lt;/code&gt; 建立資料庫，然後在 &lt;code&gt;bundle exec rake db:data:load&lt;/code&gt; 把檔案載入進來。&lt;/p&gt;
+
 &lt;h2&gt;設定 Puma&lt;/h2&gt;
 
-&lt;p&gt;在 Gemfile 加上 &lt;code&gt;gem &amp;#39;puma&amp;#39;&lt;/code&gt;，跑 &lt;code&gt;bundle install --without development test&lt;/code&gt; ，然後編輯 &lt;code&gt;config/puma.rb&lt;/code&gt; 貼上以下內容：&lt;/p&gt;
+&lt;p&gt;在 Gemfile 加上 &lt;code&gt;gem &amp;#39;puma&amp;#39;&lt;/code&gt; 一行，然後跑 &lt;code&gt;bundle install --without development test&lt;/code&gt; 安裝。再來編輯 &lt;code&gt;config/puma.rb&lt;/code&gt; 貼上以下內容：&lt;/p&gt;
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;c1&quot;&gt;#!/usr/bin/env puma&lt;/span&gt;
 
 &lt;span class=&quot;n&quot;&gt;application_path&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'/home/deploy/redmine'&lt;/span&gt;
