@@ -7,6 +7,7 @@
     <link>http://yukaii.tw/</link>
     <atom:link href="http://yukaii.tw/feed.xml" rel="self" type="application/rss+xml"/>
 <<<<<<< HEAD
+<<<<<<< HEAD
     <pubDate>Wed, 28 Jun 2017 16:50:35 +0800</pubDate>
     <lastBuildDate>Wed, 28 Jun 2017 16:50:35 +0800</lastBuildDate>
     <generator>Jekyll v3.5.0</generator>
@@ -104,6 +105,10 @@
 =======
     <pubDate>Thu, 04 May 2017 20:40:42 +0800</pubDate>
     <lastBuildDate>Thu, 04 May 2017 20:40:42 +0800</lastBuildDate>
+=======
+    <pubDate>Fri, 05 May 2017 14:03:58 +0800</pubDate>
+    <lastBuildDate>Fri, 05 May 2017 14:03:58 +0800</lastBuildDate>
+>>>>>>> Fix wording
     <generator>Jekyll v3.4.3</generator>
 >>>>>>> Fix wording
     
@@ -298,6 +303,14 @@ ln -s ../sites-available/redmine .
 service nginx status
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;打開瀏覽器連 IP 應該就能看到辣！&lt;/p&gt;
+
+&lt;h2&gt;目前的 Plugin 列表&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;www.redmine.org/plugins/redmine_emojibutton&quot;&gt;redmine_emojibutton&lt;/a&gt;: Emoji 萬歲！&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/eichisanden/redmine_markdown_task_list&quot;&gt;redmine&lt;em&gt;markdown&lt;/em&gt;task_list&lt;/a&gt;: Checklist&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://www.redmine.org/plugins/redmine-mentions&quot;&gt;redmine_mentions&lt;/a&gt;: Tag 人寄 email&lt;/li&gt;
+&lt;/ul&gt;
 
 &lt;h2&gt;References&lt;/h2&gt;
 
