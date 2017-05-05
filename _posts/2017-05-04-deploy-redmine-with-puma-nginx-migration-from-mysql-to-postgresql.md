@@ -241,7 +241,7 @@ service nginx status
 ## 目前的 Plugin 列表
 
 - [redmine_emojibutton](www.redmine.org/plugins/redmine_emojibutton): Emoji 萬歲！
-- [redmine_markdown_task_list](https://github.com/eichisanden/redmine_markdown_task_list): Checklist
+- [redmine\_markdown\_task\_list](https://github.com/eichisanden/redmine_markdown_task_list): Checklist
 - [redmine_mentions](http://www.redmine.org/plugins/redmine-mentions): Tag 人寄 email
 
 ## References
