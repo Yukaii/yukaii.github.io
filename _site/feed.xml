@@ -6,8 +6,8 @@
 </description>
     <link>http://yukaii.tw/</link>
     <atom:link href="http://yukaii.tw/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Wed, 28 Jun 2017 17:17:25 +0800</pubDate>
-    <lastBuildDate>Wed, 28 Jun 2017 17:17:25 +0800</lastBuildDate>
+    <pubDate>Wed, 28 Jun 2017 21:25:20 +0800</pubDate>
+    <lastBuildDate>Wed, 28 Jun 2017 21:25:20 +0800</lastBuildDate>
     <generator>Jekyll v3.5.0</generator>
     
       <item>
@@ -24,18 +24,18 @@
 
 &lt;h2&gt;WSL - Windows Subsystem for Linux (Bash on Windows)&lt;/h2&gt;
 
-&lt;p&gt;在 Creators Update 之後，WSL 的能用度更高了，還是在來試驗了一下做 node.js 的開發揪竟會如何。&lt;/p&gt;
+&lt;p&gt;在 Creators Update 之後，WSL 的能用度更高了，來試驗了一下 node.js 開發體驗揪竟是如何。&lt;/p&gt;
 
 &lt;ul&gt;
 &lt;li&gt;存在 ulimit file descriptor 2048 限制 &lt;a href=&quot;https://github.com/Microsoft/BashOnWindows/issues/1688&quot;&gt;BashOnWindows#1688&lt;/a&gt;、&lt;a href=&quot;https://github.com/Microsoft/BashOnWindows/issues/1576&quot;&gt;BashOnWindows#1576&lt;/a&gt; 等。比如用 &lt;code&gt;copy-webpack-plugin&lt;/code&gt; 就會噴錯，不過也有 &lt;code&gt;graceful-fs&lt;/code&gt; 能解&lt;/li&gt;
 &lt;li&gt;檔案系統還無法完美互通。官方文件是這樣說的：&lt;strong&gt;DO NOT,&lt;/strong&gt; &lt;strong&gt;&lt;strong&gt;under ANY circumstances&lt;/strong&gt;&lt;/strong&gt; &lt;strong&gt;, create and/or modify Linux files using Windows apps, tools, scripts, consoles, etc.&lt;/strong&gt;。我遇到因為在 WSL 的 git 與 windows 的 git 交互使用，造成檔案遺失無法存取的狀況&lt;/li&gt;
 &lt;li&gt;效能比想像中差，裝套件花的時間比想像中久(感覺上啦，沒真的測時間，Fall Creators Update 應該還會再提升)&lt;/li&gt;
-&lt;li&gt;不太適合新手&lt;/li&gt;
+&lt;li&gt;不太適合新手 w&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;雖然開發程式跑得起來，但叫我都要用文字介面的 git？我才不要 XD 於是電梯向下，繼續找下一套替代方案。&lt;/p&gt;
+&lt;p&gt;雖然開發程式跑得起來，但我只能用文字介面的 git？我才不要咧 XD 於是電梯向下，繼續找下一套替代方案。&lt;/p&gt;
 
-&lt;p&gt;雖然 WSL 有一些雷，可是 ssh、vim、tmux mosh 一系列工具已經很熟了，而且在 WSL 裡面沒有大問題(好歹我沒遇到啦)，作為「原生 ssh 客戶端」還是非常夠用的 w。&lt;/p&gt;
+&lt;p&gt;雖然遇到一些雷，可是 ssh、vim、tmux mosh 一系列工具在 WSL 裡面已經沒啥大問題了(好歹我沒遇到)，作為「原生 ssh 客戶端」算非常夠用啦 w。&lt;/p&gt;
 
 &lt;h2&gt;Vagrant&lt;/h2&gt;
 
@@ -45,20 +45,29 @@
 
 &lt;h2&gt;Hyper-V&lt;/h2&gt;
 
-&lt;p&gt;Windows 內建虛擬化方案，可以隨開關機自動啟動停止，完全無縫整合進 Windows 裡面！不過還不知道對續航力有啥影響，請期待 Surface 開箱文(誤)&lt;/p&gt;
+&lt;p&gt;Windows 內建的虛擬化方案，可以隨開關機自動啟動停止，完全無縫整合進 Windows 裡面！不過還不知道對續航力有啥影響，請期待 Surface 開箱文(誤)&lt;/p&gt;
 
 &lt;p&gt;我直接裝上了 ubuntu server 16.04 版，反正桌面環境就用 Windows 10 的，UWP 大好。先建立一個虛擬交換器，之後日常照著裝完就好了。&lt;/p&gt;
 
-&lt;h3&gt;設定 Samba&lt;/h3&gt;
+&lt;p&gt;參考文件：&lt;/p&gt;
 
-&lt;p&gt;在設定的時候一直在想，到底要 &lt;strong&gt;Windows 開共享資料夾讓 Ubuntu 掛載&lt;/strong&gt; 還是 &lt;strong&gt;Ubuntu 開共享讓 Windows 掛載&lt;/strong&gt;呢？結論：&lt;strong&gt;Ubuntu 共享讓 Windows 連線&lt;/strong&gt;，以 Node.JS 開發環境來說，&lt;code&gt;node_modules&lt;/code&gt; 安裝的時候就要處理一堆 symlink 了，而 NTFS 不支援啊，所以前者一定爆的...（會這麼說是因為我在這卡很久 orz）&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://docs.microsoft.com/en-us/windows-server/virtualization/hyper-v/best-practices-for-running-linux-on-hyper-v&quot;&gt;Best Practices for running Linux on Hyper-V&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://docs.microsoft.com/en-us/windows-server/virtualization/hyper-v/supported-ubuntu-virtual-machines-on-hyper-v&quot;&gt;Supported Ubuntu virtual machines on Hyper-V&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3&gt;設定 Samba 讓專案檔案共享&lt;/h3&gt;
+
+&lt;p&gt;弄到這的時候一直在想，到底要 &lt;strong&gt;Windows 開共享資料夾讓 Ubuntu 掛載&lt;/strong&gt; 還是 &lt;strong&gt;Ubuntu 開共享讓 Windows 掛載&lt;/strong&gt;呢？結論：&lt;strong&gt;Ubuntu 共享讓 Windows 連線&lt;/strong&gt;。以 Node.JS 開發環境來說，&lt;code&gt;node_modules&lt;/code&gt; 安裝的時候就要處理一堆 symlink 了，而 NTFS 不支援啊，所以前者一定爆的...（會這麼說是因為我在這卡很久 orz）&lt;/p&gt;
+
+&lt;p&gt;(更新一下，其實 &lt;a href=&quot;https://blogs.windows.com/buildingapps/2016/12/02/symlinks-windows-10/#oFj8QWsqO3o1e18O.97&quot;&gt;Windows 是支援 Symlink&lt;/a&gt; 的，不過 linux 上的 samba client 不支援，還是掰呵呵)&lt;/p&gt;
 
 &lt;p&gt;設定過程參考了以下資料：&lt;/p&gt;
 
 &lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;http://www.arthurtoday.com/2015/04/ubuntu-server-share-folder-samba.html&quot;&gt;http://www.arthurtoday.com/2015/04/ubuntu-server-share-folder-samba.html&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;http://flykof.pixnet.net/blog/post/23028119&quot;&gt;http://flykof.pixnet.net/blog/post/23028119&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://wsgzao.github.io/post/samba/&quot;&gt;https://wsgzao.github.io/post/samba/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://www.arthurtoday.com/2015/04/ubuntu-server-share-folder-samba.html&quot;&gt;Ubuntu Server 設定 Samba 分享檔案&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://flykof.pixnet.net/blog/post/23028119&quot;&gt;Ubuntu下samba安裝設定&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://wsgzao.github.io/post/samba/&quot;&gt;使用Samba实现Linux与Windows文件共享实践&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;還有一點是要把建立的 samba user 加到目前使用者的 Group 底下，要不然每次都要 &lt;code&gt;chown&lt;/code&gt; 很麻煩：&lt;/p&gt;
@@ -83,6 +92,14 @@
 &lt;li&gt;&lt;a href=&quot;https://stackoverflow.com/questions/6448242/git-push-error-insufficient-permission-for-adding-an-object-to-repository-datab/6448326#6448326&quot;&gt;修正 git over samba 的權限問題&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
+&lt;h2&gt;為何不用 Docker (moby)？&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://docs.docker.com/docker-for-windows/install/#download-docker-for-windows&quot;&gt;Docker for Windows 背後也是 Hyper-V 啊&lt;/a&gt; XD&lt;/p&gt;
+
+&lt;p&gt;看論壇上的討論(&lt;a href=&quot;https://stackoverflow.com/questions/22842920/how-to-edit-code-in-a-docker-container-in-development&quot;&gt;stackoverflow&lt;/a&gt;、&lt;a href=&quot;https://forums.docker.com/t/best-practices-for-getting-code-into-a-container-git-clone-vs-copy-vs-data-container/4077&quot;&gt;forum&lt;/a&gt;)大都搭配 data container/volumn mounting/shared drive 的方式來弄，不過你也知道 NTFS 一扯到 symlink &lt;a href=&quot;https://github.com/docker/for-win/issues/109&quot;&gt;目前還是沒戲兒&lt;/a&gt;。&lt;/p&gt;
+
+&lt;p&gt;另一種方法是用 &lt;a href=&quot;http://blog.cloud66.com/how-to-get-code-into-a-docker-container/&quot;&gt;COPY&lt;/a&gt; 來弄，不過跟 Windows 相容性如何，那畫面太美我不敢想 :joy: 所以囉&lt;/p&gt;
+
 &lt;h2&gt;結論&lt;/h2&gt;
 
 &lt;p&gt;說實話有點高估 WSL 的能耐了 XD 如果在輕量級開發(多輕量？我也不知道)之下，體驗說不定真的很好。&lt;/p&gt;
@@ -92,6 +109,8 @@
 &lt;p&gt;&lt;img src=&quot;http://i.imgur.com/G09U4RQ.png&quot; alt=&quot;VSCode&quot;&gt;&lt;/p&gt;
 
 &lt;p&gt;本篇文章就是在 Windows 下的 VSCode 編輯 Markdown、配上 Hyper-V 下的 Ubuntu 使用 Jekyll 生成的。讚讚 :heart:&lt;/p&gt;
+
+&lt;p&gt;主題是 &lt;a href=&quot;https://github.com/karyfoundation/kf-theme-vscode&quot;&gt;Kary Light&lt;/a&gt; 配上 &lt;a href=&quot;https://be5invis.github.io/Iosevka/inziu.html&quot;&gt;Inziu Iosevka&lt;/a&gt;，Windows 跟這套字體真是絕配！&lt;/p&gt;
 
 &lt;p&gt;（完）&lt;/p&gt;
 </description>
