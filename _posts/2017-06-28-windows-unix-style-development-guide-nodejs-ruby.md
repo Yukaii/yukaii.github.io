@@ -68,7 +68,8 @@ sudo usermod -G GROUP_NAME smbuser
 
 ## Git
 
-* filemode 要設為 false，不然權限會跑掉
+* filemode 要設為 false，不然權限會顯示成 diff
+* [修正 git over samba 的權限問題](https://stackoverflow.com/questions/6448242/git-push-error-insufficient-permission-for-adding-an-object-to-repository-datab/6448326#6448326)
 
 ## 結論
 
