@@ -42,7 +42,7 @@ collections:
     output: true
     permalink: /hi-tips/:path/
 
-gems:
+plugins:
   - jekyll-assets
   - uglifier
   - sass
