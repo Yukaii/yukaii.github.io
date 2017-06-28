@@ -6,9 +6,100 @@
 </description>
     <link>http://yukaii.tw/</link>
     <atom:link href="http://yukaii.tw/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Thu, 04 May 2017 14:43:00 +0800</pubDate>
-    <lastBuildDate>Thu, 04 May 2017 14:43:00 +0800</lastBuildDate>
-    <generator>Jekyll v3.4.3</generator>
+    <pubDate>Wed, 28 Jun 2017 16:50:35 +0800</pubDate>
+    <lastBuildDate>Wed, 28 Jun 2017 16:50:35 +0800</lastBuildDate>
+    <generator>Jekyll v3.5.0</generator>
+    
+      <item>
+        <title>Windows Unix-Like 環境設定踩坑紀錄</title>
+        <description>&lt;h2&gt;TL;DR&lt;/h2&gt;
+
+&lt;p&gt;Hyper-V + Ubuntu Server + Samba + WSL ssh + cmder&lt;/p&gt;
+
+&lt;h2&gt;緣起&lt;/h2&gt;
+
+&lt;p&gt;自從印度人上臺之後，感覺微軟真的變了，從邪惡帝國主義（？）變成開源大法好，可惜基於歷史因素，社群圈講到微軟多半是酸居多，唉。至少從我這個 JavaScript 開發者兼 VSCode 愛好者來看，微軟真的進步超多了，害我都想拋棄 macOS、買台 Surface 跳槽 Windows 10 試試了。&lt;/p&gt;
+
+&lt;p&gt;本文就是在購買 Surface 前的開發前置準備。如果買了 Surface 之後，整個開發 workflow 都要砍掉重練那也是滿累的 QQ。剛好最近回老家，就拿桌機的 Windows 10 來開刀吧！(至於我怎麼把 1G 的可用硬碟空間拉到 60G 那又是另一個故事了)&lt;/p&gt;
+
+&lt;h2&gt;WSL - Windows Subsystem for Linux (Bash on Windows)&lt;/h2&gt;
+
+&lt;p&gt;在 Creators Update 之後，WSL 的能用度更高了，還是在來試驗了一下做 node.js 的開發揪竟會如何。&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;存在 ulimit file descriptor 2048 限制 &lt;a href=&quot;https://github.com/Microsoft/BashOnWindows/issues/1688&quot;&gt;BashOnWindows#1688&lt;/a&gt;、&lt;a href=&quot;https://github.com/Microsoft/BashOnWindows/issues/1576&quot;&gt;BashOnWindows#1576&lt;/a&gt; 等。比如用 &lt;code&gt;copy-webpack-plugin&lt;/code&gt; 就會噴錯，不過也有 &lt;code&gt;graceful-fs&lt;/code&gt; 能解&lt;/li&gt;
+&lt;li&gt;檔案系統還無法完美互通。官方文件是這樣說的：&lt;strong&gt;DO NOT,&lt;/strong&gt; &lt;strong&gt;&lt;strong&gt;under ANY circumstances&lt;/strong&gt;&lt;/strong&gt; &lt;strong&gt;, create and/or modify Linux files using Windows apps, tools, scripts, consoles, etc.&lt;/strong&gt;。我遇到因為在 WSL 的 git 與 windows 的 git 交互使用，造成檔案遺失無法存取的狀況&lt;/li&gt;
+&lt;li&gt;效能比想像中差，裝套件花的時間比想像中久(感覺上啦，沒真的測時間，Fall Creators Update 應該還會再提升)&lt;/li&gt;
+&lt;li&gt;不太適合新手&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;雖然開發程式跑得起來，但叫我都要用文字介面的 git？我才不要 XD 於是電梯向下，繼續找下一套替代方案。&lt;/p&gt;
+
+&lt;p&gt;雖然 WSL 有一些雷，可是 ssh、vim、tmux mosh 一系列工具已經很熟了，而且在 WSL 裡面沒有大問題(好歹我沒遇到啦)，作為「原生 ssh 客戶端」還是非常夠用的 w。&lt;/p&gt;
+
+&lt;h2&gt;Vagrant&lt;/h2&gt;
+
+&lt;p&gt;Vagrant 可以說是虛擬機開發懶人方案，用 ruby 寫設定檔，幫你把資料夾、網路共享、port forwarding 一次搞定。&lt;/p&gt;
+
+&lt;p&gt;Vagrant 預設是用 virtualbox，也有 vmware 或 hyper-v 可以選用。就要另外找壓好的 vagrant box。因為 Hyper-V 似乎比 VirtualBox 的效能還要好，所以特別找了&lt;a href=&quot;https://app.vagrantup.com/jjworren/boxes/xenial64&quot;&gt;基於 hyper-v 的 image&lt;/a&gt; 來用，無奈就是跑不起來。看了一下命令列的輸出，發現他的目錄共享也是透過 samba 來弄。那就來自己搞吧！&lt;/p&gt;
+
+&lt;h2&gt;Hyper-V&lt;/h2&gt;
+
+&lt;p&gt;Windows 內建虛擬化方案，可以隨開關機自動啟動停止，完全無縫整合進 Windows 裡面！不過還不知道對續航力有啥影響，請期待 Surface 開箱文(誤)&lt;/p&gt;
+
+&lt;p&gt;我直接裝上了 ubuntu server 16.04 版，反正桌面環境就用 Windows 10 的，UWP 大好。先建立一個虛擬交換器，之後日常照著裝完就好了。&lt;/p&gt;
+
+&lt;h3&gt;設定 Samba&lt;/h3&gt;
+
+&lt;p&gt;在設定的時候一直在想，到底要 &lt;strong&gt;Windows 開共享資料夾讓 Ubuntu 掛載&lt;/strong&gt; 還是 &lt;strong&gt;Ubuntu 開共享讓 Windows 掛載&lt;/strong&gt;呢？結論：&lt;strong&gt;Ubuntu 共享讓 Windows 連線&lt;/strong&gt;，以 Node.JS 開發環境來說，&lt;code&gt;node_modules&lt;/code&gt; 安裝的時候就要處理一堆 symlink 了，而 NTFS 不支援啊，所以前者一定爆的...（會這麼說是因為我在這卡很久 orz）&lt;/p&gt;
+
+&lt;p&gt;設定過程參考了以下資料：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://www.arthurtoday.com/2015/04/ubuntu-server-share-folder-samba.html&quot;&gt;http://www.arthurtoday.com/2015/04/ubuntu-server-share-folder-samba.html&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://flykof.pixnet.net/blog/post/23028119&quot;&gt;http://flykof.pixnet.net/blog/post/23028119&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://wsgzao.github.io/post/samba/&quot;&gt;https://wsgzao.github.io/post/samba/&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;還有一點是要把建立的 samba user 加到目前使用者的 Group 底下，要不然每次都要 &lt;code&gt;chown&lt;/code&gt; 很麻煩：&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;sudo usermod -G GROUP_NAME smbuser
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;img src=&quot;http://i.imgur.com/SJYhYwJ.png&quot; alt=&quot;drive&quot;&gt;&lt;/p&gt;
+
+&lt;p&gt;自此專案資料夾便能無痛掛載到 Windows 內，由 Windows 內的 IDE 或編輯器存取啦！&lt;/p&gt;
+
+&lt;h2&gt;cmder&lt;/h2&gt;
+
+&lt;p&gt;說到 Windows 平台下好用的 Terminal 大家都會推 cmder，就是 ConEMU 加上 Git for Windows 一整套幫你裝好了，直接上截圖。字體是我愛用的 &lt;a href=&quot;https://github.com/madmalik/mononoki&quot;&gt;mononoki&lt;/a&gt;。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://i.imgur.com/VHM4USs.png&quot; alt=&quot;cmder&quot;&gt;&lt;/p&gt;
+
+&lt;p&gt;可惜的是還沒有滑鼠支援，大家可以到 &lt;a href=&quot;https://github.com/Maximus5/ConEmu/issues/1114&quot;&gt;ConEmu#1114&lt;/a&gt; 追蹤。&lt;/p&gt;
+
+&lt;h2&gt;Git&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;filemode 要設為 false，不然權限會跑掉&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2&gt;結論&lt;/h2&gt;
+
+&lt;p&gt;說實話有點高估 WSL 的能耐了 XD 如果在輕量級開發(多輕量？我也不知道)之下，體驗說不定真的很好。&lt;/p&gt;
+
+&lt;p&gt;剩下來的設定檔全面移轉、AHK Scripting、各式輔助軟體就等 Surface 開箱之後再說吧 XDD&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://i.imgur.com/G09U4RQ.png&quot; alt=&quot;VSCode&quot;&gt;&lt;/p&gt;
+
+&lt;p&gt;本篇文章就是在 Windows 下的 VSCode 編輯 Markdown、配上 Hyper-V 下的 Ubuntu 使用 Jekyll 生成的。讚讚 :heart:&lt;/p&gt;
+
+&lt;p&gt;（完）&lt;/p&gt;
+</description>
+        <pubDate>Wed, 28 Jun 2017 00:00:00 +0800</pubDate>
+        <link>http://yukaii.tw/blog/2017/06/28/windows-unix-style-development-guide-nodejs-ruby/</link>
+        <guid isPermaLink="true">http://yukaii.tw/blog/2017/06/28/windows-unix-style-development-guide-nodejs-ruby/</guid>
+        
+        
+      </item>
     
       <item>
         <title>使用 puma 和 nginx 部屬 Redmine（加上從 MySQL 搬到 PostgreSQL）</title>
@@ -735,69 +826,6 @@ asar extract app.asar app &lt;span class=&quot;c&quot;&gt;# 解開 app.asar 檔�
         <pubDate>Wed, 02 Nov 2016 00:00:00 +0800</pubDate>
         <link>http://yukaii.tw/blog/2016/11/02/use-electron-ipc-to-call-api-from-main-process/</link>
         <guid isPermaLink="true">http://yukaii.tw/blog/2016/11/02/use-electron-ipc-to-call-api-from-main-process/</guid>
-        
-        
-      </item>
-    
-      <item>
-        <title>開源貢獻初體驗</title>
-        <description>&lt;h2&gt;第一次的 PR&lt;/h2&gt;
-
-&lt;p&gt;在兩個月前的暑假，還在努力當個 Rails 工程師的我，為了進行我社產品的重構，想先找個專案練練手。當時 VSCode 開源專案管理的 GithHub 令我好生羨慕，覺得所有的開源專案，如果都能如此有條理的讓人參與貢獻，那該有多好呀。我找了找 Rails 專案，發現之前有在關注的校園專案 &lt;a href=&quot;https://plus.nctu.edu.tw/&quot;&gt;NCTU+&lt;/a&gt; 當時也在進行改版。&lt;/p&gt;
-
-&lt;p&gt;clone 下來看了看，發現 rubocop 上色還挺多的，於是就想也沒想開始玩了起來。煞有介事的開了個 &lt;a href=&quot;https://github.com/Yukaii/nctuplus/issues/1&quot;&gt;issue&lt;/a&gt;，描述專案多有技術債云云，列出了各式 Todo。首先著手的就是升級 Rails，並且把過時的套件都升級一番。&lt;/p&gt;
-
-&lt;p&gt;經過了兩天的折騰後，送出了第一支 &lt;a href=&quot;https://github.com/nctuplus/nctuplus/pull/6&quot;&gt;Pull Request&lt;/a&gt;。結果就失敗了 XD。&lt;/p&gt;
-
-&lt;h2&gt;自我愉悅&lt;/h2&gt;
-
-&lt;p&gt;我想了想，覺得當時的問題有三：&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;PR 太大包&lt;/li&gt;
-&lt;li&gt;對 Roadmap 不瞭解&lt;/li&gt;
-&lt;li&gt;沒有測試&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;最後再附加一個，太自我中心，加了一堆東西卻又沒有附上 Getting Started。&lt;/p&gt;
-
-&lt;p&gt;當時我覺得 PR 太大包，其實現在看來也還好，因為「順便」把重複的目錄移除，所以 Git 更改看起來比較多。但是這「順便」就是問題所在了。在跑 GitHub Flow 時，Feature branch 應該單一目的，我雖然 PR 名為「升級 Rails/Ruby/gems」，實際上還是混雜了&lt;a href=&quot;https://github.com/nctuplus/nctuplus/pull/6#issuecomment-238025911&quot;&gt;多個目標&lt;/a&gt; ，現在看來有點可惜。&lt;/p&gt;
-
-&lt;p&gt;對 Product Roadmap 的不瞭解這部分，其實也算該專案的特性。校園團隊的運作方式，大概是&lt;a href=&quot;https://www.facebook.com/nctuplus/posts/1069989203046912&quot;&gt;徵才&lt;/a&gt; 後大家一起共同成長，所以 Roadmap 既沒有公佈在 GitHub 也沒有在粉專，我這個亂入的傢伙，照著自己意圖亂升級，終究也只是自己的實驗 XD。&lt;/p&gt;
-
-&lt;p&gt;最後一點關於測試，其實專案本身就沒啥測試 XD，所以&lt;a href=&quot;https://github.com/nctuplus/nctuplus/pull/6#issuecomment-238018884&quot;&gt;幫忙 Review 的同學&lt;/a&gt;也有提到，我的 PR 還需要花大把的時間確認能不能運作。這對於當時還在衝刺功能的 NCTU+ Team 來說，確實是個沒有必要的 PR。&lt;/p&gt;
-
-&lt;p&gt;總結一下，我既不熟悉 NCTU+ 團隊的運作方式，開出的問題也是假議題（沒必要升級呀），還需要花大把的成本驗證，那這個 PR 就完全是自嗨嘛 :p。&lt;/p&gt;
-
-&lt;h2&gt;於是跑來寫 JavaScript&lt;/h2&gt;
-
-&lt;p&gt;在大約一個月前&lt;del&gt;把自己開除&lt;/del&gt;轉職回學生之後，除了玩弄下 &lt;a href=&quot;https://mitpress.mit.edu/sicp/&quot;&gt;SICP&lt;/a&gt; 之外，另一項規劃就是把幾個月前開的坑 &lt;a href=&quot;https://github.com/ComicsReader/reader&quot;&gt;Comics Reader&lt;/a&gt; 補了補進度。該專案也是 &lt;a href=&quot;https://github.com/zeroshine/ComicsScroller&quot;&gt;fork&lt;/a&gt; 來的，不過到後來幾乎整個重寫，除了一樣是用 &lt;a href=&quot;http://www.material-ui.com/&quot;&gt;Material-UI&lt;/a&gt; 界面配色照著改之外，還多了一卡車東西。&lt;/p&gt;
-
-&lt;p&gt;起初想要 fork 是因為與其砍掉重練專案，不如發 PR 給原專案，一步步&lt;del&gt;入侵&lt;/del&gt;影響原專案，把它變成自己的形狀。要知道重寫專案成本也是很大的，現在輪子這麼多就別再造了啦，而且原本的插件我也用的很開心。儘管如此，每個人還是都有自己的主觀意識&lt;del&gt;工程師的浪漫&lt;/del&gt;，這世界的輪子才這麼多，我終究還是重造了船 😂。&lt;/p&gt;
-
-&lt;h2&gt;跳入神坑 HackMD - The Realtime Collaborate Markdown Platform&lt;/h2&gt;
-
-&lt;p&gt;Comics Reader 寫著寫著，對於 JavaScript 這奇妙&lt;del&gt;垃圾&lt;/del&gt;語言的熱情也回來了，也想跳個坑玩一下。常在 &lt;a href=&quot;http://join.g0v.today/&quot;&gt;g0v slack&lt;/a&gt; 潛水的我注意到 hackfoldr 常常拿來搭配 &lt;a href=&quot;https://hackmd.io&quot;&gt;HackMD&lt;/a&gt; 使用，一個支援多人即時協作的線上 Markdown 編輯平臺。看了看 &lt;a href=&quot;https://github.com/hackmdio/hackmd&quot;&gt;GitHub Repo&lt;/a&gt;，發現技術架構剛好與我目前的技能表吻合，那就開始貢獻吧！&lt;/p&gt;
-
-&lt;h2&gt;為 Legacy JavaScript 導入 Webpack&lt;/h2&gt;
-
-&lt;p&gt;經過幾個開發流程改進的 PR 後(&lt;a href=&quot;https://github.com/hackmdio/hackmd/pull/187&quot;&gt;#187&lt;/a&gt;、&lt;a href=&quot;https://github.com/hackmdio/hackmd/pull/190&quot;&gt;#190&lt;/a&gt;)，我開始&lt;a href=&quot;https://github.com/hackmdio/hackmd/pull/195&quot;&gt;導入 Webpack&lt;/a&gt; 前端打包器。&lt;/p&gt;
-
-&lt;p&gt;此時我對 JavaScript 的理解還停留在 React 這種 SPA 應用上，於是把許多 vendor package 都轉到 npm，然後在進入點引用進來，產生的 JS Bundle 也隨著引用的套件增加而擴大。我後來才理解到把常用的 vendor 放在 CDN 才是好的優化方法，因為瀏覽器會幫你快取，於是我又慢慢地把放到 npm 的套件在 extract 出來，簡直是繞了一大圈啊（汗）。&lt;a href=&quot;https://github.com/hackmdio/hackmd/pull/195&quot;&gt;#195&lt;/a&gt; 就記錄了這過程。&lt;/p&gt;
-
-&lt;p&gt;隨著這份 PR 越來越大包，我也開始覺得緊張，要是合併回去之後，功能通通炸掉怎麽辦？結果確實也是如此，我另外花了 &lt;a href=&quot;https://github.com/hackmdio/hackmd/pull/202&quot;&gt;#202&lt;/a&gt;、&lt;a href=&quot;https://github.com/hackmdio/hackmd/pull/205&quot;&gt;#205&lt;/a&gt;、&lt;a href=&quot;https://github.com/hackmdio/hackmd/pull/206&quot;&gt;#206&lt;/a&gt; 三個 PR 來把大部分的功能修復 😅。&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://github.com/hackmdio/hackmd/pull/195&quot;&gt;#195&lt;/a&gt; 做出改變實在太大了，當時也是邊做邊找資料學習，於是發生了這種繞圈子的意外。好險原作者 jacky 非常 nice 的接受了 PR，也一起確認了各功能是否運作正確 😂。現在上線的版本就是小弟我加料過的，實在緊張刺激 XD。&lt;/p&gt;
-
-&lt;h2&gt;更多的 PR，更多的 Open Source&lt;/h2&gt;
-
-&lt;p&gt;跳入一個新專案，從 run 起來開始瞭解架構，然後開始惡搞，這就是我最近在幹的事。時常有「挖坑給自己填」之感，這就是&lt;em&gt;惡搞系工程師&lt;/em&gt;的人蔘啊。&lt;/p&gt;
-
-&lt;p&gt;最後再推一下 &lt;a href=&quot;https://hackmd.io&quot;&gt;HackMD&lt;/a&gt; 這個專案，作者 jacky 在設計上實在加入許多巧思，希望有一天能長成工程師每天用的筆記軟體，繼續填坑讓專案更好！&lt;/p&gt;
-</description>
-        <pubDate>Mon, 17 Oct 2016 00:00:00 +0800</pubDate>
-        <link>http://yukaii.tw/blog/2016/10/17/contributing-to-open-source/</link>
-        <guid isPermaLink="true">http://yukaii.tw/blog/2016/10/17/contributing-to-open-source/</guid>
         
         
       </item>
