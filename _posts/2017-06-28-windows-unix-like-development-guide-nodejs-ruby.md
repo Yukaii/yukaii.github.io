@@ -76,7 +76,7 @@ sudo usermod -G GROUP_NAME smbuser
 ## Git
 
 * filemode 要設為 false，不然權限會顯示成 diff
-* [修正 git over samba 的權限問題](https://stackoverflow.com/questions/6448242/git-push-error-insufficient-permission-for-adding-an-object-to-repository-datab/6448326#6448326)
+* [修正 git over samba 的權限問題](https://stackoverflow.com/questions/20958888/preserving-file-permissions-for-samba-shares-when-file-is-edited)、[修正指令](https://stackoverflow.com/questions/6448242/git-push-error-insufficient-permission-for-adding-an-object-to-repository-datab/6448326#6448326)
 
 ## 為何不用 Docker (moby)？
 

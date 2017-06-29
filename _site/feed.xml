@@ -6,8 +6,8 @@
 </description>
     <link>http://yukaii.tw/</link>
     <atom:link href="http://yukaii.tw/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Wed, 28 Jun 2017 21:28:56 +0800</pubDate>
-    <lastBuildDate>Wed, 28 Jun 2017 21:28:56 +0800</lastBuildDate>
+    <pubDate>Thu, 29 Jun 2017 22:19:34 +0800</pubDate>
+    <lastBuildDate>Thu, 29 Jun 2017 22:19:34 +0800</lastBuildDate>
     <generator>Jekyll v3.5.0</generator>
     
       <item>
@@ -89,7 +89,7 @@
 
 &lt;ul&gt;
 &lt;li&gt;filemode 要設為 false，不然權限會顯示成 diff&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://stackoverflow.com/questions/6448242/git-push-error-insufficient-permission-for-adding-an-object-to-repository-datab/6448326#6448326&quot;&gt;修正 git over samba 的權限問題&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://stackoverflow.com/questions/20958888/preserving-file-permissions-for-samba-shares-when-file-is-edited&quot;&gt;修正 git over samba 的權限問題&lt;/a&gt;、&lt;a href=&quot;https://stackoverflow.com/questions/6448242/git-push-error-insufficient-permission-for-adding-an-object-to-repository-datab/6448326#6448326&quot;&gt;修正指令&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h2&gt;為何不用 Docker (moby)？&lt;/h2&gt;
