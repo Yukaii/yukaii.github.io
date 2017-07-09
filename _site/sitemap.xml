@@ -260,6 +260,9 @@
 <loc>http://yukaii.tw/about/</loc>
 </url>
 <url>
+<loc>http://yukaii.tw/</loc>
+</url>
+<url>
 <loc>http://yukaii.tw/hi-tips/</loc>
 </url>
 <url>
@@ -267,8 +270,5 @@
 </url>
 <url>
 <loc>http://yukaii.tw/blog/</loc>
-</url>
-<url>
-<loc>http://yukaii.tw/</loc>
 </url>
 </urlset>
