@@ -144,8 +144,9 @@ $on-laptop:        800px;
 
 .exploregrid-item {
   float: left;
-  width: 305px;
+  width: 45%;
   height: 185px;
+  max-width: 100%;
   padding: 20px;
   margin: 15px;
   font-size: 14px;
@@ -156,6 +157,11 @@ $on-laptop:        800px;
   box-shadow: 0 1px 2px rgba(0,0,0,0.05),0 5px 10px rgba(0,0,0,0.05);
   -webkit-transition: border-color 0.1s ease-in-out, box-shadow 0.1s ease-in-out;
   transition: border-color 0.1s ease-in-out, box-shadow 0.1s ease-in-out;
+
+  @include media-query($on-palm) {
+    max-width: 305px;
+    width: 100%;
+  }
 
   &:hover {
     text-decoration: none;
