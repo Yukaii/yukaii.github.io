@@ -53,10 +53,6 @@ GEM
       fastercsv
       jekyll (>= 1.4)
       nokogiri
-    jekyll-mentions (1.2.0)
-      activesupport (~> 4.0)
-      html-pipeline (~> 2.3)
-      jekyll (~> 3.0)
     jekyll-octicons (3.0.1)
       jekyll (~> 3.1)
       octicons (~> 3.0)
@@ -118,7 +114,6 @@ DEPENDENCIES
   jekyll-compose
   jekyll-feed
   jekyll-import
-  jekyll-mentions
   jekyll-octicons
   jekyll-redirect-from
   jekyll-sitemap
