@@ -108,12 +108,20 @@ $on-laptop:        800px;
     margin: 0 auto;
     border-bottom: transparent;
 
+    .tabnav-tabs {
+      padding: 0 .5em;
+    }
+
     @include media-query($on-palm) {
       width: auto;
 
       svg {
         display: none;
         fill: white;
+      }
+
+      .tabnav-tabs {
+        padding: 0;
       }
 
       .tabnav-tab {
