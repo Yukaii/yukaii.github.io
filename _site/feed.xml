@@ -6,8 +6,8 @@
 </description>
     <link>http://yukaii.tw/</link>
     <atom:link href="http://yukaii.tw/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sun, 09 Jul 2017 21:41:10 +0800</pubDate>
-    <lastBuildDate>Sun, 09 Jul 2017 21:41:10 +0800</lastBuildDate>
+    <pubDate>Mon, 10 Jul 2017 00:56:12 +0800</pubDate>
+    <lastBuildDate>Mon, 10 Jul 2017 00:56:12 +0800</lastBuildDate>
     <generator>Jekyll v3.5.0</generator>
     
       <item>
@@ -98,7 +98,7 @@
 
 &lt;p&gt;看論壇上的討論(&lt;a href=&quot;https://stackoverflow.com/questions/22842920/how-to-edit-code-in-a-docker-container-in-development&quot;&gt;stackoverflow&lt;/a&gt;、&lt;a href=&quot;https://forums.docker.com/t/best-practices-for-getting-code-into-a-container-git-clone-vs-copy-vs-data-container/4077&quot;&gt;forum&lt;/a&gt;)大都搭配 data container/volumn mounting/shared drive 的方式來弄，不過你也知道 NTFS 一扯到 symlink &lt;a href=&quot;https://github.com/docker/for-win/issues/109&quot;&gt;目前還是沒戲兒&lt;/a&gt;。&lt;/p&gt;
 
-&lt;p&gt;另一種方法是用 &lt;a href=&quot;http://blog.cloud66.com/how-to-get-code-into-a-docker-container/&quot;&gt;COPY&lt;/a&gt; 來弄，不過跟 Windows 相容性如何，那畫面太美我不敢想 :joy: 所以囉&lt;/p&gt;
+&lt;p&gt;另一種方法是用 &lt;a href=&quot;http://blog.cloud66.com/how-to-get-code-into-a-docker-container/&quot;&gt;COPY&lt;/a&gt; 來弄，不過跟 Windows 相容性如何，那畫面太美我不敢想 😂 所以囉&lt;/p&gt;
 
 &lt;h2&gt;結論&lt;/h2&gt;
 
@@ -108,7 +108,7 @@
 
 &lt;p&gt;&lt;img src=&quot;http://i.imgur.com/G09U4RQ.png&quot; alt=&quot;VSCode&quot;&gt;&lt;/p&gt;
 
-&lt;p&gt;本篇文章就是在 Windows 下的 VSCode 編輯 Markdown、配上 Hyper-V 下的 Ubuntu 使用 Jekyll 生成的。讚讚 :heart:&lt;/p&gt;
+&lt;p&gt;本篇文章就是在 Windows 下的 VSCode 編輯 Markdown、配上 Hyper-V 下的 Ubuntu 使用 Jekyll 生成的。讚讚 😍&lt;/p&gt;
 
 &lt;p&gt;主題是 &lt;a href=&quot;https://github.com/karyfoundation/kf-theme-vscode&quot;&gt;Kary Light&lt;/a&gt; 配上 &lt;a href=&quot;https://be5invis.github.io/Iosevka/inziu.html&quot;&gt;Inziu Iosevka&lt;/a&gt;，Windows 跟這套字體真是絕配！&lt;/p&gt;
 
@@ -228,7 +228,7 @@ bundle install --without development test
 &lt;li&gt;&lt;code&gt;config/configuration.yml&lt;/code&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;從 MySQL 搬家到 Postgres 的部分，因為都是同一個 App，Redmine 版本也只是小升沒有大型 migration，我直接利用&lt;a href=&quot;https://github.com/yamldb/yaml_db&quot;&gt;&lt;code&gt;yaml_db&lt;/code&gt;&lt;/a&gt; 套件，把資料庫 dump 出來成 yaml，然後在 load 就行了 :heart: 可以參考 &lt;a href=&quot;https://github.com/yamldb/yaml_db&quot;&gt;&lt;code&gt;yaml_db&lt;/code&gt;&lt;/a&gt; 套件 GitHub 說明。&lt;/p&gt;
+&lt;p&gt;從 MySQL 搬家到 Postgres 的部分，因為都是同一個 App，Redmine 版本也只是小升沒有大型 migration，我直接利用&lt;a href=&quot;https://github.com/yamldb/yaml_db&quot;&gt;&lt;code&gt;yaml_db&lt;/code&gt;&lt;/a&gt; 套件，把資料庫 dump 出來成 yaml，然後在 load 就行了 😍 可以參考 &lt;a href=&quot;https://github.com/yamldb/yaml_db&quot;&gt;&lt;code&gt;yaml_db&lt;/code&gt;&lt;/a&gt; 套件 GitHub 說明。&lt;/p&gt;
 
 &lt;p&gt;先跑 &lt;code&gt;RAILS_ENV=production bundle exec rake db:setup&lt;/code&gt; 建立資料庫，然後在 &lt;code&gt;bundle exec rake db:data:load&lt;/code&gt; 把檔案載入進來。&lt;/p&gt;
 

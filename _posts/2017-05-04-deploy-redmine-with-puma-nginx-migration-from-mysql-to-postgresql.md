@@ -129,7 +129,7 @@ psql -U redmine -d redmine -W
 - `config/database.yml`
 - `config/configuration.yml`
 
-從 MySQL 搬家到 Postgres 的部分，因為都是同一個 App，Redmine 版本也只是小升沒有大型 migration，我直接利用[`yaml_db`](https://github.com/yamldb/yaml_db) 套件，把資料庫 dump 出來成 yaml，然後在 load 就行了 :heart: 可以參考 [`yaml_db`](https://github.com/yamldb/yaml_db) 套件 GitHub 說明。
+從 MySQL 搬家到 Postgres 的部分，因為都是同一個 App，Redmine 版本也只是小升沒有大型 migration，我直接利用[`yaml_db`](https://github.com/yamldb/yaml_db) 套件，把資料庫 dump 出來成 yaml，然後在 load 就行了 😍 可以參考 [`yaml_db`](https://github.com/yamldb/yaml_db) 套件 GitHub 說明。
 
 先跑 `RAILS_ENV=production bundle exec rake db:setup` 建立資料庫，然後在 `bundle exec rake db:data:load` 把檔案載入進來。
 

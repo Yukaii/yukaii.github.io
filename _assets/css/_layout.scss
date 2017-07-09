@@ -197,7 +197,11 @@
 /**
  * Page content
  */
-.page-content {
+.home {
+    padding: $spacing-unit / 4 * 3 0;
+}
+
+.post {
     padding: $spacing-unit 0;
 }
 

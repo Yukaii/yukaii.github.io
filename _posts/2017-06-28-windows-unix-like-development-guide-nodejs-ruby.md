@@ -84,7 +84,7 @@ sudo usermod -G GROUP_NAME smbuser
 
 看論壇上的討論([stackoverflow](https://stackoverflow.com/questions/22842920/how-to-edit-code-in-a-docker-container-in-development)、[forum](https://forums.docker.com/t/best-practices-for-getting-code-into-a-container-git-clone-vs-copy-vs-data-container/4077))大都搭配 data container/volumn mounting/shared drive 的方式來弄，不過你也知道 NTFS 一扯到 symlink [目前還是沒戲兒](https://github.com/docker/for-win/issues/109)。
 
-另一種方法是用 [COPY](http://blog.cloud66.com/how-to-get-code-into-a-docker-container/) 來弄，不過跟 Windows 相容性如何，那畫面太美我不敢想 :joy: 所以囉
+另一種方法是用 [COPY](http://blog.cloud66.com/how-to-get-code-into-a-docker-container/) 來弄，不過跟 Windows 相容性如何，那畫面太美我不敢想 😂 所以囉
 
 ## 結論
 
@@ -94,7 +94,7 @@ sudo usermod -G GROUP_NAME smbuser
 
 ![VSCode](http://i.imgur.com/G09U4RQ.png)
 
-本篇文章就是在 Windows 下的 VSCode 編輯 Markdown、配上 Hyper-V 下的 Ubuntu 使用 Jekyll 生成的。讚讚 :heart:
+本篇文章就是在 Windows 下的 VSCode 編輯 Markdown、配上 Hyper-V 下的 Ubuntu 使用 Jekyll 生成的。讚讚 😍
 
 主題是 [Kary Light](https://github.com/karyfoundation/kf-theme-vscode) 配上 [Inziu Iosevka](https://be5invis.github.io/Iosevka/inziu.html)，Windows 跟這套字體真是絕配！
 
