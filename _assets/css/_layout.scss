@@ -201,10 +201,6 @@
     padding: $spacing-unit / 4 * 3 0;
 }
 
-.post {
-    padding: $spacing-unit 0;
-}
-
 .page-heading {
     font-size: 20px;
 }
@@ -223,8 +219,11 @@
   }
 }
 
-.post-meta {
+.post-title p.post-meta {
+    margin-top: 5px;
+    margin-bottom: 0px;
     font-size: $small-font-size;
+    font-weight: initial;
     color: $grey-color;
 }
 

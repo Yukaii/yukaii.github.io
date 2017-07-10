@@ -1,5 +1,8 @@
 root = true
 
+[*]
+trim_trailing_whitespace = true
+
 [*.html]
 insert_final_newline = false
 
