@@ -240,549 +240,549 @@ var disqus_shortname = 'dailyoops';
 var pageLoaded = false;
 
 (function() {
-	var store = {
-		
-			"blog-2017-06-28-windows-unix-like-development-guide-nodejs-ruby": {
-				"title": "Windows Unix-Like 環境設定踩坑紀錄",
-				"url": "/blog/2017/06/28/windows-unix-like-development-guide-nodejs-ruby/",
-				"author": "",
-				"category": "",
-				"content": "## TL;DRHyper-V + Ubuntu Server + Samba + WSL ssh + cmder## 緣起自從印度人上臺之後，感覺微軟真的變了，從邪惡帝國主義（？）變成開源大法好，可惜基於歷史因素，社群圈講到微軟多半是酸居多，唉。至少從我這個 JavaScript 開發者兼 VSCode 愛好者來看，微軟真的進步超多了，害我都想拋棄 macOS、買台 Surface 跳槽 Windows 10 試試了。本文就是在購買 Surface 前的開發前置準備。如果買了 Surface 之後，整個開發 workflow 都要砍掉重練那也是滿累的 QQ。剛好最近回老家，就拿桌機的 Windows 10 來開刀吧！(至於我怎麼把 1G 的可用硬碟空間拉到 60G 那又是另一個故事了)## WSL - Windows Subsystem for Linux (Bash on Windows)在 Creators Update 之後，WSL 的能用度更高了，來試驗了一下 node.js 開發體驗揪竟是如何。* 存在 ulimit file descriptor 2048 限制 [BashOnWindows#1688](https://github.com/Microsoft/BashOnWindows/issues/1688)、[BashOnWindows#1576](https://github.com/Microsoft/BashOnWindows/issues/1576) 等。比如用 `copy-webpack-plugin` 就會噴錯，不過也有 `graceful-fs` 能解* 檔案系統還無法完美互通。官方文件是這樣說的：**DO NOT,** __**under ANY circumstances**__ **, create and/or modify Linux files using Windows apps, tools, scripts, consoles, etc.**。我遇到因為在 WSL 的 git 與 windows 的 git 交互使用，造成檔案遺失無法存取的狀況* 效能比想像中差，裝套件花的時間比想像中久(感覺上啦，沒真的測時間，Fall Creators Update 應該還會再提升)* 不太適合新手 w雖然開發程式跑得起來，但我只能用文字介面的 git？我才不要咧 XD 於是電梯向下，繼續找下一套替代方案。雖然遇到一些雷，可是 ssh、vim、tmux mosh 一系列工具在 WSL 裡面已經沒啥大問題了(好歹我沒遇到)，作為「原生 ssh 客戶端」算非常夠用啦 w。## VagrantVagrant 可以說是虛擬機開發懶人方案，用 ruby 寫設定檔，幫你把資料夾、網路共享、port forwarding 一次搞定。Vagrant 預設是用 virtualbox，也有 vmware 或 hyper-v 可以選用。就要另外找壓好的 vagrant box。因為 Hyper-V 似乎比 VirtualBox 的效能還要好，所以特別找了[基於 hyper-v 的 image](https://app.vagrantup.com/jjworren/boxes/xenial64) 來用，無奈就是跑不起來。看了一下命令列的輸出，發現他的目錄共享也是透過 samba 來弄。那就來自己搞吧！## Hyper-VWindows 內建的虛擬化方案，可以隨開關機自動啟動停止，完全無縫整合進 Windows 裡面！不過還不知道對續航力有啥影響，請期待 Surface 開箱文(誤)我直接裝上了 ubuntu server 16.04 版，反正桌面環境就用 Windows 10 的，UWP 大好。先建立一個虛擬交換器，之後日常照著裝完就好了。參考文件：* [Best Practices for running Linux on Hyper-V](https://docs.microsoft.com/en-us/windows-server/virtualization/hyper-v/best-practices-for-running-linux-on-hyper-v)* [Supported Ubuntu virtual machines on Hyper-V](https://docs.microsoft.com/en-us/windows-server/virtualization/hyper-v/supported-ubuntu-virtual-machines-on-hyper-v)### 設定 Samba 讓專案檔案共享弄到這的時候一直在想，到底要 **Windows 開共享資料夾讓 Ubuntu 掛載** 還是 **Ubuntu 開共享讓 Windows 掛載**呢？結論：**Ubuntu 共享讓 Windows 連線**。以 Node.JS 開發環境來說，`node_modules` 安裝的時候就要處理一堆 symlink 了，而 NTFS 不支援啊，所以前者一定爆的...（會這麼說是因為我在這卡很久 orz）(更新一下，其實 [Windows 是支援 Symlink](https://blogs.windows.com/buildingapps/2016/12/02/symlinks-windows-10/#oFj8QWsqO3o1e18O.97) 的，不過 linux 上的 samba client 不支援，還是掰呵呵)設定過程參考了以下資料：* [Ubuntu Server 設定 Samba 分享檔案](http://www.arthurtoday.com/2015/04/ubuntu-server-share-folder-samba.html)* [Ubuntu下samba安裝設定](http://flykof.pixnet.net/blog/post/23028119)* [使用Samba实现Linux与Windows文件共享实践](https://wsgzao.github.io/post/samba/)還有一點是要把建立的 samba user 加到目前使用者的 Group 底下，要不然每次都要 `chown` 很麻煩：```bashsudo usermod -G GROUP_NAME smbuser```![drive](http://i.imgur.com/SJYhYwJ.png)自此專案資料夾便能無痛掛載到 Windows 內，由 Windows 內的 IDE 或編輯器存取啦！## cmder說到 Windows 平台下好用的 Terminal 大家都會推 cmder，就是 ConEMU 加上 Git for Windows 一整套幫你裝好了，直接上截圖。字體是我愛用的 [mononoki](https://github.com/madmalik/mononoki)。![cmder](http://i.imgur.com/VHM4USs.png)可惜的是還沒有滑鼠支援，大家可以到 [ConEmu#1114](https://github.com/Maximus5/ConEmu/issues/1114) 追蹤。## Git* filemode 要設為 false，不然權限會顯示成 diff* [修正 git over samba 的權限問題](https://stackoverflow.com/questions/20958888/preserving-file-permissions-for-samba-shares-when-file-is-edited)、[修正指令](https://stackoverflow.com/questions/6448242/git-push-error-insufficient-permission-for-adding-an-object-to-repository-datab/6448326#6448326)## 為何不用 Docker (moby)？[Docker for Windows 背後也是 Hyper-V 啊](https://docs.docker.com/docker-for-windows/install/#download-docker-for-windows) XD看論壇上的討論([stackoverflow](https://stackoverflow.com/questions/22842920/how-to-edit-code-in-a-docker-container-in-development)、[forum](https://forums.docker.com/t/best-practices-for-getting-code-into-a-container-git-clone-vs-copy-vs-data-container/4077))大都搭配 data container/volumn mounting/shared drive 的方式來弄，不過你也知道 NTFS 一扯到 symlink [目前還是沒戲兒](https://github.com/docker/for-win/issues/109)。另一種方法是用 [COPY](http://blog.cloud66.com/how-to-get-code-into-a-docker-container/) 來弄，不過跟 Windows 相容性如何，那畫面太美我不敢想 😂 所以囉## 結論說實話有點高估 WSL 的能耐了 XD 如果在輕量級開發(多輕量？我也不知道)之下，體驗說不定真的很好。剩下來的設定檔全面移轉、AHK Scripting、各式輔助軟體就等 Surface 開箱之後再說吧 XDD![VSCode](http://i.imgur.com/G09U4RQ.png)本篇文章就是在 Windows 下的 VSCode 編輯 Markdown、配上 Hyper-V 下的 Ubuntu 使用 Jekyll 生成的。讚讚 😍主題是 [Kary Light](https://github.com/karyfoundation/kf-theme-vscode) 配上 [Inziu Iosevka](https://be5invis.github.io/Iosevka/inziu.html)，Windows 跟這套字體真是絕配！（完）",
-				"url": "/blog/2017/06/28/windows-unix-like-development-guide-nodejs-ruby/",
-				"date": "Jun 28, 2017"
-			}
-			,
-		
-			"blog-2017-05-04-deploy-redmine-with-puma-nginx-migration-from-mysql-to-postgresql": {
-				"title": "使用 puma 和 nginx 部屬 Redmine（加上從 MySQL 搬到 PostgreSQL）",
-				"url": "/blog/2017/05/04/deploy-redmine-with-puma-nginx-migration-from-mysql-to-postgresql/",
-				"author": "",
-				"category": "",
-				"content": "前陣子看了幾篇 Linode 安利文，每月五鎂的機器好像就 Linode CP 值最高惹，管理界面雖然看起來陽春，使用起來倒挺有效率的。這幾天就把擺在 Vultr 上的自用服務 (Redmine，幾個 crontab 腳本) 搬到了 Linode 上。除了單純的搬家外，部屬的 Redmine 也做了一些調整：- 3.2 到 3.3- 資料庫由 MySQL 轉換到 PostgreSQL- Application server 由 passenger 換成 puma- 版控由官方 svn 換成 git mirror，方便操作 XD總之本篇除了是我的搬家筆記，還可以視為**自架 Redmine 指南**（大概啦）。## 設定新伺服器直接在 Linode 東京開了台 Ubuntu 的 Instance，然後 ssh 打密碼連進去。### 解決 apt-get update 卡住問題請參考 [apt-get update stuck: Connecting to security.ubuntu.com](https://askubuntu.com/a/787491)### 裝 Dependency首先當然就把系統的相依套件裝一裝，包含 tmux、postgres 資料庫等等。滿建議學習一下 tmux 的。可以開兩個 tab，一個 root 權限，一個一般權限，方便許多，不用一直切 su。```bashapt-get update && apt-get upgrade && apt-get install -y git build-essential tmux postgresql libpq-dev # databaseapt-get install -y libssl-dev libreadline-dev zlib1g-dev # ruby dependencyapt-get install -y imagemagick libmagickcore-dev libmagickwand-dev # redmine dependency```### 建立 deploy 用的使用者我不希望直接用 root 帳號跑起 Redmine 服務。總之就是安全性疑慮啦 XD。直接打 `adduser` 走完過程：```bashadduser deploy```### 安裝 Redmine#### 下載原始碼切到 `deploy` 帳號，把 redmine clone 下來，並把設定檔弄好：```bashsu deploycd ~ # 切到家目錄git clone https://github.com/redmine/redminecd redminegit checkout -b 3.3-stable origin/3.3-stablecp config/database.yml.example cp config/database.ymlcp config/configuration.yml.example cp config/configuration.yml```#### 建立 Ruby 環境使用 [rbenv](https://github.com/rbenv/rbenv) 裝 ruby，直接照著步驟跑：```bashgit clone https://github.com/rbenv/rbenv.git ~/.rbenvcd ~/.rbenv && src/configure && make -C srcecho 'export PATH=\"$HOME/.rbenv/bin:$PATH\"' >> ~/.bash_profile # linode 上是 .bashrc~/.rbenv/bin/rbenv init # 貼上輸出到 .bash_profile 或 .bashrcgit clone https://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build # 裝 ruby build```裝 ruby：```bashrbenv install 2.3.4rbenv global 2.3.4echo 'gem: --no-ri --no-rdoc' >> ~/.gemrcgem install bundler```#### 設定資料庫用好棒棒的 [`pgcli`](https://github.com/dbcli/pgcli) 與本機 postgres 建立連線。上面 APT 套件裝完後應該就會自己跑起來了。```bashapt-get install pgclisudo -i -u postgrespgcli```進去以後，建立使用者和資料庫：```sqlCREATE USER redmine WITH PASSWORD 'PASSWORD';CREATE DATABASE redmine;GRANT ALL PRIVILEGES ON DATABASE redmine to redmine;```##### 測試連線(Optional)以防密碼打錯這種奇妙事件發生，我們可以測試一下連線。打開 `/etc/postgresql/9.5/main/pg_hba.conf`，找到下面加入這行：```txtlocal   all             redmine                                 md5```這行開啟本地端的帳密授權登入。然後用 `psql` 連線本機測試：```bashpsql -U redmine -d redmine -W```成功連進去就 Ok 啦。#### 設定 Redmine 資料庫1. 編輯 `config/database.yml` 填入資料庫帳密，把 `mysql` 相關的都註解掉(development 等等)1. 然後安裝 redmine 的 gem dependency    ```bash    bundle install --without development test    ```##### Migrate from old redmine (Optinoal)複製以下檔案：- `config/initializers/secret_token.rb`- `config/database.yml`- `config/configuration.yml`從 MySQL 搬家到 Postgres 的部分，因為都是同一個 App，Redmine 版本也只是小升沒有大型 migration，我直接利用[`yaml_db`](https://github.com/yamldb/yaml_db) 套件，把資料庫 dump 出來成 yaml，然後在 load 就行了 😍 可以參考 [`yaml_db`](https://github.com/yamldb/yaml_db) 套件 GitHub 說明。先跑 `RAILS_ENV=production bundle exec rake db:setup` 建立資料庫，然後在 `bundle exec rake db:data:load` 把檔案載入進來。## 設定 Puma在 Gemfile 加上 `gem 'puma'` 一行，然後跑 `bundle install --without development test` 安裝。再來編輯 `config/puma.rb` 貼上以下內容：```ruby#!/usr/bin/env pumaapplication_path = '/home/deploy/redmine'directory application_pathenvironment 'production'# daemonize truepidfile \"#{application_path}/tmp/pids/redmine.pid\"state_path \"#{application_path}/tmp/pids/redmine.state\"stdout_redirect \"#{application_path}/log/redmine.stdout.log\", \"#{application_path}/log/redmine.stderr.log\"bind \"unix://#{application_path}/tmp/sockets/redmine.sock\"```記得建立 `pids` 和 `sockets` 資料夾：```bashcd ~/redminemkdir tmp/sockets tmp/pids```可以用以下指令試跑 Server：```bashRAILS_ENV=production bundle exec puma -C config/puma.rb```## 設定 systemctl 自啟動用 root 權限編輯 `/etc/systemd/system/redmine.service`：```Ini[Unit]Description=Rails-Puma Webserver[Service]Type=simpleUser=deployWorkingDirectory=/home/deploy/redmineExecStart=/bin/bash -lc 'bundle exec puma -C config/puma.rb'TimeoutSec=15Restart=always[Install]WantedBy=multi-user.target```跑起來：```bashsystemd daemon-reload # 重新載入設定檔systemd enable redmine.service # 設為開機啟動systemd start redmine.service # 啟動systemd status redmine.service # 看狀態```## 把 nginx 跟 puma socket server 接起來編輯 `/etc/nginx/sites-available/redmine`：```nginxupstream app {        server unix:/home/deploy/redmine/tmp/sockets/redmine.sock fail_timeout=0;}server {        listen 80 default_server;        listen [::]:80 default_server;        server_name localhost;        root /home/deploy/redmine/public;        try_files $uri/index.html $uri @app;        location @app {                proxy_pass http://app;                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;                proxy_set_header Host $http_host;                proxy_redirect off;        }        error_page 500 502 503 504 /500.html;        client_max_body_size 4G;        keepalive_timeout 10;}```記得 soft link 回 `/etc/nginx/sites-enabled/`底下：```bashcd /etc/nginx/sites-enabledln -s ../sites-available/redmine .```重啟 `nginx`：```bashservice nginx restartservice nginx status```打開瀏覽器連 IP 應該就能看到辣！## 目前的 Plugin 列表- [redmine_emojibutton](www.redmine.org/plugins/redmine_emojibutton): Emoji 萬歲！- [redmine\\_markdown\\_task\\_list](https://github.com/eichisanden/redmine_markdown_task_list): Checklist- [redmine_mentions](http://www.redmine.org/plugins/redmine-mentions): Tag 人寄 email## References* https://gist.github.com/velenux/6883dc221a7d2eae7dcb* https://gist.github.com/jbradach/6ee5842e5e2543d59adb for config/puma.rb* https://www.digitalocean.com/community/tutorials/how-to-deploy-a-rails-app-with-puma-and-nginx-on-ubuntu-14-04* https://github.com/puma/puma/blob/master/docs/systemd.md* https://github.com/puma/puma/blob/master/docs/nginx.md* https://github.com/yamldb/yaml_db",
-				"url": "/blog/2017/05/04/deploy-redmine-with-puma-nginx-migration-from-mysql-to-postgresql/",
-				"date": "May 4, 2017"
-			}
-			,
-		
-			"blog-2017-04-24-git-cherry-pick": {
-				"title": "git cherry-pick 小技巧",
-				"url": "/blog/2017/04/24/git-cherry-pick/",
-				"author": "",
-				"category": "",
-				"content": "簡單記錄下今天用到的小技巧。有的時候會加入多個 git remote，比如說 upstream/origin 或 public/private 等等，針對不同釋出版本用版控劃分，但又想利用 git 維持兩者間的部分差異。這時候就可以用 cherry-pick 指令批次套用 commit 到目前的程式碼基礎上。使用版本控制系統的好處，就是把每次「修改」都視為可以任意放出收回的，呃，**招式**。這就是為啥 commit 粒度切的越細越好啦。```bashgit cherry-pick COMMIT_SHA1```或是你想要 cherry-pick 多個 commit 也行：```bashgit cherry-pick START_SHA1^..END_SHA1```多加了一個 `^` 是表示開始 SHA1 的前一個 commit。假如噴出了錯誤，那就手動解決完 merge conflicts，再用 `git cherry-pick --continue` 繼續套用剩餘的 commit。或是失敗想回到還沒 `cherry-pick` 的狀態，用 `git cherry-pick --abort` 就好。大 GUY 4 這樣",
-				"url": "/blog/2017/04/24/git-cherry-pick/",
-				"date": "Apr 24, 2017"
-			}
-			,
-		
-			"blog-2017-03-29-new-primer-css-github-theme": {
-				"title": "部落格主題微調 - PrimerCSS 更新",
-				"url": "/blog/2017/03/29/new-primer-css-github-theme/",
-				"author": "",
-				"category": "",
-				"content": "## 沒哏的時候就來換換主題沒哏也要想哏來寫，動物朋友也準備迎來最後一話了，不論要不要崩潰，動畫還是要看，生活還是要過，碼字的繼續碼，該睡時還是得去睡。最近最大的男性交友社群 GitHub 改了改樣式。說是最近，其實也一個月了。先是 Navbar 調成黑色，再來連按鈕顏色、超連結都改了。剛改變的那幾天為避免眼睛不適(?)，還特別找了 [MakeGithubGreatAgain](https://github.com/DennisSnijder/MakeGithubGreatAgain)、[MakeGithubPaleAgain](https://github.com/ricordisamoa/MakeGithubPaleAgain)、[各式第三方樣式表](https://userstyles.org/)來自救，沒想到過沒多久眼睛就自己適應了，該不會 GitHub 又偷偷調整了吧（喂）本站就是利用 GitHub 的 PrimerCSS 打造，依照慣例，每次換主題都應該發一篇文，截圖炫耀兼記錄一下。### Before![before](https://lh3.googleusercontent.com/_SWzvhF7-wB1dzmRRO0CRdbi2jQyqTEgbH294XcTdQr3OnZgmzKxg6wYbvnNAjAJwQmoua_6g18W_RXk1OdJVtu_Ot9k5eav4qsUsvPugPGYPOttmaC7uQ8VZD6SU2etaZlCq0rvja86XHH_buL8trOSs7SLXnvI1MNd8Vt3C7fzJ42L4QhGmXyFWaOguqf-9manBJBR4aVEcJCW5kUiCW7T8gTBa7QHgccckSWV_LM-vjEMJhb5GGf16mkYyO0kJanYFu20jK3PNHMauvlHHTxBs6nLIgyMlo-VIeAr2Lgyy2aJiPdc8HNHraBmFN3krTTeJMw2VFUfPfdp2UMkjJUQ3N43KEphpeOCIVCpXevYlVfdayh4x8__r3D8Sy9gqAjHX_J8Ny5TC4LwP54BoL8r4zj0HhOAQUbLDwWyjvGwuWzMXBz6uZyplFIH39HcSzptclkESQLWkwhUkhcQQX-1MHGBIZKpYED7X_-x-vlqsxRbM28RxzOKWuS7zsrGke_EDAXjdy88Z74efyWu79WnepRyTk519tcRcG7I-3qSgj9AIRr6mcX-3XS3pZ-LjAh346eH77al5UpKi3AYy3aKdyzUnmFVQMDiaiPu_-mcG-xF34z2_g=w867-h765-no)### After![after](https://lh3.googleusercontent.com/YazoIwe38_G40-g1sQNpktPrEUtbQxtGTBQqpyhZ-nQ5CzBoeQJzrgKGDLzjpQ206WYPFKywtzgRIpAjCj2HhG-o1fqYNuGOvYorJlRKVw_lzjUKFRxCXXcBQUhXyf601yWICtljNeiT2hK4DjPikb_3McotGE_rmaYNJHVAecB70o4Cwjea50Qux8uKYBcTmtbs5I0-_247C-MstkrWPRRb-8k0kBnGymkmE5OQufFhh8cnOZHYj60FT3Y4ZQOmGwl0AojSOAvr7tjo_ihi-YeFmYu2zJFvHB1UWFdOklTfmGBt-E0F7O2tT8ccE9H0eB1ij6jmGbkfgguOmVqnFhJN52SuK2las75hYX8LeWS32z0wzr6GtaNaxElMQ-gH0-Gt8Qe5JSEr3G-q0Yiu8qYXd9j3th6HBM_J6iCUJLXY8KD1abtamacX8cBr5XZ0HI067Geb_JHo6VKzfCH4CCKm2ARnQRlfPTZwXgvOVk_umPYzb7oeCGpymQQKkcCtBE5GBlrUb0B47ZAKkO1fJCiUne1hR1EXdCtHfAlFOl2VqMTAQBnWNc49tOZN3meXw-Dp9ODWEpnKx-7ocrvOOjmLHzss45ORw41Ja4-v5A6AHDrWY2tPLA=w869-h765-no)為求完美，連黑色 Navbar 也要照抄一下：![mobile](https://lh3.googleusercontent.com/JqHTFTmS4gGxjQygnJfH7ZwBI3bz0qT834X5fspQ2q-579HCYV0zoIgh5MbnYssnh8UpBD0XIPmnagd13pVbdag5-laqNevBHpJ0mu-3N1J_B2Fg66z1_p9mcXb3APRzBSUPbccebUz1HMRbLaAMh4NfwGDyY9nwjA3gk15QqPC3OB0VmO0jZYlp-sRHrgzSLLhZII7k9yuuWyHtmSaiMF0zJtsgAf0cDOR0yvb_beoXm7cGZwRqULL3ziKyMv5H7qaDZLFKFKKLE7ebtadNeTDA0RRt-0XbIL2eCG31CRHiLWS_7VYlz4BpAVGD0rm-85fk_WBRo0rdm278A0VWqQ7c6IoYdGWb1c97mO69zf46KAiMWo0V5eJqyMERPqtErZLjT6ZOZD1YvUv-N8kyEz_bhJXGcZ0P-PHE7W7ewfAblX823-bgtA5r1Ay_09uyqpofNq8hyB5_8KcuAHaGocxk4NaKV2Kcw5149l-k2Hz3qZ6zFzMwg1Jyob7TWWO-2NIiYSn_eOSq5Tkh6IQbLlu4B1eAjoxzsibjuvMNqxemO7mGilw0qj3PIMH9-fvE_xeatydxtBncjGJvbENBx7wbv2G8Bmo_a9Y3t-3JBbLZ8INxlDvSug=w399-h684-no)大GUY 4這樣認同請分享（完）",
-				"url": "/blog/2017/03/29/new-primer-css-github-theme/",
-				"date": "Mar 29, 2017"
-			}
-			,
-		
-			"blog-2017-02-21-restore-source-code-from-sourcemap-file": {
-				"title": "用 restore-source-tree 一次還原 source map 網站原始碼",
-				"url": "/blog/2017/02/21/restore-source-code-from-sourcemap-file/",
-				"author": "",
-				"category": "",
-				"content": "## 前提是在 Production 環境下有 sourcemap 可以拿辣！本篇內容也不多，大概就是介紹一下思路。前幾天看到這篇 [Dissecting Twitter's Redux Store](https://medium.com/statuscode/dissecting-twitters-redux-store-d7280b62c6b1) 覺得十分優雅，今天猛地想起某國內網站也是用 React/Redux 弄的，便依樣畫葫蘆，想從 redux store 裡看出些端倪。打開 Chrome Devtool，不開還好，一開便發現他們的 sourcemap 在 production 竟然拿得到啊 😂，於是就來找了 `restore-source-tree` 套件。由於該套件會把 webpack 產生的註解給移掉，而新版 webpack 註解格式又和舊版不太一樣，如下：```javascriptconst WEBPACK_FOOTER = '/** WEBPACK FOOTER **'; // 舊版註解const WEBPACK_FOOTER = '// WEBPACK FOOTER //'; // 新版註解```會造成該套件解析不出原始碼，不對啊，DevTool 明明就看得到。更麻煩的，Extract css plugin 產生出來的註解又和新版的不太一樣（搞啥啊），所以我在 [`74b32d`](https://github.com/Yukaii/restore-source-tree/commit/74b32d5beb73f28393a2a6fa152ba8a5e2633907) 這個 commit，乾脆就把移除註解的方法拿掉了 XD若大家想要使用我修改過版本的 `restore-source-tree` 請直接在終端機打上以下指令安裝吧：```bashnpm install -g Yukaii/restore-source-tree#98ccfc2```## 然後呢？比如說某站 production 的 js bundle file 長這樣：```bashhttps://xxxx.com/build/bundle-54fbd34f.js```**如果**有 sourcemap 的話，檔案結尾註解部分會長的像這樣：```javascript//# sourceMappingURL=bundle-54fbd34f.js.map```那我們就把 sourcemap 載下來：```bashcurl https://xxxx.com/build/bundle-54fbd34f.js.map > bundle-54fbd34f.js.map```然後用剛剛裝好的 `restore-source-tree` 還原原始碼：```bashrestore-source-tree -n --out-dir  bundle-54fbd34f.js.map# -n 參數是包含 node_modules 資料夾# --out-dir 參數後面加要存進的目錄# 請參考原專案 github 說明：https://github.com/alexkuz/restore-source-tree```登愣，就好啦！（好了是長怎樣？不告訴你）## 欸嘿看到這邊就知道，其實我們要逆向操作網站的開源也是可以的，可以寫一個 cronjob，定時把 sourcemap 抓下來，如果 bundle hash  有更新的話，就重新還原一次並 commit 進某 repo。當我沒說啦(X)（完）",
-				"url": "/blog/2017/02/21/restore-source-code-from-sourcemap-file/",
-				"date": "Feb 21, 2017"
-			}
-			,
-		
-			"blog-2017-02-15-how-do-i-watch-anime-in-2017": {
-				"title": "在 2017 年，我是怎麽看動畫的",
-				"url": "/blog/2017/02/15/how-do-i-watch-anime-in-2017/",
-				"author": "",
-				"category": "",
-				"content": "在 2017 年看動畫是怎樣的一番體驗標題下成這樣更有知乎味兒，不過就先這樣吧。一副就是要在西洽發自介文的節奏。我大概在 08/09 年左右入坑，入坑動畫是 K-ON。那時大概都是在微笑動漫組網站上看的，每週動漫組都會固定更新上傳到免空，還是個 MegaUpload 活躍的時代，就這樣陸陸續續看了幾部上面有的舊動畫。後來不知道為何，該站被抄家或不經營了，只好改入 BT 教。從 dmhy 找種下載，當然除了動畫也有不少奇妙的東西，這邊就不提了。熱門檔當然載很快，冷門的就有得等了。上大學後有了限制多多的宿網，既不能載 BT，一天也只有 5G 的流量限制，只好用各種方式突破。先是在老家架了 DD-WRT 的 VPN，連回家載 BT，因為流量限制，後來也找了各種免空、BT 代載的服務，比如 miroko、furk 啦等等，先幫你載好，接下來在換日前（就是午夜十二點啦）估算好網速流量，一次搞定好大檔案。不過說實話動畫那麼大的很少啦，大多是 XX 和 OO 比較多。再後來搬出去住，靠室友的神 NAS 擋著，既可以代載也可以當 VPN，已經什麼問題都沒了，不過還需要到 BT 站複製 magnet 連結，無法一次到位。還有段時間在臉書經營的動漫網站看，用 Facebook 影片看是挺方便的，不過以當時來說速度沒那麼理想 😅現在各式影音串流網站百花齊放，某 B 站可以加掛 Unblock Youku 解鎖，國內也有正版的動畫瘋可以用，還有各路大大用免洗帳號無時差上傳 Youtube，至此看動畫的成本已經非常低了。搭配 Chromecast 接上電視大量利用動畫瘋以及 Youtube 就是因為他們的 App 才有支援 Chromecast XDrz。因為目前還在使用 iPhone 而且沒有 Apple TV，真是奇妙的果粉狀態。Chrome 目前可以用瀏覽器投影的方式來投影畫面，動畫的表現也還算順暢，這樣搭配起來倒也 OK。最近還多買了個 Android TV 放在老家，同樣支援 Chromecast 協定以及 AirPlay（付費 App），放起來也還不錯。還可以自行安裝 apk，不愧是 Android 啊 www總之大螢幕看起來就是爽啊，若有更高階的音響設置就更讚啦 XD",
-				"url": "/blog/2017/02/15/how-do-i-watch-anime-in-2017/",
-				"date": "Feb 15, 2017"
-			}
-			,
-		
-			"blog-2017-01-01-my-2016-summary-as-a-developer": {
-				"title": "總結一下我身為開發者的 2016",
-				"url": "/blog/2017/01/01/my-2016-summary-as-a-developer/",
-				"author": "",
-				"category": "",
-				"content": "新年快樂你說一月一號放假要幹嘛？除了出門曬曬太陽走走之外（天氣有夠好！），當然按照慣例的要來發一篇「新年新希望新目標」、「過往一年的總結」。不過常常年底到了，卻悔恨今年又一堆目標沒有達成。為了防止這種狀況發生，我們就別寫展望了，直接來寫回顧就好啦 XD！未來總是充滿變數而不可預知，總結過往一年的種種，應該能帶來一些前進的動力吧。作為一個混亂邪惡的學生開發者，學生當然只是個好用的擋箭牌身份，其實我的真實身份是...昆庫星團第十五號小行星的混血王子（太二了這個）。2016 是我個人專案多產的一年，雖然沒有到一個月一個作品，不過上的了檯面的倒是不少。「上的了檯面」當然是以目前自己的標準來看，再過不久可能就通通打入垃圾玩具的等級了哈哈！QAQ前端大平台從整整一年前的 Imgur 相簿下載器 開始，踏入了 React/Redux 的大坑，再於過年期間開發了 Kaif.io 論壇 iOS App，對 React/Redux 更進一步熟悉；五月左右，承先啟後的再度使用 React/Redux 加上 Electron 開發了 Comics Reader 漫畫閱讀器 ，然後到最近兩週的 cafenomad 臺灣工作咖啡廳 專案。四月多時，把原本在 Logdown 的部落格搬到 GitHub Pages 上，用 Jekyll 建置。承襲「用力操壞 GitHub Pages」的中心思想，在九月底做了致敬好碰友 Neson 前作的行事曆課表產生器，又在十月底開始了桌面版噗浪 App 計劃 - Puraku，首次嘗試 Vue.js 並結合 Electron。各式玩具大概在四月左右，在學校選了永遠做不爛的黑白棋當題目，於網頁上重新實作（Team Project）。大概六七月在寫 Comics Reader 時開了 LiveCoding.tv 的直播，第一次享受當直播主，雖然自嗨放歌居多但也挺有趣的。胎死腹中六七月時漸漸的對 Redmine 專案管理工具上癮，無奈沒有一個非常現代的 App 可以用，跟同事開了個坑不過就這樣放到現在......其它還有從 NTU Garage Demo Day 聽來的 Idea 啦、從 Reddit AppIdeas 版幹來的 Idea 等等。總結總的來說 2016 是我自稱前端工程師花式練手招搖撞騙的一年，可惜的是作品平均完成度就差不多六七成上下，坑開的多，做完的少。因為時間有限又常常有緊急主線任務，一個個 Context Switch 間，原專案的衝刺週期斷了線，頓時失去維護前一個專案的拼勁。（怎麽說的好像 Side Project 才是我的本業 XDDD）前端大環境 Hype Driven Development 之下也讓我幾乎沒有忠誠度，反正就挑順手的，遵守拼湊型軟體工程師的教條，成品有出來就好。雖然也有對少數開源 Library 做點貢獻，但跳來跳去之下總沒有對框架工具深入研究，甚至發展出自己的，工程水平沒多少長進。另外，儘管做這些 Side Projects 之初，幾乎是以完整產品為目標開發的，但後續的打磨以及推廣宣傳幾乎沒達成，大多當成自己的玩具，除了噗浪桌面版 Puraku 好不容易有在臉書前端社群貼過一次文（好笑的是貼完就沒 commit 了）。對 2015 年的我來說，或許 2016 是個充滿驚喜的一年，在如此多產是 15 年的我無法企及的；不過說到底，工程師的價值也不在這種地方，只能說是興趣驅使吧。雖然文章開頭說了「沒有展望沒有期待」，但還是小小期許一下，希望 2017 的我能在這條路上走的更深入些（然後就被抓去當兵了）",
-				"url": "/blog/2017/01/01/my-2016-summary-as-a-developer/",
-				"date": "Jan 1, 2017"
-			}
-			,
-		
-			"blog-2016-12-22-react-native-facebook-native-ads-integration": {
-				"title": "React Native Facebook Native Ads 奮鬥戰記",
-				"url": "/blog/2016/12/22/react-native-facebook-native-ads-integration/",
-				"author": "",
-				"category": "",
-				"content": "Native Ads?文章標題就出現了兩次 Native，實在有點拗口。關於甚麼是 Native Ads（原生廣告） 可以參見 Facebook 的官方說明，以下引用之：原生廣告能讓您在為應用程式設計完美的廣告單位時，掌控所有細節。透過「原生廣告 API」，您可決定廣告的外觀、風格、大小和位置。因為廣告的格式由您決定，所以廣告能與應用程式搭配的天衣無縫。簡單來說就是「將廣告和你的 App 更好的整合」，以期能帶來更多地的點擊，騙更多的使用者按下去，比如最常見的就是你大狄卡留言區塊藏著的業配廣告啦，還有 twitter、Facebook 各平臺偽裝成一般貼文廣告等等。React Native IntegrationReact Native 把網頁開發的體驗帶到 App 上，不過 Facebook 沒有提供官方版的 Native Ads 模組，我們只好自行想辦法啦。我們這裡選擇的是 CallStack 提供的第三方模組：react-native-fbads。花式踩雷先講結論：開源專案當覺得 README 寫的不痛快的時候，去看 example code，找出範例比你多寫的地方。有問題先看 Log。Native Module 的 Log 得用各平臺原生 IDE 看，比如 XCode 或 Android Studio。雖然不想開還是得開一下噴錯誤訊息時從上游(原生模組的來源)文件查起SDK 設定大多新版 React Native 原生模組的安裝都可以用 react-native link xxx-module 搞定，不過有些時候卻沒啥用，跑完指令之後還需要手動設定。iOS 版 SOP：加入 node_modules/xxx-module/ios/xxx.xcodeproj 到 Library把 Product xxx.a 加到 Build Phase 裡若有額外引用 header，更新 Header search PathAndroid SOP:修改 settings.gradle、build.gradle、MainApplication.java 等檢查 AndroidManefist.xml 需不需要修改大 GUY 是這樣，react-native-fbads 的 README 就有些簡單，關於 Android 的寫的也不多，算是一個大坑，AndroidFanefist 的修改還是看他們範例才發現的，不知道到底寫在文件的哪裡，若有人知道希望可以回報下讓我瞭解（感謝）。原生如果設定到 Build 成功，而且引入之後沒有噴錯基本上就 OK 了。若還有其它錯誤可以視為上游問題或 Native 層的問題（汗）更新：結果就寫在 README 裡，眼殘崩潰，不過還是給我遇到個新坑，參見 callstack-io#17 (comment)Audience Network 驗證流程Audience Network 分成好幾個驗證階段，簡略過程如下：拿到版位 Placement ID 之後編寫 App 顯示廣告的程式碼在 Audience Network 新增應用程式\u001f3. 用「原生模擬器」（iOS 就 Simulator，Android 要用 AVD）傳送廣告要求等待應用程式審核通過其中第三點「傳送廣告要求」是最多雷的，iOS 早早就審核過了，Android 怎麽發要求 Facebook 就是無法接到，最後改用 Android Studio 原生的模擬器就一次 OK，原來是沒法用 Genymotion 的模擬器跑...最後上 TestFlight 之後在我自己手機上無法顯示，查了一下錯誤代碼 1001 - No Fill，發現原來是手機上沒有安裝 原生 FB App，難怪我 Dcard 從來沒看過廣告 XDD，以下是其它不會顯示廣告狀況，從文件引用：Error 1001 - No Fill. May be due to one or more of the following:User not logged into Native Facebook App on Mobile DeviceLimit Ad Tracking turned on (iOS)Opt out of interest-based ads turned on (Android)No Ad Inventory for current userYour testing device must have the native Facebook application installed.Your application should attempt to make another request after 30 seconds.",
-				"url": "/blog/2016/12/22/react-native-facebook-native-ads-integration/",
-				"date": "Dec 22, 2016"
-			}
-			,
-		
-			"blog-2016-11-12-patching-trello-desktop-electron-app": {
-				"title": "Electron 的 Trello 桌面版應用程式",
-				"url": "/blog/2016/11/12/patching-trello-desktop-electron-app/",
-				"author": "",
-				"category": "",
-				"content": "啊 Electron 不就好棒棒Electron 簡單來說就是加料版的 Chromium，可以跑 node 環境，還能讓 Web App 也能使用原生桌面環境的 API。現在你我的桌面早就被一堆 Web App 攻佔，比如我最常用的：Nylas N1 - Email 軟體Visual Studio Code - 微軟出的輕量級編輯器Postman - REST 測試御用輔助工具Slack - 社內通訊Notion - 筆記，雜想Hyper - 終端機，不過不能輸入中文所以就沒再用了。開發的 zeit 社也滿猛的Caprine - Facebook messenger 桌面版隨便列就一堆了，相當於電腦裝了十幾個網頁瀏覽器，有夠肥一個就一百多 MB 😅，根本快速開發的代價。Web App 相對於傳統的桌面軟體迭代應該算十分快速了啦，光 Flexbox Layout 就不知道方便多少了...好啦其實我唯一寫過的傳統桌面軟體也只有用 JavaFX 學校作業，也只花了三天趕工哈哈哈...也是沒慢到哪裡去啦，咦？Nativefier有段時間我很喜歡用瀏覽器的「Pin Tab」功能，現在 SPA 又那麼猖狂，App 用 Chrome 開就行了，只要用 Chrome 的快速鍵 cmd + 1/2 就直接跳回前幾個 pin 好的 App。不過因為使用的 Extension 實在有點多，所以常常感到 Chrome 頓挫，此時用 Electron App 就相當於用一個乾淨的瀏覽器，速度快了許多。其實你把 Extension 移乾淨不就得了。社群前陣子也有大大推了一個叫 nativefier 的工具，只要設定一下，就能把網站包到 Electron 的 WebView，立馬變桌面 App。通常我們在實作這種網頁直接包成 App 的，除了單純用 Electron BrowserWindow 或 webview API 載入 Web App 網址外，還需要 inject 一些額外的 JavaScript 來整合桌面功能，比如快捷鍵跳轉特定功能啦、改變配色啦。大神 sindresorhus 的 Caprine 便是個好例子，還有 terkelg 的 Ramme，單純的改變原本就已經用 React 做成 SPA 的 Instagram 的排版，也加入了快速鍵功能，便是一個堪用的 Instragm 桌面應用軟體了。當然真正好用的 IG 桌面 App 還是非原生莫屬，在此推薦一下 Flume for Instagram。Trello feat. Electron最近重回 Trello 懷抱。為配合我的使用習慣，就找了找對應的桌面軟體，找到了兩個：Paws for TrelloTrello Desktop這兩個 App 幾乎一樣，就是把 macOS 的 titlebar 藏起來讓紅綠燈好看一些。儘管前者在 App Store 上架，可是功能沒比後者多多少哈哈。後者 Trello Desktop 雖然免費，目前有個最大的問題：沒辦法拖拉視窗。當然也有開發者直接發了 Pull Request ，不過專案好像已經被放生了一樣，坑主都不回的。作為一個略懂 Electron 的開發者就來自行修正一下吧。仔細看下 PR 其實也就加三行 css，我們要做的就是把這個 PR，patch 到我們本機的 Trello Desktop App 裡。做法有兩種，其中一種是 clone 改完的版本，重新建構 Electron App，不過太麻煩了，我們就直接 patch 本機的 css 比較快。Patch Elecron Client codeasar 簡而言之就是 electron 封裝 client code 的格式，一般在建構 Electron App 會預設使用。我們先安裝下：npm install asar -g現在就可以解開 asar 檔了，進到 App Package 裡：cd /Applications/Trello.app/Contents/Resources/asar extract app.asar app # 解開 app.asar 檔案到 app 目錄cd app # 進去 app 目錄編輯 browser.css 加入更改的 css#header {  -webkit-app-region: drag;}Electron 預設便會讀 app 目錄或 app.asar 檔案，重新開啟 App 後就可以自由移動視窗啦，跟桌面軟體有 87% 像！",
-				"url": "/blog/2016/11/12/patching-trello-desktop-electron-app/",
-				"date": "Nov 12, 2016"
-			}
-			,
-		
-			"blog-2016-11-02-use-electron-ipc-to-call-api-from-main-process": {
-				"title": "在 Electron 使用 IPC 串聯前端和 Node API",
-				"url": "/blog/2016/11/02/use-electron-ipc-to-call-api-from-main-process/",
-				"author": "",
-				"category": "",
-				"content": "這是我最近在實作噗浪 electron app - Puraku 時，使用的抽象化寫法。先談一下背景。其實在官方的 Plurk API 頁面上就已經有 JavaScript 的噗浪 API Library了，不過它沒有包成 npm 可以直接使用，而且還相依於 node-oauth 套件，看名字就知道和 Node 有關。這次寫的 puraku 是一個以前端為主的桌面軟體，所以我勢必要對噗浪的 API 套件做些改寫。更新： 其實 Electron renderer process 就能呼叫 node API 了，只是我先入為主的以為 main process 才能使用，所以引發了這個軟體問題 XDrz。重新封裝 API Library我已經包裝成 purakujs，它是個可以直接使用的 Plurk API Node library，雖然這年頭也沒多少工程師在串噗浪 API 了 😅 。值得一提的是 yarn 對 npm link 的支援不太好，在設定本機開發環境跑完 npm link 後，不要在 package.json 修改套件版本，防止在跑 yarn install 指令時又噴錯。Electron關於 Electron 是啥便不再贅述。要知道的是只有在 Electron 的 Main Process 裡才可以呼叫 node 的 api（錯了），所以把 node-oauth 套件放在這跑是沒問題的，但 Renderer Process 才是主要觸發 API 的地方（換頁、捲動、按鈕等）。Electron 提供了 IPC 的 API 界面實作，可以這樣寫：commit df4c8a2// Renderer Processimport { ipcRenderer } from 'electron';export function request(method, endpoint, params=null) {  return ipcRenderer.sendSync('puraku:api', {method, endpoint, params});}// Main ProcessipcMain.on('puraku:api', (event, args) =&gt; {  const { method, endpoint, params } = args;  myApiClient.request(method, endpoint, params).then(({data}) =&gt; {    event.returnValue = JSON.parse(data);  }).catch(error =&gt; {    event.returnValue = { error };  });});Renderer Process 送出 API 請求到 Main Process，已經正在監聽的 Main Process 在呼叫完 API 請求(myAPIClient.request)之後，返還資料給 Renderer Process。在這裡透過 ipcMain 建立叫做 puraku:api 的事件監聽，由 ipcRenderer 送出事件請求。event.returnValue 是 ipc 的同步寫法。一旦使用同步，整個 Renderer Process 在送出事件請求(ipcRenderer.sendSync)之後會被 Block，所以我改用非同步的 IPC 寫法，再用 Promise 封裝。Asyncronous IPCcommit 3f2fee// Renderer Processimport { ipcRenderer } from 'electron';export function request(method, endpoint, params=null) {  return new Promise((resolve, reject) =&gt; {    const timestamp = Date.now();    const result = ipcRenderer.send('puraku:api', {method, endpoint, params, timestamp});    ipcRenderer.once(`puraku:api:${endpoint}:${timestamp}`, (event, result) =&gt; {      if (result.hasOwnProperty('error')) {        reject(result);      } else {        resolve(result);      }    });  });}// Main ProcessipcMain.on('puraku:api', (event, args) =&gt; {  const { method, endpoint, params, timestamp } = args;  myApiClient.request(method, endpoint, params).then(({data}) =&gt; {    event.sender.send(`puraku:api:${endpoint}:${timestamp}`, JSON.parse(data));  }).catch(error =&gt; {    event.sender.send(`puraku:api:${endpoint}:${timestamp}`, {error});  });});這一版跟上面的差別在於，Renderer Process 送請求給 Main Process 之後，馬上建立另一個 IPC 的 Listener 等待 Main Process 回調，而 Main Process 在處裡完 API 請求之後(myAPIClient.request) 再用 IPC 非同步寫法回傳資料(event.sender.send)。在這個版本 IPC 關係變得比較複雜，簡單畫了一下：Promise start  +-----+                     |           Renerer Process                 Main Process                     |                     +-----&gt; +--------------------+                             |                    |                             |  ipcRenderer.send  |                             |                    |         +---------------------+                             +------------------------------+                     |                             |                    |         |  API request        |                             |  ipcRenderer.once  |         |                     |                             |                    |         |  event.sender.send  |                             |  create listener   |         |                     |                             |                    |         |                     |                             +---------+----------+         +-----------+---------+                                       |                                |                                       |                                |                                       |                                |                             +---------+----------+                     |                             |                    &lt;---------------------+                             |   Event received   |                             |                    |                     +-----+ +---------+----------+                     |                 |                     |                 | Promise end   &lt;-----+                 |                                       |                                       |                                       |                                       |                                       |                                       |                                       |                                       |                                       vIPC 事件一對一對應可以發現在這一版的 Renderer Process 我加了一個 timestamp 來簡單的區分不同的 API request，因為如果光用 API 的 Endpoint 當做事件的鍵值，戳相同 API 兩次時就會衝到。const timestamp = Date.now();const eventKey = `puraku:api:${endpoint}:${timestamp}`;不過卻發現每次取的 timestamp 還是有機會一樣，經過 Google 之後我把 timestamp 亂數的產生方法改成 performance.now()：const randomSeed = performance.now();const eventKey = `puraku:api:${endpoint}:${randomSeed}`;到這裡，我們就可以用熟悉的 Promise 介面，在 Renderer Process 輕鬆地串接 Main Process 的 API 啦！以下是目前的實作：// Renderer Processimport { ipcRenderer } from 'electron';export function request(method, endpoint, params = null) {  return new Promise((resolve, reject) =&gt; {    const randomSeed = performance.now();    ipcRenderer.send('puraku:api', { method, endpoint, params, randomSeed });    ipcRenderer.once(`puraku:api:${endpoint}:${randomSeed}`, (event, result) =&gt; {      if (result.hasOwnProperty('error')) {        reject(result);      } else {        resolve(result);      }    });  });}// Main Processconst { ipcMain } = require('electron');ipcMain.on('puraku:api', (event, args) =&gt; {  const { method, endpoint, params, randomSeed } = args;  myApiClient.request(method, endpoint, params).then(({data}) =&gt; {    event.sender.send(`puraku:api:${endpoint}:${randomSeed}`, JSON.parse(data));  }).catch(error =&gt; {    event.sender.send(`puraku:api:${endpoint}:${randomSeed}`, {error});  });});在 Renderer Process 裡（在我的例子裡是 Vue 前端 App）就可以用簡單的介面來呼叫 API 啦！其它聽說用 message queue 來實作比較好，不過 It works for now，就暫時沒有更新實作的動力（懶）可以在 puraku/client PR#5 閱讀實作的過程。自從對 Redmine 上癮之後，連 GitHub Flow 也一併愛上了，在本 Repo 一個功能就開 Branch 做成 Pull Request，就算一個人的 GitHub Flow 也能玩的愉悅 XD",
-				"url": "/blog/2016/11/02/use-electron-ipc-to-call-api-from-main-process/",
-				"date": "Nov 2, 2016"
-			}
-			,
-		
-			"blog-2016-10-17-contributing-to-open-source": {
-				"title": "開源貢獻初體驗",
-				"url": "/blog/2016/10/17/contributing-to-open-source/",
-				"author": "",
-				"category": "",
-				"content": "第一次的 PR在兩個月前的暑假，還在努力當個 Rails 工程師的我，為了進行我社產品的重構，想先找個專案練練手。當時 VSCode 開源專案管理的 GithHub 令我好生羨慕，覺得所有的開源專案，如果都能如此有條理的讓人參與貢獻，那該有多好呀。我找了找 Rails 專案，發現之前有在關注的校園專案 NCTU+ 當時也在進行改版。clone 下來看了看，發現 rubocop 上色還挺多的，於是就想也沒想開始玩了起來。煞有介事的開了個 issue，描述專案多有技術債云云，列出了各式 Todo。首先著手的就是升級 Rails，並且把過時的套件都升級一番。經過了兩天的折騰後，送出了第一支 Pull Request。結果就失敗了 XD。自我愉悅我想了想，覺得當時的問題有三：PR 太大包對 Roadmap 不瞭解沒有測試最後再附加一個，太自我中心，加了一堆東西卻又沒有附上 Getting Started。當時我覺得 PR 太大包，其實現在看來也還好，因為「順便」把重複的目錄移除，所以 Git 更改看起來比較多。但是這「順便」就是問題所在了。在跑 GitHub Flow 時，Feature branch 應該單一目的，我雖然 PR 名為「升級 Rails/Ruby/gems」，實際上還是混雜了多個目標 ，現在看來有點可惜。對 Product Roadmap 的不瞭解這部分，其實也算該專案的特性。校園團隊的運作方式，大概是徵才 後大家一起共同成長，所以 Roadmap 既沒有公佈在 GitHub 也沒有在粉專，我這個亂入的傢伙，照著自己意圖亂升級，終究也只是自己的實驗 XD。最後一點關於測試，其實專案本身就沒啥測試 XD，所以幫忙 Review 的同學也有提到，我的 PR 還需要花大把的時間確認能不能運作。這對於當時還在衝刺功能的 NCTU+ Team 來說，確實是個沒有必要的 PR。總結一下，我既不熟悉 NCTU+ 團隊的運作方式，開出的問題也是假議題（沒必要升級呀），還需要花大把的成本驗證，那這個 PR 就完全是自嗨嘛 :p。於是跑來寫 JavaScript在大約一個月前把自己開除轉職回學生之後，除了玩弄下 SICP 之外，另一項規劃就是把幾個月前開的坑 Comics Reader 補了補進度。該專案也是 fork 來的，不過到後來幾乎整個重寫，除了一樣是用 Material-UI 界面配色照著改之外，還多了一卡車東西。起初想要 fork 是因為與其砍掉重練專案，不如發 PR 給原專案，一步步入侵影響原專案，把它變成自己的形狀。要知道重寫專案成本也是很大的，現在輪子這麼多就別再造了啦，而且原本的插件我也用的很開心。儘管如此，每個人還是都有自己的主觀意識工程師的浪漫，這世界的輪子才這麼多，我終究還是重造了船 😂。跳入神坑 HackMD - The Realtime Collaborate Markdown PlatformComics Reader 寫著寫著，對於 JavaScript 這奇妙垃圾語言的熱情也回來了，也想跳個坑玩一下。常在 g0v slack 潛水的我注意到 hackfoldr 常常拿來搭配 HackMD 使用，一個支援多人即時協作的線上 Markdown 編輯平臺。看了看 GitHub Repo，發現技術架構剛好與我目前的技能表吻合，那就開始貢獻吧！為 Legacy JavaScript 導入 Webpack經過幾個開發流程改進的 PR 後(#187、#190)，我開始導入 Webpack 前端打包器。此時我對 JavaScript 的理解還停留在 React 這種 SPA 應用上，於是把許多 vendor package 都轉到 npm，然後在進入點引用進來，產生的 JS Bundle 也隨著引用的套件增加而擴大。我後來才理解到把常用的 vendor 放在 CDN 才是好的優化方法，因為瀏覽器會幫你快取，於是我又慢慢地把放到 npm 的套件在 extract 出來，簡直是繞了一大圈啊（汗）。#195 就記錄了這過程。隨著這份 PR 越來越大包，我也開始覺得緊張，要是合併回去之後，功能通通炸掉怎麽辦？結果確實也是如此，我另外花了 #202、#205、#206 三個 PR 來把大部分的功能修復 😅。#195 做出改變實在太大了，當時也是邊做邊找資料學習，於是發生了這種繞圈子的意外。好險原作者 jacky 非常 nice 的接受了 PR，也一起確認了各功能是否運作正確 😂。現在上線的版本就是小弟我加料過的，實在緊張刺激 XD。更多的 PR，更多的 Open Source跳入一個新專案，從 run 起來開始瞭解架構，然後開始惡搞，這就是我最近在幹的事。時常有「挖坑給自己填」之感，這就是惡搞系工程師的人蔘啊。最後再推一下 HackMD 這個專案，作者 jacky 在設計上實在加入許多巧思，希望有一天能長成工程師每天用的筆記軟體，繼續填坑讓專案更好！",
-				"url": "/blog/2016/10/17/contributing-to-open-source/",
-				"date": "Oct 17, 2016"
-			}
-			,
-		
-			"blog-2016-09-23-play-android-reverse-engineering-with-jadx": {
-				"title": "用 jadx 來玩玩 Android 逆向工程",
-				"url": "/blog/2016/09/23/play-android-reverse-engineering-with-jadx/",
-				"author": "",
-				"category": "",
-				"content": "你幹嘛沒事要來逆向工程啦就是因為沒事啊。呃不對，其實以前就有聽說過 Android 逆向工具很成熟，不過自從換 iPhone 後就沒怎麼關注 Android 發展了，一直沒機會玩到。昨天下午剛好就在臉書刷到一款課表 App，就簡稱為 「X 社小工具」好了，可以幫你匯入學校的課表，支援多個學校。看了看截圖，感覺是在手機端輸入校務系統登入帳密達成，X 社小工具會幫你抓下來，只是不知道後面 API 怎麽跑（誰知道）。秉持著好奇的心，就讓我來逆向看看吧 XDDD。沒手機也要下載 APK直接把 APK 的 bundle id 貼到 androidapk 這個網站就可以下載了，bundle id 長得像 com.facebook.katana。jadx 反編譯工具借一下官方的截圖，jadx 可以直接開啟 apk 檔，把 decompile 過的原始碼顯示出來；除了 gui 界面也有 command line 工具可以讓你直接轉存 source。載下來解壓縮後有四個檔案：.├── jadx├── jadx-gui├── jadx-gui.bat└── jadx.batcd 進去目錄後執行 ./jadx-gui，GUI 界面開啟照著操作，選擇你要解開的 apk 就會顯示 Java code 了，也可以選擇轉存，用你喜歡的 Editor 或 IDE 開起來。讀讀讀讀讀 code不像當初 Pokemon Go 被逆向 一樣，竟然連個混淆都沒做，X 社小工具解出來的原始碼裡，變數都被換成英文字母 abcde，不過想想我的目的就是拿到 API，就直接搜尋 http://、https:// 網址開頭的字串~~Retrofit然後就找到了這段：public Retrofit a(as asVar) {    return new Builder().baseUrl(\"https://容我隱藏一下.appspot.com/\").addConverterFactory(GsonConverterFactory.create()).addCallAdapterFactory(RxJavaCallAdapterFactory.create()).callbackExecutor(AsyncTask.THREAD_POOL_EXECUTOR).client(asVar).build();}看網址 Server 還是用 Google App Engine 架的 XDRetrofit 是 Android 用的 HTTP 客戶端，雖然沒用過，不過對於 Retrofit 用 Decorator 標記各個 Endpoint 的寫法印象很深，Retrofit 首頁的範例就這樣寫：public interface GitHubService {  @GET(\"users/{user}/repos\")  Call&lt;List&lt;Repo&gt;&gt; listRepos(@Path(\"user\") String user);}接下來只要再找出各式 Decorator 就行啦！API Endpointspublic interface a {    ...    ...    @GET(\"schools\")    h&lt;Map&lt;String, j&gt;&gt; a();    @POST(\"login\")    h&lt;f&gt; a(@Body e eVar);    @GET(\"users/{uid}/schedule\")    h&lt;g&gt; a(@Path(\"uid\") String str, @Header(\"Authorization\") String str2);    ...    ...}上面是其中一段程式碼，看起來主要的 API Endpoint 都在這了。接下來可以用 curl 或 Postman 來試打 API，從 GET 的 Endpoint 開始，照著 Login 流程做。不過打 schedule API 的時候卻發現重大問題：我的課表根本就沒課啊！！所以 schedule 只好當做不知道怎麽解了哈哈哈😂RxJava題外話一下，X 社小工具也用了當紅的 Reactive Programming，反編譯後的原始碼就看到一堆短短的 presenter 檔案。其實要拿 API 也不需要反編譯可以用 Wireshark 之類的封包擷取工具撈一下，不過還是看原始碼直接啦😅感想看來 ProGuard 一類的混淆工具還是有用的，變數、類別都被換掉，腦內理解搜尋速度至少慢了十倍啊，還沒辦法直接 Go to Definition...本來想寫個免責聲明，不過敏感資訊都已經藏起來了，應該還好吧 XD 這篇只是個人純粹玩工具、讀讀 code 的心得而已，不要追殺我啊 😂😂😂",
-				"url": "/blog/2016/09/23/play-android-reverse-engineering-with-jadx/",
-				"date": "Sep 23, 2016"
-			}
-			,
-		
-			"blog-2016-08-28-rails-girl-7": {
-				"title": "Rails Girl #7",
-				"url": "/blog/2016/08/28/rails-girl-7/",
-				"author": "",
-				"category": "",
-				"content": "有幸在第七屆的 Rails Girl 活動中擔任教練，就來寫寫感想好了 w在當 Rails Girl 教練之前，我雖然「算是」有帶過幾位實習生，不過跟這種馬拉松式的教學完全不同，平常都不太說話的我，這兩天竟都沒怎麽停嘴，也真佩服自己了 😅Day 1 - 裝機對於這種體驗性質的活動，浪費時間在安裝開發環境就太可惜了。主辦的大大在會前教練通知信裡寄了一份 CodeAnywhere 網站的說明。如同名字所述，CodeAnywhere 可以讓你 Code Anywhere（在哪裡都能寫程式），運用 Linux Container 和 Web 技術，使用瀏覽器便能連接機器、開發網站服務。只可惜 Bug 還是挺多的，比如說：無法做到即時 Filesystem Refresh，每次新增檔案後，都要手動重新整理專案，新增的資料夾才會出現在列表Terminal SSH Session 在重新整理瀏覽器後不會自動 kill，所以開啟的 Rails server 佔用 port，但 terminal tab 已經消失，需要找出 pid 後 kill 掉（lsof -i tcp:3000）在 Terminal 界面無法使用貼上快捷鍵（Ctrl + v or CMD + v），對於經常性 Copy &amp; Paste 的這堂課來說十分不便呀附上 rails 簡易裝機指令，無論是 CodeAnywhere 環境或是 Ubuntu/macOS 應該都能使用。Ubuntu 需要事先安裝好 Git，macOS 則需安裝 XCode Developer Tools。gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3\\curl -sSL https://get.rvm.io | bash -s stablervm reloadrvm install 2.3.1rvm use 2.3.1 --defaultecho 'gem: --no-ri --no-rdoc' &gt;&gt; ~/.gemrc # 不需要安裝 rdocgem install bundlerbundle config --global --jobs 4echo 'source \"https://rubygems.org\"ruby \"2.3.1\"gem \"rails\"' &gt;&gt; ~/Gemfilecd # 切換至家目錄bundle install個人認為裝機階段實在也不需要特別解釋，說明一下 Ruby 和 Rails 的關係和豐富的套件生態系就行了（什麼？Rails 不是語言嗎？）作為一個信仰不夠忠貞的 Rails 信徒，自然會從廣義的 Web 開始講起。想到在行前會說明時，提到有個萬用便當遊戲1 可以用，自然就偷跑進度，直接拿便當圖來講故事啦。講故事的重點就是凡事回顧個兩三次，並在不同時機再次連結。另外身為一個自學者，當然還是把肌肉記憶拿出來講了講，我還是覺得這挺有用的 XDDay 2 - 跑跑進度啦CodeAnywhere 有分享專案和 pair programming 的功能。先對專案點右鍵，並在跳出的選單選擇 Share、並輸入對方 Email 即可；而 Pair Programming 比較麻煩，每個檔案或是 Terminal 都要分享一次。如下圖所示，按下紙飛機按鈕，並輸入對方 Email：THE 紙飛機透過 Pair Programming 的方式，即使是一次帶兩個人，也只要維護一份環境、一份專案，真是怠惰啊 😇第二天白天，我們這組跑了 Rails Girl 的兩篇教材，分別是 Idea Scaffold 還有留言功能，途中也不時對教練解釋的地方自我吐嘈了一番；下午就在各種傳教閒聊之中度過了，比如 Rails 基本主義啦、編輯器之戰、鄙視鏈、GitHub 文化、Stylish 自訂網頁樣式表、Coding Font with Ligature support，還有 DjangoGirls 等等（在 Rails 的場子談 Django 是不是搞錯了什麼？）。畢竟這個圈子最好玩的就是聖戰以及用不完的攻城獅哏，體驗文化也是學習不可分割的一環啊！After Party據說 After Party 才是 Rails Girls 活動的精華......欸就這樣一行？結語Rails Girls 對於想接觸 Rails 或是網站入門的女性朋友來說，自然是個非常好的機會，手把手帶你寫程式還不用錢，實在是值回票價（等等！免費的活動哪來的票啊）；對身心疲憊、忙於工作的工程師教練們，也是個調劑身心的好時機，讓平常沉默的宅宅有了練蕭維的舞臺。最後感謝本活動的唯一贊助商五倍紅寶石，下次活動詳情就請繼續關注 Rails Girls Taiwan 粉絲專頁啦！參見 Rails Girls 官方部落格&nbsp;&#8617;",
-				"url": "/blog/2016/08/28/rails-girl-7/",
-				"date": "Aug 28, 2016"
-			}
-			,
-		
-			"blog-2016-08-22-blog-new-github-theme": {
-				"title": "部落格 GitHub 新版型主題",
-				"url": "/blog/2016/08/22/blog-new-github-theme/",
-				"author": "",
-				"category": "",
-				"content": "過程可以看 PR#1，大致上是：引入 primer css清掉原本沒用到的 cssPost Layout 加上 markdown-body 的 class（31360b）從 GitHub 上面拿 css 來用 XD不囉嗦，直接上圖了。BeforeAfterMisc另外附上最近弄的 VSCode Markdown Preview Theme。我習慣用暗色的 syntax highlight theme，但是 VSCode 的 Markdown Preview 會根據目前使用的 Theme，來使用亮色或暗色，所以我寫了一些覆蓋的 css，讓不論選亮色或是暗色主題都能使用明亮的 Markdown 預覽主題。與 BigstickCarpet 的 GFM Theme 一起使用效果更佳 😁vscode-markdown-github-css",
-				"url": "/blog/2016/08/22/blog-new-github-theme/",
-				"date": "Aug 22, 2016"
-			}
-			,
-		
-			"blog-2016-08-19-migrate-1password-to-pass": {
-				"title": "從 1Password 搬家到 pass",
-				"url": "/blog/2016/08/19/migrate-1password-to-pass/",
-				"author": "",
-				"category": "",
-				"content": "Why?pass 照官網的說法，是一套 「標準 unix 密碼管理」（the standard unix password manager），開源簡單好用。雖然 1Password 我是用 Dropbox 同步，應該還算安全，不過多個開源選擇也不錯。pass 也有一些社群版套件，引用一下官網：The community has even produced a cross-platform GUI client, an Android app, an iOS app, a Firefox plugin, a Windows client, a pretty Python QML app, a nice Go GUI app,  an interactive console UI, Alfred integration (1) (2) (3), a dmenu script, OS X integration, git credential integration, and even an emacs package.不過 iOS App 版要 jailbreak 之後才能使用呀 😭，不過身為一個還算熟悉 CLI 的使用者，這些當然都不是問題啊 😁。安裝 passOS X 安裝十分容易：brew install pass就好了。他也提供一些 shell completion 可以使用，fish 需要在 ~/.config/fish/config.fish 裡加上：source /usr/local/share/fish/vendor_completions.d/pass.fish設定 pass完成之後我們要看一下有沒有 gpg 金鑰，如果沒有的話要新增個gpg --gen-key # 產生 gpg key記得輸入的 key phrase 呀，之後會拿來解鎖的。用 gpg --list-keys 查看剛剛產生的 key，類似下面這樣：/Users/username/.gnupg/pubring.gpg-------------------------------pub   2048R/A534B400 2016-08-18uid                  My Name &lt;your_email@gmail.com&gt;sub   2048R/E1001945 2016-08-18pubic id 就是 A534B400，拿這組 id 來初始化 passpass init A534B400完成！之後就可以用 pass 指令管理密碼了，可以下一些測試的指令試試，比如 insert 一組 foo 的密碼：pass insert foo然後顯示 foo 的密碼pass show foo由 1Password 匯入官網上就寫上匯入 1password 的 ruby script 😍 ，直接使用就行了。在 1Password 匯出 txt 時，記得勾選 Include Column Labels，如下圖：把匯出的檔案和匯入腳本準備好，跑一下：ruby 1password2pass.rb /path/to/1password_exported.txt基礎使用pass 的管理可以說是相當自由，通通放在 ~/.password-store 目錄，底下可以建立任意的目錄分類，或是乾脆不分 XD一些基本指令：pass show PROFILE # 印出 PROFILE 的密碼pass -c PROFILE # 複製 PROFILE 的密碼到剪貼簿pass ls # 列出所有密碼設定檔我做了以下 alias，方便快速密碼搜尋：alias passgrep=\"pass ls | grep -i\"就可以用 passgrep 來搜尋現有設定檔了。",
-				"url": "/blog/2016/08/19/migrate-1password-to-pass/",
-				"date": "Aug 19, 2016"
-			}
-			,
-		
-			"blog-2016-08-12-refocus-from-chrome-address-bar": {
-				"title": "使用 Chrome 在快速鍵切換至網址列後，再用快速鍵切換回來",
-				"url": "/blog/2016/08/12/refocus-from-chrome-address-bar/",
-				"author": "",
-				"category": "",
-				"content": "啥？習慣於鍵盤操作 Chrome，比如 Vimium 或是 cvim 等擴充套件，在需要跳轉網址列進行搜尋時，都會很自然的使用 Chrome 的內建快速鍵：CMD + L（在 Windows 是 F6）來操作。那回來呢？我想要在切回網頁本身，再次用熟悉的 VIM key binding 來衝浪。很遺憾的，Chrome 本身並沒有提供此功能，而擴充套件的作用域也不包含網址列，在經過 Google 之後終於找到一個 Hacky 的解法。建立自訂搜尋引擎在設定找「搜尋引擎」：在最底下新增一個搜尋引擎，三個欄位分別填入Refocus # 自訂搜尋引擎名稱i # 要綁定的關鍵字，越短越好javascript:如下圖：接下來在切換到網址列之後，主要輸入綁定的關鍵字，再按下 enter，就能切換回網頁囉：via Google Chrome (Mac) set keyboard focus from address bar back to page - Super User",
-				"url": "/blog/2016/08/12/refocus-from-chrome-address-bar/",
-				"date": "Aug 12, 2016"
-			}
-			,
-		
-			"blog-2016-07-22-rbenv-fish-and-vscode": {
-				"title": "rbenv、fish 與 VSCode 設置之路",
-				"url": "/blog/2016/07/22/rbenv-fish-and-vscode/",
-				"author": "",
-				"category": "",
-				"content": "在最新的 VSCode 1.3.1 版裡，Integrated Terminal 變得更加好用，但由於上游套件 xterm.js 的緣故，zsh 還是有無法捲動的問題。不過作為一個 Rails 開發者，VSCode 已經是個足夠好用的、足矣媲美 Sublime Text 的編輯器了。為了能夠在 VSCode 開發 Rails，特別對目前的開發環境做出調整。由 RVM 轉換至 rbenv聽聞 rbenv 相較 rvm 來說，是對系統較為乾淨的 ruby 版本管理工具。就趁這次更新開發環境一起重置吧！移除 rvm套件也內建了一鍵移除的方式：rvm implode做完之後也可以將 rvm 剩餘的檔案移掉：rm -rf ~/.rvm安裝 rbenv參照了專案官網的說明，只要把該 repo clone 下來，設置好 PATH 變數，在為 shell 加上一些設定便可以開始安裝 ruby 了。在 OS X 環境又更容易，只要用 Homebrew 一鍵安裝便成。brew install rbenv裝完之後就可以發現 rbenv 已經被裝到 Homebrew 的可執行位置了，可以跑 which 指令檢驗which rbenv# =&gt; /usr/local/bin/rbenv在 Homebrew 安裝跑完之後，安裝腳本會提示已在 shell profile(.zshrc/.profile/.bash_profile) 加上 rbenv 初始化腳本，預設內容如下：export PATH=\"$HOME/.rbenv/bin:$PATH\"eval \"$(rbenv init -)\"第二行的 rbenv init - 指令輸出，在你一般開啟的 Terminal 會跑出：export PATH=\"/Users/USERNAME/.rbenv/shims:${PATH}\"export RBENV_SHELL=zshsource '/usr/local/Cellar/rbenv/1.0.0/libexec/../completions/rbenv.zsh'# ... 下面一串不過在 VSCode 內建終端機卻會跑出：export PATH=\"/usr/local/opt/rbenv/shims:${PATH}\" # 就這行不同export RBENV_SHELL=zsh# ... 下面一樣大概是執行權限不同的關係吧，rbenv 執行的位置不同也會讓 gem/bundler 裝到不同的位置，為了方便起見，一律設成一般終端機跑出來的那串。把下面這串貼到 ~/.zshrc 最下面就是。export PATH=\"/Users/USERNAME/.rbenv/shims:${PATH}\"export RBENV_SHELL=zshsource '/usr/local/Cellar/rbenv/1.0.0/libexec/../completions/rbenv.zsh'command rbenv rehash 2&gt;/dev/nullrbenv() {  local command  command=\"$1\"  if [ \"$#\" -gt 0 ]; then    shift  fi  case \"$command\" in  rehash|shell)    eval \"$(rbenv \"sh-$command\" \"$@\")\";;  *)    command rbenv \"$command\" \"$@\";;  esac}若是 fish 就貼下面這個：setenv PATH '/Users/USERNAME/.rbenv/shims' $PATHsetenv RBENV_SHELL fish. '/usr/local/Cellar/rbenv/1.0.0/libexec/../completions/rbenv.fish'command rbenv rehash 2&gt;/dev/nullfunction rbenv  set command $argv[1]  set -e argv[1]  switch \"$command\"  case rehash shell    . (rbenv \"sh-$command\" $argv|psub)  case '*'    command rbenv \"$command\" $argv  endend裝 rubyrbenv install 2.3.1rbenv global 2.3.1gem install bundlerbundle install搞定！Pow 的額外設定其實在 Pow 的 wiki 就有解答，不過因為我又對 rbenv 做了 PATH 的改動，所以設定也不太一樣。打開 ~/.powconfig 並貼入export PATH=\"/Users/USERNAME/.rbenv/shims:/Users/USERNAME/.rbenv/shims/bin:$PATH\"然後重啟 pow servicetouch ~/.pow/restart.txt將主要 shell 由 zsh 換成 fishzsh 有著非常有名的 oh-my-zsh 設定檔管理框架，fish 底下也有個好用的叫 fisherman。不過我終究是沒有把系統預設的 shell 換掉(chsh 指令)，因為挺多工具與 fish 不相容。fish 啟動速度飛快，帶我重回還沒有裝一堆 zsh 套件的美好往日時光。VSCode講來講去這篇好像跟 VSCode 沒啥關係耶？那就附張截圖好了，VSCode 也是十分優秀的 Markdown 編輯器，內建了快速的 Preview，碼 code、寫文件、Terminal、Task Runner 全都內建了，還夠輕量快速，Extension 也陸續多了起來，還真不好挑剔啊 XD。",
-				"url": "/blog/2016/07/22/rbenv-fish-and-vscode/",
-				"date": "Jul 22, 2016"
-			}
-			,
-		
-			"blog-2016-06-22-sublime-atom-vscode-comparison-mid-2016": {
-				"title": "2016 年中、編輯器三雄大對決！",
-				"url": "/blog/2016/06/22/sublime-atom-vscode-comparison-mid-2016/",
-				"author": "",
-				"category": "",
-				"content": "TL;DR: 立馬下載 VSCode！！前言這題目一直以來都非常想戰啊，身為一個超級設定狂，什麼編輯器都要玩玩，惡搞到每個編輯器 startup time 都超久的...orz這次就選了三個主流的編輯器，Sublime Text、Atom、以及 Visual Studio Code，以下稍微簡介一下各編輯器的特性、好用插件，以及文本最主要的目的：秀截圖。畢竟功能那些，各家網站都講到爛了沒啥好說的。Sublime Text最近作者重啟開發，原生就是順暢來著，一直以來受前端社群愛好與推廣，不過更新頻率還是稍顯慢。我最愛的 Font Ligature 一直不來啊！SublimeLinter 配上 eslint 還有 rubocup，JavaScript 及 Ruby 這兩種我平常主要使用的語言，在靜態語言檢查就不成問題了GitSavvy ，一個新興的 git 輔助套件，讓平時的 commit、diff、merge 輕鬆寫意，當然有時還是得用 SourceTree 或是 command 輔助一下啦EasyMotion 還有內建的 Vintage Mode，讓我幾乎不動滑鼠就能輕鬆控制編輯器最近出現的 Boxy Theme ，以簡便的介面自訂主題，設定各元件的字體、配色、大小。讓我換掉了之前寫自己幹出來、沒啥時間更新的主題：Oceanic Seti，還有最近被推薦的 primer theme。Atom Text Editor套件裝不完編輯器系列。有著比起 Sublime 更佳好用的套件管理界面，不過開啟大量檔案編輯、或開啟稍大的檔案時（數 MB 吧），容易出現程式碼高亮緩慢，捲動頓挫明顯。介面單靠 css 就可以自訂，有著比起 Sublime 更精緻的 Autocomplete 及 Error Hint 介面。有內嵌的第三方 terminal 插件（platformio-ide-terminal），不過多開仍舊頓挫（汗）資料夾內搜尋預設排除 .gitignore 列表。就不會像 Sublime 預設 一樣搜出一堆 node_modules 的套件內建 timecop 插件，可以監看每次啟動時，各個插件所消耗的時間。真是走到另一個奇妙境界去了，是有多需要調教啊（的確很需要 www）社群力驚人（看那精美的 stars 數量），或許過不了多久效能又能一大躍進...吧。會有軟黑出沒Visual Studio Code後起之秀，快讚歎我軟技術力威能。同源自 Atom 的 Electron Framework，不過卻被我軟寫的更佳滑嫩順暢，順暢程度宛若 Native，早就叫你不要用 CoffeScript 要用 TypeScript 了吼在即將推出的六月份更新，加入了 Tab 實作、多開 Terminal 支援（對你沒看錯，官方支援 Terminal），以及新的插件安裝介面。我軟不斷採納 UserVoice 上的使用者反饋，GitHub 上詳細的列出開發 VSCode 的產品規劃 (Product Roadmap)、迭代計劃 (Iteration Plan)、開發程序 (Development Process) 等等，十分公開透明，每個月的 Iteration Plan 更是讓人有如等待漫畫月更一般期待 😍推出時最大賣點為內建 intellisense 的 code complete，官方支援的 debugger 還有 git tools，最近還出現了官方支援的 react-native 插件套件商店也是蓬勃發展中。你怎麽能不愛他呢？XD本身就是個超大型的開源 TypeScript 專案，由 GoF 四人幫的 Erich Gamma 領軍，值得一提的是插件另外在獨立的 Extension Process 執行，寫爛的 Extension 不會影響到 VSCode 本身的速度。可以參考官方的文章，不知道有沒有針對哪個編輯器啦（誤）看看下圖，連 syntax highlight 都完勝……真是花俏啊，驕傲的兔子。值得一提的是，雖然 VSCode 的設定不像 Atom 有 GUI 可以勾選，也是和 Sublime 一樣需要編寫設定檔，但是只要一開啟設定介面，就會自動跳出 split view 對照設定檔預設值供對照修改，每個插件的預設設定除了擁有自己的 namespace 外，所有的設定值都會有 autocomplete，可比 Sublime 好用太多了呵呵。在 1.8 Stable 版本之後 Setting 有了更進一步的改善，有了設定值搜尋篩選功能以及可以選取的界面，官方表示在下個 iteration 還會持續改善呀。在自訂介面上，雖然不如 Atom 完全 Hackable，不過也有第三方推出的 vscode-custom-css 插件可供修改。在最新的 1.8 穩定版裡，在 macOS 底下有了客製過的 title bar，整體界面更加精煉，左方的 Activity Bar 也可以直接隱藏。如果再順便把 Status Bar 一併隱藏，整體界面就更加簡潔優雅辣！結論TL;DR: 快去下載 VSCode 就對惹。我說那個 vim 呢？我都用 Vim Bootstrap無腦一鍵上手。總之我已經變成 VSCode 的形狀惹，Sublime 也已經被我打入冷宮，偶爾拿出來回味一下倒還可以。那麼 Atom 呢？毫無反應，就是個 Hackable 的 Editor，十分適合拿來惡搞，只要你想，回到 90 年代也未嘗不可，不過永遠就是卡，恩。完。",
-				"url": "/blog/2016/06/22/sublime-atom-vscode-comparison-mid-2016/",
-				"date": "Jun 22, 2016"
-			}
-			,
-		
-			"blog-2016-06-09-setup-jekyll-on-github-page": {
-				"title": "在 GitHub 上設定 Jekyll 和自訂網域",
-				"url": "/blog/2016/06/09/setup-jekyll-on-github-page/",
-				"author": "",
-				"category": "",
-				"content": "花了時間把 Jekyll 建起來。Ghost 是很棒沒錯，不過想要完全掌控還要多花許多時間，純粹靜態網頁更為靈活，再配上 jekyll-assets，如果真的需要點 ES6 還是可以硬上的。Git Subtree我把原始的 branch 命名為 jekyll，用 subtree 把 Jekyll 產生的 _site 資料夾切開：git checkout -b jekyll # 原本在 mastergit branch -D master # 把原本 master branch 刪掉git subtree split --prefix=_site -b master # subtree 切割到這算切割完畢，接下來每次更新時，都從原本 jekyll branch commit，然後 push subtree 的 branch：git commit -m \"commit on jekyll branch\"git subtree push --prefix _site origin master # 將 _site 的 subtree 推到 origin 的 master branchGitHub user page custom domain二圖流CNAME 檔：www.yukaii.twyukaii.tw其它自訂Jekyll 也有 partial 挺方便的，我用來做 image caption，比如以下這段：{% include image.html url=\"http://i.imgur.com/gqOPCwP.jpg\" description=\"六月不要啊啊啊，應該沒有第二行啦\" %}就會產生：六月不要啊啊啊，應該沒有第二行啦需要在 _includes 資料夾新增 image.html，詳情可參考這裡",
-				"url": "/blog/2016/06/09/setup-jekyll-on-github-page/",
-				"date": "Jun 9, 2016"
-			}
-			,
-		
-			"blog-2016-04-07-16th-elk-installation-notes": {
-				"title": "第十六篇 - ELK 安裝筆記",
-				"url": "/blog/2016/04/07/16th-elk-installation-notes/",
-				"author": "",
-				"category": "",
-				"content": "此份文件是台科 104 第二學年度，CS5124701 巨量資料與分析的課堂作業一。作業一的要求就是寫一隻 Twitter 或 Github 的爬蟲，並把爬下的資料格式化成 json。在 3/29 的這週，教了 ELK Stack 設定方法，所以並沒有特別實作 Crawler，而是直接套用課堂簡報上的 Logstash Twitter 樣板。以下記錄我自己在 ELK 安裝過程與課堂上有所不同的部分。說明一下，因為主力機 MBA 的儲存空間快炸了，所以我在 AWS 上開了一台 t2.medium 的機器來跑 Spark 以及 ELK Stack。在上週的課程簡報中， ELK 是以下載 binary zip 包的方式設定，因為習慣用 APT 套件管理程式，所以裝 ELK 相關設定方式也和 binary zip 不太一樣。安裝過程主要參考數位海的這篇，還有上課簡報。數位海這篇超詳細的，可以交互對照一下。安裝 Java 8sudo add-apt-repository -y ppa:webupd8team/javasudo apt-get updatesudo apt-get -y install oracle-java8-installer安裝 ElasticSearchwget -qO - https://packages.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -echo \"deb http://packages.elastic.co/elasticsearch/2.x/debian stable main\" | sudo tee -a /etc/apt/sources.list.d/elasticsearch-2.x.listsudo apt-get updatesudo apt-get -y install elasticsearch到這邊裝完，然後編輯 ElasticSearch 設定檔：sudo vi /etc/elasticsearch/elasticsearch.yml把 network.host 改成 0.0.0.0，讓外網也可以存取。註：之後還會搭上 nginx 的 reverse proxy，並裝上前端 kibana，這裡為了安全性也可以不要改。重啟 elasticsearch 的服務：sudo service elasticsearch restart讓它開機時自動啟動（Optional）sudo update-rc.d elasticsearch defaults 95 10ElasticSearch binary 檔的位置在 /usr/share/elasticserach/bin。安裝 head plugin：sudo /usr/share/elasticserach/bin/plugin install mobz/elasticsearch-head把 iptable 打開sudo iptables -A INPUT -m tcp -p tcp --dport 9200 -j ACCEPTsudo iptables -A INPUT -m udp -p udp --dport 9200 -j ACCEPT記得在 EC2 打開 9200 port，這時候開啟瀏覽器，進到http://YOUR_IP_ADDRESS:9200/_plugin/head就有一個簡單的圖形界面啦。安裝 Kibanaecho \"deb http://packages.elastic.co/kibana/4.4/debian stable main\" | sudo tee -a /etc/apt/sources.list.d/kibana-4.4.x.listsudo apt-get updatesudo apt-get -y install kibana到這裡裝完，然後編輯 kibana 的設定檔：sudo vi /opt/kibana/config/kibana.yml把 server.host 從 0.0.0.0 改成 localhost，因為稍後會裝 nginx 來做我們的反向代理。就像這樣：server.host: \"localhost\"加入開機啟動，然後啟動服務：sudo update-rc.d kibana defaults 96 9sudo service kibana start安裝 nginx 啥的sudo apt-get install nginx apache2-utils建立一個 kibanaadmin 的認證使用者（名稱可換）sudo htpasswd -c /etc/nginx/htpasswd.users kibanaadmin編輯 nginx 設定檔sudo vi /etc/nginx/sites-available/default換成下面這個server {    listen 80;    server_name example.com;    auth_basic \"Restricted Access\";    auth_basic_user_file /etc/nginx/htpasswd.users;    location / {        proxy_pass http://localhost:5601;        proxy_http_version 1.1;        proxy_set_header Upgrade $http_upgrade;        proxy_set_header Connection 'upgrade';        proxy_set_header Host $host;        proxy_cache_bypass $http_upgrade;    }}example.com 的地方，看你要換成 Instance 的 IP 或是 domain name 都可以。EC2 可以換成 public dns name。重啟 nginxsudo service nginx restart安裝 Logstashecho 'deb http://packages.elastic.co/logstash/2.2/debian stable main' | sudo tee /etc/apt/sources.list.d/logstash-2.2.x.listsudo apt-get updatesudo apt-get install logstash中間數位海插了一段設定 SSL 的，因為沒有要用就跳過這部分。Logstash 安裝完的 binary 會在 /opt/logstash/bin 。設定 Logstashsudo vim /etc/logstash/conf.d/02-twitter.conf填入以下內容input {    twitter {        consumer_key =&gt; \"\"        consumer_secret =&gt; \"\"        oauth_token =&gt; \"\"        oauth_token_secret =&gt; \"\"        keywords =&gt; [\"beauty\"]        languages =&gt; [\"en\"]        full_tweet =&gt; true    }}output {    elasticsearch {        index =&gt; \"twitter\"    }}oauth 那些 key 就填自己申請的，keywords 填自己要的，然後存檔離開。接下來跑sudo service logstash configtest看一下設定檔有沒有寫錯， 然後重啟 logstash 服務，並加入開機自啟動(Optional)sudo service logstash restartsudo update-rc.d logstash defaults 96 9原則上這時候登入 kibana 或是在 head 儀表板就可以看到記錄數一直增多了。太神啦！匯出資料我是用 elasticsearch-dump 套件，記得先裝好 node v1.0 以上版本。裝完之後就可以無腦一行匯出：elasticdump --input=http://localhost:9200/twitter --output=twitter.json上傳之前 Github 推了 LFS(Large File Storage)，json 雖然純文字檔很好壓縮，但無論怎麽壓還是有點難推進到 100 MB ，也就是 Github 支援的最大容量，以內。勢必就要來用下 git-lfs 了。後記結果今天 Github 捎來一封信......恩...我只是要交個作業而已啊啊啊（哭）資料格式搜尋的關鍵字是 beauty，你知道 twitter 上最多這種圖帳了，多訂閱幾個總是使人心情愉悅 #){  \"_index\": \"twitter\", // 灌入到 elasticsaerch 裡的資料表  \"_type\": \"logs\",  \"_id\": \"AVPCY9McFvHLlvNymVV9\", // elasticearch 產生的 id  \"_score\": 1,  \"_source\": {    \"created_at\": \"Tue Mar 29 12:40:34 +0000 2016\", // 建立於    \"id\": 714794377491587100, // twitter 的 tweets id    \"id_str\": \"714794377491587072\",    \"text\": \"Regina King On The 'Fascinating' Beauty Of Black Women's Hair https://t.co/0838uXkQ1e @HannahOliver152\",    \"source\": \"&lt;a href=\\\"http://dlvr.it\\\" rel=\\\"nofollow\\\"&gt;dlvr.it&lt;/a&gt;\",    \"truncated\": false,    \"in_reply_to_status_id\": null,    \"in_reply_to_status_id_str\": null,    \"in_reply_to_user_id\": null,    \"in_reply_to_user_id_str\": null,    \"in_reply_to_screen_name\": null,    \"user\": { // twitter user 的資料      \"id\": 2558258431, // user id      \"id_str\": \"2558258431\",      \"name\": \"Hannah Oliver\", //名字      \"screen_name\": \"HannahOliver152\", //帳號名      \"location\": null,      \"url\": \"http://www.wordpress.com\",      \"description\": \"Our life always expresses the result of our dominant thoughts.\",      \"protected\": false,      \"verified\": false,      \"followers_count\": 31,      \"friends_count\": 11,      \"listed_count\": 6,      \"favourites_count\": 0,      \"statuses_count\": 17481,      \"created_at\": \"Tue Jun 10 05:18:02 +0000 2014\",      \"utc_offset\": null,      \"time_zone\": null,      \"geo_enabled\": false,      \"lang\": \"en\",      \"contributors_enabled\": false,      \"is_translator\": false,      \"profile_background_color\": \"C0DEED\",      \"profile_background_image_url\": \"http://abs.twimg.com/images/themes/theme1/bg.png\",      \"profile_background_image_url_https\": \"https://abs.twimg.com/images/themes/theme1/bg.png\",      \"profile_background_tile\": false,      \"profile_link_color\": \"0084B4\",      \"profile_sidebar_border_color\": \"C0DEED\",      \"profile_sidebar_fill_color\": \"DDEEF6\",      \"profile_text_color\": \"333333\",      \"profile_use_background_image\": true,      \"profile_image_url\": \"http://pbs.twimg.com/profile_images/476232749041201152/yWKGqAkC_normal.jpeg\",      \"profile_image_url_https\": \"https://pbs.twimg.com/profile_images/476232749041201152/yWKGqAkC_normal.jpeg\",      \"profile_banner_url\": \"https://pbs.twimg.com/profile_banners/2558258431/1402377722\",      \"default_profile\": true,      \"default_profile_image\": false,      \"following\": null,      \"follow_request_sent\": null,      \"notifications\": null    },    \"geo\": null,    \"coordinates\": null,    \"place\": null,    \"contributors\": null,    \"is_quote_status\": false,    \"retweet_count\": 0,    \"favorite_count\": 0,    \"entities\": {      \"hashtags\": [],      \"urls\": [        {          \"url\": \"https://t.co/0838uXkQ1e\",          \"expanded_url\": \"http://dlvr.it/Kw7QcG\",          \"display_url\": \"dlvr.it/Kw7QcG\",          \"indices\": [            62,            85          ]        }      ],      \"user_mentions\": [        {          \"screen_name\": \"HannahOliver152\",          \"name\": \"Hannah Oliver\",          \"id\": 2558258431,          \"id_str\": \"2558258431\",          \"indices\": [            86,            102          ]        }      ],      \"symbols\": []    },    \"favorited\": false,    \"retweeted\": false,    \"possibly_sensitive\": false,    \"filter_level\": \"low\",    \"lang\": \"en\",    \"timestamp_ms\": \"1459255234488\",    \"@version\": \"1\",    \"@timestamp\": \"2016-03-29T12:40:34.000Z\"  },  \"fields\": {    \"@timestamp\": [      1459255234000    ]  }}（完）",
-				"url": "/blog/2016/04/07/16th-elk-installation-notes/",
-				"date": "Apr 7, 2016"
-			}
-			,
-		
-			"blog-2016-04-01-15th-use-aws-codedeploy-deploy-wordpress": {
-				"title": "第十五篇 - 使用 AWS CodeDeploy 跑起你的 WordPress - 官方教學筆記",
-				"url": "/blog/2016/04/01/15th-use-aws-codedeploy-deploy-wordpress/",
-				"author": "",
-				"category": "",
-				"content": "為何要部屬 WordPress？就因為他是 CodeDeploy Tutorial 的第一個範例。AWS Documention 有個特點，就是到處 Reference 來 Reference 去，你很難在單一流程完整跑完所有的任務，非得要搭著其它份文件一起對照。筆者英文也沒那麼好，看著看著就會漏東漏西，文件又滿滿的都是字，沒有圖片可以參考，真令人崩潰。CodeDeploy 是 AWS 眾多部屬方案中，看起來比較單純的一種。寫好 Setup 程式的 Shell Script，再聲明好 appspec.yml，定義每個 deploy life cycle 不同的階段要跑的動作，用 AWS CLI Tool 把 repo 打包上傳到 S3，再到 CodeDeploy console 定義應用程式部屬規則、後臺發起一個 deployment（一個部屬行動），CodeDeploy Service 便會把你的 code 部屬到你設定的 Deployment Group，依照 Group 設定的機器不同，你可以在同一個機器部屬很多個 Application，或是同一個 Application 部屬到很多台機器，端看設定，啦。當然，AWS 系列就是啥都可以用 CLI 跑，只要開好對應權限的 role 並拿到 Access ID 和 Secret Key，我們也可以交由第三方 CI 服務，比如說 CodeShip，來幫我們完成「打包程式碼並上傳 S3」、「發起部屬行動」這種的工作。以下便大致記錄一下本日折騰的感想與流程。概念CodeDeploy 約略是 14 年 11 月推出的服務，在此幹一張官圖，看圖說故事。在你的開發機器上寫好 code 、設定好 appspec.yml，上傳到 github 或是打包傳到 s3在 CodeDeploy 設定好部屬邏輯每一台 instance 的 agent 把 codebase 從 s3 或 github 拉下來跑部屬 script！裝裝裝大概醬，英文版可以看這，另外強烈建議 aws 系列最好都先從 Concept 開始看，要不然鐵定被無限連結地獄搞死，崩潰。名詞解說可以開好官方教學的分頁，淨身準備一下，接下來講解教學中會出現的名詞。其實名詞解釋放在教學開頭實在是挺不好的，我自己跑教學也是跟著實作之後才有點感覺，在還沒進行操作前做的說明都是廢話。話雖然是這樣說啦，可是這是筆記又不是演講，你翻到下面還是可以翻回來看啊，所以我還是寫在這了。呵呵。滿多中文名詞都我隨便翻的 XD，中文文件越少，我就掌握著更多的話語權（才怪），大家趕快來寫文件吧哈哈。AWS 在各種服務開 API 開很大開不用錢的狀況下，權限的管理便十分重要，阿罵爽雲端福利社使用 IAM 角色權限管理服務，來區分出不同服務或使用者，對於 AWS 服務使用的權限隔離。舉例來說，CodeDeploy 在 AWS 裡算是一個服務(Service)，雖然通通都是在 AWS 裡啦，但是你還是要給他一些對 AWS 資源的存取權限才可以，比如說當我們對好幾臺 EC2 Instances 設定了標籤（Tag），我們也要給 CodeDeploy 讀取 EC2 Intance 標籤的權限，CodeDeploy 才知道要部屬到哪幾台機器上啊，這就是權限管理的作用。不同的權限，在 IAM 裡就叫做 Policy（方針）。當人有了多項 Policy 之後，能力越大，責任越重，你所要承擔的就是職責了（屁話），在 IAM 裡我們把他稱作角色職責 (Role）。在 AWS 裡面有不同的服務，Role 的類型也都不同，比如 EC2 Instance 的 Role 就叫 Instance Profile，用來管理 EC2 能有那些權限，在 CodeDeploy 官方教學裡，EC2 的職責是把用 agent 把 codebase 從 s3 拉下來，所以在啟動 Instance 之前，我們必須先設定好能夠存取 S3 的 Instance Profile，並在啟動(Launch) Instance 把 Role 指派給他。不同的 Role Type。CodeDeploy 教學中用到的分別是 CodeDeploy 和 EC2 的 Role Type。CodeDeploy 的 Service Role，直接掛上 AWS 建立好的 Policy，可以直接看出使用了那些權限。跑教學...咦我前面嫌的要死，就因為這次跑教學真的打死也找不到安裝 CodeDeploy agent 的步驟，反反覆覆翻了教學幾次，卻一直找不到哪裡出錯。以下來回顧一下。首先，照著教學的說明先在 EC2 Launch 一個 Instance。他第一步教學的作用其實就是給你一個預先裝好 aws cli tools 的環境，好使用 cli 界面打包上傳 code 到 s3，用你自己的電腦其實就可以了。設定好 Keypair，透過 pem 檔 ssh 進機器後，先來安裝 codedeploy agent 到機器上。裝到一半你會發現連 agent 的 aws s3 bucket 都抓不下來，原來是我們還沒設定 EC2 的 Instance Profile，也就是 EC2 類型的 Role。請去 IAM 設定，並如同連結裡面加上 S3 的存取權限。這權限一定要開，即使現在用 wget 直接拉 bucket 的 agent install script 下來裝完，之後要從 s3 部屬時沒開也沒法抓啊。{    \"Version\": \"2012-10-17\",    \"Statement\": [      {        \"Action\": [          \"s3:Get*\",          \"s3:List*\"        ]      }    ]  }範例 S3 的 widecard 權限，當然還是詳細指定比較好。先新增 Policy，在建立 EC2 Type 的 Role Attach 上去，或是建立 Role 時寫成 Inline Policy。是的。就是這兩點搞死我。第一，EC2 Role 要先設定 S3 存取權，並在 Instance 建立時掛載。第二，CodeDeploy Agent 要先裝上 Instance。教學是都搜尋的到啦，可是排成一個完整版不好嗎，都已經拆 Step by Step 了，還 Lost 一堆，崩潰啦，難怪各種 AWS 代管服務蓬勃發展啊無誤 XDDD再跑一次首先在 IAM 建立兩個 Role ，一個是給 EC2 的，一個是給 CodeDeploy 的。EC2 Role 直接用上面提到的 S3 Bucket 權限寫進去，EC2 的 Role 又稱 Instance Profile，呵。CodeDeploy 的 Role 直接掛上官方的 CodeDeployPolicy，如圖：依照教學 Launch Amazon 的 Linux Instance，記得掛上剛剛建立的 EC2 Role。成功 ssh 連進去後安裝 code deploy agent，ubuntu 就選 apt 的那個，Amazon 自家 Linux 就選 yum 的那個，把他裝起來。依照教學，把 WordPress 的 Repo 載下來，建立相應的 init script 還有 appspec.yml。依照教學，利用 aws cli 建立 application，上傳 s3，這邊依照教學要開一份 IAM 的 User，掛上 s3 put 的權限，下載 User 的 credential (id &amp; secret key)，跑 aws configure 填入設定，這樣才可以在這臺暫時的工作機上傳檔案到 s3。依照教學打包 WordPress 上傳 s3。到 CodeDeploy Console 建立 Deploy 設定。設定 DeployGroup，權限記得掛上之前建立的 CodeDeploy Service Role，其它照著跑。建立部屬行動(Deployment，the 名詞)，看有沒有部屬成功。假如連 Events 都沒顯示，大概是 IAM 權限設定有問題，看一下 EC2 Role 和 CodeDeploy Role 有沒有設定正確大概就這樣啦，這還只是 WordPress 而已，我要部屬的可是 Rails App 欸，之後想必有更細節的其它地方。這樣跑完了一次（還順便被雷了一下午），對 AWS 的理解就更深了，請期待之後的後續文章，哈哈哈（不要說一說就不寫了）（完）",
-				"url": "/blog/2016/04/01/15th-use-aws-codedeploy-deploy-wordpress/",
-				"date": "Apr 1, 2016"
-			}
-			,
-		
-			"blog-2016-03-26-from-hackpad-to-quip": {
-				"title": "第十四篇 - 從 Hackpad 搬家到 Quip",
-				"url": "/blog/2016/03/26/from-hackpad-to-quip/",
-				"author": "",
-				"category": "",
-				"content": "你知道，Hackpad 自從被 Dropbox 買走之後就沒增加新功能了，從 15 年四月收到信說要幾周後開源，也是過了很久的八月才完成(雖然也沒有很久啦)。當然技術公司的整並進去必定要做一堆的交接、磨合、修改成能開源的版本；不過十二月時又有 Dropbox 關掉 Mailbox 的前車之鑑，一路看下來我們還是多做幾個備份好 :pQuip 的好就不用多說了，由 Facebook 前 CTO Bret Taylor 創立，最近才在 15 年十月拿到 30M 的 B 輪投資金，結合 React Native C++ Binding 強大技術力的 Desktop Client，近幾個月來也持續在 UI、功能上優化，前途真是一片光明啊(?)。把 Hackpad 轉移到 Quip 確實是個不錯的決定（鋪陳這麼久就為了這句 XD），加上 Quip 也非常 Nice 的提供此功能：Some of our users have asked us for a @Hackpad import tool, and we wanted to share it with you. Check it out! https://t.co/VstwZVEiLb&mdash; Quip (@quip) 2014年6月8日Well, 早在 14 年吶。雖然 Dropbox Paper（前 Hackpad）也有提供導入功能，不過竟然還需要寫信到客服信箱，告知要匯入的 workspace 之後才能匯入。產品已經變你們家的，竟然還沒有無痛一鍵匯入是哪招啦 XDD。於是我的 Quip 搬家行動是勢在必行了，以下就略述這個從 hackpad 搬家到 quip 的過程。由 Hackpad 匯入至 Quip首先進入網頁版的 quip，點選右上的「新增文件」，依序選擇 「Upload or Import」、「Hackpad」：填入 hackpad 的 workspace name（workspace_name.hackpad.com）：點入 Quip 提示的連結（https://workspace_name.hackpad.com/ep/account/settings），並填入 Client ID 和 API Key：點 Import Pads to Folder，Quip 就會開始匯入了，結果如圖：修正 Quip Importer 權限如果你是 workspace 的 admin，你會發現在 workspace 中，由其他人建立的 pads 不會被 Quip 匯入，我們需要修正權限才能讓其它 pads 被正確的匯入。首先到 Hackpad 的 account manager（https://workspace_name.hackpad.com/ep/admin/account-manager/）由把 Quip Importer 的權限由 Guest 調整成 Member，選完之後點 Update再等一下，剩餘文件就會陸續匯進 Quip 中。（完）",
-				"url": "/blog/2016/03/26/from-hackpad-to-quip/",
-				"date": "Mar 26, 2016"
-			}
-			,
-		
-			"blog-2016-03-19-taiwan-uniform-invoice-lottery-ruby-gem": {
-				"title": "第十三篇 - 弄了一個統一發票查詢的 gem",
-				"url": "/blog/2016/03/19/taiwan-uniform-invoice-lottery-ruby-gem/",
-				"author": "",
-				"category": "",
-				"content": "感覺很久沒發文章了。因為正在準備大重構敝司的程式碼，最近這兩天，就把八個多月前寫的一個「統一發票兌獎」的 gem 給重構了一番，順便找一下手感。其實無非就是加些 class，修一些 bug，補些測試，還是來這邊記錄一下，畢竟也半年多沒更新了 XDUniform Invoice Lottery(Github)安裝一如往常在 Gemfile 加上gem 'uniform_invoice_lottery'然後跑 bundle使用範例require 'uniform_invoice_lottery'prize = UniformInvoiceLottery.check '82930261', time: Time.new(2015, 7, 26)prize = UniformInvoiceLottery.check '82930261', year: 2015, month: 7 day: 26puts prize.amount # =&gt; \"10000000\"puts prize.title  # =&gt; \"特別獎\"大概這樣，資料是從財政部這抓的。不過我的 css selector 過了八個月又大修了一番，希望別再無效了 :p",
-				"url": "/blog/2016/03/19/taiwan-uniform-invoice-lottery-ruby-gem/",
-				"date": "Mar 19, 2016"
-			}
-			,
-		
-			"blog-2016-01-23-spex-eshop-amazon": {
-				"title": "在 Amazon.com 買東西，再利用 SPEX eSHOP 轉運服務回台",
-				"url": "/blog/2016/01/23/spex-eshop-amazon/",
-				"author": "",
-				"category": "",
-				"content": "上個月用轉運服務把在 Amazon 訂的幾罐綜合維他命運回臺灣，在這裡記錄過程。我用的是 SPEX eSHOP 這家服務，後來聽朋友說他們 Facebook 廣告打得也挺凶的，只不過我從來沒看過。當初只是在 Google 搜尋美國轉運時，出現在前幾項結果，看起來網站還不錯的就直接用了。借用他們網站的步驟圖，步驟就是註冊網站帳號取得轉運地址在網路商城下定商品並填寫轉運地址為寄送地址SPEX eSHOP 集貨完畢將貨品運回臺灣貨品再透過宅急便或郵寄送達你家以下便以這次購買的綜合維他命為例子跑完全部流程。要注意的是維他命有進口數量限制，每種限十二瓶，總數不得超過三十六瓶。註冊轉運服務帳號先到 SPEX eSHOP 註冊帳號，直接選 FB 快速註冊就可以了。會填寫一些如身份證字號等等的資訊。註冊完帳號後到首頁可以看到他們在美國的住址：1321 W. Foothill Blvd.SPEX eSHOP ECT0012345Azusa, CA 91702其中 ECT0012345 就是你在 SPEX eSHOP 的會員號碼。（這裡填的是範例）在網路商店購物並填寫運送資訊在 Amazon 購物需要註冊，選完品項數量之後按放入購物車(Add to Car)選擇 one-time perchase 就可以了，Amazon Prime 的 Free Shipping 也不用勾，剛好這個品項是免運費的。結帳！填寫運送地址，這邊填上從 SPEX eSHOP 拿到的地址。選標準運送。再下一步是用信用卡付款，填寫資訊即可。結束之後在你的訂單點選追蹤包裹(Track Package)後可以拿到一組 UPS 公司的物流編號。我們要將它回填到 SPEX eSHOP。這裡也有一組訂單編號(ORDER)要記下來。預計到達日期也要記起來。物流編號在這裡。在 SPEX eSHOP 建立委託單回到 SPEX eSHOP 的首頁，我們就可以建立委託單讓轉運公司知道我們有買了那些東西。填入剛剛拿到的物流編號，點立即查詢。建立新包裹下一步在這邊填上包裹完整的資訊。新建完包裹後就等物流配送到 SPEX eSHOP。填寫委託單待 SPEX eSHOP 收到包裹後他會用 Email 通知你，接下來就照著指示填寫委託單即可。比較需要注意的點是得填寫清關文件。你需要列印他們提供的清關文件，並填寫蓋章後掃描成電子檔、上傳至 SPEX eSHOP 站上，也需要提供身份證影本。若不放心可以在身份證電子檔上加註「僅供 SPEX eSHOP 清關所用」的字樣。待資料備齊後還需要付兩次錢，一次是國際運費，一次是關稅，兩次 SPEX eSHOP 都會以 Email 通知，跳轉到玉山銀行（好象是）的支付頁面填入信用卡資訊支付。耐心等待Amazon 的運送進度非常清楚就不用說了，不愧為全球最強電商，SPEX eSHOP 雖然網站 UI 還有進步的地方，但是各個階段的資訊都很透明，粉絲專頁的訊息回覆也很快。本來他們站上的 FB 快速登入是有些問題的，再我反應後沒幾天就修正了 :p，客服非常好。結語以上就是上個月在 Amazon 購物轉運的經驗，有任何步驟有問題都可以留言哦，因為有些步驟沒法截圖，需要重新買一次商品才看得到，所以部分只能用文字說明帶過了。",
-				"url": "/blog/2016/01/23/spex-eshop-amazon/",
-				"date": "Jan 23, 2016"
-			}
-			,
-		
-			"blog-2015-08-29-12th-ntust-course-helper": {
-				"title": "第十二篇 - 台科課程匯入小幫手",
-				"url": "/blog/2015/08/29/12th-ntust-course-helper/",
-				"author": "",
-				"category": "",
-				"content": "台科課程匯入小幫手屁話這幾天串了 118 的學生資訊系統、 Colorgy 的 API 整合了 Table，做出了無痛匯入課程的小工具，算是開了 Colorgy 第三方 App 的第一槍 =w=（自以為）直接從學生資訊系統匯入課程這功能， NTU Sweety Course 和 NTHU Course、NCTU+ 都有類似的實作，112/113 的版本似乎直接串學校，就不知道是官方還非官方了XD。當然一提到校園模擬選課就必須拜一下碼頭，CrossLink。找回一個玩樂心態來弄這個小玩意，沒啥特別計劃，時機到累積完就做出來了 Q_Q，感謝捏神支援。照慣例把玩具放在 Heroku，說到他們最近政策也滿妙的，之前一直寄信說每天只能開機十八小時，現在過了 8/16 了也都照常使用，41J 也沒碰上過啥問題，還沒付過 heroku 錢欸 XD，It&#39;s the future.Gihub: https://github.com/Yukaii/SchoolAgentRepo 原始英文超中二的 XDDD，不忍直視，請不要去翻 commit 穴穴尼一些介面完全的 mobile first，也懶的弄 RWD 了 XD尾刀雖然這邊沒啥人看，不過就只發在這裡了，等待有緣人發現啦w。有一天這功能大概會被默默整合進 Table 裡，呵。還有要告解的地方嗎？",
-				"url": "/blog/2015/08/29/12th-ntust-course-helper/",
-				"date": "Aug 29, 2015"
-			}
-			,
-		
-			"blog-2015-05-03-how-to-write-web-crawler-for-the-first-time-using-ruby": {
-				"title": "第十一篇 - 第一次自幹爬蟲就上手 - 使用 Ruby",
-				"url": "/blog/2015/05/03/how-to-write-web-crawler-for-the-first-time-using-ruby/",
-				"author": "",
-				"category": "",
-				"content": "目標我們將會解析中正大學選課系統的選課資料，將它轉換成我們想要的格式 (JSON)，把它存起來。預先知識已經裝好 ruby 環境了如果是 OSX 記得把 Command Line Tool 裝起來PART A:準備檔案    $ mkdir ccu    $ cd ccu    $ touch Gemfile crawler.rb建立專案資料夾及檔案，Gemfile 是 Bundler 用來管理 ruby 套件相依的工具，沒有裝的先來裝個。接下來前往中正大學課程網站下載該學期的課程資料，網頁下方有一個 開課資料壓縮檔下載 的區塊，下載並解壓縮，放到我們的專案目錄底下。現在資料夾下檔案應該如下圖PART B:設置套件編輯 Gemfile 檔，設置這次中正課程爬蟲所需要的套件。加入以下兩行：source 'https://rubygems.org'gem 'nokogiri'gem 'pry'其中 nokogiri 是超常用，用來解析 HTML/XML 標簽語言結構的套件。它可以將你的 HTML 檔解析成 Nokogiri 的物件，方便查詢、篩選。pry 你可以先把它想像成一個加強的 irb，附加上 syntax highlighting, plugin architecture, runtime invocation 等等強大的功能。我一般都用來 debug。寫完之後跑 bundle，安裝完這兩個套件bundle裝完長這樣PART C:玩一下先觀察一下課程網頁的結構每個課程網頁裡面都有一張表格，表格每一列有我們需要的課程資料，我們要做的就是把每一格的資料從網頁中抓出來。打開 Chrome 開發人員工具，對表格中的其中一格選擇檢查元素，可以看到下面的結構&lt;table&gt;  &lt;tbody&gt;    &lt;tr&gt;....&lt;/tr&gt;    &lt;tr&gt;      &lt;td&gt;...&lt;/td&gt;      &lt;td&gt;...&lt;/td&gt;      ...    &lt;/tr&gt;  &lt;/tbody&gt;&lt;/table&gt;&lt;td&gt;標記中存的就是我們要的資料。它的結構是 table 包 tbody 包 tr 包 td。稍微的來跟 pry 玩一下。打開 Terminal 確定我們在專案目錄下，啟動 pry 進度 interactive console 模式：將任意一個課程網頁檔讀進來str = File.read('1031/1014.html');我在行末加上一個分號，這是讓 pry 不會預覽回傳值。當沒加的時候，就會預覽回傳值，也就是讀進來的 html在此界面下，j/k 上下捲動，d/u 捲動半頁，q 離開回到 console。再來載入 nokogiri，將剛剛讀取進來的 html 資料字串轉為 Nokogiri 物件，我們將物件存為 doc 變數：require 'nokogiri';doc = Nokogiri::HTML(str);在此我們就進入爬蟲的精華了！(自己說)接下來我們將使用 CSS selector(選擇器) 語法，幫助我們從落落長的 html 文件中拿取我們要的資訊。css selector 基本的規則分成幾個：HTML tag selectorid selectorclass selectorattribute selectorhtml 長這樣&lt;table class=\"hi\" id=\"table1\" width=\"500\"&gt;&lt;/table&gt;&gt;也就是&lt;tag class=\"class-value\" id=\"id-value\" attribute=\"attribute-value\"&gt;&lt;/tag&gt;&gt;在使用 css selector 就會用table.hi#table1[width=\"500\"]來選擇，選擇也可以是多層的，例如 &lt;table&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;就用table tr td更多詳細精確的用法，請自行 Google。繼續剛才的進度，我們把 Nokogiri 的物件存成了 doc，我們可以開始用這個物件下 css selector，例如doc.css('table')doc.css('table tr')doc.css('table tr td')可以分別試試看結果。Nokogiri 在 select 時也可以是嵌套的，請記住，.css(&#39;&#39;)方法回傳是一個 nokogiri 物件的陣列，所以我們可以這樣用doc.css('table').first.css('tr').first.css('td')代表第一個 table 中的第一個 tr(table row)中的第一個 td(table data)PART D:動工require 'nokogiri'require 'pry'require 'json'courses = []Dir.glob('1031/*.html').each do |filename|  str = File.read(filename)  doc = Nokogiri::HTML(str.encode(\"utf-8\", :invalid =&gt; :replace, :undef =&gt; :replace))  doc.css('table tr:not(:first-child)').each do |row|    datas = row.css('td')    courses &lt;&lt; {      grade: datas[0] &amp;&amp; datas[0].text,      serial: datas[1] &amp;&amp; datas[1].text,      class_type: datas[2] &amp;&amp; datas[2].text,      name: datas[3] &amp;&amp; datas[3].text,      lecturer: datas[4] &amp;&amp; datas[4].text,      credits: datas[6] &amp;&amp; datas[6].text,      required_or_elective: datas[7] &amp;&amp; datas[7].text,      time_location: datas[8] &amp;&amp; datas[8].text,      type: datas[10] &amp;&amp; datas[10].text,      outline: datas[11] &amp;&amp; datas[11].css('a')[0] &amp;&amp; datas[11].css('a')[0][:href],      note: datas[12] &amp;&amp; datas[12].text    }  endendFile.open('courses.json', 'w') {|file| file.write(JSON.pretty_generate(courses))}這是最終完成的結果，實際上和我們剛才在 pry 裏試玩時差不了多少，一些函式如果不理解都可以 Google，有幾點注意。encodestr.encode(\"utf-8\", :invalid =&gt; :replace, :undef =&gt; :replace)在這段我將檔案讀出的編碼去掉不合法和未定義的部分，否則在輸出成 JSON 時會出錯。賦值datas[2] &amp;&amp; datas[2].text先確定 data[2] 非 nil，再取用方法，比用 if 判斷 data[2].nil? 簡潔Debug在你想要的斷點加入binding.pry一般來說我會在插入的該行下方再多加入一行無意義的輸出，例如：binding.pryputs \"asdf\"因為假如 binding.pry 的下一行是 end 或是方法結束，斷點會直接跳回上一層，很不方便。在斷點的地方你可以直接取用你所在區域的變數，以及可以用的方法，如此你可以邊寫邊確認你的程式碼是正確、或是你想要的，就不用在每次 print 出來啦！",
-				"url": "/blog/2015/05/03/how-to-write-web-crawler-for-the-first-time-using-ruby/",
-				"date": "May 3, 2015"
-			}
-			,
-		
-			"blog-2015-04-26-tenth-chapter-new-york-shi-yijie": {
-				"title": "第十篇 - 綜合外電施旖婕(41J)",
-				"url": "/blog/2015/04/26/tenth-chapter-new-york-shi-yijie/",
-				"author": "",
-				"category": "",
-				"content": "以下轉自我的 Github。蘋果日報即時新聞監看，簡稱 Apple Watch這是幹嘛的？不知大家有沒有聽過「施旖婕」這響叮噹的名號，總之就是蘋果日報專發腥羶色新聞的專用作者名，不管了就是我老婆。詳細可以 follow 八卦版系列文。於是就寫了一份可以監看蘋果日報即時新聞的 Rails 服務，目前在上面可以看到每天蘋果日報上，記者施旖婕所 PO 的綜合外電，感受世界各地滿滿的惡意(X)。目前部署在 heroku，因為是，定時用 UptimeRobot 戳一下讓它自動跑 task 即可。Todos前端統計圖表(等資料量至少累積一個月吧 XD)Administration(爽度問題)串 Facebook Message API，讓你隨時感受 1J 的愛自動 PO 粉絲專頁-綜合外電施旖婕 已完成熱門度(自動更新蘋果上面的熱門度，加上自己站上的)等等，好像還挺多的。好玩嘛",
-				"url": "/blog/2015/04/26/tenth-chapter-new-york-shi-yijie/",
-				"date": "Apr 26, 2015"
-			}
-			,
-		
-			"blog-2015-04-26-nineth-using-itunes-match": {
-				"title": "第九篇 - 使用 iTunes Match",
-				"url": "/blog/2015/04/26/nineth-using-itunes-match/",
-				"author": "",
-				"category": "",
-				"content": "曾經有一陣子很熱衷「試聽」音樂，iTunes Library 不知不覺就長到了 90GB。iTunes 實在方便，乾淨的專輯封面總攬，這樣選歌差不多也就夠了。但自從換了有 SSD 的電腦，90GB 的音樂對於硬碟空間也是太奢侈了。以前的玩法複製到 Nas 中，區網掛載。方便性還可以接受，畢竟 Library 都還看到自己的所有歌，只是受限于區網設備，有時候硬碟掛載失敗，或是花很久時間載入，在外網或是手機端也無法使用。iTunes Match年費 NT$ 690，以現有的音樂資料庫（不管你是不是試聽版來著）去核對 iTunes 的資料庫，如果他們商店有就記錄起來，如果找不到，就將歌曲上傳至 iCloud，每一個登入 iTunes 帳號的裝置，手機平板或其他台電腦都可以即時串流，也可以透過 iCloud 下載至裝置，好處自然不計多說，Android 暫時無解，限制最多只能存放 25000 首歌。偷偷說，一年不小心試聽三張專輯就回本啦......算算我也放了一半多了(一萬兩千多首)，之後的增加速度就會小很多了吧，哈哈。",
-				"url": "/blog/2015/04/26/nineth-using-itunes-match/",
-				"date": "Apr 26, 2015"
-			}
-			,
-		
-			"blog-2015-04-26-eighth-get-free-heroku-app-does-not-automatically-shut-down": {
-				"title": "第八篇 - 讓免費 Heroku App 不會自動關機",
-				"url": "/blog/2015/04/26/eighth-get-free-heroku-app-does-not-automatically-shut-down/",
-				"author": "",
-				"category": "",
-				"content": "免費的 Heroku 開的 App 只要過半小時，就會自動關機。雖然啟動很快，不過體驗就差了。一般的做法是安裝 newrelic 監控，每隔一段時間交流一下，就可維持開機狀態。不過本 ghost 部落格一直設定不起來 newrelic 的 node 套件，只好找了個替代品 UptimeRobot 來使用。免費的方案可以 monitor 五十個站台，最短 interval 為五分鐘，夠用了。表現倒是不錯，設定每十五分鐘左右自動 ping 個，就和一般網站一樣啦，皆大歡喜 XD。",
-				"url": "/blog/2015/04/26/eighth-get-free-heroku-app-does-not-automatically-shut-down/",
-				"date": "Apr 26, 2015"
-			}
-			,
-		
-			"blog-2015-04-10-seventh-to-write-an-html-email": {
-				"title": "第七篇 - 寫一封 html 的 email",
-				"url": "/blog/2015/04/10/seventh-to-write-an-html-email/",
-				"author": "",
-				"category": "",
-				"content": "Prerequisite一些簡單的 html/css 知識流程Email 裏 css 有些東西沒法用，所以需要測試在每一個 client 的效果。完整的支援表請見此。我的需求簡單的滿版就能搞定了，參考了問一的建議，儘量用 border / padding 來推，並沒有花很久的時間。先在 &lt;head&gt; 寫完 &lt;style&gt; ，呈現大致的成果：測試寄信使用 Putsmail填上測試的 email 和 html，按送出就可以了，記得把 inliner 打勾。他也有提供 inliner 服務：其他資料Email寄信-css/html 排版,跑版問題Ideas Behind Responsive EmailsMastering HTML EmailPreview in Gmail, Hotmail, AOL, and Yahoo結論此篇大抵就是資料的再整理與截圖。看完吉米丘寫的R.I.P. 臉書上的一切精采好內容之後覺得還是要來寫一下 Blog 比較好啊 XDD以上。",
-				"url": "/blog/2015/04/10/seventh-to-write-an-html-email/",
-				"date": "Apr 10, 2015"
-			}
-			,
-		
-			"blog-2015-02-19-campusbooks-com-api-usage": {
-				"title": "第六篇 - CampusBooks.com 的 API 使用",
-				"url": "/blog/2015/02/19/campusbooks-com-api-usage/",
-				"author": "",
-				"category": "",
-				"content": "好久不見！忙裡偷閒的來篇小記，重理思路再出發。近一兩個月都在都在處理跟書相關的事，畢竟也算半個書商了，在書籍資料搜尋上，和大家介紹個好站。簡介CampusBooks.com，據說也是做 SEO 的公司起家，透過此網站，你可以方便的搜尋各類教科書的資料，書名作者 isbn 都基本，還可以直接顯示在各大書店價錢：&lt;!--more--&gt;Google 得知他也是有開放 api 的，只是要合作才能申請 API key，想想也沒美國時間，就 inspect 了一下他的網站，發現十分工整 rest url：就直接拿 api key 來用了哈哈。SITE_API_KEY = PA52HnTGaTSyizTOq4j1API對照了網路上僅存的第三版 api document 看，先列出幾個基本的，有需要再慢慢找啦：透過 isbn 拿書資料GET http://api2.campusbooks.com/13/rest/bookinfo?key=API_KEY_HERE&amp;isbn=xxxxxxx&amp;format=json可以把 json response 打開，否則預設是 xml：&amp;format=json範例結果：{    \"response\": {        \"status\": \"ok\",        \"version\": \"13\",        \"label\": {            \"plid\": \"0\",            \"name\": \"CampusBooks.com\",            \"website_id\": \"0\",            \"website_name\": \"CampusBooks.com\"        },        \"page\": {            \"name\": \"books\",            \"f\": \"search\",            \"books\": {                \"page\": 1,                \"limit\": 1,                \"results_returned\": 1,                \"total_pages\": 1,                \"total_results\": 1,                \"book\": [                    {                        \"isbn10\": \"1111570051\",                        \"isbn13\": \"9781111570057\",                        \"author\": \"\",                        \"binding\": \"Paperback\",                        \"edition\": \"\",                        \"image\": {                            \"width\": 60,                            \"height\": 75,                            \"image\": \"http://ecx.images-amazon.com/images/I/51XzAECQ6xL._SL75_.jpg\"                        },                        \"msrp\": 97.62,                        \"pages\": \"\",                        \"publish_date\": \"\",                        \"publisher\": \"Example Product Manufacturer\",                        \"rank\": 1603132,                        \"rating\": 0,                        \"title\": \"Brief Applied Calculus. James Stewart, James Stewart, Dan Clegg\"                    }                ]            }        }    }}拿書價格把 price field 打開GET http://api2.campusbooks.com/13/rest/bookinfo?key=API_KEY_HERE&amp;isbn=xxxxxxx&amp;format=json&amp;f=prices輸出有點長就不貼了。小結根本沒長到需要寫小結啊（飛踢）如果沒差舊版的 API 文件太多，其他還有 search / bookprices 可以用，不過我沒有用到就暫時不寫了。基本上 campusbooks 的書是非常齊全了，他們有從 1998 開始的資料，OpenLibrary 有些找不到的書，這裡都找的到；順帶一提，OpenLibrary 也有好用的 api，也有 ruby gem，就單本書的資料上會比 campusbooks 更齊。新年第一篇文，就祝大家新年快樂啦！",
-				"url": "/blog/2015/02/19/campusbooks-com-api-usage/",
-				"date": "Feb 19, 2015"
-			}
-			,
-		
-			"blog-2014-06-28-fifth-to-install-unity3d-on-ubuntu-with-playonlinux": {
-				"title": "第五篇 - 在 Ubuntu 中安裝 Unity3D Game Engine",
-				"url": "/blog/2014/06/28/fifth-to-install-unity3d-on-ubuntu-with-playonlinux/",
-				"author": "",
-				"category": "",
-				"content": "首圖炫耀下。最近準備再來弄一個Unity3D專案，但筆電又被我灌回了Ubuntu 14.04，在考慮行動性下，優先在Ubuntu環境下安裝Unity3D。    環境：Ubuntu 14.04Unity 4.5.1f3安裝基本上參考這篇裝playonlinux（POL），裝Wine 1.7，設置playonlinux，準備好Unity3D安裝檔，使用該篇提供的POL script完成安裝。（附於本文文末）安裝後問題unable to find a version of the runtime to run this applicationwine: cannot find L&quot;C:\\windows\\Microsoft.NET\\Framework\\v4.0.30319\\mscorsvw.exe&quot;和DNSAPI.dll的讀取問題（錯誤代碼找不到orz...）兩個問題。以上問題皆因為不明原因，函式庫設定跑掉。進入wine配置函式庫，改下相應的：使用問題已知Assest Store開了無畫面。再來就是Project存的位置不能有中文，可能是wine的問題吧。我是透過在桌面設一個捷徑解決：（萬里花的大腿，prpr）然後Unity開專案時存到此捷徑：playonlinux Script以下script來自原帖的第七版，請複製另存成XXX.pol。#!/bin/bash# Date : (2014-03-07 10-21)# Last revision : (2014-03-07 10-21)# Wine version used : 1.7.14# Distribution used to test : OpenSuse 13.1# Authors : waneck-six, Damian-LinuxFan, Tomza (&lt;a class=\"linkclass\" href=\"mailto:pogtoma@gmail.com\"&gt;pogtoma@gmail.com&lt;/a&gt;), gnumaru, Doctor Jellyface (&lt;a class=\"linkclass\" href=\"mailto:doctorjellyface@riseup.net\"&gt;doctorjellyface@riseup.net&lt;/a&gt;)# Contributors: Goran Grncaroski (running MonoDevelop), other people (testing solutions)# Script licence : GPL v.2# Only For : &lt;/span&gt;&lt;a href=\"http://www.playonlinux.com\" target=\"_blank\" rel=\"noreferrer\" style=\"cursor:help;display:inline !important;\"&gt;http://www.playonlinux.com&lt;/a&gt;# Depend :# Known Issues : You can't use Asset Store[ \"$PLAYONLINUX\" = \"\" ] exit 0source \"$PLAYONLINUX/lib/sources\"TITLE=\"Unity 3D\"PREFIX=\"Unity3D\"WINE_VERSION=\"1.7.14\"POL_SetupWindow_InitPOL_Debug_InitPOL_SetupWindow_presentation \"$TITLE\" \"Unity\" \"&lt;a href=\"http://www.unity3d.com/\" target=\"_blank\" rel=\"noreferrer\" style=\"cursor:help;display:inline !important;\"&gt;http://www.unity3d.com/&lt;/a&gt;\" \"waneck-six, Damian-LinuxFan, Tomza, gnumaru, DoctorJellyface\" \"$PREFIX\"#create prefixexport WINEARCH=\"win32\"POL_Wine_SelectPrefix \"$PREFIX\"POL_Wine_PrefixCreate \"$WINE_VERSION\"#setup prefixPOL_Wine_InstallFontsPOL_Call POL_Install_d3dx9POL_Call POL_Install_dotnet20POL_Call POL_Install_dotnet35POL_Call POL_Install_dotnet40POL_Call POL_Install_tahomaPOL_Call POL_Install_vcrun2008POL_Call POL_Install_vcrun2010POL_Call POL_Install_mono210POL_Call POL_Install_d3dx9_36POL_Call POL_Install_d3dcompiler_43POL_Call POL_Install_dxdiagPOL_Call POL_Install_dxfullsetupPOL_Call POL_Install_physxPOL_Call POL_Install_corefontsPOL_Call POL_Install_msxml6POL_Call POL_Install_wininetPOL_Call POL_Install_ie8#Setting OS werSet_OS \"winxp\" \"sp3\"#Setting mono forcing in MonoDevelopPOL_Wine_OverrideDLL “native, builtin” “mscore”POL_Wine_OverrideDLL “builtin, native” “dnsapi”POL_Wine_OverrideDLL \"\" \"mscorsvw.exe\"mkdir -p $WINEPREFIX/drive_c/users/$USER/AppData/LocalLow#registryPOL_Wine reg add \"HKLM\\Software\\Microsoft\\Windows NT\\CurrentVersion\" /v ProductId /t REG_SZ /d 12345-oem-0000001-54321POL_SetupWindow_browse \"Please select the location of the Unity3D setup executable\" \"$TITLE\"UNITYLOC=$APP_ANSWERPOL_Wine $UNITYLOCPOL_Shortcut \"Unity.exe\" \"$TITLE\"POL_SetupWindow_Closeexit以上。",
-				"url": "/blog/2014/06/28/fifth-to-install-unity3d-on-ubuntu-with-playonlinux/",
-				"date": "Jun 28, 2014"
-			}
-			,
-		
-			"blog-2014-05-12-troubleshooting-phantosys": {
-				"title": "第四篇 - Phantosys 問題疑難排解",
-				"url": "/blog/2014/05/12/troubleshooting-phantosys/",
-				"author": "",
-				"category": "",
-				"content": "背景今天跟著去電腦教室喬電腦，發現教室系統用軟體是Phantosys，於是就摸索了下。殘酷的是，花了兩小才找出問題癥結，故誌於此。問題Q:無法載入遠端映像檔檢查各個網路連結是否正確，是否在DHCP位址分派上出了問題、BIOS Wake on Lan以及相關設定有無開啟。說到這就得抱怨一聲，華碩主機板在切換簡易模式與進階模式時不會自動儲存設定，讓我多測了好幾回，哀嘆。Q:Windows 載入時間過長看一下硬碟燈有沒有在閃，猜一下可能是硬體的問題。交叉測試也。心得明明還有歷史報告還跟人玩這個的我真是瘋了XDD太久沒碰硬體是好事呦。個人認為電腦教室工讀的工作應該要有一本傳承日誌(hackpad/Google Docs之類)，把可能遇到的問題記下來。例如這次問題想也知道就是有人在BIOS亂動設定，還不改回來，真不專業。不過沒有設定BIOS密碼也是問題之一，一半一半啦。以上。",
-				"url": "/blog/2014/05/12/troubleshooting-phantosys/",
-				"date": "May 12, 2014"
-			}
-			,
-		
-			"blog-2014-05-04-synergy-causing-windows-explorer-crash": {
-				"title": "第三篇 - Synergy造成Windows Explorer Crash",
-				"url": "/blog/2014/05/04/synergy-causing-windows-explorer-crash/",
-				"author": "",
-				"category": "",
-				"content": "問題在重裝Windows後，裝了一些常用工具並且重新啟動，發現Windows Explorer掛了。點選任何一個icon，包括開始選單的應用程式捷徑，都會造成Windows Explorer崩潰並重啟。解法打開「檢視所有問題報告」，並Google之，結果是Synergy的Shell Extension，貌似就這最新版(1.4.17)有這問題。比較簡單的方法就解除安裝，並安裝前一個版本(1.4.16)，再不然：下載ShellExView，開啟之後停用Synergy的Shell Extension。以上。",
-				"url": "/blog/2014/05/04/synergy-causing-windows-explorer-crash/",
-				"date": "May 4, 2014"
-			}
-			,
-		
-			"blog-2014-03-29-second-attempt-to-implement-threes-1024-2048": {
-				"title": "第二篇 - 嘗試實作Threes!/ 1024 /2048",
-				"url": "/blog/2014/03/29/second-attempt-to-implement-threes-1024-2048/",
-				"author": "",
-				"category": "",
-				"content": "不得不提，Logdown自動產生英文網址實在太猛了，不用反觀了沒一個能打的=w=今天花了一點時間嘗試實作最近 SITCON 很紅的遊戲Threes!以及各種衍生 致敬 版本（像1024啦、2048、服貿2048等等）。雖然一如往常的需要時間Debug，好說歹說也做出一個簡單的樣子了。其實只要搞懂規則，剩下來就看個人造化了。以下由規則切入演算法（大概），來吧。規則這幾個遊戲雖然看起來差不多，但規則上其實些微不同，以下便討論他們的不同：合併最開始讓人注意到的規則就是合併兩個方塊了。在 Threes! 裡面最基本的組合是1 + 2 = 3而在 1024 , 2048 等是由 2的1次方 開始，慢慢組合到 2的N次方。在方塊合併時其實是由滑動方向作為合併的判斷。我知道這句話說了跟放屁一樣沒啥用。好，來看例子：以下例子，三個3在同一列，此時往左推，將會造成：    3 3 3 █  →  6 3 █ █而非    3 3 3 █  →  3 6 █ █這說明了在判斷合併時，是由左向右判讀，左邊開始第一個遇到能合併的就先併了：    3+3 █ 3 █再將最右邊的3抓過來：    6 3 █ █但如果是四個同樣的數字呢？這邊的處理方式 Threes! 和 2048 就不同了。Threes! 會左合併一次，變成：    6 3 3 █再次往左消才會變成    6 6 █ █而 2048 會接「消到底」：    2 2 2 2 → 4 4 █ █方塊移動這和上一個規則類似，在 Threes! 只會一次移動一格， 2048 相當於「推到底」。隨機填補其實這個規則還是有些難猜，又還沒翻 2048 的原始碼，暫且不討論吧XD實作知道以上的規則大概就寫的出來了。一直很不熟物件導向的我，嘗試將每個格子設為一個物件，運用類似，Linklist（感謝學長）的方法將每個格子串在一起，類似以下這種寫法：class Grid{    Grid* right, left, up, down}這樣在寫合併時，只要從四邊出發，就能沿著路徑偵測合併的情況。  → → → →  → → → →  → → → →  → → → →另外又設定了一個二維陣列來管理遊戲板(board)Grid board[4][4]實作移動、合併等內容。目前遊戲內容還沒啥營養，純文字介面而已，「有空」套上 SDL，再加強一下，唉。Github",
-				"url": "/blog/2014/03/29/second-attempt-to-implement-threes-1024-2048/",
-				"date": "Mar 29, 2014"
-			}
-			,
-		
-			"blog-2014-03-22-stuck-in-checking-battery-status": {
-				"title": "第一篇 - Linux 開機卡在 Checking battery status........[ok]",
-				"url": "/blog/2014/03/22/stuck-in-checking-battery-status/",
-				"author": "",
-				"category": "",
-				"content": "屁話其實從我接觸ubuntu以來，各種與windows的戰爭就一直沒停過XD各種比較表啦，無痛轉換平台教學，把Windows習慣帶到linux上之類的，還是看鳥哥卡實在。究竟誰比較好，當然是OSX樂勝兩者啦，不過現在我是用Elementary OS，算是把linux的圖形介面提升至一個新的高度，而不只是各種華麗的炫技(雖然也是有，畢竟特效為必要之惡)，骨子裡還是ubuntu 12.04，而且安裝完佔用空間超小der因為一堆套件都沒裝orz。最近又看到朋友轉貼一則推坑ubuntu的懶人包，看到穩定度的描述，只能報以微笑啊呵呵，大家是用來架站又不是日常使用。剛好看到ubuntu正體中文站論壇的這篇抒發一下....接觸了六年的Ubuntu，於我心有戚戚焉。原因我的狀況是驅動問題，我這台老筆電的顯卡HD4330跑起來倒也順暢。下午裝了幾個套件，重開個機就掛了...各種相衝啊。一定是桌布不夠宅，怒換解決ctrl+alt+f1登入，下指令移除fglrx    sudo apt-get remove --purge fglrx fglrx-amdcccle然後重新開機    sudo reboot就完成了。via checking battery state / lightdm problem?",
-				"url": "/blog/2014/03/22/stuck-in-checking-battery-status/",
-				"date": "Mar 22, 2014"
-			}
-			
-		
-	};
+  var store = {
+    
+      "blog-2017-06-28-windows-unix-like-development-guide-nodejs-ruby": {
+        "title": "Windows Unix-Like 環境設定踩坑紀錄",
+        "url": "/blog/2017/06/28/windows-unix-like-development-guide-nodejs-ruby/",
+        "author": "",
+        "category": "",
+        "content": "## TL;DRHyper-V + Ubuntu Server + Samba + WSL ssh + cmder## 緣起自從印度人上臺之後，感覺微軟真的變了，從邪惡帝國主義（？）變成開源大法好，可惜基於歷史因素，社群圈講到微軟多半是酸居多，唉。至少從我這個 JavaScript 開發者兼 VSCode 愛好者來看，微軟真的進步超多了，害我都想拋棄 macOS、買台 Surface 跳槽 Windows 10 試試了。本文就是在購買 Surface 前的開發前置準備。如果買了 Surface 之後，整個開發 workflow 都要砍掉重練那也是滿累的 QQ。剛好最近回老家，就拿桌機的 Windows 10 來開刀吧！(至於我怎麼把 1G 的可用硬碟空間拉到 60G 那又是另一個故事了)## WSL - Windows Subsystem for Linux (Bash on Windows)在 Creators Update 之後，WSL 的能用度更高了，來試驗了一下 node.js 開發體驗揪竟是如何。* 存在 ulimit file descriptor 2048 限制 [BashOnWindows#1688](https://github.com/Microsoft/BashOnWindows/issues/1688)、[BashOnWindows#1576](https://github.com/Microsoft/BashOnWindows/issues/1576) 等。比如用 `copy-webpack-plugin` 就會噴錯，不過也有 `graceful-fs` 能解* 檔案系統還無法完美互通。官方文件是這樣說的：**DO NOT,** __**under ANY circumstances**__ **, create and/or modify Linux files using Windows apps, tools, scripts, consoles, etc.**。我遇到因為在 WSL 的 git 與 windows 的 git 交互使用，造成檔案遺失無法存取的狀況* 效能比想像中差，裝套件花的時間比想像中久(感覺上啦，沒真的測時間，Fall Creators Update 應該還會再提升)* 不太適合新手 w雖然開發程式跑得起來，但我只能用文字介面的 git？我才不要咧 XD 於是電梯向下，繼續找下一套替代方案。雖然遇到一些雷，可是 ssh、vim、tmux mosh 一系列工具在 WSL 裡面已經沒啥大問題了(好歹我沒遇到)，作為「原生 ssh 客戶端」算非常夠用啦 w。## VagrantVagrant 可以說是虛擬機開發懶人方案，用 ruby 寫設定檔，幫你把資料夾、網路共享、port forwarding 一次搞定。Vagrant 預設是用 virtualbox，也有 vmware 或 hyper-v 可以選用。就要另外找壓好的 vagrant box。因為 Hyper-V 似乎比 VirtualBox 的效能還要好，所以特別找了[基於 hyper-v 的 image](https://app.vagrantup.com/jjworren/boxes/xenial64) 來用，無奈就是跑不起來。看了一下命令列的輸出，發現他的目錄共享也是透過 samba 來弄。那就來自己搞吧！## Hyper-VWindows 內建的虛擬化方案，可以隨開關機自動啟動停止，完全無縫整合進 Windows 裡面！不過還不知道對續航力有啥影響，請期待 Surface 開箱文(誤)我直接裝上了 ubuntu server 16.04 版，反正桌面環境就用 Windows 10 的，UWP 大好。先建立一個虛擬交換器，之後日常照著裝完就好了。參考文件：* [Best Practices for running Linux on Hyper-V](https://docs.microsoft.com/en-us/windows-server/virtualization/hyper-v/best-practices-for-running-linux-on-hyper-v)* [Supported Ubuntu virtual machines on Hyper-V](https://docs.microsoft.com/en-us/windows-server/virtualization/hyper-v/supported-ubuntu-virtual-machines-on-hyper-v)### 設定 Samba 讓專案檔案共享弄到這的時候一直在想，到底要 **Windows 開共享資料夾讓 Ubuntu 掛載** 還是 **Ubuntu 開共享讓 Windows 掛載**呢？結論：**Ubuntu 共享讓 Windows 連線**。以 Node.JS 開發環境來說，`node_modules` 安裝的時候就要處理一堆 symlink 了，而 NTFS 不支援啊，所以前者一定爆的...（會這麼說是因為我在這卡很久 orz）(更新一下，其實 [Windows 是支援 Symlink](https://blogs.windows.com/buildingapps/2016/12/02/symlinks-windows-10/#oFj8QWsqO3o1e18O.97) 的，不過 linux 上的 samba client 不支援，還是掰呵呵)設定過程參考了以下資料：* [Ubuntu Server 設定 Samba 分享檔案](http://www.arthurtoday.com/2015/04/ubuntu-server-share-folder-samba.html)* [Ubuntu下samba安裝設定](http://flykof.pixnet.net/blog/post/23028119)* [使用Samba实现Linux与Windows文件共享实践](https://wsgzao.github.io/post/samba/)還有一點是要把建立的 samba user 加到目前使用者的 Group 底下，要不然每次都要 `chown` 很麻煩：```bashsudo usermod -G GROUP_NAME smbuser```![drive](http://i.imgur.com/SJYhYwJ.png)自此專案資料夾便能無痛掛載到 Windows 內，由 Windows 內的 IDE 或編輯器存取啦！## cmder說到 Windows 平台下好用的 Terminal 大家都會推 cmder，就是 ConEMU 加上 Git for Windows 一整套幫你裝好了，直接上截圖。字體是我愛用的 [mononoki](https://github.com/madmalik/mononoki)。![cmder](http://i.imgur.com/VHM4USs.png)可惜的是還沒有滑鼠支援，大家可以到 [ConEmu#1114](https://github.com/Maximus5/ConEmu/issues/1114) 追蹤。## Git* filemode 要設為 false，不然權限會顯示成 diff* [修正 git over samba 的權限問題](https://stackoverflow.com/questions/20958888/preserving-file-permissions-for-samba-shares-when-file-is-edited)、[修正指令](https://stackoverflow.com/questions/6448242/git-push-error-insufficient-permission-for-adding-an-object-to-repository-datab/6448326#6448326)## 為何不用 Docker (moby)？[Docker for Windows 背後也是 Hyper-V 啊](https://docs.docker.com/docker-for-windows/install/#download-docker-for-windows) XD看論壇上的討論([stackoverflow](https://stackoverflow.com/questions/22842920/how-to-edit-code-in-a-docker-container-in-development)、[forum](https://forums.docker.com/t/best-practices-for-getting-code-into-a-container-git-clone-vs-copy-vs-data-container/4077))大都搭配 data container/volumn mounting/shared drive 的方式來弄，不過你也知道 NTFS 一扯到 symlink [目前還是沒戲兒](https://github.com/docker/for-win/issues/109)。另一種方法是用 [COPY](http://blog.cloud66.com/how-to-get-code-into-a-docker-container/) 來弄，不過跟 Windows 相容性如何，那畫面太美我不敢想 😂 所以囉## 結論說實話有點高估 WSL 的能耐了 XD 如果在輕量級開發(多輕量？我也不知道)之下，體驗說不定真的很好。剩下來的設定檔全面移轉、AHK Scripting、各式輔助軟體就等 Surface 開箱之後再說吧 XDD![VSCode](http://i.imgur.com/G09U4RQ.png)本篇文章就是在 Windows 下的 VSCode 編輯 Markdown、配上 Hyper-V 下的 Ubuntu 使用 Jekyll 生成的。讚讚 😍主題是 [Kary Light](https://github.com/karyfoundation/kf-theme-vscode) 配上 [Inziu Iosevka](https://be5invis.github.io/Iosevka/inziu.html)，Windows 跟這套字體真是絕配！（完）",
+        "url": "/blog/2017/06/28/windows-unix-like-development-guide-nodejs-ruby/",
+        "date": "Jun 28, 2017"
+      }
+      ,
+    
+      "blog-2017-05-04-deploy-redmine-with-puma-nginx-migration-from-mysql-to-postgresql": {
+        "title": "使用 puma 和 nginx 部屬 Redmine（加上從 MySQL 搬到 PostgreSQL）",
+        "url": "/blog/2017/05/04/deploy-redmine-with-puma-nginx-migration-from-mysql-to-postgresql/",
+        "author": "",
+        "category": "",
+        "content": "前陣子看了幾篇 Linode 安利文，每月五鎂的機器好像就 Linode CP 值最高惹，管理界面雖然看起來陽春，使用起來倒挺有效率的。這幾天就把擺在 Vultr 上的自用服務 (Redmine，幾個 crontab 腳本) 搬到了 Linode 上。除了單純的搬家外，部屬的 Redmine 也做了一些調整：- 3.2 到 3.3- 資料庫由 MySQL 轉換到 PostgreSQL- Application server 由 passenger 換成 puma- 版控由官方 svn 換成 git mirror，方便操作 XD總之本篇除了是我的搬家筆記，還可以視為**自架 Redmine 指南**（大概啦）。## 設定新伺服器直接在 Linode 東京開了台 Ubuntu 的 Instance，然後 ssh 打密碼連進去。### 解決 apt-get update 卡住問題請參考 [apt-get update stuck: Connecting to security.ubuntu.com](https://askubuntu.com/a/787491)### 裝 Dependency首先當然就把系統的相依套件裝一裝，包含 tmux、postgres 資料庫等等。滿建議學習一下 tmux 的。可以開兩個 tab，一個 root 權限，一個一般權限，方便許多，不用一直切 su。```bashapt-get update && apt-get upgrade && apt-get install -y git build-essential tmux postgresql libpq-dev # databaseapt-get install -y libssl-dev libreadline-dev zlib1g-dev # ruby dependencyapt-get install -y imagemagick libmagickcore-dev libmagickwand-dev # redmine dependency```### 建立 deploy 用的使用者我不希望直接用 root 帳號跑起 Redmine 服務。總之就是安全性疑慮啦 XD。直接打 `adduser` 走完過程：```bashadduser deploy```### 安裝 Redmine#### 下載原始碼切到 `deploy` 帳號，把 redmine clone 下來，並把設定檔弄好：```bashsu deploycd ~ # 切到家目錄git clone https://github.com/redmine/redminecd redminegit checkout -b 3.3-stable origin/3.3-stablecp config/database.yml.example cp config/database.ymlcp config/configuration.yml.example cp config/configuration.yml```#### 建立 Ruby 環境使用 [rbenv](https://github.com/rbenv/rbenv) 裝 ruby，直接照著步驟跑：```bashgit clone https://github.com/rbenv/rbenv.git ~/.rbenvcd ~/.rbenv && src/configure && make -C srcecho 'export PATH=\"$HOME/.rbenv/bin:$PATH\"' >> ~/.bash_profile # linode 上是 .bashrc~/.rbenv/bin/rbenv init # 貼上輸出到 .bash_profile 或 .bashrcgit clone https://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build # 裝 ruby build```裝 ruby：```bashrbenv install 2.3.4rbenv global 2.3.4echo 'gem: --no-ri --no-rdoc' >> ~/.gemrcgem install bundler```#### 設定資料庫用好棒棒的 [`pgcli`](https://github.com/dbcli/pgcli) 與本機 postgres 建立連線。上面 APT 套件裝完後應該就會自己跑起來了。```bashapt-get install pgclisudo -i -u postgrespgcli```進去以後，建立使用者和資料庫：```sqlCREATE USER redmine WITH PASSWORD 'PASSWORD';CREATE DATABASE redmine;GRANT ALL PRIVILEGES ON DATABASE redmine to redmine;```##### 測試連線(Optional)以防密碼打錯這種奇妙事件發生，我們可以測試一下連線。打開 `/etc/postgresql/9.5/main/pg_hba.conf`，找到下面加入這行：```txtlocal   all             redmine                                 md5```這行開啟本地端的帳密授權登入。然後用 `psql` 連線本機測試：```bashpsql -U redmine -d redmine -W```成功連進去就 Ok 啦。#### 設定 Redmine 資料庫1. 編輯 `config/database.yml` 填入資料庫帳密，把 `mysql` 相關的都註解掉(development 等等)1. 然後安裝 redmine 的 gem dependency    ```bash    bundle install --without development test    ```##### Migrate from old redmine (Optinoal)複製以下檔案：- `config/initializers/secret_token.rb`- `config/database.yml`- `config/configuration.yml`從 MySQL 搬家到 Postgres 的部分，因為都是同一個 App，Redmine 版本也只是小升沒有大型 migration，我直接利用[`yaml_db`](https://github.com/yamldb/yaml_db) 套件，把資料庫 dump 出來成 yaml，然後在 load 就行了 😍 可以參考 [`yaml_db`](https://github.com/yamldb/yaml_db) 套件 GitHub 說明。先跑 `RAILS_ENV=production bundle exec rake db:setup` 建立資料庫，然後在 `bundle exec rake db:data:load` 把檔案載入進來。## 設定 Puma在 Gemfile 加上 `gem 'puma'` 一行，然後跑 `bundle install --without development test` 安裝。再來編輯 `config/puma.rb` 貼上以下內容：```ruby#!/usr/bin/env pumaapplication_path = '/home/deploy/redmine'directory application_pathenvironment 'production'# daemonize truepidfile \"#{application_path}/tmp/pids/redmine.pid\"state_path \"#{application_path}/tmp/pids/redmine.state\"stdout_redirect \"#{application_path}/log/redmine.stdout.log\", \"#{application_path}/log/redmine.stderr.log\"bind \"unix://#{application_path}/tmp/sockets/redmine.sock\"```記得建立 `pids` 和 `sockets` 資料夾：```bashcd ~/redminemkdir tmp/sockets tmp/pids```可以用以下指令試跑 Server：```bashRAILS_ENV=production bundle exec puma -C config/puma.rb```## 設定 systemctl 自啟動用 root 權限編輯 `/etc/systemd/system/redmine.service`：```Ini[Unit]Description=Rails-Puma Webserver[Service]Type=simpleUser=deployWorkingDirectory=/home/deploy/redmineExecStart=/bin/bash -lc 'bundle exec puma -C config/puma.rb'TimeoutSec=15Restart=always[Install]WantedBy=multi-user.target```跑起來：```bashsystemd daemon-reload # 重新載入設定檔systemd enable redmine.service # 設為開機啟動systemd start redmine.service # 啟動systemd status redmine.service # 看狀態```## 把 nginx 跟 puma socket server 接起來編輯 `/etc/nginx/sites-available/redmine`：```nginxupstream app {        server unix:/home/deploy/redmine/tmp/sockets/redmine.sock fail_timeout=0;}server {        listen 80 default_server;        listen [::]:80 default_server;        server_name localhost;        root /home/deploy/redmine/public;        try_files $uri/index.html $uri @app;        location @app {                proxy_pass http://app;                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;                proxy_set_header Host $http_host;                proxy_redirect off;        }        error_page 500 502 503 504 /500.html;        client_max_body_size 4G;        keepalive_timeout 10;}```記得 soft link 回 `/etc/nginx/sites-enabled/`底下：```bashcd /etc/nginx/sites-enabledln -s ../sites-available/redmine .```重啟 `nginx`：```bashservice nginx restartservice nginx status```打開瀏覽器連 IP 應該就能看到辣！## 目前的 Plugin 列表- [redmine_emojibutton](www.redmine.org/plugins/redmine_emojibutton): Emoji 萬歲！- [redmine\\_markdown\\_task\\_list](https://github.com/eichisanden/redmine_markdown_task_list): Checklist- [redmine_mentions](http://www.redmine.org/plugins/redmine-mentions): Tag 人寄 email## References* https://gist.github.com/velenux/6883dc221a7d2eae7dcb* https://gist.github.com/jbradach/6ee5842e5e2543d59adb for config/puma.rb* https://www.digitalocean.com/community/tutorials/how-to-deploy-a-rails-app-with-puma-and-nginx-on-ubuntu-14-04* https://github.com/puma/puma/blob/master/docs/systemd.md* https://github.com/puma/puma/blob/master/docs/nginx.md* https://github.com/yamldb/yaml_db",
+        "url": "/blog/2017/05/04/deploy-redmine-with-puma-nginx-migration-from-mysql-to-postgresql/",
+        "date": "May 4, 2017"
+      }
+      ,
+    
+      "blog-2017-04-24-git-cherry-pick": {
+        "title": "git cherry-pick 小技巧",
+        "url": "/blog/2017/04/24/git-cherry-pick/",
+        "author": "",
+        "category": "",
+        "content": "簡單記錄下今天用到的小技巧。有的時候會加入多個 git remote，比如說 upstream/origin 或 public/private 等等，針對不同釋出版本用版控劃分，但又想利用 git 維持兩者間的部分差異。這時候就可以用 cherry-pick 指令批次套用 commit 到目前的程式碼基礎上。使用版本控制系統的好處，就是把每次「修改」都視為可以任意放出收回的，呃，**招式**。這就是為啥 commit 粒度切的越細越好啦。```bashgit cherry-pick COMMIT_SHA1```或是你想要 cherry-pick 多個 commit 也行：```bashgit cherry-pick START_SHA1^..END_SHA1```多加了一個 `^` 是表示開始 SHA1 的前一個 commit。假如噴出了錯誤，那就手動解決完 merge conflicts，再用 `git cherry-pick --continue` 繼續套用剩餘的 commit。或是失敗想回到還沒 `cherry-pick` 的狀態，用 `git cherry-pick --abort` 就好。大 GUY 4 這樣",
+        "url": "/blog/2017/04/24/git-cherry-pick/",
+        "date": "Apr 24, 2017"
+      }
+      ,
+    
+      "blog-2017-03-29-new-primer-css-github-theme": {
+        "title": "部落格主題微調 - PrimerCSS 更新",
+        "url": "/blog/2017/03/29/new-primer-css-github-theme/",
+        "author": "",
+        "category": "",
+        "content": "## 沒哏的時候就來換換主題沒哏也要想哏來寫，動物朋友也準備迎來最後一話了，不論要不要崩潰，動畫還是要看，生活還是要過，碼字的繼續碼，該睡時還是得去睡。最近最大的男性交友社群 GitHub 改了改樣式。說是最近，其實也一個月了。先是 Navbar 調成黑色，再來連按鈕顏色、超連結都改了。剛改變的那幾天為避免眼睛不適(?)，還特別找了 [MakeGithubGreatAgain](https://github.com/DennisSnijder/MakeGithubGreatAgain)、[MakeGithubPaleAgain](https://github.com/ricordisamoa/MakeGithubPaleAgain)、[各式第三方樣式表](https://userstyles.org/)來自救，沒想到過沒多久眼睛就自己適應了，該不會 GitHub 又偷偷調整了吧（喂）本站就是利用 GitHub 的 PrimerCSS 打造，依照慣例，每次換主題都應該發一篇文，截圖炫耀兼記錄一下。### Before![before](https://lh3.googleusercontent.com/_SWzvhF7-wB1dzmRRO0CRdbi2jQyqTEgbH294XcTdQr3OnZgmzKxg6wYbvnNAjAJwQmoua_6g18W_RXk1OdJVtu_Ot9k5eav4qsUsvPugPGYPOttmaC7uQ8VZD6SU2etaZlCq0rvja86XHH_buL8trOSs7SLXnvI1MNd8Vt3C7fzJ42L4QhGmXyFWaOguqf-9manBJBR4aVEcJCW5kUiCW7T8gTBa7QHgccckSWV_LM-vjEMJhb5GGf16mkYyO0kJanYFu20jK3PNHMauvlHHTxBs6nLIgyMlo-VIeAr2Lgyy2aJiPdc8HNHraBmFN3krTTeJMw2VFUfPfdp2UMkjJUQ3N43KEphpeOCIVCpXevYlVfdayh4x8__r3D8Sy9gqAjHX_J8Ny5TC4LwP54BoL8r4zj0HhOAQUbLDwWyjvGwuWzMXBz6uZyplFIH39HcSzptclkESQLWkwhUkhcQQX-1MHGBIZKpYED7X_-x-vlqsxRbM28RxzOKWuS7zsrGke_EDAXjdy88Z74efyWu79WnepRyTk519tcRcG7I-3qSgj9AIRr6mcX-3XS3pZ-LjAh346eH77al5UpKi3AYy3aKdyzUnmFVQMDiaiPu_-mcG-xF34z2_g=w867-h765-no)### After![after](https://lh3.googleusercontent.com/YazoIwe38_G40-g1sQNpktPrEUtbQxtGTBQqpyhZ-nQ5CzBoeQJzrgKGDLzjpQ206WYPFKywtzgRIpAjCj2HhG-o1fqYNuGOvYorJlRKVw_lzjUKFRxCXXcBQUhXyf601yWICtljNeiT2hK4DjPikb_3McotGE_rmaYNJHVAecB70o4Cwjea50Qux8uKYBcTmtbs5I0-_247C-MstkrWPRRb-8k0kBnGymkmE5OQufFhh8cnOZHYj60FT3Y4ZQOmGwl0AojSOAvr7tjo_ihi-YeFmYu2zJFvHB1UWFdOklTfmGBt-E0F7O2tT8ccE9H0eB1ij6jmGbkfgguOmVqnFhJN52SuK2las75hYX8LeWS32z0wzr6GtaNaxElMQ-gH0-Gt8Qe5JSEr3G-q0Yiu8qYXd9j3th6HBM_J6iCUJLXY8KD1abtamacX8cBr5XZ0HI067Geb_JHo6VKzfCH4CCKm2ARnQRlfPTZwXgvOVk_umPYzb7oeCGpymQQKkcCtBE5GBlrUb0B47ZAKkO1fJCiUne1hR1EXdCtHfAlFOl2VqMTAQBnWNc49tOZN3meXw-Dp9ODWEpnKx-7ocrvOOjmLHzss45ORw41Ja4-v5A6AHDrWY2tPLA=w869-h765-no)為求完美，連黑色 Navbar 也要照抄一下：![mobile](https://lh3.googleusercontent.com/JqHTFTmS4gGxjQygnJfH7ZwBI3bz0qT834X5fspQ2q-579HCYV0zoIgh5MbnYssnh8UpBD0XIPmnagd13pVbdag5-laqNevBHpJ0mu-3N1J_B2Fg66z1_p9mcXb3APRzBSUPbccebUz1HMRbLaAMh4NfwGDyY9nwjA3gk15QqPC3OB0VmO0jZYlp-sRHrgzSLLhZII7k9yuuWyHtmSaiMF0zJtsgAf0cDOR0yvb_beoXm7cGZwRqULL3ziKyMv5H7qaDZLFKFKKLE7ebtadNeTDA0RRt-0XbIL2eCG31CRHiLWS_7VYlz4BpAVGD0rm-85fk_WBRo0rdm278A0VWqQ7c6IoYdGWb1c97mO69zf46KAiMWo0V5eJqyMERPqtErZLjT6ZOZD1YvUv-N8kyEz_bhJXGcZ0P-PHE7W7ewfAblX823-bgtA5r1Ay_09uyqpofNq8hyB5_8KcuAHaGocxk4NaKV2Kcw5149l-k2Hz3qZ6zFzMwg1Jyob7TWWO-2NIiYSn_eOSq5Tkh6IQbLlu4B1eAjoxzsibjuvMNqxemO7mGilw0qj3PIMH9-fvE_xeatydxtBncjGJvbENBx7wbv2G8Bmo_a9Y3t-3JBbLZ8INxlDvSug=w399-h684-no)大GUY 4這樣認同請分享（完）",
+        "url": "/blog/2017/03/29/new-primer-css-github-theme/",
+        "date": "Mar 29, 2017"
+      }
+      ,
+    
+      "blog-2017-02-21-restore-source-code-from-sourcemap-file": {
+        "title": "用 restore-source-tree 一次還原 source map 網站原始碼",
+        "url": "/blog/2017/02/21/restore-source-code-from-sourcemap-file/",
+        "author": "",
+        "category": "",
+        "content": "## 前提是在 Production 環境下有 sourcemap 可以拿辣！本篇內容也不多，大概就是介紹一下思路。前幾天看到這篇 [Dissecting Twitter's Redux Store](https://medium.com/statuscode/dissecting-twitters-redux-store-d7280b62c6b1) 覺得十分優雅，今天猛地想起某國內網站也是用 React/Redux 弄的，便依樣畫葫蘆，想從 redux store 裡看出些端倪。打開 Chrome Devtool，不開還好，一開便發現他們的 sourcemap 在 production 竟然拿得到啊 😂，於是就來找了 `restore-source-tree` 套件。由於該套件會把 webpack 產生的註解給移掉，而新版 webpack 註解格式又和舊版不太一樣，如下：```javascriptconst WEBPACK_FOOTER = '/** WEBPACK FOOTER **'; // 舊版註解const WEBPACK_FOOTER = '// WEBPACK FOOTER //'; // 新版註解```會造成該套件解析不出原始碼，不對啊，DevTool 明明就看得到。更麻煩的，Extract css plugin 產生出來的註解又和新版的不太一樣（搞啥啊），所以我在 [`74b32d`](https://github.com/Yukaii/restore-source-tree/commit/74b32d5beb73f28393a2a6fa152ba8a5e2633907) 這個 commit，乾脆就把移除註解的方法拿掉了 XD若大家想要使用我修改過版本的 `restore-source-tree` 請直接在終端機打上以下指令安裝吧：```bashnpm install -g Yukaii/restore-source-tree#98ccfc2```## 然後呢？比如說某站 production 的 js bundle file 長這樣：```bashhttps://xxxx.com/build/bundle-54fbd34f.js```**如果**有 sourcemap 的話，檔案結尾註解部分會長的像這樣：```javascript//# sourceMappingURL=bundle-54fbd34f.js.map```那我們就把 sourcemap 載下來：```bashcurl https://xxxx.com/build/bundle-54fbd34f.js.map > bundle-54fbd34f.js.map```然後用剛剛裝好的 `restore-source-tree` 還原原始碼：```bashrestore-source-tree -n --out-dir  bundle-54fbd34f.js.map# -n 參數是包含 node_modules 資料夾# --out-dir 參數後面加要存進的目錄# 請參考原專案 github 說明：https://github.com/alexkuz/restore-source-tree```登愣，就好啦！（好了是長怎樣？不告訴你）## 欸嘿看到這邊就知道，其實我們要逆向操作網站的開源也是可以的，可以寫一個 cronjob，定時把 sourcemap 抓下來，如果 bundle hash  有更新的話，就重新還原一次並 commit 進某 repo。當我沒說啦(X)（完）",
+        "url": "/blog/2017/02/21/restore-source-code-from-sourcemap-file/",
+        "date": "Feb 21, 2017"
+      }
+      ,
+    
+      "blog-2017-02-15-how-do-i-watch-anime-in-2017": {
+        "title": "在 2017 年，我是怎麽看動畫的",
+        "url": "/blog/2017/02/15/how-do-i-watch-anime-in-2017/",
+        "author": "",
+        "category": "",
+        "content": "在 2017 年看動畫是怎樣的一番體驗標題下成這樣更有知乎味兒，不過就先這樣吧。一副就是要在西洽發自介文的節奏。我大概在 08/09 年左右入坑，入坑動畫是 K-ON。那時大概都是在微笑動漫組網站上看的，每週動漫組都會固定更新上傳到免空，還是個 MegaUpload 活躍的時代，就這樣陸陸續續看了幾部上面有的舊動畫。後來不知道為何，該站被抄家或不經營了，只好改入 BT 教。從 dmhy 找種下載，當然除了動畫也有不少奇妙的東西，這邊就不提了。熱門檔當然載很快，冷門的就有得等了。上大學後有了限制多多的宿網，既不能載 BT，一天也只有 5G 的流量限制，只好用各種方式突破。先是在老家架了 DD-WRT 的 VPN，連回家載 BT，因為流量限制，後來也找了各種免空、BT 代載的服務，比如 miroko、furk 啦等等，先幫你載好，接下來在換日前（就是午夜十二點啦）估算好網速流量，一次搞定好大檔案。不過說實話動畫那麼大的很少啦，大多是 XX 和 OO 比較多。再後來搬出去住，靠室友的神 NAS 擋著，既可以代載也可以當 VPN，已經什麼問題都沒了，不過還需要到 BT 站複製 magnet 連結，無法一次到位。還有段時間在臉書經營的動漫網站看，用 Facebook 影片看是挺方便的，不過以當時來說速度沒那麼理想 😅現在各式影音串流網站百花齊放，某 B 站可以加掛 Unblock Youku 解鎖，國內也有正版的動畫瘋可以用，還有各路大大用免洗帳號無時差上傳 Youtube，至此看動畫的成本已經非常低了。搭配 Chromecast 接上電視大量利用動畫瘋以及 Youtube 就是因為他們的 App 才有支援 Chromecast XDrz。因為目前還在使用 iPhone 而且沒有 Apple TV，真是奇妙的果粉狀態。Chrome 目前可以用瀏覽器投影的方式來投影畫面，動畫的表現也還算順暢，這樣搭配起來倒也 OK。最近還多買了個 Android TV 放在老家，同樣支援 Chromecast 協定以及 AirPlay（付費 App），放起來也還不錯。還可以自行安裝 apk，不愧是 Android 啊 www總之大螢幕看起來就是爽啊，若有更高階的音響設置就更讚啦 XD",
+        "url": "/blog/2017/02/15/how-do-i-watch-anime-in-2017/",
+        "date": "Feb 15, 2017"
+      }
+      ,
+    
+      "blog-2017-01-01-my-2016-summary-as-a-developer": {
+        "title": "總結一下我身為開發者的 2016",
+        "url": "/blog/2017/01/01/my-2016-summary-as-a-developer/",
+        "author": "",
+        "category": "",
+        "content": "新年快樂你說一月一號放假要幹嘛？除了出門曬曬太陽走走之外（天氣有夠好！），當然按照慣例的要來發一篇「新年新希望新目標」、「過往一年的總結」。不過常常年底到了，卻悔恨今年又一堆目標沒有達成。為了防止這種狀況發生，我們就別寫展望了，直接來寫回顧就好啦 XD！未來總是充滿變數而不可預知，總結過往一年的種種，應該能帶來一些前進的動力吧。作為一個混亂邪惡的學生開發者，學生當然只是個好用的擋箭牌身份，其實我的真實身份是...昆庫星團第十五號小行星的混血王子（太二了這個）。2016 是我個人專案多產的一年，雖然沒有到一個月一個作品，不過上的了檯面的倒是不少。「上的了檯面」當然是以目前自己的標準來看，再過不久可能就通通打入垃圾玩具的等級了哈哈！QAQ前端大平台從整整一年前的 Imgur 相簿下載器 開始，踏入了 React/Redux 的大坑，再於過年期間開發了 Kaif.io 論壇 iOS App，對 React/Redux 更進一步熟悉；五月左右，承先啟後的再度使用 React/Redux 加上 Electron 開發了 Comics Reader 漫畫閱讀器 ，然後到最近兩週的 cafenomad 臺灣工作咖啡廳 專案。四月多時，把原本在 Logdown 的部落格搬到 GitHub Pages 上，用 Jekyll 建置。承襲「用力操壞 GitHub Pages」的中心思想，在九月底做了致敬好碰友 Neson 前作的行事曆課表產生器，又在十月底開始了桌面版噗浪 App 計劃 - Puraku，首次嘗試 Vue.js 並結合 Electron。各式玩具大概在四月左右，在學校選了永遠做不爛的黑白棋當題目，於網頁上重新實作（Team Project）。大概六七月在寫 Comics Reader 時開了 LiveCoding.tv 的直播，第一次享受當直播主，雖然自嗨放歌居多但也挺有趣的。胎死腹中六七月時漸漸的對 Redmine 專案管理工具上癮，無奈沒有一個非常現代的 App 可以用，跟同事開了個坑不過就這樣放到現在......其它還有從 NTU Garage Demo Day 聽來的 Idea 啦、從 Reddit AppIdeas 版幹來的 Idea 等等。總結總的來說 2016 是我自稱前端工程師花式練手招搖撞騙的一年，可惜的是作品平均完成度就差不多六七成上下，坑開的多，做完的少。因為時間有限又常常有緊急主線任務，一個個 Context Switch 間，原專案的衝刺週期斷了線，頓時失去維護前一個專案的拼勁。（怎麽說的好像 Side Project 才是我的本業 XDDD）前端大環境 Hype Driven Development 之下也讓我幾乎沒有忠誠度，反正就挑順手的，遵守拼湊型軟體工程師的教條，成品有出來就好。雖然也有對少數開源 Library 做點貢獻，但跳來跳去之下總沒有對框架工具深入研究，甚至發展出自己的，工程水平沒多少長進。另外，儘管做這些 Side Projects 之初，幾乎是以完整產品為目標開發的，但後續的打磨以及推廣宣傳幾乎沒達成，大多當成自己的玩具，除了噗浪桌面版 Puraku 好不容易有在臉書前端社群貼過一次文（好笑的是貼完就沒 commit 了）。對 2015 年的我來說，或許 2016 是個充滿驚喜的一年，在如此多產是 15 年的我無法企及的；不過說到底，工程師的價值也不在這種地方，只能說是興趣驅使吧。雖然文章開頭說了「沒有展望沒有期待」，但還是小小期許一下，希望 2017 的我能在這條路上走的更深入些（然後就被抓去當兵了）",
+        "url": "/blog/2017/01/01/my-2016-summary-as-a-developer/",
+        "date": "Jan 1, 2017"
+      }
+      ,
+    
+      "blog-2016-12-22-react-native-facebook-native-ads-integration": {
+        "title": "React Native Facebook Native Ads 奮鬥戰記",
+        "url": "/blog/2016/12/22/react-native-facebook-native-ads-integration/",
+        "author": "",
+        "category": "",
+        "content": "Native Ads?文章標題就出現了兩次 Native，實在有點拗口。關於甚麼是 Native Ads（原生廣告） 可以參見 Facebook 的官方說明，以下引用之：原生廣告能讓您在為應用程式設計完美的廣告單位時，掌控所有細節。透過「原生廣告 API」，您可決定廣告的外觀、風格、大小和位置。因為廣告的格式由您決定，所以廣告能與應用程式搭配的天衣無縫。簡單來說就是「將廣告和你的 App 更好的整合」，以期能帶來更多地的點擊，騙更多的使用者按下去，比如最常見的就是你大狄卡留言區塊藏著的業配廣告啦，還有 twitter、Facebook 各平臺偽裝成一般貼文廣告等等。React Native IntegrationReact Native 把網頁開發的體驗帶到 App 上，不過 Facebook 沒有提供官方版的 Native Ads 模組，我們只好自行想辦法啦。我們這裡選擇的是 CallStack 提供的第三方模組：react-native-fbads。花式踩雷先講結論：開源專案當覺得 README 寫的不痛快的時候，去看 example code，找出範例比你多寫的地方。有問題先看 Log。Native Module 的 Log 得用各平臺原生 IDE 看，比如 XCode 或 Android Studio。雖然不想開還是得開一下噴錯誤訊息時從上游(原生模組的來源)文件查起SDK 設定大多新版 React Native 原生模組的安裝都可以用 react-native link xxx-module 搞定，不過有些時候卻沒啥用，跑完指令之後還需要手動設定。iOS 版 SOP：加入 node_modules/xxx-module/ios/xxx.xcodeproj 到 Library把 Product xxx.a 加到 Build Phase 裡若有額外引用 header，更新 Header search PathAndroid SOP:修改 settings.gradle、build.gradle、MainApplication.java 等檢查 AndroidManefist.xml 需不需要修改大 GUY 是這樣，react-native-fbads 的 README 就有些簡單，關於 Android 的寫的也不多，算是一個大坑，AndroidFanefist 的修改還是看他們範例才發現的，不知道到底寫在文件的哪裡，若有人知道希望可以回報下讓我瞭解（感謝）。原生如果設定到 Build 成功，而且引入之後沒有噴錯基本上就 OK 了。若還有其它錯誤可以視為上游問題或 Native 層的問題（汗）更新：結果就寫在 README 裡，眼殘崩潰，不過還是給我遇到個新坑，參見 callstack-io#17 (comment)Audience Network 驗證流程Audience Network 分成好幾個驗證階段，簡略過程如下：拿到版位 Placement ID 之後編寫 App 顯示廣告的程式碼在 Audience Network 新增應用程式\u001f3. 用「原生模擬器」（iOS 就 Simulator，Android 要用 AVD）傳送廣告要求等待應用程式審核通過其中第三點「傳送廣告要求」是最多雷的，iOS 早早就審核過了，Android 怎麽發要求 Facebook 就是無法接到，最後改用 Android Studio 原生的模擬器就一次 OK，原來是沒法用 Genymotion 的模擬器跑...最後上 TestFlight 之後在我自己手機上無法顯示，查了一下錯誤代碼 1001 - No Fill，發現原來是手機上沒有安裝 原生 FB App，難怪我 Dcard 從來沒看過廣告 XDD，以下是其它不會顯示廣告狀況，從文件引用：Error 1001 - No Fill. May be due to one or more of the following:User not logged into Native Facebook App on Mobile DeviceLimit Ad Tracking turned on (iOS)Opt out of interest-based ads turned on (Android)No Ad Inventory for current userYour testing device must have the native Facebook application installed.Your application should attempt to make another request after 30 seconds.",
+        "url": "/blog/2016/12/22/react-native-facebook-native-ads-integration/",
+        "date": "Dec 22, 2016"
+      }
+      ,
+    
+      "blog-2016-11-12-patching-trello-desktop-electron-app": {
+        "title": "Electron 的 Trello 桌面版應用程式",
+        "url": "/blog/2016/11/12/patching-trello-desktop-electron-app/",
+        "author": "",
+        "category": "",
+        "content": "啊 Electron 不就好棒棒Electron 簡單來說就是加料版的 Chromium，可以跑 node 環境，還能讓 Web App 也能使用原生桌面環境的 API。現在你我的桌面早就被一堆 Web App 攻佔，比如我最常用的：Nylas N1 - Email 軟體Visual Studio Code - 微軟出的輕量級編輯器Postman - REST 測試御用輔助工具Slack - 社內通訊Notion - 筆記，雜想Hyper - 終端機，不過不能輸入中文所以就沒再用了。開發的 zeit 社也滿猛的Caprine - Facebook messenger 桌面版隨便列就一堆了，相當於電腦裝了十幾個網頁瀏覽器，有夠肥一個就一百多 MB 😅，根本快速開發的代價。Web App 相對於傳統的桌面軟體迭代應該算十分快速了啦，光 Flexbox Layout 就不知道方便多少了...好啦其實我唯一寫過的傳統桌面軟體也只有用 JavaFX 學校作業，也只花了三天趕工哈哈哈...也是沒慢到哪裡去啦，咦？Nativefier有段時間我很喜歡用瀏覽器的「Pin Tab」功能，現在 SPA 又那麼猖狂，App 用 Chrome 開就行了，只要用 Chrome 的快速鍵 cmd + 1/2 就直接跳回前幾個 pin 好的 App。不過因為使用的 Extension 實在有點多，所以常常感到 Chrome 頓挫，此時用 Electron App 就相當於用一個乾淨的瀏覽器，速度快了許多。其實你把 Extension 移乾淨不就得了。社群前陣子也有大大推了一個叫 nativefier 的工具，只要設定一下，就能把網站包到 Electron 的 WebView，立馬變桌面 App。通常我們在實作這種網頁直接包成 App 的，除了單純用 Electron BrowserWindow 或 webview API 載入 Web App 網址外，還需要 inject 一些額外的 JavaScript 來整合桌面功能，比如快捷鍵跳轉特定功能啦、改變配色啦。大神 sindresorhus 的 Caprine 便是個好例子，還有 terkelg 的 Ramme，單純的改變原本就已經用 React 做成 SPA 的 Instagram 的排版，也加入了快速鍵功能，便是一個堪用的 Instragm 桌面應用軟體了。當然真正好用的 IG 桌面 App 還是非原生莫屬，在此推薦一下 Flume for Instagram。Trello feat. Electron最近重回 Trello 懷抱。為配合我的使用習慣，就找了找對應的桌面軟體，找到了兩個：Paws for TrelloTrello Desktop這兩個 App 幾乎一樣，就是把 macOS 的 titlebar 藏起來讓紅綠燈好看一些。儘管前者在 App Store 上架，可是功能沒比後者多多少哈哈。後者 Trello Desktop 雖然免費，目前有個最大的問題：沒辦法拖拉視窗。當然也有開發者直接發了 Pull Request ，不過專案好像已經被放生了一樣，坑主都不回的。作為一個略懂 Electron 的開發者就來自行修正一下吧。仔細看下 PR 其實也就加三行 css，我們要做的就是把這個 PR，patch 到我們本機的 Trello Desktop App 裡。做法有兩種，其中一種是 clone 改完的版本，重新建構 Electron App，不過太麻煩了，我們就直接 patch 本機的 css 比較快。Patch Elecron Client codeasar 簡而言之就是 electron 封裝 client code 的格式，一般在建構 Electron App 會預設使用。我們先安裝下：npm install asar -g現在就可以解開 asar 檔了，進到 App Package 裡：cd /Applications/Trello.app/Contents/Resources/asar extract app.asar app # 解開 app.asar 檔案到 app 目錄cd app # 進去 app 目錄編輯 browser.css 加入更改的 css#header {  -webkit-app-region: drag;}Electron 預設便會讀 app 目錄或 app.asar 檔案，重新開啟 App 後就可以自由移動視窗啦，跟桌面軟體有 87% 像！",
+        "url": "/blog/2016/11/12/patching-trello-desktop-electron-app/",
+        "date": "Nov 12, 2016"
+      }
+      ,
+    
+      "blog-2016-11-02-use-electron-ipc-to-call-api-from-main-process": {
+        "title": "在 Electron 使用 IPC 串聯前端和 Node API",
+        "url": "/blog/2016/11/02/use-electron-ipc-to-call-api-from-main-process/",
+        "author": "",
+        "category": "",
+        "content": "這是我最近在實作噗浪 electron app - Puraku 時，使用的抽象化寫法。先談一下背景。其實在官方的 Plurk API 頁面上就已經有 JavaScript 的噗浪 API Library了，不過它沒有包成 npm 可以直接使用，而且還相依於 node-oauth 套件，看名字就知道和 Node 有關。這次寫的 puraku 是一個以前端為主的桌面軟體，所以我勢必要對噗浪的 API 套件做些改寫。更新： 其實 Electron renderer process 就能呼叫 node API 了，只是我先入為主的以為 main process 才能使用，所以引發了這個軟體問題 XDrz。重新封裝 API Library我已經包裝成 purakujs，它是個可以直接使用的 Plurk API Node library，雖然這年頭也沒多少工程師在串噗浪 API 了 😅 。值得一提的是 yarn 對 npm link 的支援不太好，在設定本機開發環境跑完 npm link 後，不要在 package.json 修改套件版本，防止在跑 yarn install 指令時又噴錯。Electron關於 Electron 是啥便不再贅述。要知道的是只有在 Electron 的 Main Process 裡才可以呼叫 node 的 api（錯了），所以把 node-oauth 套件放在這跑是沒問題的，但 Renderer Process 才是主要觸發 API 的地方（換頁、捲動、按鈕等）。Electron 提供了 IPC 的 API 界面實作，可以這樣寫：commit df4c8a2// Renderer Processimport { ipcRenderer } from 'electron';export function request(method, endpoint, params=null) {  return ipcRenderer.sendSync('puraku:api', {method, endpoint, params});}// Main ProcessipcMain.on('puraku:api', (event, args) =&gt; {  const { method, endpoint, params } = args;  myApiClient.request(method, endpoint, params).then(({data}) =&gt; {    event.returnValue = JSON.parse(data);  }).catch(error =&gt; {    event.returnValue = { error };  });});Renderer Process 送出 API 請求到 Main Process，已經正在監聽的 Main Process 在呼叫完 API 請求(myAPIClient.request)之後，返還資料給 Renderer Process。在這裡透過 ipcMain 建立叫做 puraku:api 的事件監聽，由 ipcRenderer 送出事件請求。event.returnValue 是 ipc 的同步寫法。一旦使用同步，整個 Renderer Process 在送出事件請求(ipcRenderer.sendSync)之後會被 Block，所以我改用非同步的 IPC 寫法，再用 Promise 封裝。Asyncronous IPCcommit 3f2fee// Renderer Processimport { ipcRenderer } from 'electron';export function request(method, endpoint, params=null) {  return new Promise((resolve, reject) =&gt; {    const timestamp = Date.now();    const result = ipcRenderer.send('puraku:api', {method, endpoint, params, timestamp});    ipcRenderer.once(`puraku:api:${endpoint}:${timestamp}`, (event, result) =&gt; {      if (result.hasOwnProperty('error')) {        reject(result);      } else {        resolve(result);      }    });  });}// Main ProcessipcMain.on('puraku:api', (event, args) =&gt; {  const { method, endpoint, params, timestamp } = args;  myApiClient.request(method, endpoint, params).then(({data}) =&gt; {    event.sender.send(`puraku:api:${endpoint}:${timestamp}`, JSON.parse(data));  }).catch(error =&gt; {    event.sender.send(`puraku:api:${endpoint}:${timestamp}`, {error});  });});這一版跟上面的差別在於，Renderer Process 送請求給 Main Process 之後，馬上建立另一個 IPC 的 Listener 等待 Main Process 回調，而 Main Process 在處裡完 API 請求之後(myAPIClient.request) 再用 IPC 非同步寫法回傳資料(event.sender.send)。在這個版本 IPC 關係變得比較複雜，簡單畫了一下：Promise start  +-----+                     |           Renerer Process                 Main Process                     |                     +-----&gt; +--------------------+                             |                    |                             |  ipcRenderer.send  |                             |                    |         +---------------------+                             +------------------------------+                     |                             |                    |         |  API request        |                             |  ipcRenderer.once  |         |                     |                             |                    |         |  event.sender.send  |                             |  create listener   |         |                     |                             |                    |         |                     |                             +---------+----------+         +-----------+---------+                                       |                                |                                       |                                |                                       |                                |                             +---------+----------+                     |                             |                    &lt;---------------------+                             |   Event received   |                             |                    |                     +-----+ +---------+----------+                     |                 |                     |                 | Promise end   &lt;-----+                 |                                       |                                       |                                       |                                       |                                       |                                       |                                       |                                       |                                       vIPC 事件一對一對應可以發現在這一版的 Renderer Process 我加了一個 timestamp 來簡單的區分不同的 API request，因為如果光用 API 的 Endpoint 當做事件的鍵值，戳相同 API 兩次時就會衝到。const timestamp = Date.now();const eventKey = `puraku:api:${endpoint}:${timestamp}`;不過卻發現每次取的 timestamp 還是有機會一樣，經過 Google 之後我把 timestamp 亂數的產生方法改成 performance.now()：const randomSeed = performance.now();const eventKey = `puraku:api:${endpoint}:${randomSeed}`;到這裡，我們就可以用熟悉的 Promise 介面，在 Renderer Process 輕鬆地串接 Main Process 的 API 啦！以下是目前的實作：// Renderer Processimport { ipcRenderer } from 'electron';export function request(method, endpoint, params = null) {  return new Promise((resolve, reject) =&gt; {    const randomSeed = performance.now();    ipcRenderer.send('puraku:api', { method, endpoint, params, randomSeed });    ipcRenderer.once(`puraku:api:${endpoint}:${randomSeed}`, (event, result) =&gt; {      if (result.hasOwnProperty('error')) {        reject(result);      } else {        resolve(result);      }    });  });}// Main Processconst { ipcMain } = require('electron');ipcMain.on('puraku:api', (event, args) =&gt; {  const { method, endpoint, params, randomSeed } = args;  myApiClient.request(method, endpoint, params).then(({data}) =&gt; {    event.sender.send(`puraku:api:${endpoint}:${randomSeed}`, JSON.parse(data));  }).catch(error =&gt; {    event.sender.send(`puraku:api:${endpoint}:${randomSeed}`, {error});  });});在 Renderer Process 裡（在我的例子裡是 Vue 前端 App）就可以用簡單的介面來呼叫 API 啦！其它聽說用 message queue 來實作比較好，不過 It works for now，就暫時沒有更新實作的動力（懶）可以在 puraku/client PR#5 閱讀實作的過程。自從對 Redmine 上癮之後，連 GitHub Flow 也一併愛上了，在本 Repo 一個功能就開 Branch 做成 Pull Request，就算一個人的 GitHub Flow 也能玩的愉悅 XD",
+        "url": "/blog/2016/11/02/use-electron-ipc-to-call-api-from-main-process/",
+        "date": "Nov 2, 2016"
+      }
+      ,
+    
+      "blog-2016-10-17-contributing-to-open-source": {
+        "title": "開源貢獻初體驗",
+        "url": "/blog/2016/10/17/contributing-to-open-source/",
+        "author": "",
+        "category": "",
+        "content": "第一次的 PR在兩個月前的暑假，還在努力當個 Rails 工程師的我，為了進行我社產品的重構，想先找個專案練練手。當時 VSCode 開源專案管理的 GithHub 令我好生羨慕，覺得所有的開源專案，如果都能如此有條理的讓人參與貢獻，那該有多好呀。我找了找 Rails 專案，發現之前有在關注的校園專案 NCTU+ 當時也在進行改版。clone 下來看了看，發現 rubocop 上色還挺多的，於是就想也沒想開始玩了起來。煞有介事的開了個 issue，描述專案多有技術債云云，列出了各式 Todo。首先著手的就是升級 Rails，並且把過時的套件都升級一番。經過了兩天的折騰後，送出了第一支 Pull Request。結果就失敗了 XD。自我愉悅我想了想，覺得當時的問題有三：PR 太大包對 Roadmap 不瞭解沒有測試最後再附加一個，太自我中心，加了一堆東西卻又沒有附上 Getting Started。當時我覺得 PR 太大包，其實現在看來也還好，因為「順便」把重複的目錄移除，所以 Git 更改看起來比較多。但是這「順便」就是問題所在了。在跑 GitHub Flow 時，Feature branch 應該單一目的，我雖然 PR 名為「升級 Rails/Ruby/gems」，實際上還是混雜了多個目標 ，現在看來有點可惜。對 Product Roadmap 的不瞭解這部分，其實也算該專案的特性。校園團隊的運作方式，大概是徵才 後大家一起共同成長，所以 Roadmap 既沒有公佈在 GitHub 也沒有在粉專，我這個亂入的傢伙，照著自己意圖亂升級，終究也只是自己的實驗 XD。最後一點關於測試，其實專案本身就沒啥測試 XD，所以幫忙 Review 的同學也有提到，我的 PR 還需要花大把的時間確認能不能運作。這對於當時還在衝刺功能的 NCTU+ Team 來說，確實是個沒有必要的 PR。總結一下，我既不熟悉 NCTU+ 團隊的運作方式，開出的問題也是假議題（沒必要升級呀），還需要花大把的成本驗證，那這個 PR 就完全是自嗨嘛 :p。於是跑來寫 JavaScript在大約一個月前把自己開除轉職回學生之後，除了玩弄下 SICP 之外，另一項規劃就是把幾個月前開的坑 Comics Reader 補了補進度。該專案也是 fork 來的，不過到後來幾乎整個重寫，除了一樣是用 Material-UI 界面配色照著改之外，還多了一卡車東西。起初想要 fork 是因為與其砍掉重練專案，不如發 PR 給原專案，一步步入侵影響原專案，把它變成自己的形狀。要知道重寫專案成本也是很大的，現在輪子這麼多就別再造了啦，而且原本的插件我也用的很開心。儘管如此，每個人還是都有自己的主觀意識工程師的浪漫，這世界的輪子才這麼多，我終究還是重造了船 😂。跳入神坑 HackMD - The Realtime Collaborate Markdown PlatformComics Reader 寫著寫著，對於 JavaScript 這奇妙垃圾語言的熱情也回來了，也想跳個坑玩一下。常在 g0v slack 潛水的我注意到 hackfoldr 常常拿來搭配 HackMD 使用，一個支援多人即時協作的線上 Markdown 編輯平臺。看了看 GitHub Repo，發現技術架構剛好與我目前的技能表吻合，那就開始貢獻吧！為 Legacy JavaScript 導入 Webpack經過幾個開發流程改進的 PR 後(#187、#190)，我開始導入 Webpack 前端打包器。此時我對 JavaScript 的理解還停留在 React 這種 SPA 應用上，於是把許多 vendor package 都轉到 npm，然後在進入點引用進來，產生的 JS Bundle 也隨著引用的套件增加而擴大。我後來才理解到把常用的 vendor 放在 CDN 才是好的優化方法，因為瀏覽器會幫你快取，於是我又慢慢地把放到 npm 的套件在 extract 出來，簡直是繞了一大圈啊（汗）。#195 就記錄了這過程。隨著這份 PR 越來越大包，我也開始覺得緊張，要是合併回去之後，功能通通炸掉怎麽辦？結果確實也是如此，我另外花了 #202、#205、#206 三個 PR 來把大部分的功能修復 😅。#195 做出改變實在太大了，當時也是邊做邊找資料學習，於是發生了這種繞圈子的意外。好險原作者 jacky 非常 nice 的接受了 PR，也一起確認了各功能是否運作正確 😂。現在上線的版本就是小弟我加料過的，實在緊張刺激 XD。更多的 PR，更多的 Open Source跳入一個新專案，從 run 起來開始瞭解架構，然後開始惡搞，這就是我最近在幹的事。時常有「挖坑給自己填」之感，這就是惡搞系工程師的人蔘啊。最後再推一下 HackMD 這個專案，作者 jacky 在設計上實在加入許多巧思，希望有一天能長成工程師每天用的筆記軟體，繼續填坑讓專案更好！",
+        "url": "/blog/2016/10/17/contributing-to-open-source/",
+        "date": "Oct 17, 2016"
+      }
+      ,
+    
+      "blog-2016-09-23-play-android-reverse-engineering-with-jadx": {
+        "title": "用 jadx 來玩玩 Android 逆向工程",
+        "url": "/blog/2016/09/23/play-android-reverse-engineering-with-jadx/",
+        "author": "",
+        "category": "",
+        "content": "你幹嘛沒事要來逆向工程啦就是因為沒事啊。呃不對，其實以前就有聽說過 Android 逆向工具很成熟，不過自從換 iPhone 後就沒怎麼關注 Android 發展了，一直沒機會玩到。昨天下午剛好就在臉書刷到一款課表 App，就簡稱為 「X 社小工具」好了，可以幫你匯入學校的課表，支援多個學校。看了看截圖，感覺是在手機端輸入校務系統登入帳密達成，X 社小工具會幫你抓下來，只是不知道後面 API 怎麽跑（誰知道）。秉持著好奇的心，就讓我來逆向看看吧 XDDD。沒手機也要下載 APK直接把 APK 的 bundle id 貼到 androidapk 這個網站就可以下載了，bundle id 長得像 com.facebook.katana。jadx 反編譯工具借一下官方的截圖，jadx 可以直接開啟 apk 檔，把 decompile 過的原始碼顯示出來；除了 gui 界面也有 command line 工具可以讓你直接轉存 source。載下來解壓縮後有四個檔案：.├── jadx├── jadx-gui├── jadx-gui.bat└── jadx.batcd 進去目錄後執行 ./jadx-gui，GUI 界面開啟照著操作，選擇你要解開的 apk 就會顯示 Java code 了，也可以選擇轉存，用你喜歡的 Editor 或 IDE 開起來。讀讀讀讀讀 code不像當初 Pokemon Go 被逆向 一樣，竟然連個混淆都沒做，X 社小工具解出來的原始碼裡，變數都被換成英文字母 abcde，不過想想我的目的就是拿到 API，就直接搜尋 http://、https:// 網址開頭的字串~~Retrofit然後就找到了這段：public Retrofit a(as asVar) {    return new Builder().baseUrl(\"https://容我隱藏一下.appspot.com/\").addConverterFactory(GsonConverterFactory.create()).addCallAdapterFactory(RxJavaCallAdapterFactory.create()).callbackExecutor(AsyncTask.THREAD_POOL_EXECUTOR).client(asVar).build();}看網址 Server 還是用 Google App Engine 架的 XDRetrofit 是 Android 用的 HTTP 客戶端，雖然沒用過，不過對於 Retrofit 用 Decorator 標記各個 Endpoint 的寫法印象很深，Retrofit 首頁的範例就這樣寫：public interface GitHubService {  @GET(\"users/{user}/repos\")  Call&lt;List&lt;Repo&gt;&gt; listRepos(@Path(\"user\") String user);}接下來只要再找出各式 Decorator 就行啦！API Endpointspublic interface a {    ...    ...    @GET(\"schools\")    h&lt;Map&lt;String, j&gt;&gt; a();    @POST(\"login\")    h&lt;f&gt; a(@Body e eVar);    @GET(\"users/{uid}/schedule\")    h&lt;g&gt; a(@Path(\"uid\") String str, @Header(\"Authorization\") String str2);    ...    ...}上面是其中一段程式碼，看起來主要的 API Endpoint 都在這了。接下來可以用 curl 或 Postman 來試打 API，從 GET 的 Endpoint 開始，照著 Login 流程做。不過打 schedule API 的時候卻發現重大問題：我的課表根本就沒課啊！！所以 schedule 只好當做不知道怎麽解了哈哈哈😂RxJava題外話一下，X 社小工具也用了當紅的 Reactive Programming，反編譯後的原始碼就看到一堆短短的 presenter 檔案。其實要拿 API 也不需要反編譯可以用 Wireshark 之類的封包擷取工具撈一下，不過還是看原始碼直接啦😅感想看來 ProGuard 一類的混淆工具還是有用的，變數、類別都被換掉，腦內理解搜尋速度至少慢了十倍啊，還沒辦法直接 Go to Definition...本來想寫個免責聲明，不過敏感資訊都已經藏起來了，應該還好吧 XD 這篇只是個人純粹玩工具、讀讀 code 的心得而已，不要追殺我啊 😂😂😂",
+        "url": "/blog/2016/09/23/play-android-reverse-engineering-with-jadx/",
+        "date": "Sep 23, 2016"
+      }
+      ,
+    
+      "blog-2016-08-28-rails-girl-7": {
+        "title": "Rails Girl #7",
+        "url": "/blog/2016/08/28/rails-girl-7/",
+        "author": "",
+        "category": "",
+        "content": "有幸在第七屆的 Rails Girl 活動中擔任教練，就來寫寫感想好了 w在當 Rails Girl 教練之前，我雖然「算是」有帶過幾位實習生，不過跟這種馬拉松式的教學完全不同，平常都不太說話的我，這兩天竟都沒怎麽停嘴，也真佩服自己了 😅Day 1 - 裝機對於這種體驗性質的活動，浪費時間在安裝開發環境就太可惜了。主辦的大大在會前教練通知信裡寄了一份 CodeAnywhere 網站的說明。如同名字所述，CodeAnywhere 可以讓你 Code Anywhere（在哪裡都能寫程式），運用 Linux Container 和 Web 技術，使用瀏覽器便能連接機器、開發網站服務。只可惜 Bug 還是挺多的，比如說：無法做到即時 Filesystem Refresh，每次新增檔案後，都要手動重新整理專案，新增的資料夾才會出現在列表Terminal SSH Session 在重新整理瀏覽器後不會自動 kill，所以開啟的 Rails server 佔用 port，但 terminal tab 已經消失，需要找出 pid 後 kill 掉（lsof -i tcp:3000）在 Terminal 界面無法使用貼上快捷鍵（Ctrl + v or CMD + v），對於經常性 Copy &amp; Paste 的這堂課來說十分不便呀附上 rails 簡易裝機指令，無論是 CodeAnywhere 環境或是 Ubuntu/macOS 應該都能使用。Ubuntu 需要事先安裝好 Git，macOS 則需安裝 XCode Developer Tools。gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3\\curl -sSL https://get.rvm.io | bash -s stablervm reloadrvm install 2.3.1rvm use 2.3.1 --defaultecho 'gem: --no-ri --no-rdoc' &gt;&gt; ~/.gemrc # 不需要安裝 rdocgem install bundlerbundle config --global --jobs 4echo 'source \"https://rubygems.org\"ruby \"2.3.1\"gem \"rails\"' &gt;&gt; ~/Gemfilecd # 切換至家目錄bundle install個人認為裝機階段實在也不需要特別解釋，說明一下 Ruby 和 Rails 的關係和豐富的套件生態系就行了（什麼？Rails 不是語言嗎？）作為一個信仰不夠忠貞的 Rails 信徒，自然會從廣義的 Web 開始講起。想到在行前會說明時，提到有個萬用便當遊戲1 可以用，自然就偷跑進度，直接拿便當圖來講故事啦。講故事的重點就是凡事回顧個兩三次，並在不同時機再次連結。另外身為一個自學者，當然還是把肌肉記憶拿出來講了講，我還是覺得這挺有用的 XDDay 2 - 跑跑進度啦CodeAnywhere 有分享專案和 pair programming 的功能。先對專案點右鍵，並在跳出的選單選擇 Share、並輸入對方 Email 即可；而 Pair Programming 比較麻煩，每個檔案或是 Terminal 都要分享一次。如下圖所示，按下紙飛機按鈕，並輸入對方 Email：THE 紙飛機透過 Pair Programming 的方式，即使是一次帶兩個人，也只要維護一份環境、一份專案，真是怠惰啊 😇第二天白天，我們這組跑了 Rails Girl 的兩篇教材，分別是 Idea Scaffold 還有留言功能，途中也不時對教練解釋的地方自我吐嘈了一番；下午就在各種傳教閒聊之中度過了，比如 Rails 基本主義啦、編輯器之戰、鄙視鏈、GitHub 文化、Stylish 自訂網頁樣式表、Coding Font with Ligature support，還有 DjangoGirls 等等（在 Rails 的場子談 Django 是不是搞錯了什麼？）。畢竟這個圈子最好玩的就是聖戰以及用不完的攻城獅哏，體驗文化也是學習不可分割的一環啊！After Party據說 After Party 才是 Rails Girls 活動的精華......欸就這樣一行？結語Rails Girls 對於想接觸 Rails 或是網站入門的女性朋友來說，自然是個非常好的機會，手把手帶你寫程式還不用錢，實在是值回票價（等等！免費的活動哪來的票啊）；對身心疲憊、忙於工作的工程師教練們，也是個調劑身心的好時機，讓平常沉默的宅宅有了練蕭維的舞臺。最後感謝本活動的唯一贊助商五倍紅寶石，下次活動詳情就請繼續關注 Rails Girls Taiwan 粉絲專頁啦！參見 Rails Girls 官方部落格&nbsp;&#8617;",
+        "url": "/blog/2016/08/28/rails-girl-7/",
+        "date": "Aug 28, 2016"
+      }
+      ,
+    
+      "blog-2016-08-22-blog-new-github-theme": {
+        "title": "部落格 GitHub 新版型主題",
+        "url": "/blog/2016/08/22/blog-new-github-theme/",
+        "author": "",
+        "category": "",
+        "content": "過程可以看 PR#1，大致上是：引入 primer css清掉原本沒用到的 cssPost Layout 加上 markdown-body 的 class（31360b）從 GitHub 上面拿 css 來用 XD不囉嗦，直接上圖了。BeforeAfterMisc另外附上最近弄的 VSCode Markdown Preview Theme。我習慣用暗色的 syntax highlight theme，但是 VSCode 的 Markdown Preview 會根據目前使用的 Theme，來使用亮色或暗色，所以我寫了一些覆蓋的 css，讓不論選亮色或是暗色主題都能使用明亮的 Markdown 預覽主題。與 BigstickCarpet 的 GFM Theme 一起使用效果更佳 😁vscode-markdown-github-css",
+        "url": "/blog/2016/08/22/blog-new-github-theme/",
+        "date": "Aug 22, 2016"
+      }
+      ,
+    
+      "blog-2016-08-19-migrate-1password-to-pass": {
+        "title": "從 1Password 搬家到 pass",
+        "url": "/blog/2016/08/19/migrate-1password-to-pass/",
+        "author": "",
+        "category": "",
+        "content": "Why?pass 照官網的說法，是一套 「標準 unix 密碼管理」（the standard unix password manager），開源簡單好用。雖然 1Password 我是用 Dropbox 同步，應該還算安全，不過多個開源選擇也不錯。pass 也有一些社群版套件，引用一下官網：The community has even produced a cross-platform GUI client, an Android app, an iOS app, a Firefox plugin, a Windows client, a pretty Python QML app, a nice Go GUI app,  an interactive console UI, Alfred integration (1) (2) (3), a dmenu script, OS X integration, git credential integration, and even an emacs package.不過 iOS App 版要 jailbreak 之後才能使用呀 😭，不過身為一個還算熟悉 CLI 的使用者，這些當然都不是問題啊 😁。安裝 passOS X 安裝十分容易：brew install pass就好了。他也提供一些 shell completion 可以使用，fish 需要在 ~/.config/fish/config.fish 裡加上：source /usr/local/share/fish/vendor_completions.d/pass.fish設定 pass完成之後我們要看一下有沒有 gpg 金鑰，如果沒有的話要新增個gpg --gen-key # 產生 gpg key記得輸入的 key phrase 呀，之後會拿來解鎖的。用 gpg --list-keys 查看剛剛產生的 key，類似下面這樣：/Users/username/.gnupg/pubring.gpg-------------------------------pub   2048R/A534B400 2016-08-18uid                  My Name &lt;your_email@gmail.com&gt;sub   2048R/E1001945 2016-08-18pubic id 就是 A534B400，拿這組 id 來初始化 passpass init A534B400完成！之後就可以用 pass 指令管理密碼了，可以下一些測試的指令試試，比如 insert 一組 foo 的密碼：pass insert foo然後顯示 foo 的密碼pass show foo由 1Password 匯入官網上就寫上匯入 1password 的 ruby script 😍 ，直接使用就行了。在 1Password 匯出 txt 時，記得勾選 Include Column Labels，如下圖：把匯出的檔案和匯入腳本準備好，跑一下：ruby 1password2pass.rb /path/to/1password_exported.txt基礎使用pass 的管理可以說是相當自由，通通放在 ~/.password-store 目錄，底下可以建立任意的目錄分類，或是乾脆不分 XD一些基本指令：pass show PROFILE # 印出 PROFILE 的密碼pass -c PROFILE # 複製 PROFILE 的密碼到剪貼簿pass ls # 列出所有密碼設定檔我做了以下 alias，方便快速密碼搜尋：alias passgrep=\"pass ls | grep -i\"就可以用 passgrep 來搜尋現有設定檔了。",
+        "url": "/blog/2016/08/19/migrate-1password-to-pass/",
+        "date": "Aug 19, 2016"
+      }
+      ,
+    
+      "blog-2016-08-12-refocus-from-chrome-address-bar": {
+        "title": "使用 Chrome 在快速鍵切換至網址列後，再用快速鍵切換回來",
+        "url": "/blog/2016/08/12/refocus-from-chrome-address-bar/",
+        "author": "",
+        "category": "",
+        "content": "啥？習慣於鍵盤操作 Chrome，比如 Vimium 或是 cvim 等擴充套件，在需要跳轉網址列進行搜尋時，都會很自然的使用 Chrome 的內建快速鍵：CMD + L（在 Windows 是 F6）來操作。那回來呢？我想要在切回網頁本身，再次用熟悉的 VIM key binding 來衝浪。很遺憾的，Chrome 本身並沒有提供此功能，而擴充套件的作用域也不包含網址列，在經過 Google 之後終於找到一個 Hacky 的解法。建立自訂搜尋引擎在設定找「搜尋引擎」：在最底下新增一個搜尋引擎，三個欄位分別填入Refocus # 自訂搜尋引擎名稱i # 要綁定的關鍵字，越短越好javascript:如下圖：接下來在切換到網址列之後，主要輸入綁定的關鍵字，再按下 enter，就能切換回網頁囉：via Google Chrome (Mac) set keyboard focus from address bar back to page - Super User",
+        "url": "/blog/2016/08/12/refocus-from-chrome-address-bar/",
+        "date": "Aug 12, 2016"
+      }
+      ,
+    
+      "blog-2016-07-22-rbenv-fish-and-vscode": {
+        "title": "rbenv、fish 與 VSCode 設置之路",
+        "url": "/blog/2016/07/22/rbenv-fish-and-vscode/",
+        "author": "",
+        "category": "",
+        "content": "在最新的 VSCode 1.3.1 版裡，Integrated Terminal 變得更加好用，但由於上游套件 xterm.js 的緣故，zsh 還是有無法捲動的問題。不過作為一個 Rails 開發者，VSCode 已經是個足夠好用的、足矣媲美 Sublime Text 的編輯器了。為了能夠在 VSCode 開發 Rails，特別對目前的開發環境做出調整。由 RVM 轉換至 rbenv聽聞 rbenv 相較 rvm 來說，是對系統較為乾淨的 ruby 版本管理工具。就趁這次更新開發環境一起重置吧！移除 rvm套件也內建了一鍵移除的方式：rvm implode做完之後也可以將 rvm 剩餘的檔案移掉：rm -rf ~/.rvm安裝 rbenv參照了專案官網的說明，只要把該 repo clone 下來，設置好 PATH 變數，在為 shell 加上一些設定便可以開始安裝 ruby 了。在 OS X 環境又更容易，只要用 Homebrew 一鍵安裝便成。brew install rbenv裝完之後就可以發現 rbenv 已經被裝到 Homebrew 的可執行位置了，可以跑 which 指令檢驗which rbenv# =&gt; /usr/local/bin/rbenv在 Homebrew 安裝跑完之後，安裝腳本會提示已在 shell profile(.zshrc/.profile/.bash_profile) 加上 rbenv 初始化腳本，預設內容如下：export PATH=\"$HOME/.rbenv/bin:$PATH\"eval \"$(rbenv init -)\"第二行的 rbenv init - 指令輸出，在你一般開啟的 Terminal 會跑出：export PATH=\"/Users/USERNAME/.rbenv/shims:${PATH}\"export RBENV_SHELL=zshsource '/usr/local/Cellar/rbenv/1.0.0/libexec/../completions/rbenv.zsh'# ... 下面一串不過在 VSCode 內建終端機卻會跑出：export PATH=\"/usr/local/opt/rbenv/shims:${PATH}\" # 就這行不同export RBENV_SHELL=zsh# ... 下面一樣大概是執行權限不同的關係吧，rbenv 執行的位置不同也會讓 gem/bundler 裝到不同的位置，為了方便起見，一律設成一般終端機跑出來的那串。把下面這串貼到 ~/.zshrc 最下面就是。export PATH=\"/Users/USERNAME/.rbenv/shims:${PATH}\"export RBENV_SHELL=zshsource '/usr/local/Cellar/rbenv/1.0.0/libexec/../completions/rbenv.zsh'command rbenv rehash 2&gt;/dev/nullrbenv() {  local command  command=\"$1\"  if [ \"$#\" -gt 0 ]; then    shift  fi  case \"$command\" in  rehash|shell)    eval \"$(rbenv \"sh-$command\" \"$@\")\";;  *)    command rbenv \"$command\" \"$@\";;  esac}若是 fish 就貼下面這個：setenv PATH '/Users/USERNAME/.rbenv/shims' $PATHsetenv RBENV_SHELL fish. '/usr/local/Cellar/rbenv/1.0.0/libexec/../completions/rbenv.fish'command rbenv rehash 2&gt;/dev/nullfunction rbenv  set command $argv[1]  set -e argv[1]  switch \"$command\"  case rehash shell    . (rbenv \"sh-$command\" $argv|psub)  case '*'    command rbenv \"$command\" $argv  endend裝 rubyrbenv install 2.3.1rbenv global 2.3.1gem install bundlerbundle install搞定！Pow 的額外設定其實在 Pow 的 wiki 就有解答，不過因為我又對 rbenv 做了 PATH 的改動，所以設定也不太一樣。打開 ~/.powconfig 並貼入export PATH=\"/Users/USERNAME/.rbenv/shims:/Users/USERNAME/.rbenv/shims/bin:$PATH\"然後重啟 pow servicetouch ~/.pow/restart.txt將主要 shell 由 zsh 換成 fishzsh 有著非常有名的 oh-my-zsh 設定檔管理框架，fish 底下也有個好用的叫 fisherman。不過我終究是沒有把系統預設的 shell 換掉(chsh 指令)，因為挺多工具與 fish 不相容。fish 啟動速度飛快，帶我重回還沒有裝一堆 zsh 套件的美好往日時光。VSCode講來講去這篇好像跟 VSCode 沒啥關係耶？那就附張截圖好了，VSCode 也是十分優秀的 Markdown 編輯器，內建了快速的 Preview，碼 code、寫文件、Terminal、Task Runner 全都內建了，還夠輕量快速，Extension 也陸續多了起來，還真不好挑剔啊 XD。",
+        "url": "/blog/2016/07/22/rbenv-fish-and-vscode/",
+        "date": "Jul 22, 2016"
+      }
+      ,
+    
+      "blog-2016-06-22-sublime-atom-vscode-comparison-mid-2016": {
+        "title": "2016 年中、編輯器三雄大對決！",
+        "url": "/blog/2016/06/22/sublime-atom-vscode-comparison-mid-2016/",
+        "author": "",
+        "category": "",
+        "content": "TL;DR: 立馬下載 VSCode！！前言這題目一直以來都非常想戰啊，身為一個超級設定狂，什麼編輯器都要玩玩，惡搞到每個編輯器 startup time 都超久的...orz這次就選了三個主流的編輯器，Sublime Text、Atom、以及 Visual Studio Code，以下稍微簡介一下各編輯器的特性、好用插件，以及文本最主要的目的：秀截圖。畢竟功能那些，各家網站都講到爛了沒啥好說的。Sublime Text最近作者重啟開發，原生就是順暢來著，一直以來受前端社群愛好與推廣，不過更新頻率還是稍顯慢。我最愛的 Font Ligature 一直不來啊！SublimeLinter 配上 eslint 還有 rubocup，JavaScript 及 Ruby 這兩種我平常主要使用的語言，在靜態語言檢查就不成問題了GitSavvy ，一個新興的 git 輔助套件，讓平時的 commit、diff、merge 輕鬆寫意，當然有時還是得用 SourceTree 或是 command 輔助一下啦EasyMotion 還有內建的 Vintage Mode，讓我幾乎不動滑鼠就能輕鬆控制編輯器最近出現的 Boxy Theme ，以簡便的介面自訂主題，設定各元件的字體、配色、大小。讓我換掉了之前寫自己幹出來、沒啥時間更新的主題：Oceanic Seti，還有最近被推薦的 primer theme。Atom Text Editor套件裝不完編輯器系列。有著比起 Sublime 更佳好用的套件管理界面，不過開啟大量檔案編輯、或開啟稍大的檔案時（數 MB 吧），容易出現程式碼高亮緩慢，捲動頓挫明顯。介面單靠 css 就可以自訂，有著比起 Sublime 更精緻的 Autocomplete 及 Error Hint 介面。有內嵌的第三方 terminal 插件（platformio-ide-terminal），不過多開仍舊頓挫（汗）資料夾內搜尋預設排除 .gitignore 列表。就不會像 Sublime 預設 一樣搜出一堆 node_modules 的套件內建 timecop 插件，可以監看每次啟動時，各個插件所消耗的時間。真是走到另一個奇妙境界去了，是有多需要調教啊（的確很需要 www）社群力驚人（看那精美的 stars 數量），或許過不了多久效能又能一大躍進...吧。會有軟黑出沒Visual Studio Code後起之秀，快讚歎我軟技術力威能。同源自 Atom 的 Electron Framework，不過卻被我軟寫的更佳滑嫩順暢，順暢程度宛若 Native，早就叫你不要用 CoffeScript 要用 TypeScript 了吼在即將推出的六月份更新，加入了 Tab 實作、多開 Terminal 支援（對你沒看錯，官方支援 Terminal），以及新的插件安裝介面。我軟不斷採納 UserVoice 上的使用者反饋，GitHub 上詳細的列出開發 VSCode 的產品規劃 (Product Roadmap)、迭代計劃 (Iteration Plan)、開發程序 (Development Process) 等等，十分公開透明，每個月的 Iteration Plan 更是讓人有如等待漫畫月更一般期待 😍推出時最大賣點為內建 intellisense 的 code complete，官方支援的 debugger 還有 git tools，最近還出現了官方支援的 react-native 插件套件商店也是蓬勃發展中。你怎麽能不愛他呢？XD本身就是個超大型的開源 TypeScript 專案，由 GoF 四人幫的 Erich Gamma 領軍，值得一提的是插件另外在獨立的 Extension Process 執行，寫爛的 Extension 不會影響到 VSCode 本身的速度。可以參考官方的文章，不知道有沒有針對哪個編輯器啦（誤）看看下圖，連 syntax highlight 都完勝……真是花俏啊，驕傲的兔子。值得一提的是，雖然 VSCode 的設定不像 Atom 有 GUI 可以勾選，也是和 Sublime 一樣需要編寫設定檔，但是只要一開啟設定介面，就會自動跳出 split view 對照設定檔預設值供對照修改，每個插件的預設設定除了擁有自己的 namespace 外，所有的設定值都會有 autocomplete，可比 Sublime 好用太多了呵呵。在 1.8 Stable 版本之後 Setting 有了更進一步的改善，有了設定值搜尋篩選功能以及可以選取的界面，官方表示在下個 iteration 還會持續改善呀。在自訂介面上，雖然不如 Atom 完全 Hackable，不過也有第三方推出的 vscode-custom-css 插件可供修改。在最新的 1.8 穩定版裡，在 macOS 底下有了客製過的 title bar，整體界面更加精煉，左方的 Activity Bar 也可以直接隱藏。如果再順便把 Status Bar 一併隱藏，整體界面就更加簡潔優雅辣！結論TL;DR: 快去下載 VSCode 就對惹。我說那個 vim 呢？我都用 Vim Bootstrap無腦一鍵上手。總之我已經變成 VSCode 的形狀惹，Sublime 也已經被我打入冷宮，偶爾拿出來回味一下倒還可以。那麼 Atom 呢？毫無反應，就是個 Hackable 的 Editor，十分適合拿來惡搞，只要你想，回到 90 年代也未嘗不可，不過永遠就是卡，恩。完。",
+        "url": "/blog/2016/06/22/sublime-atom-vscode-comparison-mid-2016/",
+        "date": "Jun 22, 2016"
+      }
+      ,
+    
+      "blog-2016-06-09-setup-jekyll-on-github-page": {
+        "title": "在 GitHub 上設定 Jekyll 和自訂網域",
+        "url": "/blog/2016/06/09/setup-jekyll-on-github-page/",
+        "author": "",
+        "category": "",
+        "content": "花了時間把 Jekyll 建起來。Ghost 是很棒沒錯，不過想要完全掌控還要多花許多時間，純粹靜態網頁更為靈活，再配上 jekyll-assets，如果真的需要點 ES6 還是可以硬上的。Git Subtree我把原始的 branch 命名為 jekyll，用 subtree 把 Jekyll 產生的 _site 資料夾切開：git checkout -b jekyll # 原本在 mastergit branch -D master # 把原本 master branch 刪掉git subtree split --prefix=_site -b master # subtree 切割到這算切割完畢，接下來每次更新時，都從原本 jekyll branch commit，然後 push subtree 的 branch：git commit -m \"commit on jekyll branch\"git subtree push --prefix _site origin master # 將 _site 的 subtree 推到 origin 的 master branchGitHub user page custom domain二圖流CNAME 檔：www.yukaii.twyukaii.tw其它自訂Jekyll 也有 partial 挺方便的，我用來做 image caption，比如以下這段：{% include image.html url=\"http://i.imgur.com/gqOPCwP.jpg\" description=\"六月不要啊啊啊，應該沒有第二行啦\" %}就會產生：六月不要啊啊啊，應該沒有第二行啦需要在 _includes 資料夾新增 image.html，詳情可參考這裡",
+        "url": "/blog/2016/06/09/setup-jekyll-on-github-page/",
+        "date": "Jun 9, 2016"
+      }
+      ,
+    
+      "blog-2016-04-07-16th-elk-installation-notes": {
+        "title": "第十六篇 - ELK 安裝筆記",
+        "url": "/blog/2016/04/07/16th-elk-installation-notes/",
+        "author": "",
+        "category": "",
+        "content": "此份文件是台科 104 第二學年度，CS5124701 巨量資料與分析的課堂作業一。作業一的要求就是寫一隻 Twitter 或 Github 的爬蟲，並把爬下的資料格式化成 json。在 3/29 的這週，教了 ELK Stack 設定方法，所以並沒有特別實作 Crawler，而是直接套用課堂簡報上的 Logstash Twitter 樣板。以下記錄我自己在 ELK 安裝過程與課堂上有所不同的部分。說明一下，因為主力機 MBA 的儲存空間快炸了，所以我在 AWS 上開了一台 t2.medium 的機器來跑 Spark 以及 ELK Stack。在上週的課程簡報中， ELK 是以下載 binary zip 包的方式設定，因為習慣用 APT 套件管理程式，所以裝 ELK 相關設定方式也和 binary zip 不太一樣。安裝過程主要參考數位海的這篇，還有上課簡報。數位海這篇超詳細的，可以交互對照一下。安裝 Java 8sudo add-apt-repository -y ppa:webupd8team/javasudo apt-get updatesudo apt-get -y install oracle-java8-installer安裝 ElasticSearchwget -qO - https://packages.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -echo \"deb http://packages.elastic.co/elasticsearch/2.x/debian stable main\" | sudo tee -a /etc/apt/sources.list.d/elasticsearch-2.x.listsudo apt-get updatesudo apt-get -y install elasticsearch到這邊裝完，然後編輯 ElasticSearch 設定檔：sudo vi /etc/elasticsearch/elasticsearch.yml把 network.host 改成 0.0.0.0，讓外網也可以存取。註：之後還會搭上 nginx 的 reverse proxy，並裝上前端 kibana，這裡為了安全性也可以不要改。重啟 elasticsearch 的服務：sudo service elasticsearch restart讓它開機時自動啟動（Optional）sudo update-rc.d elasticsearch defaults 95 10ElasticSearch binary 檔的位置在 /usr/share/elasticserach/bin。安裝 head plugin：sudo /usr/share/elasticserach/bin/plugin install mobz/elasticsearch-head把 iptable 打開sudo iptables -A INPUT -m tcp -p tcp --dport 9200 -j ACCEPTsudo iptables -A INPUT -m udp -p udp --dport 9200 -j ACCEPT記得在 EC2 打開 9200 port，這時候開啟瀏覽器，進到http://YOUR_IP_ADDRESS:9200/_plugin/head就有一個簡單的圖形界面啦。安裝 Kibanaecho \"deb http://packages.elastic.co/kibana/4.4/debian stable main\" | sudo tee -a /etc/apt/sources.list.d/kibana-4.4.x.listsudo apt-get updatesudo apt-get -y install kibana到這裡裝完，然後編輯 kibana 的設定檔：sudo vi /opt/kibana/config/kibana.yml把 server.host 從 0.0.0.0 改成 localhost，因為稍後會裝 nginx 來做我們的反向代理。就像這樣：server.host: \"localhost\"加入開機啟動，然後啟動服務：sudo update-rc.d kibana defaults 96 9sudo service kibana start安裝 nginx 啥的sudo apt-get install nginx apache2-utils建立一個 kibanaadmin 的認證使用者（名稱可換）sudo htpasswd -c /etc/nginx/htpasswd.users kibanaadmin編輯 nginx 設定檔sudo vi /etc/nginx/sites-available/default換成下面這個server {    listen 80;    server_name example.com;    auth_basic \"Restricted Access\";    auth_basic_user_file /etc/nginx/htpasswd.users;    location / {        proxy_pass http://localhost:5601;        proxy_http_version 1.1;        proxy_set_header Upgrade $http_upgrade;        proxy_set_header Connection 'upgrade';        proxy_set_header Host $host;        proxy_cache_bypass $http_upgrade;    }}example.com 的地方，看你要換成 Instance 的 IP 或是 domain name 都可以。EC2 可以換成 public dns name。重啟 nginxsudo service nginx restart安裝 Logstashecho 'deb http://packages.elastic.co/logstash/2.2/debian stable main' | sudo tee /etc/apt/sources.list.d/logstash-2.2.x.listsudo apt-get updatesudo apt-get install logstash中間數位海插了一段設定 SSL 的，因為沒有要用就跳過這部分。Logstash 安裝完的 binary 會在 /opt/logstash/bin 。設定 Logstashsudo vim /etc/logstash/conf.d/02-twitter.conf填入以下內容input {    twitter {        consumer_key =&gt; \"\"        consumer_secret =&gt; \"\"        oauth_token =&gt; \"\"        oauth_token_secret =&gt; \"\"        keywords =&gt; [\"beauty\"]        languages =&gt; [\"en\"]        full_tweet =&gt; true    }}output {    elasticsearch {        index =&gt; \"twitter\"    }}oauth 那些 key 就填自己申請的，keywords 填自己要的，然後存檔離開。接下來跑sudo service logstash configtest看一下設定檔有沒有寫錯， 然後重啟 logstash 服務，並加入開機自啟動(Optional)sudo service logstash restartsudo update-rc.d logstash defaults 96 9原則上這時候登入 kibana 或是在 head 儀表板就可以看到記錄數一直增多了。太神啦！匯出資料我是用 elasticsearch-dump 套件，記得先裝好 node v1.0 以上版本。裝完之後就可以無腦一行匯出：elasticdump --input=http://localhost:9200/twitter --output=twitter.json上傳之前 Github 推了 LFS(Large File Storage)，json 雖然純文字檔很好壓縮，但無論怎麽壓還是有點難推進到 100 MB ，也就是 Github 支援的最大容量，以內。勢必就要來用下 git-lfs 了。後記結果今天 Github 捎來一封信......恩...我只是要交個作業而已啊啊啊（哭）資料格式搜尋的關鍵字是 beauty，你知道 twitter 上最多這種圖帳了，多訂閱幾個總是使人心情愉悅 #){  \"_index\": \"twitter\", // 灌入到 elasticsaerch 裡的資料表  \"_type\": \"logs\",  \"_id\": \"AVPCY9McFvHLlvNymVV9\", // elasticearch 產生的 id  \"_score\": 1,  \"_source\": {    \"created_at\": \"Tue Mar 29 12:40:34 +0000 2016\", // 建立於    \"id\": 714794377491587100, // twitter 的 tweets id    \"id_str\": \"714794377491587072\",    \"text\": \"Regina King On The 'Fascinating' Beauty Of Black Women's Hair https://t.co/0838uXkQ1e @HannahOliver152\",    \"source\": \"&lt;a href=\\\"http://dlvr.it\\\" rel=\\\"nofollow\\\"&gt;dlvr.it&lt;/a&gt;\",    \"truncated\": false,    \"in_reply_to_status_id\": null,    \"in_reply_to_status_id_str\": null,    \"in_reply_to_user_id\": null,    \"in_reply_to_user_id_str\": null,    \"in_reply_to_screen_name\": null,    \"user\": { // twitter user 的資料      \"id\": 2558258431, // user id      \"id_str\": \"2558258431\",      \"name\": \"Hannah Oliver\", //名字      \"screen_name\": \"HannahOliver152\", //帳號名      \"location\": null,      \"url\": \"http://www.wordpress.com\",      \"description\": \"Our life always expresses the result of our dominant thoughts.\",      \"protected\": false,      \"verified\": false,      \"followers_count\": 31,      \"friends_count\": 11,      \"listed_count\": 6,      \"favourites_count\": 0,      \"statuses_count\": 17481,      \"created_at\": \"Tue Jun 10 05:18:02 +0000 2014\",      \"utc_offset\": null,      \"time_zone\": null,      \"geo_enabled\": false,      \"lang\": \"en\",      \"contributors_enabled\": false,      \"is_translator\": false,      \"profile_background_color\": \"C0DEED\",      \"profile_background_image_url\": \"http://abs.twimg.com/images/themes/theme1/bg.png\",      \"profile_background_image_url_https\": \"https://abs.twimg.com/images/themes/theme1/bg.png\",      \"profile_background_tile\": false,      \"profile_link_color\": \"0084B4\",      \"profile_sidebar_border_color\": \"C0DEED\",      \"profile_sidebar_fill_color\": \"DDEEF6\",      \"profile_text_color\": \"333333\",      \"profile_use_background_image\": true,      \"profile_image_url\": \"http://pbs.twimg.com/profile_images/476232749041201152/yWKGqAkC_normal.jpeg\",      \"profile_image_url_https\": \"https://pbs.twimg.com/profile_images/476232749041201152/yWKGqAkC_normal.jpeg\",      \"profile_banner_url\": \"https://pbs.twimg.com/profile_banners/2558258431/1402377722\",      \"default_profile\": true,      \"default_profile_image\": false,      \"following\": null,      \"follow_request_sent\": null,      \"notifications\": null    },    \"geo\": null,    \"coordinates\": null,    \"place\": null,    \"contributors\": null,    \"is_quote_status\": false,    \"retweet_count\": 0,    \"favorite_count\": 0,    \"entities\": {      \"hashtags\": [],      \"urls\": [        {          \"url\": \"https://t.co/0838uXkQ1e\",          \"expanded_url\": \"http://dlvr.it/Kw7QcG\",          \"display_url\": \"dlvr.it/Kw7QcG\",          \"indices\": [            62,            85          ]        }      ],      \"user_mentions\": [        {          \"screen_name\": \"HannahOliver152\",          \"name\": \"Hannah Oliver\",          \"id\": 2558258431,          \"id_str\": \"2558258431\",          \"indices\": [            86,            102          ]        }      ],      \"symbols\": []    },    \"favorited\": false,    \"retweeted\": false,    \"possibly_sensitive\": false,    \"filter_level\": \"low\",    \"lang\": \"en\",    \"timestamp_ms\": \"1459255234488\",    \"@version\": \"1\",    \"@timestamp\": \"2016-03-29T12:40:34.000Z\"  },  \"fields\": {    \"@timestamp\": [      1459255234000    ]  }}（完）",
+        "url": "/blog/2016/04/07/16th-elk-installation-notes/",
+        "date": "Apr 7, 2016"
+      }
+      ,
+    
+      "blog-2016-04-01-15th-use-aws-codedeploy-deploy-wordpress": {
+        "title": "第十五篇 - 使用 AWS CodeDeploy 跑起你的 WordPress - 官方教學筆記",
+        "url": "/blog/2016/04/01/15th-use-aws-codedeploy-deploy-wordpress/",
+        "author": "",
+        "category": "",
+        "content": "為何要部屬 WordPress？就因為他是 CodeDeploy Tutorial 的第一個範例。AWS Documention 有個特點，就是到處 Reference 來 Reference 去，你很難在單一流程完整跑完所有的任務，非得要搭著其它份文件一起對照。筆者英文也沒那麼好，看著看著就會漏東漏西，文件又滿滿的都是字，沒有圖片可以參考，真令人崩潰。CodeDeploy 是 AWS 眾多部屬方案中，看起來比較單純的一種。寫好 Setup 程式的 Shell Script，再聲明好 appspec.yml，定義每個 deploy life cycle 不同的階段要跑的動作，用 AWS CLI Tool 把 repo 打包上傳到 S3，再到 CodeDeploy console 定義應用程式部屬規則、後臺發起一個 deployment（一個部屬行動），CodeDeploy Service 便會把你的 code 部屬到你設定的 Deployment Group，依照 Group 設定的機器不同，你可以在同一個機器部屬很多個 Application，或是同一個 Application 部屬到很多台機器，端看設定，啦。當然，AWS 系列就是啥都可以用 CLI 跑，只要開好對應權限的 role 並拿到 Access ID 和 Secret Key，我們也可以交由第三方 CI 服務，比如說 CodeShip，來幫我們完成「打包程式碼並上傳 S3」、「發起部屬行動」這種的工作。以下便大致記錄一下本日折騰的感想與流程。概念CodeDeploy 約略是 14 年 11 月推出的服務，在此幹一張官圖，看圖說故事。在你的開發機器上寫好 code 、設定好 appspec.yml，上傳到 github 或是打包傳到 s3在 CodeDeploy 設定好部屬邏輯每一台 instance 的 agent 把 codebase 從 s3 或 github 拉下來跑部屬 script！裝裝裝大概醬，英文版可以看這，另外強烈建議 aws 系列最好都先從 Concept 開始看，要不然鐵定被無限連結地獄搞死，崩潰。名詞解說可以開好官方教學的分頁，淨身準備一下，接下來講解教學中會出現的名詞。其實名詞解釋放在教學開頭實在是挺不好的，我自己跑教學也是跟著實作之後才有點感覺，在還沒進行操作前做的說明都是廢話。話雖然是這樣說啦，可是這是筆記又不是演講，你翻到下面還是可以翻回來看啊，所以我還是寫在這了。呵呵。滿多中文名詞都我隨便翻的 XD，中文文件越少，我就掌握著更多的話語權（才怪），大家趕快來寫文件吧哈哈。AWS 在各種服務開 API 開很大開不用錢的狀況下，權限的管理便十分重要，阿罵爽雲端福利社使用 IAM 角色權限管理服務，來區分出不同服務或使用者，對於 AWS 服務使用的權限隔離。舉例來說，CodeDeploy 在 AWS 裡算是一個服務(Service)，雖然通通都是在 AWS 裡啦，但是你還是要給他一些對 AWS 資源的存取權限才可以，比如說當我們對好幾臺 EC2 Instances 設定了標籤（Tag），我們也要給 CodeDeploy 讀取 EC2 Intance 標籤的權限，CodeDeploy 才知道要部屬到哪幾台機器上啊，這就是權限管理的作用。不同的權限，在 IAM 裡就叫做 Policy（方針）。當人有了多項 Policy 之後，能力越大，責任越重，你所要承擔的就是職責了（屁話），在 IAM 裡我們把他稱作角色職責 (Role）。在 AWS 裡面有不同的服務，Role 的類型也都不同，比如 EC2 Instance 的 Role 就叫 Instance Profile，用來管理 EC2 能有那些權限，在 CodeDeploy 官方教學裡，EC2 的職責是把用 agent 把 codebase 從 s3 拉下來，所以在啟動 Instance 之前，我們必須先設定好能夠存取 S3 的 Instance Profile，並在啟動(Launch) Instance 把 Role 指派給他。不同的 Role Type。CodeDeploy 教學中用到的分別是 CodeDeploy 和 EC2 的 Role Type。CodeDeploy 的 Service Role，直接掛上 AWS 建立好的 Policy，可以直接看出使用了那些權限。跑教學...咦我前面嫌的要死，就因為這次跑教學真的打死也找不到安裝 CodeDeploy agent 的步驟，反反覆覆翻了教學幾次，卻一直找不到哪裡出錯。以下來回顧一下。首先，照著教學的說明先在 EC2 Launch 一個 Instance。他第一步教學的作用其實就是給你一個預先裝好 aws cli tools 的環境，好使用 cli 界面打包上傳 code 到 s3，用你自己的電腦其實就可以了。設定好 Keypair，透過 pem 檔 ssh 進機器後，先來安裝 codedeploy agent 到機器上。裝到一半你會發現連 agent 的 aws s3 bucket 都抓不下來，原來是我們還沒設定 EC2 的 Instance Profile，也就是 EC2 類型的 Role。請去 IAM 設定，並如同連結裡面加上 S3 的存取權限。這權限一定要開，即使現在用 wget 直接拉 bucket 的 agent install script 下來裝完，之後要從 s3 部屬時沒開也沒法抓啊。{    \"Version\": \"2012-10-17\",    \"Statement\": [      {        \"Action\": [          \"s3:Get*\",          \"s3:List*\"        ]      }    ]  }範例 S3 的 widecard 權限，當然還是詳細指定比較好。先新增 Policy，在建立 EC2 Type 的 Role Attach 上去，或是建立 Role 時寫成 Inline Policy。是的。就是這兩點搞死我。第一，EC2 Role 要先設定 S3 存取權，並在 Instance 建立時掛載。第二，CodeDeploy Agent 要先裝上 Instance。教學是都搜尋的到啦，可是排成一個完整版不好嗎，都已經拆 Step by Step 了，還 Lost 一堆，崩潰啦，難怪各種 AWS 代管服務蓬勃發展啊無誤 XDDD再跑一次首先在 IAM 建立兩個 Role ，一個是給 EC2 的，一個是給 CodeDeploy 的。EC2 Role 直接用上面提到的 S3 Bucket 權限寫進去，EC2 的 Role 又稱 Instance Profile，呵。CodeDeploy 的 Role 直接掛上官方的 CodeDeployPolicy，如圖：依照教學 Launch Amazon 的 Linux Instance，記得掛上剛剛建立的 EC2 Role。成功 ssh 連進去後安裝 code deploy agent，ubuntu 就選 apt 的那個，Amazon 自家 Linux 就選 yum 的那個，把他裝起來。依照教學，把 WordPress 的 Repo 載下來，建立相應的 init script 還有 appspec.yml。依照教學，利用 aws cli 建立 application，上傳 s3，這邊依照教學要開一份 IAM 的 User，掛上 s3 put 的權限，下載 User 的 credential (id &amp; secret key)，跑 aws configure 填入設定，這樣才可以在這臺暫時的工作機上傳檔案到 s3。依照教學打包 WordPress 上傳 s3。到 CodeDeploy Console 建立 Deploy 設定。設定 DeployGroup，權限記得掛上之前建立的 CodeDeploy Service Role，其它照著跑。建立部屬行動(Deployment，the 名詞)，看有沒有部屬成功。假如連 Events 都沒顯示，大概是 IAM 權限設定有問題，看一下 EC2 Role 和 CodeDeploy Role 有沒有設定正確大概就這樣啦，這還只是 WordPress 而已，我要部屬的可是 Rails App 欸，之後想必有更細節的其它地方。這樣跑完了一次（還順便被雷了一下午），對 AWS 的理解就更深了，請期待之後的後續文章，哈哈哈（不要說一說就不寫了）（完）",
+        "url": "/blog/2016/04/01/15th-use-aws-codedeploy-deploy-wordpress/",
+        "date": "Apr 1, 2016"
+      }
+      ,
+    
+      "blog-2016-03-26-from-hackpad-to-quip": {
+        "title": "第十四篇 - 從 Hackpad 搬家到 Quip",
+        "url": "/blog/2016/03/26/from-hackpad-to-quip/",
+        "author": "",
+        "category": "",
+        "content": "你知道，Hackpad 自從被 Dropbox 買走之後就沒增加新功能了，從 15 年四月收到信說要幾周後開源，也是過了很久的八月才完成(雖然也沒有很久啦)。當然技術公司的整並進去必定要做一堆的交接、磨合、修改成能開源的版本；不過十二月時又有 Dropbox 關掉 Mailbox 的前車之鑑，一路看下來我們還是多做幾個備份好 :pQuip 的好就不用多說了，由 Facebook 前 CTO Bret Taylor 創立，最近才在 15 年十月拿到 30M 的 B 輪投資金，結合 React Native C++ Binding 強大技術力的 Desktop Client，近幾個月來也持續在 UI、功能上優化，前途真是一片光明啊(?)。把 Hackpad 轉移到 Quip 確實是個不錯的決定（鋪陳這麼久就為了這句 XD），加上 Quip 也非常 Nice 的提供此功能：Some of our users have asked us for a @Hackpad import tool, and we wanted to share it with you. Check it out! https://t.co/VstwZVEiLb&mdash; Quip (@quip) 2014年6月8日Well, 早在 14 年吶。雖然 Dropbox Paper（前 Hackpad）也有提供導入功能，不過竟然還需要寫信到客服信箱，告知要匯入的 workspace 之後才能匯入。產品已經變你們家的，竟然還沒有無痛一鍵匯入是哪招啦 XDD。於是我的 Quip 搬家行動是勢在必行了，以下就略述這個從 hackpad 搬家到 quip 的過程。由 Hackpad 匯入至 Quip首先進入網頁版的 quip，點選右上的「新增文件」，依序選擇 「Upload or Import」、「Hackpad」：填入 hackpad 的 workspace name（workspace_name.hackpad.com）：點入 Quip 提示的連結（https://workspace_name.hackpad.com/ep/account/settings），並填入 Client ID 和 API Key：點 Import Pads to Folder，Quip 就會開始匯入了，結果如圖：修正 Quip Importer 權限如果你是 workspace 的 admin，你會發現在 workspace 中，由其他人建立的 pads 不會被 Quip 匯入，我們需要修正權限才能讓其它 pads 被正確的匯入。首先到 Hackpad 的 account manager（https://workspace_name.hackpad.com/ep/admin/account-manager/）由把 Quip Importer 的權限由 Guest 調整成 Member，選完之後點 Update再等一下，剩餘文件就會陸續匯進 Quip 中。（完）",
+        "url": "/blog/2016/03/26/from-hackpad-to-quip/",
+        "date": "Mar 26, 2016"
+      }
+      ,
+    
+      "blog-2016-03-19-taiwan-uniform-invoice-lottery-ruby-gem": {
+        "title": "第十三篇 - 弄了一個統一發票查詢的 gem",
+        "url": "/blog/2016/03/19/taiwan-uniform-invoice-lottery-ruby-gem/",
+        "author": "",
+        "category": "",
+        "content": "感覺很久沒發文章了。因為正在準備大重構敝司的程式碼，最近這兩天，就把八個多月前寫的一個「統一發票兌獎」的 gem 給重構了一番，順便找一下手感。其實無非就是加些 class，修一些 bug，補些測試，還是來這邊記錄一下，畢竟也半年多沒更新了 XDUniform Invoice Lottery(Github)安裝一如往常在 Gemfile 加上gem 'uniform_invoice_lottery'然後跑 bundle使用範例require 'uniform_invoice_lottery'prize = UniformInvoiceLottery.check '82930261', time: Time.new(2015, 7, 26)prize = UniformInvoiceLottery.check '82930261', year: 2015, month: 7 day: 26puts prize.amount # =&gt; \"10000000\"puts prize.title  # =&gt; \"特別獎\"大概這樣，資料是從財政部這抓的。不過我的 css selector 過了八個月又大修了一番，希望別再無效了 :p",
+        "url": "/blog/2016/03/19/taiwan-uniform-invoice-lottery-ruby-gem/",
+        "date": "Mar 19, 2016"
+      }
+      ,
+    
+      "blog-2016-01-23-spex-eshop-amazon": {
+        "title": "在 Amazon.com 買東西，再利用 SPEX eSHOP 轉運服務回台",
+        "url": "/blog/2016/01/23/spex-eshop-amazon/",
+        "author": "",
+        "category": "",
+        "content": "上個月用轉運服務把在 Amazon 訂的幾罐綜合維他命運回臺灣，在這裡記錄過程。我用的是 SPEX eSHOP 這家服務，後來聽朋友說他們 Facebook 廣告打得也挺凶的，只不過我從來沒看過。當初只是在 Google 搜尋美國轉運時，出現在前幾項結果，看起來網站還不錯的就直接用了。借用他們網站的步驟圖，步驟就是註冊網站帳號取得轉運地址在網路商城下定商品並填寫轉運地址為寄送地址SPEX eSHOP 集貨完畢將貨品運回臺灣貨品再透過宅急便或郵寄送達你家以下便以這次購買的綜合維他命為例子跑完全部流程。要注意的是維他命有進口數量限制，每種限十二瓶，總數不得超過三十六瓶。註冊轉運服務帳號先到 SPEX eSHOP 註冊帳號，直接選 FB 快速註冊就可以了。會填寫一些如身份證字號等等的資訊。註冊完帳號後到首頁可以看到他們在美國的住址：1321 W. Foothill Blvd.SPEX eSHOP ECT0012345Azusa, CA 91702其中 ECT0012345 就是你在 SPEX eSHOP 的會員號碼。（這裡填的是範例）在網路商店購物並填寫運送資訊在 Amazon 購物需要註冊，選完品項數量之後按放入購物車(Add to Car)選擇 one-time perchase 就可以了，Amazon Prime 的 Free Shipping 也不用勾，剛好這個品項是免運費的。結帳！填寫運送地址，這邊填上從 SPEX eSHOP 拿到的地址。選標準運送。再下一步是用信用卡付款，填寫資訊即可。結束之後在你的訂單點選追蹤包裹(Track Package)後可以拿到一組 UPS 公司的物流編號。我們要將它回填到 SPEX eSHOP。這裡也有一組訂單編號(ORDER)要記下來。預計到達日期也要記起來。物流編號在這裡。在 SPEX eSHOP 建立委託單回到 SPEX eSHOP 的首頁，我們就可以建立委託單讓轉運公司知道我們有買了那些東西。填入剛剛拿到的物流編號，點立即查詢。建立新包裹下一步在這邊填上包裹完整的資訊。新建完包裹後就等物流配送到 SPEX eSHOP。填寫委託單待 SPEX eSHOP 收到包裹後他會用 Email 通知你，接下來就照著指示填寫委託單即可。比較需要注意的點是得填寫清關文件。你需要列印他們提供的清關文件，並填寫蓋章後掃描成電子檔、上傳至 SPEX eSHOP 站上，也需要提供身份證影本。若不放心可以在身份證電子檔上加註「僅供 SPEX eSHOP 清關所用」的字樣。待資料備齊後還需要付兩次錢，一次是國際運費，一次是關稅，兩次 SPEX eSHOP 都會以 Email 通知，跳轉到玉山銀行（好象是）的支付頁面填入信用卡資訊支付。耐心等待Amazon 的運送進度非常清楚就不用說了，不愧為全球最強電商，SPEX eSHOP 雖然網站 UI 還有進步的地方，但是各個階段的資訊都很透明，粉絲專頁的訊息回覆也很快。本來他們站上的 FB 快速登入是有些問題的，再我反應後沒幾天就修正了 :p，客服非常好。結語以上就是上個月在 Amazon 購物轉運的經驗，有任何步驟有問題都可以留言哦，因為有些步驟沒法截圖，需要重新買一次商品才看得到，所以部分只能用文字說明帶過了。",
+        "url": "/blog/2016/01/23/spex-eshop-amazon/",
+        "date": "Jan 23, 2016"
+      }
+      ,
+    
+      "blog-2015-08-29-12th-ntust-course-helper": {
+        "title": "第十二篇 - 台科課程匯入小幫手",
+        "url": "/blog/2015/08/29/12th-ntust-course-helper/",
+        "author": "",
+        "category": "",
+        "content": "台科課程匯入小幫手屁話這幾天串了 118 的學生資訊系統、 Colorgy 的 API 整合了 Table，做出了無痛匯入課程的小工具，算是開了 Colorgy 第三方 App 的第一槍 =w=（自以為）直接從學生資訊系統匯入課程這功能， NTU Sweety Course 和 NTHU Course、NCTU+ 都有類似的實作，112/113 的版本似乎直接串學校，就不知道是官方還非官方了XD。當然一提到校園模擬選課就必須拜一下碼頭，CrossLink。找回一個玩樂心態來弄這個小玩意，沒啥特別計劃，時機到累積完就做出來了 Q_Q，感謝捏神支援。照慣例把玩具放在 Heroku，說到他們最近政策也滿妙的，之前一直寄信說每天只能開機十八小時，現在過了 8/16 了也都照常使用，41J 也沒碰上過啥問題，還沒付過 heroku 錢欸 XD，It&#39;s the future.Gihub: https://github.com/Yukaii/SchoolAgentRepo 原始英文超中二的 XDDD，不忍直視，請不要去翻 commit 穴穴尼一些介面完全的 mobile first，也懶的弄 RWD 了 XD尾刀雖然這邊沒啥人看，不過就只發在這裡了，等待有緣人發現啦w。有一天這功能大概會被默默整合進 Table 裡，呵。還有要告解的地方嗎？",
+        "url": "/blog/2015/08/29/12th-ntust-course-helper/",
+        "date": "Aug 29, 2015"
+      }
+      ,
+    
+      "blog-2015-05-03-how-to-write-web-crawler-for-the-first-time-using-ruby": {
+        "title": "第十一篇 - 第一次自幹爬蟲就上手 - 使用 Ruby",
+        "url": "/blog/2015/05/03/how-to-write-web-crawler-for-the-first-time-using-ruby/",
+        "author": "",
+        "category": "",
+        "content": "目標我們將會解析中正大學選課系統的選課資料，將它轉換成我們想要的格式 (JSON)，把它存起來。預先知識已經裝好 ruby 環境了如果是 OSX 記得把 Command Line Tool 裝起來PART A:準備檔案    $ mkdir ccu    $ cd ccu    $ touch Gemfile crawler.rb建立專案資料夾及檔案，Gemfile 是 Bundler 用來管理 ruby 套件相依的工具，沒有裝的先來裝個。接下來前往中正大學課程網站下載該學期的課程資料，網頁下方有一個 開課資料壓縮檔下載 的區塊，下載並解壓縮，放到我們的專案目錄底下。現在資料夾下檔案應該如下圖PART B:設置套件編輯 Gemfile 檔，設置這次中正課程爬蟲所需要的套件。加入以下兩行：source 'https://rubygems.org'gem 'nokogiri'gem 'pry'其中 nokogiri 是超常用，用來解析 HTML/XML 標簽語言結構的套件。它可以將你的 HTML 檔解析成 Nokogiri 的物件，方便查詢、篩選。pry 你可以先把它想像成一個加強的 irb，附加上 syntax highlighting, plugin architecture, runtime invocation 等等強大的功能。我一般都用來 debug。寫完之後跑 bundle，安裝完這兩個套件bundle裝完長這樣PART C:玩一下先觀察一下課程網頁的結構每個課程網頁裡面都有一張表格，表格每一列有我們需要的課程資料，我們要做的就是把每一格的資料從網頁中抓出來。打開 Chrome 開發人員工具，對表格中的其中一格選擇檢查元素，可以看到下面的結構&lt;table&gt;  &lt;tbody&gt;    &lt;tr&gt;....&lt;/tr&gt;    &lt;tr&gt;      &lt;td&gt;...&lt;/td&gt;      &lt;td&gt;...&lt;/td&gt;      ...    &lt;/tr&gt;  &lt;/tbody&gt;&lt;/table&gt;&lt;td&gt;標記中存的就是我們要的資料。它的結構是 table 包 tbody 包 tr 包 td。稍微的來跟 pry 玩一下。打開 Terminal 確定我們在專案目錄下，啟動 pry 進度 interactive console 模式：將任意一個課程網頁檔讀進來str = File.read('1031/1014.html');我在行末加上一個分號，這是讓 pry 不會預覽回傳值。當沒加的時候，就會預覽回傳值，也就是讀進來的 html在此界面下，j/k 上下捲動，d/u 捲動半頁，q 離開回到 console。再來載入 nokogiri，將剛剛讀取進來的 html 資料字串轉為 Nokogiri 物件，我們將物件存為 doc 變數：require 'nokogiri';doc = Nokogiri::HTML(str);在此我們就進入爬蟲的精華了！(自己說)接下來我們將使用 CSS selector(選擇器) 語法，幫助我們從落落長的 html 文件中拿取我們要的資訊。css selector 基本的規則分成幾個：HTML tag selectorid selectorclass selectorattribute selectorhtml 長這樣&lt;table class=\"hi\" id=\"table1\" width=\"500\"&gt;&lt;/table&gt;&gt;也就是&lt;tag class=\"class-value\" id=\"id-value\" attribute=\"attribute-value\"&gt;&lt;/tag&gt;&gt;在使用 css selector 就會用table.hi#table1[width=\"500\"]來選擇，選擇也可以是多層的，例如 &lt;table&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;就用table tr td更多詳細精確的用法，請自行 Google。繼續剛才的進度，我們把 Nokogiri 的物件存成了 doc，我們可以開始用這個物件下 css selector，例如doc.css('table')doc.css('table tr')doc.css('table tr td')可以分別試試看結果。Nokogiri 在 select 時也可以是嵌套的，請記住，.css(&#39;&#39;)方法回傳是一個 nokogiri 物件的陣列，所以我們可以這樣用doc.css('table').first.css('tr').first.css('td')代表第一個 table 中的第一個 tr(table row)中的第一個 td(table data)PART D:動工require 'nokogiri'require 'pry'require 'json'courses = []Dir.glob('1031/*.html').each do |filename|  str = File.read(filename)  doc = Nokogiri::HTML(str.encode(\"utf-8\", :invalid =&gt; :replace, :undef =&gt; :replace))  doc.css('table tr:not(:first-child)').each do |row|    datas = row.css('td')    courses &lt;&lt; {      grade: datas[0] &amp;&amp; datas[0].text,      serial: datas[1] &amp;&amp; datas[1].text,      class_type: datas[2] &amp;&amp; datas[2].text,      name: datas[3] &amp;&amp; datas[3].text,      lecturer: datas[4] &amp;&amp; datas[4].text,      credits: datas[6] &amp;&amp; datas[6].text,      required_or_elective: datas[7] &amp;&amp; datas[7].text,      time_location: datas[8] &amp;&amp; datas[8].text,      type: datas[10] &amp;&amp; datas[10].text,      outline: datas[11] &amp;&amp; datas[11].css('a')[0] &amp;&amp; datas[11].css('a')[0][:href],      note: datas[12] &amp;&amp; datas[12].text    }  endendFile.open('courses.json', 'w') {|file| file.write(JSON.pretty_generate(courses))}這是最終完成的結果，實際上和我們剛才在 pry 裏試玩時差不了多少，一些函式如果不理解都可以 Google，有幾點注意。encodestr.encode(\"utf-8\", :invalid =&gt; :replace, :undef =&gt; :replace)在這段我將檔案讀出的編碼去掉不合法和未定義的部分，否則在輸出成 JSON 時會出錯。賦值datas[2] &amp;&amp; datas[2].text先確定 data[2] 非 nil，再取用方法，比用 if 判斷 data[2].nil? 簡潔Debug在你想要的斷點加入binding.pry一般來說我會在插入的該行下方再多加入一行無意義的輸出，例如：binding.pryputs \"asdf\"因為假如 binding.pry 的下一行是 end 或是方法結束，斷點會直接跳回上一層，很不方便。在斷點的地方你可以直接取用你所在區域的變數，以及可以用的方法，如此你可以邊寫邊確認你的程式碼是正確、或是你想要的，就不用在每次 print 出來啦！",
+        "url": "/blog/2015/05/03/how-to-write-web-crawler-for-the-first-time-using-ruby/",
+        "date": "May 3, 2015"
+      }
+      ,
+    
+      "blog-2015-04-26-tenth-chapter-new-york-shi-yijie": {
+        "title": "第十篇 - 綜合外電施旖婕(41J)",
+        "url": "/blog/2015/04/26/tenth-chapter-new-york-shi-yijie/",
+        "author": "",
+        "category": "",
+        "content": "以下轉自我的 Github。蘋果日報即時新聞監看，簡稱 Apple Watch這是幹嘛的？不知大家有沒有聽過「施旖婕」這響叮噹的名號，總之就是蘋果日報專發腥羶色新聞的專用作者名，不管了就是我老婆。詳細可以 follow 八卦版系列文。於是就寫了一份可以監看蘋果日報即時新聞的 Rails 服務，目前在上面可以看到每天蘋果日報上，記者施旖婕所 PO 的綜合外電，感受世界各地滿滿的惡意(X)。目前部署在 heroku，因為是，定時用 UptimeRobot 戳一下讓它自動跑 task 即可。Todos前端統計圖表(等資料量至少累積一個月吧 XD)Administration(爽度問題)串 Facebook Message API，讓你隨時感受 1J 的愛自動 PO 粉絲專頁-綜合外電施旖婕 已完成熱門度(自動更新蘋果上面的熱門度，加上自己站上的)等等，好像還挺多的。好玩嘛",
+        "url": "/blog/2015/04/26/tenth-chapter-new-york-shi-yijie/",
+        "date": "Apr 26, 2015"
+      }
+      ,
+    
+      "blog-2015-04-26-nineth-using-itunes-match": {
+        "title": "第九篇 - 使用 iTunes Match",
+        "url": "/blog/2015/04/26/nineth-using-itunes-match/",
+        "author": "",
+        "category": "",
+        "content": "曾經有一陣子很熱衷「試聽」音樂，iTunes Library 不知不覺就長到了 90GB。iTunes 實在方便，乾淨的專輯封面總攬，這樣選歌差不多也就夠了。但自從換了有 SSD 的電腦，90GB 的音樂對於硬碟空間也是太奢侈了。以前的玩法複製到 Nas 中，區網掛載。方便性還可以接受，畢竟 Library 都還看到自己的所有歌，只是受限于區網設備，有時候硬碟掛載失敗，或是花很久時間載入，在外網或是手機端也無法使用。iTunes Match年費 NT$ 690，以現有的音樂資料庫（不管你是不是試聽版來著）去核對 iTunes 的資料庫，如果他們商店有就記錄起來，如果找不到，就將歌曲上傳至 iCloud，每一個登入 iTunes 帳號的裝置，手機平板或其他台電腦都可以即時串流，也可以透過 iCloud 下載至裝置，好處自然不計多說，Android 暫時無解，限制最多只能存放 25000 首歌。偷偷說，一年不小心試聽三張專輯就回本啦......算算我也放了一半多了(一萬兩千多首)，之後的增加速度就會小很多了吧，哈哈。",
+        "url": "/blog/2015/04/26/nineth-using-itunes-match/",
+        "date": "Apr 26, 2015"
+      }
+      ,
+    
+      "blog-2015-04-26-eighth-get-free-heroku-app-does-not-automatically-shut-down": {
+        "title": "第八篇 - 讓免費 Heroku App 不會自動關機",
+        "url": "/blog/2015/04/26/eighth-get-free-heroku-app-does-not-automatically-shut-down/",
+        "author": "",
+        "category": "",
+        "content": "免費的 Heroku 開的 App 只要過半小時，就會自動關機。雖然啟動很快，不過體驗就差了。一般的做法是安裝 newrelic 監控，每隔一段時間交流一下，就可維持開機狀態。不過本 ghost 部落格一直設定不起來 newrelic 的 node 套件，只好找了個替代品 UptimeRobot 來使用。免費的方案可以 monitor 五十個站台，最短 interval 為五分鐘，夠用了。表現倒是不錯，設定每十五分鐘左右自動 ping 個，就和一般網站一樣啦，皆大歡喜 XD。",
+        "url": "/blog/2015/04/26/eighth-get-free-heroku-app-does-not-automatically-shut-down/",
+        "date": "Apr 26, 2015"
+      }
+      ,
+    
+      "blog-2015-04-10-seventh-to-write-an-html-email": {
+        "title": "第七篇 - 寫一封 html 的 email",
+        "url": "/blog/2015/04/10/seventh-to-write-an-html-email/",
+        "author": "",
+        "category": "",
+        "content": "Prerequisite一些簡單的 html/css 知識流程Email 裏 css 有些東西沒法用，所以需要測試在每一個 client 的效果。完整的支援表請見此。我的需求簡單的滿版就能搞定了，參考了問一的建議，儘量用 border / padding 來推，並沒有花很久的時間。先在 &lt;head&gt; 寫完 &lt;style&gt; ，呈現大致的成果：測試寄信使用 Putsmail填上測試的 email 和 html，按送出就可以了，記得把 inliner 打勾。他也有提供 inliner 服務：其他資料Email寄信-css/html 排版,跑版問題Ideas Behind Responsive EmailsMastering HTML EmailPreview in Gmail, Hotmail, AOL, and Yahoo結論此篇大抵就是資料的再整理與截圖。看完吉米丘寫的R.I.P. 臉書上的一切精采好內容之後覺得還是要來寫一下 Blog 比較好啊 XDD以上。",
+        "url": "/blog/2015/04/10/seventh-to-write-an-html-email/",
+        "date": "Apr 10, 2015"
+      }
+      ,
+    
+      "blog-2015-02-19-campusbooks-com-api-usage": {
+        "title": "第六篇 - CampusBooks.com 的 API 使用",
+        "url": "/blog/2015/02/19/campusbooks-com-api-usage/",
+        "author": "",
+        "category": "",
+        "content": "好久不見！忙裡偷閒的來篇小記，重理思路再出發。近一兩個月都在都在處理跟書相關的事，畢竟也算半個書商了，在書籍資料搜尋上，和大家介紹個好站。簡介CampusBooks.com，據說也是做 SEO 的公司起家，透過此網站，你可以方便的搜尋各類教科書的資料，書名作者 isbn 都基本，還可以直接顯示在各大書店價錢：&lt;!--more--&gt;Google 得知他也是有開放 api 的，只是要合作才能申請 API key，想想也沒美國時間，就 inspect 了一下他的網站，發現十分工整 rest url：就直接拿 api key 來用了哈哈。SITE_API_KEY = PA52HnTGaTSyizTOq4j1API對照了網路上僅存的第三版 api document 看，先列出幾個基本的，有需要再慢慢找啦：透過 isbn 拿書資料GET http://api2.campusbooks.com/13/rest/bookinfo?key=API_KEY_HERE&amp;isbn=xxxxxxx&amp;format=json可以把 json response 打開，否則預設是 xml：&amp;format=json範例結果：{    \"response\": {        \"status\": \"ok\",        \"version\": \"13\",        \"label\": {            \"plid\": \"0\",            \"name\": \"CampusBooks.com\",            \"website_id\": \"0\",            \"website_name\": \"CampusBooks.com\"        },        \"page\": {            \"name\": \"books\",            \"f\": \"search\",            \"books\": {                \"page\": 1,                \"limit\": 1,                \"results_returned\": 1,                \"total_pages\": 1,                \"total_results\": 1,                \"book\": [                    {                        \"isbn10\": \"1111570051\",                        \"isbn13\": \"9781111570057\",                        \"author\": \"\",                        \"binding\": \"Paperback\",                        \"edition\": \"\",                        \"image\": {                            \"width\": 60,                            \"height\": 75,                            \"image\": \"http://ecx.images-amazon.com/images/I/51XzAECQ6xL._SL75_.jpg\"                        },                        \"msrp\": 97.62,                        \"pages\": \"\",                        \"publish_date\": \"\",                        \"publisher\": \"Example Product Manufacturer\",                        \"rank\": 1603132,                        \"rating\": 0,                        \"title\": \"Brief Applied Calculus. James Stewart, James Stewart, Dan Clegg\"                    }                ]            }        }    }}拿書價格把 price field 打開GET http://api2.campusbooks.com/13/rest/bookinfo?key=API_KEY_HERE&amp;isbn=xxxxxxx&amp;format=json&amp;f=prices輸出有點長就不貼了。小結根本沒長到需要寫小結啊（飛踢）如果沒差舊版的 API 文件太多，其他還有 search / bookprices 可以用，不過我沒有用到就暫時不寫了。基本上 campusbooks 的書是非常齊全了，他們有從 1998 開始的資料，OpenLibrary 有些找不到的書，這裡都找的到；順帶一提，OpenLibrary 也有好用的 api，也有 ruby gem，就單本書的資料上會比 campusbooks 更齊。新年第一篇文，就祝大家新年快樂啦！",
+        "url": "/blog/2015/02/19/campusbooks-com-api-usage/",
+        "date": "Feb 19, 2015"
+      }
+      ,
+    
+      "blog-2014-06-28-fifth-to-install-unity3d-on-ubuntu-with-playonlinux": {
+        "title": "第五篇 - 在 Ubuntu 中安裝 Unity3D Game Engine",
+        "url": "/blog/2014/06/28/fifth-to-install-unity3d-on-ubuntu-with-playonlinux/",
+        "author": "",
+        "category": "",
+        "content": "首圖炫耀下。最近準備再來弄一個Unity3D專案，但筆電又被我灌回了Ubuntu 14.04，在考慮行動性下，優先在Ubuntu環境下安裝Unity3D。    環境：Ubuntu 14.04Unity 4.5.1f3安裝基本上參考這篇裝playonlinux（POL），裝Wine 1.7，設置playonlinux，準備好Unity3D安裝檔，使用該篇提供的POL script完成安裝。（附於本文文末）安裝後問題unable to find a version of the runtime to run this applicationwine: cannot find L&quot;C:\\windows\\Microsoft.NET\\Framework\\v4.0.30319\\mscorsvw.exe&quot;和DNSAPI.dll的讀取問題（錯誤代碼找不到orz...）兩個問題。以上問題皆因為不明原因，函式庫設定跑掉。進入wine配置函式庫，改下相應的：使用問題已知Assest Store開了無畫面。再來就是Project存的位置不能有中文，可能是wine的問題吧。我是透過在桌面設一個捷徑解決：（萬里花的大腿，prpr）然後Unity開專案時存到此捷徑：playonlinux Script以下script來自原帖的第七版，請複製另存成XXX.pol。#!/bin/bash# Date : (2014-03-07 10-21)# Last revision : (2014-03-07 10-21)# Wine version used : 1.7.14# Distribution used to test : OpenSuse 13.1# Authors : waneck-six, Damian-LinuxFan, Tomza (&lt;a class=\"linkclass\" href=\"mailto:pogtoma@gmail.com\"&gt;pogtoma@gmail.com&lt;/a&gt;), gnumaru, Doctor Jellyface (&lt;a class=\"linkclass\" href=\"mailto:doctorjellyface@riseup.net\"&gt;doctorjellyface@riseup.net&lt;/a&gt;)# Contributors: Goran Grncaroski (running MonoDevelop), other people (testing solutions)# Script licence : GPL v.2# Only For : &lt;/span&gt;&lt;a href=\"http://www.playonlinux.com\" target=\"_blank\" rel=\"noreferrer\" style=\"cursor:help;display:inline !important;\"&gt;http://www.playonlinux.com&lt;/a&gt;# Depend :# Known Issues : You can't use Asset Store[ \"$PLAYONLINUX\" = \"\" ] exit 0source \"$PLAYONLINUX/lib/sources\"TITLE=\"Unity 3D\"PREFIX=\"Unity3D\"WINE_VERSION=\"1.7.14\"POL_SetupWindow_InitPOL_Debug_InitPOL_SetupWindow_presentation \"$TITLE\" \"Unity\" \"&lt;a href=\"http://www.unity3d.com/\" target=\"_blank\" rel=\"noreferrer\" style=\"cursor:help;display:inline !important;\"&gt;http://www.unity3d.com/&lt;/a&gt;\" \"waneck-six, Damian-LinuxFan, Tomza, gnumaru, DoctorJellyface\" \"$PREFIX\"#create prefixexport WINEARCH=\"win32\"POL_Wine_SelectPrefix \"$PREFIX\"POL_Wine_PrefixCreate \"$WINE_VERSION\"#setup prefixPOL_Wine_InstallFontsPOL_Call POL_Install_d3dx9POL_Call POL_Install_dotnet20POL_Call POL_Install_dotnet35POL_Call POL_Install_dotnet40POL_Call POL_Install_tahomaPOL_Call POL_Install_vcrun2008POL_Call POL_Install_vcrun2010POL_Call POL_Install_mono210POL_Call POL_Install_d3dx9_36POL_Call POL_Install_d3dcompiler_43POL_Call POL_Install_dxdiagPOL_Call POL_Install_dxfullsetupPOL_Call POL_Install_physxPOL_Call POL_Install_corefontsPOL_Call POL_Install_msxml6POL_Call POL_Install_wininetPOL_Call POL_Install_ie8#Setting OS werSet_OS \"winxp\" \"sp3\"#Setting mono forcing in MonoDevelopPOL_Wine_OverrideDLL “native, builtin” “mscore”POL_Wine_OverrideDLL “builtin, native” “dnsapi”POL_Wine_OverrideDLL \"\" \"mscorsvw.exe\"mkdir -p $WINEPREFIX/drive_c/users/$USER/AppData/LocalLow#registryPOL_Wine reg add \"HKLM\\Software\\Microsoft\\Windows NT\\CurrentVersion\" /v ProductId /t REG_SZ /d 12345-oem-0000001-54321POL_SetupWindow_browse \"Please select the location of the Unity3D setup executable\" \"$TITLE\"UNITYLOC=$APP_ANSWERPOL_Wine $UNITYLOCPOL_Shortcut \"Unity.exe\" \"$TITLE\"POL_SetupWindow_Closeexit以上。",
+        "url": "/blog/2014/06/28/fifth-to-install-unity3d-on-ubuntu-with-playonlinux/",
+        "date": "Jun 28, 2014"
+      }
+      ,
+    
+      "blog-2014-05-12-troubleshooting-phantosys": {
+        "title": "第四篇 - Phantosys 問題疑難排解",
+        "url": "/blog/2014/05/12/troubleshooting-phantosys/",
+        "author": "",
+        "category": "",
+        "content": "背景今天跟著去電腦教室喬電腦，發現教室系統用軟體是Phantosys，於是就摸索了下。殘酷的是，花了兩小才找出問題癥結，故誌於此。問題Q:無法載入遠端映像檔檢查各個網路連結是否正確，是否在DHCP位址分派上出了問題、BIOS Wake on Lan以及相關設定有無開啟。說到這就得抱怨一聲，華碩主機板在切換簡易模式與進階模式時不會自動儲存設定，讓我多測了好幾回，哀嘆。Q:Windows 載入時間過長看一下硬碟燈有沒有在閃，猜一下可能是硬體的問題。交叉測試也。心得明明還有歷史報告還跟人玩這個的我真是瘋了XDD太久沒碰硬體是好事呦。個人認為電腦教室工讀的工作應該要有一本傳承日誌(hackpad/Google Docs之類)，把可能遇到的問題記下來。例如這次問題想也知道就是有人在BIOS亂動設定，還不改回來，真不專業。不過沒有設定BIOS密碼也是問題之一，一半一半啦。以上。",
+        "url": "/blog/2014/05/12/troubleshooting-phantosys/",
+        "date": "May 12, 2014"
+      }
+      ,
+    
+      "blog-2014-05-04-synergy-causing-windows-explorer-crash": {
+        "title": "第三篇 - Synergy造成Windows Explorer Crash",
+        "url": "/blog/2014/05/04/synergy-causing-windows-explorer-crash/",
+        "author": "",
+        "category": "",
+        "content": "問題在重裝Windows後，裝了一些常用工具並且重新啟動，發現Windows Explorer掛了。點選任何一個icon，包括開始選單的應用程式捷徑，都會造成Windows Explorer崩潰並重啟。解法打開「檢視所有問題報告」，並Google之，結果是Synergy的Shell Extension，貌似就這最新版(1.4.17)有這問題。比較簡單的方法就解除安裝，並安裝前一個版本(1.4.16)，再不然：下載ShellExView，開啟之後停用Synergy的Shell Extension。以上。",
+        "url": "/blog/2014/05/04/synergy-causing-windows-explorer-crash/",
+        "date": "May 4, 2014"
+      }
+      ,
+    
+      "blog-2014-03-29-second-attempt-to-implement-threes-1024-2048": {
+        "title": "第二篇 - 嘗試實作Threes!/ 1024 /2048",
+        "url": "/blog/2014/03/29/second-attempt-to-implement-threes-1024-2048/",
+        "author": "",
+        "category": "",
+        "content": "不得不提，Logdown自動產生英文網址實在太猛了，不用反觀了沒一個能打的=w=今天花了一點時間嘗試實作最近 SITCON 很紅的遊戲Threes!以及各種衍生 致敬 版本（像1024啦、2048、服貿2048等等）。雖然一如往常的需要時間Debug，好說歹說也做出一個簡單的樣子了。其實只要搞懂規則，剩下來就看個人造化了。以下由規則切入演算法（大概），來吧。規則這幾個遊戲雖然看起來差不多，但規則上其實些微不同，以下便討論他們的不同：合併最開始讓人注意到的規則就是合併兩個方塊了。在 Threes! 裡面最基本的組合是1 + 2 = 3而在 1024 , 2048 等是由 2的1次方 開始，慢慢組合到 2的N次方。在方塊合併時其實是由滑動方向作為合併的判斷。我知道這句話說了跟放屁一樣沒啥用。好，來看例子：以下例子，三個3在同一列，此時往左推，將會造成：    3 3 3 █  →  6 3 █ █而非    3 3 3 █  →  3 6 █ █這說明了在判斷合併時，是由左向右判讀，左邊開始第一個遇到能合併的就先併了：    3+3 █ 3 █再將最右邊的3抓過來：    6 3 █ █但如果是四個同樣的數字呢？這邊的處理方式 Threes! 和 2048 就不同了。Threes! 會左合併一次，變成：    6 3 3 █再次往左消才會變成    6 6 █ █而 2048 會接「消到底」：    2 2 2 2 → 4 4 █ █方塊移動這和上一個規則類似，在 Threes! 只會一次移動一格， 2048 相當於「推到底」。隨機填補其實這個規則還是有些難猜，又還沒翻 2048 的原始碼，暫且不討論吧XD實作知道以上的規則大概就寫的出來了。一直很不熟物件導向的我，嘗試將每個格子設為一個物件，運用類似，Linklist（感謝學長）的方法將每個格子串在一起，類似以下這種寫法：class Grid{    Grid* right, left, up, down}這樣在寫合併時，只要從四邊出發，就能沿著路徑偵測合併的情況。  → → → →  → → → →  → → → →  → → → →另外又設定了一個二維陣列來管理遊戲板(board)Grid board[4][4]實作移動、合併等內容。目前遊戲內容還沒啥營養，純文字介面而已，「有空」套上 SDL，再加強一下，唉。Github",
+        "url": "/blog/2014/03/29/second-attempt-to-implement-threes-1024-2048/",
+        "date": "Mar 29, 2014"
+      }
+      ,
+    
+      "blog-2014-03-22-stuck-in-checking-battery-status": {
+        "title": "第一篇 - Linux 開機卡在 Checking battery status........[ok]",
+        "url": "/blog/2014/03/22/stuck-in-checking-battery-status/",
+        "author": "",
+        "category": "",
+        "content": "屁話其實從我接觸ubuntu以來，各種與windows的戰爭就一直沒停過XD各種比較表啦，無痛轉換平台教學，把Windows習慣帶到linux上之類的，還是看鳥哥卡實在。究竟誰比較好，當然是OSX樂勝兩者啦，不過現在我是用Elementary OS，算是把linux的圖形介面提升至一個新的高度，而不只是各種華麗的炫技(雖然也是有，畢竟特效為必要之惡)，骨子裡還是ubuntu 12.04，而且安裝完佔用空間超小der因為一堆套件都沒裝orz。最近又看到朋友轉貼一則推坑ubuntu的懶人包，看到穩定度的描述，只能報以微笑啊呵呵，大家是用來架站又不是日常使用。剛好看到ubuntu正體中文站論壇的這篇抒發一下....接觸了六年的Ubuntu，於我心有戚戚焉。原因我的狀況是驅動問題，我這台老筆電的顯卡HD4330跑起來倒也順暢。下午裝了幾個套件，重開個機就掛了...各種相衝啊。一定是桌布不夠宅，怒換解決ctrl+alt+f1登入，下指令移除fglrx    sudo apt-get remove --purge fglrx fglrx-amdcccle然後重新開機    sudo reboot就完成了。via checking battery state / lightdm problem?",
+        "url": "/blog/2014/03/22/stuck-in-checking-battery-status/",
+        "date": "Mar 22, 2014"
+      }
+      
+    
+  };
 
-	function getQueryVariable(variable) {
-		var query = window.location.search.substring(1);
-		var vars = query.split('&');
+  function getQueryVariable(variable) {
+    var query = window.location.search.substring(1);
+    var vars = query.split('&');
 
-		for (var i = 0; i < vars.length; i++) {
-			var pair = vars[i].split('=');
+    for (var i = 0; i < vars.length; i++) {
+      var pair = vars[i].split('=');
 
-			if (pair[0] === variable) {
-				return decodeURIComponent(pair[1].replace(/\+/g, '%20'));
-			}
-		}
-	}
+      if (pair[0] === variable) {
+        return decodeURIComponent(pair[1].replace(/\+/g, '%20'));
+      }
+    }
+  }
 
-	function displaySearchResults(results, store) {
-		var elements = []
+  function displaySearchResults(results, store) {
+    var elements = []
 
-		for (var i = 0; i < results.length; i++) {
-			var item = store[results[i].ref]
-			var string = '<div class="menu-item"><h4><a href=""></a><a href="#disqus_thread" style="display: inline-block; float: right;" class="comments-link"> <svg class="octicon octicon-comment" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M14 1H2c-.55 0-1 .45-1 1v8c0 .55.45 1 1 1h2v3.5L7.5 11H14c.55 0 1-.45 1-1V2c0-.55-.45-1-1-1zm0 9H7l-2 2v-2H2V2h12v8z"/></svg><span class="disqus-comment-count" data-disqus-identifier="http://yukaii.tw"></span></a></h4><div class="post-meta"></div></div>'
+    for (var i = 0; i < results.length; i++) {
+      var item = store[results[i].ref]
+      var string = '<div class="menu-item"><h4><a href=""></a><a href="#disqus_thread" style="display: inline-block; float: right;" class="comments-link"> <svg class="octicon octicon-comment" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M14 1H2c-.55 0-1 .45-1 1v8c0 .55.45 1 1 1h2v3.5L7.5 11H14c.55 0 1-.45 1-1V2c0-.55-.45-1-1-1zm0 9H7l-2 2v-2H2V2h12v8z"/></svg><span class="disqus-comment-count" data-disqus-identifier="http://yukaii.tw"></span></a></h4><div class="post-meta"></div></div>'
 
-			var div = document.createElement('div')
-			div.innerHTML = string;
+      var div = document.createElement('div')
+      div.innerHTML = string;
 
-			var element = div.firstChild
+      var element = div.firstChild
 
-			/* build post data */
-			var anchors = element.querySelectorAll('a')
-			for (var j = 0; j < anchors.length; j++) {
-				// prepend link
-				anchors[j].setAttribute('href', item.url + anchors[j].getAttribute('href'))
-			}
+      /* build post data */
+      var anchors = element.querySelectorAll('a')
+      for (var j = 0; j < anchors.length; j++) {
+        // prepend link
+        anchors[j].setAttribute('href', item.url + anchors[j].getAttribute('href'))
+      }
 
-			// add title
-			var title = element.querySelector('h4 a')
-			title.innerHTML = item.title
+      // add title
+      var title = element.querySelector('h4 a')
+      title.innerHTML = item.title
 
-			var postMeta = element.querySelector('.post-meta')
-			postMeta.innerHTML = item.date
+      var postMeta = element.querySelector('.post-meta')
+      postMeta.innerHTML = item.date
 
-			elements.push(element)
-		}
+      elements.push(element)
+    }
 
-		/* build search results */
-		var searchList = document.createElement('nav')
-		searchList.className = 'menu centered search-list'
-		for (var i = 0; i < elements.length; i++) { searchList.appendChild(elements[i]) }
+    /* build search results */
+    var searchList = document.createElement('nav')
+    searchList.className = 'menu centered search-list'
+    for (var i = 0; i < elements.length; i++) { searchList.appendChild(elements[i]) }
 
-		// clean up old searchlist
-		var oldSearchList = document.querySelector('.menu.centered.search-list')
-		if (oldSearchList) {
-			oldSearchList.remove()
-		}		
+    // clean up old searchlist
+    var oldSearchList = document.querySelector('.menu.centered.search-list')
+    if (oldSearchList) {
+      oldSearchList.remove()
+    }
 
-		var oldList = document.querySelector('.menu.centered')
-		oldList.style.display = 'none'
+    var oldList = document.querySelector('.menu.centered')
+    oldList.style.display = 'none'
 
-		var homeContainer = document.querySelector('.home')
-		homeContainer.insertBefore(searchList, oldList)
-	}
+    var homeContainer = document.querySelector('.home')
+    homeContainer.insertBefore(searchList, oldList)
+  }
 
-	function search () {
-		var inputField = document.querySelector('#post-search-form #post-search')
+  function search () {
+    var inputField = document.querySelector('#post-search-form #post-search')
 
-		var searchTerm
+    var searchTerm
 
-		if (pageLoaded) {
-			if (inputField && inputField.value) {
-				searchTerm = inputField.value
-				if (history.pushState) {
-					var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?query=' + searchTerm;
-					window.history.pushState({path:newurl},'',newurl);
-				}
-			} else {
-				/* cleanup history */
-				if (history.pushState) {
-					var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname;
-					window.history.pushState({path:newurl},'',newurl);
-				}
-			}
-		} else {
-			searchTerm = getQueryVariable('query');
-			pageLoaded = true
-		}
+    if (pageLoaded) {
+      if (inputField && inputField.value) {
+        searchTerm = inputField.value
+        if (history.pushState) {
+          var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?query=' + searchTerm;
+          window.history.pushState({path:newurl},'',newurl);
+        }
+      } else {
+        /* cleanup history */
+        if (history.pushState) {
+          var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname;
+          window.history.pushState({path:newurl},'',newurl);
+        }
+      }
+    } else {
+      searchTerm = getQueryVariable('query');
+      pageLoaded = true
+    }
 
-		if (searchTerm) {
-			document.querySelector('#post-search-form #post-search').setAttribute("value", searchTerm);
+    if (searchTerm) {
+      document.querySelector('#post-search-form #post-search').setAttribute("value", searchTerm);
 
-			// Initalize lunr with the fields it will be searching on. I've given title
-			// a boost of 10 to indicate matches on this field are more important.
-			var idx = lunr(function () {
-				this.field('id');
-				this.field('title', { boost: 10 });
-				this.field('author');
-				this.field('category');
-				this.field('content');
-				this.field('url');
-				this.field('date');
+      // Initalize lunr with the fields it will be searching on. I've given title
+      // a boost of 10 to indicate matches on this field are more important.
+      var idx = lunr(function () {
+        this.field('id');
+        this.field('title', { boost: 10 });
+        this.field('author');
+        this.field('category');
+        this.field('content');
+        this.field('url');
+        this.field('date');
 
-				for (var key in store) { // Add the data to lunr
-					this.add({
-						'id': key,
-						'title': store[key].title,
-						'author': store[key].author,
-						'category': store[key].category,
-						'content': store[key].content,
-						'url': store[key].url,
-						'date': store[key].date,
-					});
-				}
-			});
+        for (var key in store) { // Add the data to lunr
+          this.add({
+            'id': key,
+            'title': store[key].title,
+            'author': store[key].author,
+            'category': store[key].category,
+            'content': store[key].content,
+            'url': store[key].url,
+            'date': store[key].date,
+          });
+        }
+      });
 
-			var results = idx.search(searchTerm); // Get lunr to perform a search
-			displaySearchResults(results, store); // We'll write this in the next section
-		} else {
-			// clean up
-			var searchList = document.querySelector('.menu.centered.search-list')
-			if (searchList) {
-				searchList.remove()
-			}
+      var results = idx.search(searchTerm); // Get lunr to perform a search
+      displaySearchResults(results, store); // We'll write this in the next section
+    } else {
+      // clean up
+      var searchList = document.querySelector('.menu.centered.search-list')
+      if (searchList) {
+        searchList.remove()
+      }
 
-			var oldList = document.querySelector('.menu.centered')
-			if (oldList) {
-				oldList.style.display = 'inherit'
-			}
+      var oldList = document.querySelector('.menu.centered')
+      if (oldList) {
+        oldList.style.display = 'inherit'
+      }
 
-			if (history.pushState) {
-				var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname;
-				window.history.replaceState({path:newurl},'',newurl);
-			}
-		}
-	}
+      if (history.pushState) {
+        var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname;
+        window.history.replaceState({path:newurl},'',newurl);
+      }
+    }
+  }
 
-	/* apply search */
-	if (!pageLoaded) search()
+  /* apply search */
+  if (!pageLoaded) search()
 
-	var searchForm = document.getElementById('post-search-form')
-	if (searchForm) {
-		searchForm.addEventListener('submit', function (e) {
-			e.preventDefault()
+  var searchForm = document.getElementById('post-search-form')
+  if (searchForm) {
+    searchForm.addEventListener('submit', function (e) {
+      e.preventDefault()
 
-			search()
-		})
-	}
+      search()
+    })
+  }
 })()
 </script>
     
