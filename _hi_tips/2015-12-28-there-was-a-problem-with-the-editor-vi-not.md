@@ -1,8 +1,6 @@
 ---
 layout: post
-title: |-
-  There was a problem with the editor 'vi'.
-  Not committing merge; use 'git commit' to complete the merge.
+title: Cannot commit with vim :w
 date: '2015-12-28T12:01:57+08:00'
 tags:
 - git
