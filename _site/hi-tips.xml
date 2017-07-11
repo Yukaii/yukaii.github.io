@@ -6,8 +6,8 @@
 </description>
     <link>http://yukaii.tw/</link>
     <atom:link href="http://yukaii.tw/hi-tips.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Tue, 11 Jul 2017 10:28:51 +0800</pubDate>
-    <lastBuildDate>Tue, 11 Jul 2017 10:28:51 +0800</lastBuildDate>
+    <pubDate>Tue, 11 Jul 2017 10:39:54 +0800</pubDate>
+    <lastBuildDate>Tue, 11 Jul 2017 10:39:54 +0800</lastBuildDate>
     <generator>Jekyll v3.5.0</generator>
     
     
@@ -416,8 +416,7 @@ git checkout &amp;lt;SHA&amp;gt;^ -- /path/to/file
       </item>
     
       <item>
-        <title>There was a problem with the editor 'vi'.
-Not committing merge; use 'git commit' to complete the merge.</title>
+        <title>Cannot commit with vim :w</title>
         <description>&lt;p&gt;I encountered this problem someday after upgrading vim through homebrew. Uhh, maybe, I forgot. However this problem can be simply solved by:&lt;/p&gt;
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;git config –global core.editor /usr/bin/vim
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
