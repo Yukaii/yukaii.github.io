@@ -31,39 +31,46 @@ var pageLoaded = false;
     }
   }
 
+  function makePostItemNode(item) {
+    var string = '{% include post-item.html url='' title='' %}'
+
+    // convert html string to dom node
+    var div = document.createElement('div')
+    div.innerHTML = string
+    var element = div.firstChild
+
+    // build post data
+    var anchors = element.querySelectorAll('a')
+    for (var j = 0; j < anchors.length; j++) {
+      // prepend link
+      anchors[j].setAttribute('href', item.url + anchors[j].getAttribute('href'))
+    }
+
+    // add title
+    var title = element.querySelector('h4 a')
+    title.innerHTML = item.title
+
+    // add date
+    var postMeta = element.querySelector('.post-meta')
+    postMeta.innerHTML = item.date
+
+    return element
+  }
+
   function displaySearchResults(results, store) {
     var elements = []
 
     for (var i = 0; i < results.length; i++) {
-      var item = store[results[i].ref]
-      var string = '{% include post-item.html url='' title='' %}'
-
-      var div = document.createElement('div')
-      div.innerHTML = string;
-
-      var element = div.firstChild
-
-      /* build post data */
-      var anchors = element.querySelectorAll('a')
-      for (var j = 0; j < anchors.length; j++) {
-        // prepend link
-        anchors[j].setAttribute('href', item.url + anchors[j].getAttribute('href'))
-      }
-
-      // add title
-      var title = element.querySelector('h4 a')
-      title.innerHTML = item.title
-
-      var postMeta = element.querySelector('.post-meta')
-      postMeta.innerHTML = item.date
-
+      var element = makePostItemNode(store[results[i].ref])
       elements.push(element)
     }
 
-    /* build search results */
+    // build search results
     var searchList = document.createElement('nav')
     searchList.className = 'menu centered search-list'
-    for (var i = 0; i < elements.length; i++) { searchList.appendChild(elements[i]) }
+    for (var i = 0; i < elements.length; i++) {
+      searchList.appendChild(elements[i])
+    }
 
     // clean up old searchlist
     var oldSearchList = document.querySelector('.menu.centered.search-list')
@@ -71,39 +78,51 @@ var pageLoaded = false;
       oldSearchList.remove()
     }
 
+    // hide old list
     var oldList = document.querySelector('.menu.centered')
     oldList.style.display = 'none'
 
+    // prepend old list
     var homeContainer = document.querySelector('.home')
     homeContainer.insertBefore(searchList, oldList)
   }
 
-  function search () {
-    var inputField = document.querySelector('#post-search-form #post-search')
+  function pushHistory(url) {
+    if (history.pushState) {
+      window.history.pushState({ path: url }, '', url);
+    }
+  }
 
+  function replaceHistroy(url) {
+    if (history.replaceState) {
+      window.history.replaceState({ path: url }, '', url);
+    }
+  }
+
+  function currentPath() {
+    return window.location.protocol + "//" + window.location.host + window.location.pathname
+  }
+
+  function search () {
     var searchTerm
+    var inputField = document.querySelector('#post-search-form #post-search')
 
     if (pageLoaded) {
       if (inputField && inputField.value) {
         searchTerm = inputField.value
-        if (history.pushState) {
-          var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?query=' + searchTerm;
-          window.history.pushState({path:newurl},'',newurl);
-        }
+        pushHistory(currentPath() + '?query=' + searchTerm)
       } else {
         /* cleanup history */
-        if (history.pushState) {
-          var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname;
-          window.history.pushState({path:newurl},'',newurl);
-        }
+        pushHistory(currentPath())
       }
     } else {
+      // page not loaded yet
       searchTerm = getQueryVariable('query');
       pageLoaded = true
     }
 
-    if (searchTerm) {
-      document.querySelector('#post-search-form #post-search').setAttribute("value", searchTerm);
+    if (searchTerm && inputField) {
+      inputField.setAttribute("value", searchTerm);
 
       // Initalize lunr with the fields it will be searching on. I've given title
       // a boost of 10 to indicate matches on this field are more important.
@@ -138,21 +157,17 @@ var pageLoaded = false;
         searchList.remove()
       }
 
+      // unhide old list
       var oldList = document.querySelector('.menu.centered')
       if (oldList) {
         oldList.style.display = 'inherit'
       }
 
-      if (history.pushState) {
-        var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname;
-        window.history.replaceState({path:newurl},'',newurl);
-      }
+      replaceHistroy(currentPath())
     }
   }
 
-  /* apply search */
-  if (!pageLoaded) search()
-
+  // bind form action
   var searchForm = document.getElementById('post-search-form')
   if (searchForm) {
     searchForm.addEventListener('submit', function (e) {
@@ -160,6 +175,11 @@ var pageLoaded = false;
 
       search()
     })
+  }
+
+  // Initial search action
+  if (!pageLoaded) {
+    search()
   }
 })()
 </script>
