@@ -16,7 +16,9 @@
     {% include footer.html %}
 
     <script id="dsq-count-scr" src="//dailyoops.disqus.com/count.js" async></script>
-    {% include search.html posts=site.posts %}
+
+    {% assign tips = site.hi_tips %}
+    {% include search.html posts=tips %}
   </body>
 
 </html>
