@@ -25,12 +25,12 @@
   <link rel="apple-touch-icon" sizes="152x152" href="/assets/favicon-152-d9f7ca79ce4c88dd0ed8998f0679bcc28b3cb5b783765afa631a35b0d7026816.png?">
   <link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon-180-fc0d853924b010f640456772711dfc22134e22c5e8a2fc48cf65273c7ccaf45f.png?">
 
-  <title>Hosting a mongo db instance on Google Cloud Platform | Daily Oops!</title>
-  <meta name="description" content="I just signed up Google Cloud Platform(GCP) and got $300 free usage. It’s handy for starting a new mongo instance if you don&#39;t care about the price.">
+  <title>Jekyll 的文章搜尋功能 | Daily Oops!</title>
+  <meta name="description" content="">
 
   <link type="text/css" rel="stylesheet" href="/assets/primer-6ea9d55d3c351367c3502fb52ea45a2e90db5dbc77a25688680dd69753fd7917.css">
   <link type="text/css" rel="stylesheet" href="/assets/main-0f6606a5f8e2529cd612d8c9e153cbe520d8e74a7a6d5a85544c3f55fd2643e1.css">
-  <link rel="canonical" href="http://yukaii.tw/hi-tips/2016-03-28-hosting-a-mongo-db-instance-on-google-cloud/">
+  <link rel="canonical" href="http://yukaii.tw/blog/2017/07/12/search-in-jekyll/">
   <link rel="alternate" type="application/rss+xml" title="Daily Oops!" href="http://yukaii.tw/feed.xml">
   <script src="/assets/turbolinks-428b9704bfb571c0487adabc30bd4d4a363f4d353265388cb79c5b3649ce058c.js" type="text/javascript" charset="utf-8" defer></script>
   <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.16/webfont.js" defer></script>
@@ -89,7 +89,7 @@
 
 
 
-<a href="/blog/" class="tabnav-tab">
+<a href="/blog/" class="tabnav-tab selected">
   
       <svg class="octicon octicon-book" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M3 5h4v1H3V5zm0 3h4V7H3v1zm0 2h4V9H3v1zm11-5h-4v1h4V5zm0 2h-4v1h4V7zm0 2h-4v1h4V9zm2-6v9c0 .55-.45 1-1 1H9.5l-1 1-1-1H2c-.55 0-1-.45-1-1V3c0-.55.45-1 1-1h5.5l1 1 1-1H15c.55 0 1 .45 1 1zm-8 .5L7.5 3H2v9h6V3.5zm7-.5H9.5l-.5.5V12h6V3z"/></svg>
     
@@ -105,7 +105,7 @@
 
 
 
-<a href="/hi-tips/" class="tabnav-tab selected">
+<a href="/hi-tips/" class="tabnav-tab">
   
       <svg class="octicon octicon-repo" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9H3V8h1v1zm0-3H3v1h1V6zm0-2H3v1h1V4zm0-2H3v1h1V2zm8-1v12c0 .55-.45 1-1 1H6v2l-1.5-1.5L3 16v-2H1c-.55 0-1-.45-1-1V1c0-.55.45-1 1-1h10c.55 0 1 .45 1 1zm-1 10H1v2h2v-1h3v1h5v-2zm0-10H2v9h9V1z"/></svg>
     
@@ -160,23 +160,92 @@
 
   <header class="post-header">
     <h1 class="post-title" itemprop="name headline">
-      Hosting a mongo db instance on Google Cloud Platform
-      <p class="post-meta"><svg class="octicon octicon-calendar" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M13 2h-1v1.5c0 .28-.22.5-.5.5h-2c-.28 0-.5-.22-.5-.5V2H6v1.5c0 .28-.22.5-.5.5h-2c-.28 0-.5-.22-.5-.5V2H2c-.55 0-1 .45-1 1v11c0 .55.45 1 1 1h11c.55 0 1-.45 1-1V3c0-.55-.45-1-1-1zm0 12H2V5h11v9zM5 3H4V1h1v2zm6 0h-1V1h1v2zM6 7H5V6h1v1zm2 0H7V6h1v1zm2 0H9V6h1v1zm2 0h-1V6h1v1zM4 9H3V8h1v1zm2 0H5V8h1v1zm2 0H7V8h1v1zm2 0H9V8h1v1zm2 0h-1V8h1v1zm-8 2H3v-1h1v1zm2 0H5v-1h1v1zm2 0H7v-1h1v1zm2 0H9v-1h1v1zm2 0h-1v-1h1v1zm-8 2H3v-1h1v1zm2 0H5v-1h1v1zm2 0H7v-1h1v1zm2 0H9v-1h1v1z"/></svg> <time datetime="2016-03-28T07:39:41+08:00" itemprop="datePublished">Mar 28, 2016</time></p>
+      Jekyll 的文章搜尋功能
+      <p class="post-meta"><svg class="octicon octicon-calendar" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M13 2h-1v1.5c0 .28-.22.5-.5.5h-2c-.28 0-.5-.22-.5-.5V2H6v1.5c0 .28-.22.5-.5.5h-2c-.28 0-.5-.22-.5-.5V2H2c-.55 0-1 .45-1 1v11c0 .55.45 1 1 1h11c.55 0 1-.45 1-1V3c0-.55-.45-1-1-1zm0 12H2V5h11v9zM5 3H4V1h1v2zm6 0h-1V1h1v2zM6 7H5V6h1v1zm2 0H7V6h1v1zm2 0H9V6h1v1zm2 0h-1V6h1v1zM4 9H3V8h1v1zm2 0H5V8h1v1zm2 0H7V8h1v1zm2 0H9V8h1v1zm2 0h-1V8h1v1zm-8 2H3v-1h1v1zm2 0H5v-1h1v1zm2 0H7v-1h1v1zm2 0H9v-1h1v1zm2 0h-1v-1h1v1zm-8 2H3v-1h1v1zm2 0H5v-1h1v1zm2 0H7v-1h1v1zm2 0H9v-1h1v1z"/></svg> <time datetime="2017-07-12T00:00:00+08:00" itemprop="datePublished">Jul 12, 2017</time></p>
     </h1>
   </header>
 
   <div class="post-content" itemprop="articleBody">
-    <p>I just signed up Google Cloud Platform(GCP) and got $300 free usage. It’s handy for starting a new mongo instance if you don&#39;t care about the price.</p>
+    <p><img src="http://i.imgur.com/3y5O9tZ.gif" alt="Imgur"></p>
 
-<p>The following is the installation checklist.</p>
+<p>前幾天在 HackerNews 上看到了這篇文章：<a href="https://news.ycombinator.com/item?id=14717182">A search widget for static web sites</a>，原理就是抓取 RSS 的 xml 檔案當做搜尋的資料庫。</p>
 
-<ul>
-<li>create a cloud computing resource</li>
-<li>follow <a href="https://docs.mongodb.com/manual/tutorial/install-mongodb-on-ubuntu/">the official guide</a> for installation mongo db</li>
-<li>setup iptable rules</li>
-<li>set bindIp to 0.0.0.0 in <code>/etc/mongo.conf</code>(should better use reverse proxy or somewhat)</li>
-<li>allow tcp 27017 port in firewall rules</li>
-</ul>
+<p>既然都用 Jekyll 了，那產生一個更容易使用的格式，比如 JSON，就不用手寫 regex 去 match XML 啦。</p>
+
+<p>我直接用了 <a href="https://learn.cloudcannon.com/jekyll/jekyll-search-using-lunr-js/">Jekyll search using lunr.js</a> 這篇文章的做法，在 JavaScript 塞入文章內容：</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">store</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="err"></span><span class="p">{</span><span class="o">%</span> <span class="k">for</span> <span class="nx">post</span> <span class="k">in</span> <span class="nx">include</span><span class="p">.</span><span class="nx">posts</span> <span class="o">%</span><span class="p">}</span>
+    <span class="s2">"{{ post.url | slugify }}"</span><span class="p">:</span> <span class="p">{</span>
+      <span class="s2">"title"</span><span class="p">:</span> <span class="s2">"{{ post.title | xml_escape }}"</span><span class="p">,</span>
+      <span class="s2">"url"</span><span class="p">:</span> <span class="s2">"{{ post.url | xml_escape }}"</span><span class="p">,</span>
+      <span class="s2">"author"</span><span class="p">:</span> <span class="s2">"{{ post.author | xml_escape }}"</span><span class="p">,</span>
+      <span class="s2">"category"</span><span class="p">:</span> <span class="s2">"{{ post.category | xml_escape }}"</span><span class="p">,</span>
+      <span class="s2">"content"</span><span class="p">:</span> <span class="p">{{</span> <span class="nx">post</span><span class="p">.</span><span class="nx">content</span> <span class="o">|</span> <span class="nx">strip_html</span> <span class="o">|</span> <span class="nx">strip_newlines</span> <span class="o">|</span> <span class="nx">jsonify</span> <span class="p">}},</span>
+      <span class="s2">"url"</span><span class="p">:</span> <span class="s2">"{{ post.url | xml_escape }}"</span><span class="p">,</span>
+      <span class="s2">"date"</span><span class="p">:</span> <span class="s2">"{{ post.date | date: "</span><span class="o">%</span><span class="nx">b</span> <span class="o">%-</span><span class="nx">d</span><span class="p">,</span> <span class="o">%</span><span class="nx">Y</span><span class="s2">" }}"</span>
+    <span class="p">}</span>
+    <span class="p">{</span><span class="o">%</span> <span class="nx">unless</span> <span class="nx">forloop</span><span class="p">.</span><span class="nx">last</span> <span class="o">%</span><span class="p">},{</span><span class="o">%</span> <span class="nx">endunless</span> <span class="o">%</span><span class="p">}</span>
+  <span class="p">{</span><span class="o">%</span> <span class="nx">endfor</span> <span class="o">%</span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>產生出來的檔案長這樣：</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">store</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="s2">"blog-2017-06-28-windows-unix-like-development-guide-nodejs-ruby"</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">"title"</span><span class="p">:</span> <span class="s2">"Windows Unix-Like 環境設定踩坑紀錄"</span><span class="p">,</span>
+    <span class="s2">"url"</span><span class="p">:</span> <span class="s2">"/blog/2017/06/28/windows-unix-like-development-guide-nodejs-ruby/"</span><span class="p">,</span>
+    <span class="s2">"author"</span><span class="p">:</span> <span class="s2">""</span><span class="p">,</span>
+    <span class="s2">"category"</span><span class="p">:</span> <span class="s2">""</span><span class="p">,</span>
+    <span class="s2">"content"</span><span class="p">:</span> <span class="s2">"..."</span><span class="p">,</span>
+    <span class="s2">"url"</span><span class="p">:</span> <span class="s2">"/blog/2017/06/28/windows-unix-like-development-guide-nodejs-ruby/"</span><span class="p">,</span>
+    <span class="s2">"date"</span><span class="p">:</span> <span class="s2">"Jun 28, 2017"</span>
+  <span class="p">},</span>
+  <span class="s2">"blog-2017-05-04-deploy-redmine-with-puma-nginx-migration-from-mysql-to-postgresql"</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">"title"</span><span class="p">:</span> <span class="s2">"使用 puma 和 nginx 部屬 Redmine（加上從 MySQL 搬到 PostgreSQL）"</span><span class="p">,</span>
+    <span class="s2">"url"</span><span class="p">:</span> <span class="s2">"/blog/2017/05/04/deploy-redmine-with-puma-nginx-migration-from-mysql-to-postgresql/"</span><span class="p">,</span>
+    <span class="s2">"author"</span><span class="p">:</span> <span class="s2">""</span><span class="p">,</span>
+    <span class="s2">"category"</span><span class="p">:</span> <span class="s2">""</span><span class="p">,</span>
+    <span class="s2">"content"</span><span class="p">:</span> <span class="s2">"..."</span><span class="p">,</span>
+    <span class="s2">"url"</span><span class="p">:</span> <span class="s2">"/blog/2017/05/04/deploy-redmine-with-puma-nginx-migration-from-mysql-to-postgresql/"</span><span class="p">,</span>
+    <span class="s2">"date"</span><span class="p">:</span> <span class="s2">"May 4, 2017"</span>
+  <span class="p">},</span>
+  <span class="c1">// ...</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>然後用 <code>lunr.js</code> 做搜尋：</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">idx</span> <span class="o">=</span> <span class="nx">lunr</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">field</span><span class="p">(</span><span class="s1">'id'</span><span class="p">);</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">field</span><span class="p">(</span><span class="s1">'title'</span><span class="p">,</span> <span class="p">{</span> <span class="na">boost</span><span class="p">:</span> <span class="mi">10</span> <span class="p">});</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">field</span><span class="p">(</span><span class="s1">'author'</span><span class="p">);</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">field</span><span class="p">(</span><span class="s1">'category'</span><span class="p">);</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">field</span><span class="p">(</span><span class="s1">'content'</span><span class="p">);</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">field</span><span class="p">(</span><span class="s1">'url'</span><span class="p">);</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">field</span><span class="p">(</span><span class="s1">'date'</span><span class="p">);</span>
+
+  <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">key</span> <span class="k">in</span> <span class="nx">store</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// Add the data to lunr</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">add</span><span class="p">({</span>
+      <span class="s1">'id'</span><span class="p">:</span> <span class="nx">key</span><span class="p">,</span>
+      <span class="s1">'title'</span><span class="p">:</span> <span class="nx">store</span><span class="p">[</span><span class="nx">key</span><span class="p">].</span><span class="nx">title</span><span class="p">,</span>
+      <span class="s1">'author'</span><span class="p">:</span> <span class="nx">store</span><span class="p">[</span><span class="nx">key</span><span class="p">].</span><span class="nx">author</span><span class="p">,</span>
+      <span class="s1">'category'</span><span class="p">:</span> <span class="nx">store</span><span class="p">[</span><span class="nx">key</span><span class="p">].</span><span class="nx">category</span><span class="p">,</span>
+      <span class="s1">'content'</span><span class="p">:</span> <span class="nx">store</span><span class="p">[</span><span class="nx">key</span><span class="p">].</span><span class="nx">content</span><span class="p">,</span>
+      <span class="s1">'url'</span><span class="p">:</span> <span class="nx">store</span><span class="p">[</span><span class="nx">key</span><span class="p">].</span><span class="nx">url</span><span class="p">,</span>
+      <span class="s1">'date'</span><span class="p">:</span> <span class="nx">store</span><span class="p">[</span><span class="nx">key</span><span class="p">].</span><span class="nx">date</span><span class="p">,</span>
+    <span class="p">});</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+
+<span class="kd">var</span> <span class="nx">results</span> <span class="o">=</span> <span class="nx">idx</span><span class="p">.</span><span class="nx">search</span><span class="p">(</span><span class="nx">searchTerm</span><span class="p">);</span> <span class="c1">// Get lunr to perform a search</span>
+</code></pre></div>
+<p>再把結果產生成列表就行了。花了比較多時間在處裡產生的 store 資料上，比如 <code>jekyll-mention</code> 插件會把 <code>@</code> 開頭的轉換成 GitHub User 連結，以及 <code>jemoji</code> 插件會把 <code>:smile:</code> 轉成 GitHub 的 emoji 圖片連結，但在：</p>
+<div class="highlight"><pre><code class="language-txt" data-lang="txt">post.content | strip_html | strip_newlines | jsonify
+</code></pre></div>
+<p>這個轉換 pipeline 裡面沒法被消除掉，於是轉出來的 JavaScript 就會出現 SyntaxError（多換行啦、double quote 沒有 escape 等）。</p>
+
+<p>另一個問題是因為用到 HTML5 History API，跟 Turbolink 尬在一起就會炸。現在有時還會「回到上一頁但頁面不切換」之類的問題。就暫時放置 Play 了 XD</p>
+
+<p>更多請參考 commit <a href="https://github.com/Yukaii/Blog/commit/bb3a006f690f1ceed8793f9fa0b950f6c043bca9"><code>bb3a006</code></a> 囉。</p>
+
+<p>（完）</p>
 
   </div>
   
@@ -187,8 +256,8 @@
 /**
  *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
  *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */
-var disqus_url = 'http://yukaii.tw/hi-tips/hosting-a-mongo-db-instance-on-google-cloud';
-var disqus_identifier = 'http://yukaii.tw/hi-tips/hosting-a-mongo-db-instance-on-google-cloud';
+var disqus_url = 'http://yukaii.tw/blog/2017/07/12/search-in-jekyll';
+var disqus_identifier = 'http://yukaii.tw/blog/2017/07/12/search-in-jekyll';
 var disqus_shortname = 'dailyoops';
 
 (function() {
