@@ -1,9 +1,10 @@
 ---
 layout: post
 title: 用 Travis CI 自動部署 Jekyll 部落格到 GitHub Pages
+published: true
 ---
 
-弄完 [ics-scheduler](https://github.com/Yukaii/ics-scheduler) 專案後沒多久就開了 [Travis Auto Build 的 issue](https://github.com/Yukaii/Blog/issues/2) 放置 Play。可惜我實在太懶，而現階段的部屬流程也很簡單： 建構、提交再推送。建構跑 `jekyll build` 指令，包成 bash script 更是秒秒鐘；提交完，fish 又有基於歷史的指令自動補全，推送的 `git subtree` 指令打到一半，後面的自動補完就出來按個 enter 就好了。
+弄完 [ics-scheduler](https://github.com/Yukaii/ics-scheduler) 專案後沒多久就開了 [Travis Auto Build 的 issue](https://github.com/Yukaii/Blog/issues/2) 放置 Play。可惜我實在太懶，而現階段的部屬流程也很簡單： 建構、提交再推送。建構跑 `jekyll build` 指令，包成 bash script 更是秒秒鐘；提交完，fish 又有基於歷史的指令自動補全，推送的 `git subtree` 指令打到一半，後面的自動補完出來按個 enter 就好了。
 
 自動化永遠不嫌多，把建構出的結果一起加到進版控系統追蹤也不夠優雅的，每次新增一篇文章 diff 又一大堆。正巧今天早上收信的時候，看到以前關注的 GitHub 議題：「[將 jekyll-assets 整合到 github pages 官方 gem](https://github.com/github/pages-gem/issues/189#issuecomment-319070628)」有更新，留言提到 [Travis 現在也有 GitHub Pages 自動部屬的預設配置](https://docs.travis-ci.com/user/deployment/pages)了。機不可失，官方有支援，設定就簡單。來設定自動部屬吧 XD
 
