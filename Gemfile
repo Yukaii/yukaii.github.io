@@ -6,7 +6,6 @@ gem 'coffee-script'
 gem 'uglifier'
 gem 'sass'
 
-gem 'pygments.rb'
 gem 'redcarpet'
 
 group :jekyll_plugins do
