@@ -1,5 +1,7 @@
 # Source of yukaii.tw
 
+[![Build Status](https://travis-ci.org/Yukaii/Blog.svg?branch=master)](https://travis-ci.org/Yukaii/Blog)
+
 Build with Jekyll.
 
 ## Development
