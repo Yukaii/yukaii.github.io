@@ -1,0 +1,67 @@
+==================================================================
+https://keybase.io/yukai
+--------------------------------------------------------------------
+
+I hereby claim:
+
+  * I am an admin of https://yukaii.tw
+  * I am yukai (https://keybase.io/yukai) on keybase.
+  * I have a public key with fingerprint 0645 D5EE 3CE4 3D9E 0F53  C3B0 D4D3 B2F0 E99D 4914
+
+To do so, I am signing this object:
+
+{
+  "body": {
+    "key": {
+      "eldest_kid": "01018ff03b3de1530c5d0a666919710d8dddb9a728eda6e914fadda7915a3c2b0a130a",
+      "fingerprint": "0645d5ee3ce43d9e0f53c3b0d4d3b2f0e99d4914",
+      "host": "keybase.io",
+      "key_id": "d4d3b2f0e99d4914",
+      "kid": "01018ff03b3de1530c5d0a666919710d8dddb9a728eda6e914fadda7915a3c2b0a130a",
+      "uid": "83510367e9ee097488606b5f0b07bb19",
+      "username": "yukai"
+    },
+    "service": {
+      "hostname": "yukaii.tw",
+      "protocol": "https:"
+    },
+    "type": "web_service_binding",
+    "version": 1
+  },
+  "ctime": 1501856273,
+  "expire_in": 157680000,
+  "prev": "120af823fc9788a664286c119252c911961077febad7e694bdeb122671f57980",
+  "seqno": 8,
+  "tag": "signature"
+}
+
+which yields the signature:
+
+-----BEGIN PGP MESSAGE-----
+Version: GnuPG v1
+
+owGtUltIVEEYXs0LWVKZFwJfOtVDtOrMuc+Skg9FZoSZQlawnjkzZ/eo7TntnjXN
+NJJIizRBfYiS6CXMl2ori4gSLSmiF026IBkSmRXZBQK7YHOkoIcem5ef+eb7vvn+
+n78jdYEnPu7xaOzjdE9RetzDaeypONK8ooHDFqnnfA1cNZ0vtIbQiOOvNgnn4wAE
+UDUMIGCBUCgJQJcI0GRZRhApEBCVEIKRpvAqJZpMERQNjRBNQVDSBJ3HQIMC0Dgv
+Z5ihAA3bYTPkuLayKBGJUkGnokAQBYYk6AIGRCQC5g1AESIiM2PCoBVxFSwc1iI0
+17QYxi7++Xj/4P/n3NF5O1WQIBBkhSJKAVJEVZWBjCUDYKBgDJFLjNBwSNtLGbs+
+Wq2ZXKOXY1CtqVN3qm4bfz+buc5+prLDlmPpVg2Dg45jR3yuzKm3Xd5+iv2/HfzY
+DBE2QaaopeGIaYU4H2RM3TFdSyixbiWZVwQvR+tsM0z9psuQFFkF7Lj/0FpmCXmg
+GSovGDpS1FKVDUTkVVmHEPESryNWZQgUxaBYIwqVkYgJxZDnZQUakoJUwLlN7QtZ
+nE9lObUA84yYgZDmRMOUa0w5Fped4ImL9yQlxru75UlZuPTPwlWuSf6xuOPbhtrd
++vtFr27eLei0YV97RtXRvV3BYFakELWVzhze+vnNZHb+DF2fJ9w7M1menmx3RZWK
+4ZNSS4Z0eiBp583jc+dno5ttbmhk28oHn3oHBp41wfyG4rNf89feas5JahjL2/5i
+uH8icFXek2Mbm4qWlbVmtqU6U93r0ldrV7rTmmd7d1w7RV+PTL/srB+lXLVvy2Dh
+xVUtfWJJ/oGpcwklsfvL62YKznpv3yn92Nv9wRsebJ+IHczcGKtMurE0sfiF1VMy
+l1YZqwkos19W8NdbS/pDTUsOlT8ZS+9pv/D8e/RE1nju05eXLv8sq1w+VNXWl/2u
+fNd419vUd4/ezgV/AQ==
+=8XUy
+-----END PGP MESSAGE-----
+
+And finally, I am proving ownership of this host by posting or
+appending to this document.
+
+View my publicly-auditable identity here: https://keybase.io/yukai
+
+==================================================================
