@@ -20,9 +20,9 @@ published: true
 * [SublimeLinter](https://github.com/SublimeLinter/SublimeLinter3) 配上給 JavaScript 用的 `eslint` 和 Ruby 用的 `rubocup`，搞定靜態語法檢查
 * [GitSavvy](https://github.com/divmain/GitSavvy) ，Sublime 的 Git 輔助套件，有如 emacs 底下的 magit 般，讓日常 commit、diff、merge 輕鬆寫意，有時還是得用 GUI 或 CLI 工具輔助啦
 * [EasyMotion](https://github.com/tednaleid/sublime-EasyMotion) 還有內建的 `Vintage Mode`，身為一個 vim 控，這兩個插件讓我不動滑鼠就能輕鬆編輯
-* 最近出現的 [Boxy Theme](https://github.com/oivva/boxy/) ，以簡便的介面自訂主題，設定各元件的字體、配色、大小。讓我換掉了之前寫自己幹出來、沒啥時間更新的主題：[Oceanic Seti](https://github.com/Yukaii/Oceanic-Seti-ST3)，還有最近被推坑的 [primer theme](https://github.com/karelvuong/st-primer/)。
+* 最近突然喜歡起亮色系主題，使用 [Ayu Light](https://github.com/dempfi/ayu) 和 Monaco 字體。為了簡潔我把 Tab 關掉了，反正我也沒在用（咦）
 
-![Sublime Text](https://lh3.googleusercontent.com/1TzDNfasHb9xTGxOQikoklQf3QfROd1VxPgOXvdo1EOuaUiJViBLjIIP9-LXKAEEM34Az8th0As8wMny0EcaD8p4qqGdEK98CcAogGGhl9XF7H8fHQBx8c8oVJoL7YOgiWJLSLs-7CdaaFtJ5RFkY05wjpnD-k-9zu4HoOLQwSgYxmy2oW_DdocLB03-LOjr6pNb39_1eoNtM4DoXrsx-7C_jE3HBrD-lykeyXXr1PPUuSzPB5WtBapeFpgXUfeRuQOtoR83czm0p97qm6xdedotPhRYvj_CwkzFiFjGmjBUQTWmAFFsY_PRf5hve-kDSFfnXBQB5TPu3DqVluwAXNTpr5xYxRO94t6oIm1MUXhyj007ZG5YCHBSvc-Veoio0DYO16GHmCo45Z0Mxr2c0_WIKGXeQV1IDsra_kIIaIF5RyMh00Wev2TySo5qGWa-rbsy1WodZ4sXEGxprIjFqdsoY20P0OubaPtpv6c4JuN7NQZuPqkz-E-3m7nFoTvxJUcbg8M9rIGGP0qxHvYiwCfgD1vg281IhduUcvyFAJqS4S2qh5_X_YmoIfBzMohlcwuCmY_2egbIoltd0zFb_CGDg9RfIi4a=s800)
+![Sublime Text](https://lh3.googleusercontent.com/I-ggZpsG4xXRmwlqr3kC3Aax3_656hf2zbJyMRi0aV7NjgtgkThU_fTR2rRq82OHmTXFvCBqwfZAkvHbJ8Y93ebi2w5z2heodfxDI9P8vU3zcdQzzrxUxF9zkFM2jJ1c3Mq4xjLPABXBdawvScurqbrtJFEJniwstfLNpiFwPNrXItvPGfl_3DWsjSS6ovPgMI6CeeDfGIgBJGIOaV4wVpeja0OtxROyXn44oNhX1t1FdzGCJIuUiGmClpFttAeKyy1JPYMMduNP59M0Euj-B5TM3PwMJgHDluv7uoSKbUlr1ZisCu86nqf8YYXj5oMM46cUTky2_6Vt7sQwmNDcjbAX1zuEyiWB3IHbS31tZbqxWfPaLIlmz-sCuTQ-y2CXcHGYYCEmawW51OP94DYtQW1MS1TcUmkAgaWSzfWea9NrxVl5zhDvfgh5CLwbTmONVX2IZz0AoHwN1RUjLh56EwR-YV4obV0JNJvGvA5solfLocNoaO9A70Qc4EXWeIKgx55e1mkD_YhrmIlSCqLRHv42_1ZDnJGwnIljPIDkbi3MIEzncmExbBA4lUCscEC5zGjbz8I9AN1UXhzQbx4fDnpv2bZnUBhEk-4CTSBOKW1Vpc4KuV8LLaJC4g=w1080-h768-no)
 
 ## Atom Text Editor
 
@@ -33,7 +33,9 @@ published: true
 * 內建 `timecop` 插件，可以監看每次啟動時各個插件所消耗的時間。真是走到另一個奇妙境界去了，是有多需要調教啊（~~的確很需要~~）
 * 社群能量驚人（看那精美的星星數），或許過不了多久效能就能大躍進...吧。[會有軟黑出沒](https://github.com/atom/atom/issues/10188)
 
-![Atom](https://lh3.googleusercontent.com/K_Frf6tKJ4YwwG8LtG6YfqXpzC21AYbcb7vv7sbK0bnp9gYtoy3Wd2zJ3ncA3Nc5OYegV0ii3uLtfy5Z3MzZu5916zQ5AajJsa3kjvp5GEQr5BjVwEyFZE1QKNA3I2EzkovbdR4ZF-nGGssgwKrwzw6NBeQ8JnmClpXGKUJfiAsAPFNa8aOqakICu2SLbG0gfABtx86NPiRjgAD2h1hXZnj3S9ztdOO5F2-0-Fs-PVIhMGpy5yrj4SidVUn0OmjFmyaBGPANY_Xfkl5ulZF0WEl-ffPqu55G3SimXWnP6KEqCXj2ChuuO_HX3qiycazP0j3GMSxJY2MVLptzZXcACkowLs4gWMow09ZdH9oe1MSMxclNneoccvNSAZ9DyGsxTdZejgmcNT4harDopf9RteXI1CH6bwojar72Q4bQAXu00BwtBYQGWPFNknfvjG4HBoMf_8FQKruyTZqJVJx9R_JCsM8Lnr-7dnMLT1AEENRWt7zyxqFIg4t1dMCstbMECcjJueqANMCI--Hh4CxrCuKcNHAUmkOJh8_dBxTHZ9pxEuyrXoeyz5OxR2zxXIBiKtwBdX1RCxZU2Fp4dGSRbgAPYvpZfwd0=s800)
+下圖是 Atom 1.18 版的截圖，VSCode 的 Git 整合似乎驚動了 Atom 圈，迫使 Atom 推出了一樣的功能（笑）我用的是內建的 One Light 主題和 [kary-foundation-light](https://atom.io/packages/kary-foundation-light) syntax scheme
+
+![Atom](https://lh3.googleusercontent.com/uJIO6dyRP2DqYcQGmRac7NCZFkXD2O8_5A4Gxkfv31QmvG98CtA-1Y2gxTLN21df1nqIow9VWgjViuub3lsFQtJ9bAuRKdnwQnHR2ahy94Kl8Q_MUtSzcMT97iOqZJmeSHeCXF-Df1Cy_Q1n5ZtXNR9JZQeenEUlRGvyOVqCSKB6gcIk_Ng180j078ZM2oTamj0tEcAuM7nXXIfdmCrYoioYhcM5E5Fuc52poqu10e8SHlwfL0ge_QSe8nj_Vt1S2LCCTenpqgN19Pedj1_CWULicD7SxGwbvGsW4bXsmLQ7gBPVFHOjAbftcVD1om8Uj1It2Pcn5kxwdDJ7t1un-g494zKmcCkocCmfm0tOo5j1vRSPiEFrr91OPfzuijeVyQ13qHdcEkoPNlEPoAbcdaHaVeCZTpQF1B7kNnkBfWccZyf6v5e7qWYyLgnVDVPrGqFsKRGoDMXapGfMUbssYDYjf_GHoesPOiUeVbRWGq2ihPO7AjKPqXsa0zd3piHUuglie8mnQjN74WCL2fuBwWWW6ZpcZiurutNIafzw5ZpkRGpPufWIjvanXN7K8xRBo4EUg6rngr344OnqCGkvZgXULz0-Jfk8DDDSUBKl1jHbrs7yyQeX3dZPCg=w1080-h685-no)
 
 ## Visual Studio Code
 
