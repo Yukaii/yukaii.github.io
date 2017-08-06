@@ -1,14 +1,18 @@
 ---
 layout: post
-title: '第十六篇 - ELK 安裝筆記'
-date: 2016-04-07 13:43
+title: 第十六篇 - ELK 安裝筆記
+date: '2016-04-07 13:43'
 comments: true
-categories: [Elasticsearch, Logstash, Kibana, 安裝魂, 就只是篇筆記]
+categories:
+  - Elasticsearch
+  - Logstash
+  - Kibana
+  - 安裝魂
+  - 就只是篇筆記
+published: true
 ---
 
-此份文件是台科 104 第二學年度，CS5124701 巨量資料與分析的課堂作業一。作業一的要求就是寫一隻 Twitter 或 Github 的爬蟲，並把爬下的資料格式化成 json。在 3/29 的這週，教了 ELK Stack 設定方法，所以並沒有特別實作 Crawler，而是直接套用課堂簡報上的 Logstash Twitter 樣板。
-
-以下記錄我自己在 ELK 安裝過程與課堂上有所不同的部分。說明一下，因為主力機 MBA 的儲存空間快炸了，所以我在 AWS 上開了一台 `t2.medium` 的機器來跑 Spark 以及 ELK Stack。在上週的課程簡報中， ELK 是以下載 binary zip 包的方式設定，因為習慣用 APT 套件管理程式，所以裝 ELK 相關設定方式也和 binary zip 不太一樣。
+這份其實是學校作業（逃）。雖然說是作業，但也還算有分享的價值，就在此整理出來。因為主力機 MBA 的儲存空間快炸了，所以我在 AWS 上開了一台 `t2.medium` 的機器來跑 Spark 以及 ELK Stack。在課堂中， ELK 是以下載 binary zip 包的方式設定，因為小弟習慣用 APT 套件管理程式，所以裝 ELK 相關設定方式也和 binary zip 不太一樣。
 
 安裝過程主要參考[數位海的這篇][1]，還有上課簡報。數位海這篇超詳細的，可以交互對照一下。
 
@@ -37,7 +41,7 @@ sudo apt-get -y install elasticsearch
 sudo vi /etc/elasticsearch/elasticsearch.yml
 ```
 
-把 network.host 改成 0.0.0.0，讓外網也可以存取。
+把 network.host 改成 `0.0.0.0`，讓外網也可以存取。
 
 ![](http://i.imgur.com/dlKuGDm.png)
 
@@ -92,7 +96,7 @@ sudo apt-get -y install kibana
 sudo vi /opt/kibana/config/kibana.yml
 ```
 
-把 server.host 從 0.0.0.0 改成 localhost，因為稍後會裝 nginx 來做我們的反向代理。就像這樣：
+把 server.host 從 `0.0.0.0` 改成 `localhost`，因為稍後會裝 nginx 來做我們的反向代理：
 
 ```bash
 server.host: "localhost"
@@ -161,7 +165,7 @@ sudo apt-get update
 sudo apt-get install logstash
 ```
 
-中間數位海插了一段設定 SSL 的，因為沒有要用就跳過這部分。
+中間數位海插了一段設定 SSL 的，因為我沒有要用就跳過這部分。
 
 Logstash 安裝完的 binary 會在 `/opt/logstash/bin` 。
 
@@ -193,7 +197,7 @@ output {
 }
 ```
 
-oauth 那些 key 就填自己申請的，keywords 填自己要的，然後存檔離開。
+oauth 的 key 就填自己申請的，keywords 填自己要的，然後存檔離開。
 
 接下來跑
 
@@ -208,16 +212,15 @@ sudo service logstash restart
 sudo update-rc.d logstash defaults 96 9
 ```
 
-原則上這時候登入 kibana 或是在 head 儀表板就可以看到記錄數一直增多了。太神啦！
+原則上這時候登入 kibana 或是在 head 儀表板就可以看到記錄數一直增多了 :p
 
 ## 匯出資料
 
-我是用 [elasticsearch-dump](https://github.com/taskrabbit/elasticsearch-dump) 套件，記得先裝好 node v1.0 以上版本。
-
-裝完之後就可以無腦一行匯出：
+我用了 [elasticsearch-dump](https://github.com/taskrabbit/elasticsearch-dump) 套件，記得先裝好 node v1.0 以上版本。
 
 ```bash
-elasticdump --input=http://localhost:9200/twitter --output=twitter.json
+npm install elasticdump -g # 安裝
+elasticdump --input=http://localhost:9200/twitter --output=twitter.json # 一鍵匯出
 ```
 
 ## 上傳
@@ -226,15 +229,7 @@ elasticdump --input=http://localhost:9200/twitter --output=twitter.json
 
 ![](http://i.imgur.com/ypwyyN4.png)
 
-### 後記
-
-結果今天 Github 捎來一封信......
-![](http://i.imgur.com/DupgRs7.png)
-![](http://i.imgur.com/d8oN5Ks.png)
-
-恩...我只是要交個作業而已啊啊啊（哭）
-
-## 資料格式
+## 匯出的資料格式
 
 搜尋的關鍵字是 beauty，你知道 twitter 上最多這種圖帳了，多訂閱幾個總是使人心情愉悅 #)
 
