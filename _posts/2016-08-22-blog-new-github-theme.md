@@ -1,7 +1,8 @@
 ---
 layout: post
-title: "部落格 GitHub 新版型主題"
+title: 部落格 GitHub 新版型主題
 comments: true
+published: true
 ---
 
 過程可以看 [PR#1](https://github.com/Yukaii/Blog/pull/1)，大致上是：
@@ -16,11 +17,13 @@ comments: true
 ## Before
 
 ![before-1](http://i.imgur.com/3rBAve0.png)
+
 ![before-2](http://i.imgur.com/bXb19SE.png)
 
 ## After
 
 ![after-1](http://i.imgur.com/McEpFdB.png)
+
 ![after-2](http://i.imgur.com/PqH6sup.png)
 
 ## Misc
