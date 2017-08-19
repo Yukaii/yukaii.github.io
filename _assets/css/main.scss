@@ -45,7 +45,6 @@ $on-laptop:        800px;
 @import "base";
 @import "layout";
 @import "syntax-highlighting";
-@import "fonts";
 
 .tabnav-tabs {
   @include media-query($on-palm) {
