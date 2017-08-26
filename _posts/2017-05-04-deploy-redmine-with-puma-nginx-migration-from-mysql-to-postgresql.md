@@ -188,10 +188,10 @@ WantedBy=multi-user.target
 跑起來：
 
 ```bash
-systemd daemon-reload # 重新載入設定檔
-systemd enable redmine.service # 設為開機啟動
-systemd start redmine.service # 啟動
-systemd status redmine.service # 看狀態
+systemctl daemon-reload # 重新載入設定檔
+systemctl enable redmine.service # 設為開機啟動
+systemctl start redmine.service # 啟動
+systemctl status redmine.service # 看狀態
 ```
 
 ## 把 nginx 跟 puma socket server 接起來
