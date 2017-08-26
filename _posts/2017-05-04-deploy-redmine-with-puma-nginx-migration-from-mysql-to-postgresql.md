@@ -1,6 +1,7 @@
 ---
 layout: post
-title: "使用 puma 和 nginx 部屬 Redmine（加上從 MySQL 搬到 PostgreSQL）"
+title: 使用 puma 和 nginx 部屬 Redmine（加上從 MySQL 搬到 PostgreSQL）
+published: true
 ---
 
 前陣子看了幾篇 Linode 安利文，每月五鎂的機器好像就 Linode CP 值最高惹，管理界面雖然看起來陽春，使用起來倒挺有效率的。這幾天就把擺在 Vultr 上的自用服務 (Redmine，幾個 crontab 腳本) 搬到了 Linode 上。
@@ -54,8 +55,8 @@ git clone https://github.com/redmine/redmine
 cd redmine
 git checkout -b 3.3-stable origin/3.3-stable
 
-cp config/database.yml.example cp config/database.yml
-cp config/configuration.yml.example cp config/configuration.yml
+cp config/database.yml.example config/database.yml
+cp config/configuration.yml.example config/configuration.yml
 ```
 
 #### 建立 Ruby 環境
