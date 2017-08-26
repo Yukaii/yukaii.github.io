@@ -118,9 +118,10 @@ psql -U redmine -d redmine -W
 
 1. 編輯 `config/database.yml` 填入資料庫帳密，把 `mysql` 相關的都註解掉(development 等等)
 1. 然後安裝 redmine 的 gem dependency
-    ```bash
-    bundle install --without development test
-    ```
+
+```bash
+bundle install --without development test
+```
 
 ##### Migrate from old redmine (Optinoal)
 
