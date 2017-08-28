@@ -15,7 +15,7 @@ title: Jekyll 的文章搜尋功能
 
 ```javascript
 var store = {
-  {% for post in include.posts %}
+  {% for post in include.posts %}
     "{{ post.url | slugify }}": {
       "title": "{{ post.title | xml_escape }}",
       "url": "{{ post.url | xml_escape }}",
