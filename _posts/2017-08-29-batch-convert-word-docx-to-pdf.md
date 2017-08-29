@@ -1,6 +1,6 @@
 ---
 published: true
-title: 用 powershell 批次轉換 docx 到 pdf
+title: 用 PowerShell 批次轉換 docx 到 pdf
 ---
 ## 近況
 
@@ -50,5 +50,7 @@ $word_app.Quit()
 注意的是在 `Get-ChildItem` 方法我加上了 `-Recurse` 遞迴參數，讓所有子目錄底下的 `docx` 都能被轉換到。
 
 點擊兩下執行，所有 pdf 就會慢慢產生在 `docx` 檔的旁邊啦，瞬間開始耍廢！(喂)
+
+之後若有更多的 PowerShell 輔助使用腳本，我都會放在 [powershell-study](https://github.com/Yukaii/powershell-study) 這個 repo，歡迎自行取用 :p
 
 (完)
