@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Windows Unix-Like 環境設定踩坑紀錄
+published: true
 ---
 
 ## TL;DR
@@ -55,10 +56,37 @@ Windows 內建的虛擬化方案，可以隨開關機自動啟動停止，完全
 * [Ubuntu下samba安裝設定](http://flykof.pixnet.net/blog/post/23028119)
 * [使用Samba实现Linux与Windows文件共享实践](https://wsgzao.github.io/post/samba/)
 
-還有一點是要把建立的 samba user 加到目前使用者的 Group 底下，要不然每次都要 `chown` 很麻煩：
+比較懶人的設定法，就是讓 samba 和 linux 的使用者共用，雖然這樣會降低安全性啦......記得不久之前的事件就是 samba 漏洞 XDrz
+
+先設定 samba 的使用者密碼：
 
 ```bash
-sudo usermod -G GROUP_NAME smbuser
+sudo smbpasswd -a username
+```
+
+這裡請輸入和你自己使用者相同的密碼，samba 預設把 `unix password sync = yes` 密碼同步打開，理論上會同步回去你使用者的密碼。理論上啦(逃)
+
+再來編輯設定檔，在最下面加上以下內容(請修正為你自己的使用者和路徑)：
+
+```ini
+# /etc/samba/smb.conf
+
+[share]
+    security = user
+    comment = samba share folder
+    path = /srv/samba/share
+    user = "username"
+    force user = username
+    writable = yes
+    write list = username
+    browseable = no
+    map archive = no
+```
+
+最後重啟 samba 服務就行了
+
+```bash
+sudo service smbd restart
 ```
 
 ![drive](http://i.imgur.com/SJYhYwJ.png)
