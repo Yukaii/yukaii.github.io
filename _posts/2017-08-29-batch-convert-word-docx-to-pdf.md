@@ -23,7 +23,7 @@ layout: post
 
 首先設定讓 powershell 可以執行腳本，以系統管理員身分執行 PowerShell 並跑起以下指令：
 
-```cmd
+```powershell
 Set-ExecutionPolicy RemoteSigned
 ```
 
