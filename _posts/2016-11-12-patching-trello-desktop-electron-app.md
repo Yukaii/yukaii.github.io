@@ -40,6 +40,7 @@ Electron App 相對於傳統的桌面軟體迭代應該算十分快速了啦，�
 這兩個 App 看起來就是把 macOS 的 titlebar 藏起來讓紅綠燈好看一些。儘管前者在 App Store 上架，但感覺功能沒比後者多多少哈哈。
 
 （**更新**：Paws for Trello 後來實作了一個漂亮的設定頁還有其它功能，嘴硬如我最後還是買了）
+（**再更**：Paws 後來被 Trello 買走了，現在 Trello 推出了官方版的 macOS App，嗯，當然是免費下載 XDDD）
 
 ![](https://lh3.googleusercontent.com/gDwO7Rcc_DiHTqNTa9W8_u5WggQxm1km4TL630k66fGucUYCKoU4PEjqVodsSsB5wtw1rHket9Mnh-2qSyPWIU0Nn0TZsoLOitMniwifs2JFkgQJysppEK0rTDsPasRDvj1-axpA6oEanesF-42NvwTAWxeVmN-SjspdOPUxgdj8P9LkJPHACA49dCYXPfHrfbqP_SsFYKL7FlReq9b0Xbs5VWQmCPlWewyN12bZQq7-j3_POwhXRwPqFwvb5zfx9in7AibIxgz5wQAgNR-TUVwiPvN0nKIX5XrMVPCLHOgsHsIeFfQuHZuJaJ56kZ5kc-t9m11F5x0_BB6uoODrHd8UEumqEDA9hHGh8P4jnVMXYXmBZjGCcpSaIK_076JKVgUZ_cVxzcC_oDa0_YfS4Si-9qbT8RKEK-AMhvNKYVhsJ6z1N1ZCeG4O57uqmn0TzM6iBMQ_01LXYt1Db4AQxRdoE7m5PgbUU-WOkN_ZhJhRFcsIDxLoZT9gngSJlAZJT0j9t0G9hniF5uImwh7onklliQayTsA8N9PpJc-CpkrVjko3WjAbXyNqzrdm1QCDScI0PV2cEhFy4BJvsFFfZUrXl1W7PdYJJKHYfVUTRrDeAIIfiQ=w971-h626-no)
 
