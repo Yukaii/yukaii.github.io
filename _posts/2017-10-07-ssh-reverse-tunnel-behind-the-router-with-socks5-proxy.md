@@ -1,6 +1,7 @@
 ---
 layout: post
 title: 用 ssh tunnel 連線到 router 背後的機器，並建立 SOCKS5 proxy 存取內網資源
+published: true
 ---
 
 ## 這役男實在是...
@@ -79,7 +80,7 @@ ssh -ND 0.0.0.0:8080 localhost -p 11111
 
 Remote IP 就是遠端開發機的 IP。Bypass List 要檢查一下，`192.168.x.x` 也要 forward，記得從 List 刪掉。
 
-然後就可以外網存取在 `192.168.X.X` 的區網資源啦！太舒適啦！
+然後就可以在外網存取 `192.168.X.X` 的區網資源啦！太舒適啦！
 
 ## 參考資料
 
