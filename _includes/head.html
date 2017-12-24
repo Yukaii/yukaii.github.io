@@ -25,10 +25,10 @@
   <title>{% if page.title %}{{ page.title | escape | append: ' | ' | append: site.title }}{% else %}{{ site.title | escape }}{% endif %}</title>
   <meta name="description" content="{% if page.excerpt %}{{ page.excerpt | strip_html | strip_newlines | truncate: 160 }}{% else %}{{ site.description }}{% endif %}">
 
-  {% css primer %}
-  {% css main %}
+  {% asset primer.css %}
+  {% asset main.css %}
   <link rel="canonical" href="{{ page.url | replace:'index.html','' | prepend: site.baseurl | prepend: site.url }}">
   <link rel="alternate" type="application/rss+xml" title="{{ site.title }}" href="{{ "/feed.xml" | prepend: site.baseurl | prepend: site.url }}">
-  <script src="{{ 'turbolinks.js' | asset_path }}" type="text/javascript" charset="utf-8" defer></script>
+  {% asset turbolinks.js defer %}
   <script src="https://cdnjs.cloudflare.com/ajax/libs/lunr.js/2.1.1/lunr.min.js" integrity="sha256-zhOWzIBi18E7Gu3HoaHA5g4HDXPMdu++IrFs0F42o7c=" crossorigin="anonymous"></script>
 </head>

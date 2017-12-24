@@ -1,6 +1,7 @@
 .sass-cache
 .jekyll-metadata
 .asset-cache
+.jekyll-cache
 
 _drafts
 _site
