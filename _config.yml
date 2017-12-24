@@ -71,3 +71,8 @@ assets:
 
   features:
     liquid: true
+
+  defaults:
+    js: { integrity: false }
+    css: { integrity: false }
+    img: { integrity: false }
