@@ -19,6 +19,10 @@ collections:
     permalink: /hi-tips/:path/
 
 theme: octoflavor
+remote_theme: Yukaii/octoflavor
+
+plugins:
+  - jekyll-octicons
 
 # Build settings
 markdown: redcarpet
