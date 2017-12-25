@@ -19,7 +19,6 @@ collections:
     output: true
     permalink: /hi-tips/:path/
 
-theme: octoflavor
 remote_theme: Yukaii/octoflavor
 
 plugins:
