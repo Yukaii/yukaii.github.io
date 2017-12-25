@@ -10,9 +10,9 @@ comments: true
 
 我用的是 [SPEX eSHOP](https://www.spexeshop.com) 這家服務，後來聽朋友說他們 Facebook 廣告打得也挺凶的，只不過我從來沒看過。當初只是在 Google 搜尋美國轉運時，出現在前幾項結果，看起來網站還不錯的就直接用了。
 
-{{ 'blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-6-43-37-PM.png' | img }}
+![](/assets/img/blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-6-43-37-PM.png)
 
-{{ 'blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-6-45-20-PM.png' | img }}
+![](/assets/img/blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-6-45-20-PM.png)
 
 借用他們網站的步驟圖，步驟就是
 
@@ -25,45 +25,45 @@ comments: true
 
 ## 註冊轉運服務帳號
 
-{{ 'blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-6-54-16-PM.png' | img }}
+![](/assets/img/blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-6-54-16-PM.png)
 
 [先到 SPEX eSHOP 註冊帳號](2)，直接選 FB 快速註冊就可以了。會填寫一些如身份證字號等等的資訊。註冊完帳號後到[首頁][4]可以看到他們在美國的住址：
 
-```
+```txt
 1321 W. Foothill Blvd.
 SPEX eSHOP ECT0012345
 Azusa, CA 91702
 ```
+
 其中 ECT0012345 就是你在 SPEX eSHOP 的會員號碼。（這裡填的是範例）
 
 ### 在網路商店購物並填寫運送資訊
 
-{{ 'blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-8-17-33-PM-1.png' | img }}
+![](/assets/img/blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-8-17-33-PM-1.png)
 
 在 Amazon 購物需要[註冊](3)，選完品項數量之後按放入購物車(Add to Car)
 
-{{ 'blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-8-09-06-PM.png' | img }}
+![](/assets/img/blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-8-09-06-PM.png)
 
 選擇 one-time perchase 就可以了，Amazon Prime 的 Free Shipping 也不用勾，剛好這個品項是免運費的。
 
-{{ 'blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-8-11-24-PM.png' | img }}
+![](/assets/img/blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-8-11-24-PM.png)
 
 結帳！
 
-{{ 'blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-8-13-08-PM.png' | img }}
+![](/assets/img/blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-8-13-08-PM.png)
 
 填寫運送地址，這邊填上從 SPEX eSHOP 拿到的地址。
 
-{{ 'blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-8-15-12-PM.png' | img }}
+![](/assets/img/blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-8-15-12-PM.png)
 
 選標準運送。
 
-{{ 'blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-8-17-33-PM.png' | img }}
+![]([/assets/img/blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-8-17-33-PM.png)
 
 再下一步是用信用卡付款，填寫資訊即可。結束之後在你的訂單點選追蹤包裹(Track Package)後可以拿到一組 UPS 公司的物流編號。我們要將它回填到 SPEX eSHOP。這裡也有一組訂單編號(ORDER)要記下來。預計到達日期也要記起來。
 
-
-{{ 'blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-8-21-43-PM.png' | img }}
+![](/assets/img/blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-8-21-43-PM.png)
 
 物流編號在這裡。
 
@@ -71,21 +71,19 @@ Azusa, CA 91702
 
 回到 SPEX eSHOP 的[首頁](4)，我們就可以建立委託單讓轉運公司知道我們有買了那些東西。
 
-
-
-{{ 'blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-8-30-00-PM.png' | img }}
+![](/assets/img/blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-8-30-00-PM.png)
 
 填入剛剛拿到的物流編號，點立即查詢。
 
-{{ 'blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-8-31-31-PM-3.png' | img }}
+![](/assets/img/blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-8-31-31-PM-3.png)
 
 建立新包裹
 
-{{ 'blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-8-36-47-PM.png' | img }}
+![](/assets/img/blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-8-36-47-PM.png)
 
 下一步
 
-{{ 'blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-8-37-05-PM.png' | img }}
+![](/assets/img/blog/2016-01-23-spec-eshop-amazon/Screen-Shot-2016-01-23-at-8-37-05-PM.png)
 
 在這邊填上包裹完整的資訊。新建完包裹後就等物流配送到 SPEX eSHOP。
 

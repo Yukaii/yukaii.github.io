@@ -32,9 +32,9 @@ git subtree push --prefix _site origin master # 將 _site 的 subtree 推到 ori
 
 > 二圖流
 
-{{ 'blog/cloudflare1.png' | img }}
+![](/assets/img/blog/cloudflare1.png)
 
-{{ 'blog/cloudflare2.png' | img }}
+![](/assets/img/blog/cloudflare2.png)
 
 `CNAME` 檔：
 
