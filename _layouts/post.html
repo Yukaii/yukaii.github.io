@@ -16,8 +16,10 @@ layout: default
   {% comment %}
     disable only when comments_disable variable set in page
   {% endcomment %}
-  {% unless page.comments_disable %}
-    {% include disqus.html %}
-  {% endunless %}
+  {% if site.disqus.enabled %}
+    {% unless page.comments_disable %}
+      {% include disqus.html %}
+    {% endunless %}
+  {% endif %}
 
 </article>
