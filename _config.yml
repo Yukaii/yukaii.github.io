@@ -8,6 +8,7 @@ url: "http://yukaii.tw" # the base hostname & protocol for your site
 github_username:  Yukaii
 full_name: Yukai Huang
 google_analytics: 'UA-49526118-7'
+default_post_collection: blog
 
 disqus:
   enabled: true
