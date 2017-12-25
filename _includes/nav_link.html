@@ -8,16 +8,6 @@
 {% endif %}
 
 <a href="{{ my_page.url | prepend: site.baseurl }}" class="{{ href_class }}">
-  {% case my_page.url %}
-    {% when '/about/' %}
-      {% octicon info %}
-    {% when '/blog/' %}
-      {% octicon book %}
-    {% when '/hi-tips/' %}
-      {% octicon repo %}
-    {% when '/projects/' %}
-      {% octicon code %}
-  {% endcase %}
-
+  {% octicon {{ my_page.octicon }} %}
   {{ my_page.title }}
 </a>

@@ -2,6 +2,7 @@
 layout: page
 title: About Me
 permalink: /about/
+octicon: info
 order: 4
 ---
 
