@@ -25,14 +25,6 @@ plugins:
   - jekyll-octicons
 
 # Build settings
-markdown: redcarpet
-
-redcarpet:
-  extensions:
-    - tables
-    - strikethrough
-    - highlight
-    - footnotes
-    - superscript
-    - autolink
-    - fenced_code_blocks
+markdown: kramdown
+kramdown:
+  input: GFM
