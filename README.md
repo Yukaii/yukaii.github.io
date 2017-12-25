@@ -1,33 +1,5 @@
-# Source of yukaii.tw
+# Yukai's Blog
 
-[![Build Status](https://travis-ci.org/Yukaii/Blog.svg?branch=master)](https://travis-ci.org/Yukaii/Blog)
+Use custom github-flavor theme "[octoflavor](https://github.com/Yukaii/octoflavor)".
 
-Build with Jekyll.
-
-## Development
-
-* ruby version > 2.3.0
-
-```bash
-bundle install
-```
-
-Run:
-
-```bash
-jekyll serve
-```
-
-to start incremental build.
-
-Run:
-
-```bash
-./bin/build
-```
-
-to build website.
-
-## Deployment
-
-Push `_site` folder as git subtree to [yukaii.github.io](https://github.com/Yukaii/yukaii.github.io) GitHub Page repository.
+Deployed on GitHub Pages.
