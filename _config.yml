@@ -13,14 +13,12 @@ disqus:
   enabled: true
   short_name: dailyoops
 
-permalink: /blog/:year/:month/:day/:title/
+collections:
+  hi_tips:
+    output: true
+    permalink: /hi-tips/:path/
 
-exclude:
-  - Gemfile
-  - Gemfile.lock
-  - bin
-  - vendor
-  # Prevent demo files to be included in the sitemap.xml
+theme: octoflavor
 
 # Build settings
 markdown: redcarpet
@@ -34,42 +32,3 @@ redcarpet:
     - superscript
     - autolink
     - fenced_code_blocks
-
-collections:
-  hi_tips:
-    output: true
-    permalink: /hi-tips/:path/
-
-plugins:
-  - jekyll-assets
-  - uglifier
-  - sass
-  - jekyll-redirect-from
-  - jekyll-sitemap
-  - jekyll-feed
-  - jekyll-octicons
-
-# jekyll assets settings
-assets:
-  compress:
-    css: sass
-    js:  uglifier
-  #
-  autowrite: true
-  prefix: "/assets"
-
-  #
-  sources:
-    - _assets/css
-    - _assets/img
-    - _assets/js
-    - _assets/fonts
-  #
-
-  features:
-    liquid: true
-
-  defaults:
-    js: { integrity: false }
-    css: { integrity: false }
-    img: { integrity: false }
