@@ -20,6 +20,7 @@ collections:
     permalink: /hi-tips/:path/
 
 remote_theme: Yukaii/octoflavor
+theme: octoflavor
 
 plugins:
   - jekyll-octicons
