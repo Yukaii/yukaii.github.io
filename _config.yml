@@ -20,9 +20,13 @@ collections:
     permalink: /hi-tips/:path/
 
 remote_theme: Yukaii/octoflavor
-theme: octoflavor
+# uncomment theme when develop locally
+# theme: octoflavor
 
 plugins:
+  - jekyll-redirect-from
+  - jekyll-sitemap
+  - jekyll-feed
   - jekyll-octicons
 
 # Build settings
