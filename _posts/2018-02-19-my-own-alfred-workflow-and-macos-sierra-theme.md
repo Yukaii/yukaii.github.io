@@ -1,5 +1,5 @@
 ---
-published: false
+published: true
 layout: post
 title: 來推廣一下 Alfred 好了
 ---
