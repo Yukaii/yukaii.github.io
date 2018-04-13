@@ -1,5 +1,5 @@
 ---
-published: false
+published: true
 layout: post
 title: 用 Gmail 的 SMTP 來寄信，但你的郵件伺服器沒有 SMTP 功能
 ---
@@ -21,5 +21,3 @@ title: 用 Gmail 的 SMTP 來寄信，但你的郵件伺服器沒有 SMTP 功能
 via https://webapps.stackexchange.com/a/72975
 
 [2-factor]: https://myaccount.google.com/apppasswords
-
-
