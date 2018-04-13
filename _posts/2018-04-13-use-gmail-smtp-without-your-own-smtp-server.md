@@ -18,6 +18,6 @@ title: 用 Gmail 的 SMTP 來寄信，但你的郵件伺服器沒有 SMTP 功能
 
 最近 Gmail 準備要推出改版了，希望這部分的 UI 不要差太多。另外本篇就先不截圖了，非開發者比較需要 XD
 
-via https://webapps.stackexchange.com/a/72975
+via [https://webapps.stackexchange.com/a/72975](https://webapps.stackexchange.com/a/72975)
 
 [2-factor]: https://myaccount.google.com/apppasswords
