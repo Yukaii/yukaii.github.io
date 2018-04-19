@@ -1,0 +1,17 @@
+// Place your settings in this file to overwrite default and user settings.
+{
+  "files.associations": {
+    "*.html": "liquid",
+    "*.xml": "liquid"
+  },
+  "search.exclude": {
+    ".sass-cache": true,
+    ".jekyll-metadata": true,
+    ".asset-cache": true,
+    "_site": true
+  },
+  "files.encoding": "utf8",
+  "files.autoGuessEncoding": false,
+  "files.insertFinalNewline": false,
+  "editor.quickSuggestions": false
+}
