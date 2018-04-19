@@ -28,6 +28,7 @@ plugins:
   - jekyll-sitemap
   - jekyll-feed
   - jekyll-octicons
+  - jekyll-remote-theme
 
 # Build settings
 markdown: kramdown
