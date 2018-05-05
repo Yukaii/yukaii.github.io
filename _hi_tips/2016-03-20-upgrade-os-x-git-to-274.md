@@ -35,8 +35,8 @@ start a new shell check git version by
 git --version
 ```
 
-![](http://i.imgur.com/FrHKOmD.png)
+![](https://i.imgur.com/FrHKOmD.png)
 
 Also remember to set SourceTree git to System provided.
 
-![](http://i.imgur.com/U9e2aDW.png)
+![](https://i.imgur.com/U9e2aDW.png)

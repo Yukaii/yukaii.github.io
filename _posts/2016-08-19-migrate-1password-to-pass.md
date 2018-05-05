@@ -67,7 +67,7 @@ pass show foo
 
 官網上就寫上匯入 1password 的 [ruby script][2] 😍 ，直接使用就行了。在 1Password 匯出 txt 時，記得勾選 `Include Column Labels`，如下圖：
 
-![1password-export-option](http://i.imgur.com/YsoUQcv.png)
+![1password-export-option](https://i.imgur.com/YsoUQcv.png)
 
 把匯出的檔案和匯入腳本準備好，跑一下：
 
@@ -100,7 +100,7 @@ alias passgrep="pass ls | grep -i"
 
 ## Pass for iOS
 
-![pass](http://i.imgur.com/tWUOkAo.png)
+![pass](https://i.imgur.com/tWUOkAo.png)
 
 pass 也有 iOS 的客端軟體可以用，還不用 jailbreak Q_Q 照著 [wiki](https://github.com/mssun/passforios/wiki#quick-start-guide-for-pass-for-ios) 設定就可以了，我自己在 GitHub 開一個 private repo，然後設定 ssh key，再由手機 pull 下來。下面秀一些截圖：
 

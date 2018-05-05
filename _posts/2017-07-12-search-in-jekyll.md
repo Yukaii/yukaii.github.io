@@ -3,7 +3,7 @@ layout: post
 title: Jekyll 的文章搜尋功能
 ---
 
-![Imgur](http://i.imgur.com/3y5O9tZ.gif)
+![Imgur](https://i.imgur.com/3y5O9tZ.gif)
 
 前幾天在 HackerNews 上看到了這篇文章：[A search widget for static web sites](https://news.ycombinator.com/item?id=14717182)，原理就是抓取 RSS 的 xml 檔案當做搜尋的資料庫。
 

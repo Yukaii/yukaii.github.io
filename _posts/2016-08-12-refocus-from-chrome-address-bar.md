@@ -15,7 +15,7 @@ published: true
 
 在設定頁點開「搜尋引擎」設定：
 
-![search-engine](http://i.imgur.com/qmkSYvX.png)
+![search-engine](https://i.imgur.com/qmkSYvX.png)
 
 在最底下新增一個搜尋引擎，三個欄位分別填入
 
@@ -25,11 +25,11 @@ published: true
 
 如下圖：
 
-![add-search-engine](http://i.imgur.com/J5d9Kec.png)
+![add-search-engine](https://i.imgur.com/J5d9Kec.png)
 
 現在在焦點切到網址列後，只要輸入綁定的關鍵字（比如我綁的是 `i`）、再按下 enter，就能把焦點切回頁面囉：
 
-![address-bar](http://i.imgur.com/tgxysRe.png)
+![address-bar](https://i.imgur.com/tgxysRe.png)
 
 ## 參考資料
 

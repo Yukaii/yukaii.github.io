@@ -6,7 +6,7 @@ comments: true
 categories:
 ---
 
-![hackpad](http://i.imgur.com/pubL39L.png)
+![hackpad](https://i.imgur.com/pubL39L.png)
 
 你知道，Hackpad 自從[被 Dropbox 買走之後][1]就沒增加新功能了，從 15 年四月[收到信說要幾周後開源][2]，也是過了很久的[八月][3]才完成(雖然也沒有很久啦)。當然技術公司的整並進去必定要做一堆的交接、磨合、修改成能開源的版本；不過十二月時又有 Dropbox 關掉 Mailbox 的[前車之鑑][4]，一路看下來我們還是多做幾個備份好 :p
 
@@ -39,7 +39,7 @@ Well, 早在 14 年吶。雖然 Dropbox Paper（前 Hackpad）也有[提供導�
 
 4. 點 Import Pads to Folder，Quip 就會開始匯入了，結果如圖：
 
-    ![](http://i.imgur.com/NgGR1vi.png)
+    ![](https://i.imgur.com/NgGR1vi.png)
 
 ## 修正 Quip Importer 權限
 
@@ -47,11 +47,11 @@ Well, 早在 14 年吶。雖然 Dropbox Paper（前 Hackpad）也有[提供導�
 
 1. 首先到 Hackpad 的 account manager（`https://workspace_name.hackpad.com/ep/admin/account-manager/`）
 
-    ![](http://i.imgur.com/13MF60X.png)
+    ![](https://i.imgur.com/13MF60X.png)
 
 2. 由把 Quip Importer 的權限由 Guest 調整成 Member，選完之後點 Update
 
-    ![](http://i.imgur.com/hcLssW5.png)
+    ![](https://i.imgur.com/hcLssW5.png)
 
 3. 再等一下，剩餘文件就會陸續匯進 Quip 中。
 

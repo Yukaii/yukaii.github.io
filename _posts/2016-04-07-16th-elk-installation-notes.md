@@ -43,7 +43,7 @@ sudo vi /etc/elasticsearch/elasticsearch.yml
 
 把 network.host 改成 `0.0.0.0`，讓外網也可以存取。
 
-![](http://i.imgur.com/dlKuGDm.png)
+![](https://i.imgur.com/dlKuGDm.png)
 
 > 註：之後還會搭上 nginx 的 reverse proxy，並裝上前端 kibana，這裡為了安全性也可以不要改。
 
@@ -227,7 +227,7 @@ elasticdump --input=http://localhost:9200/twitter --output=twitter.json # 一鍵
 
 之前 Github 推了 LFS(Large File Storage)，json 雖然純文字檔很好壓縮，但無論怎麽壓還是有點難推進到 100 MB ，也就是 Github 支援的最大容量，以內。勢必就要來用下 git-lfs 了。
 
-![](http://i.imgur.com/ypwyyN4.png)
+![](https://i.imgur.com/ypwyyN4.png)
 
 ## 匯出的資料格式
 

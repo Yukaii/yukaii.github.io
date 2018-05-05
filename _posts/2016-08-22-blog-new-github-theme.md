@@ -16,15 +16,15 @@ published: true
 
 ## Before
 
-![before-1](http://i.imgur.com/3rBAve0.png)
+![before-1](https://i.imgur.com/3rBAve0.png)
 
-![before-2](http://i.imgur.com/bXb19SE.png)
+![before-2](https://i.imgur.com/bXb19SE.png)
 
 ## After
 
-![after-1](http://i.imgur.com/McEpFdB.png)
+![after-1](https://i.imgur.com/McEpFdB.png)
 
-![after-2](http://i.imgur.com/PqH6sup.png)
+![after-2](https://i.imgur.com/PqH6sup.png)
 
 ## Misc
 
@@ -32,4 +32,4 @@ published: true
 
 [vscode-markdown-github-css](https://github.com/Yukaii/vscode-markdown-github-css)
 
-![md1](http://i.imgur.com/hHbhwHJ.png)
+![md1](https://i.imgur.com/hHbhwHJ.png)

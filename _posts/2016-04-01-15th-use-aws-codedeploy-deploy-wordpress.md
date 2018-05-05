@@ -34,10 +34,10 @@ AWS 在各種服務開 API 開很大開不用錢的狀況下，權限的管理�
 
 不同的權限，在 IAM 裡就叫做 Policy（方針）。當人有了多項 Policy 之後，能力越大，責任越重，你所要承擔的就是職責了（屁話），在 IAM 裡我們把他稱作角色職責 (Role）。在 AWS 裡面有不同的服務，Role 的類型也都不同，比如 EC2 Instance 的 Role 就叫 Instance Profile，用來管理 EC2 能有那些權限，在 CodeDeploy 官方教學裡，EC2 的職責是把用 agent 把 codebase 從 s3 拉下來，所以在啟動 Instance 之前，我們必須先設定好能夠存取 S3 的 Instance Profile，並在啟動(Launch) Instance 把 Role 指派給他。
 
-![](http://i.imgur.com/0ulM7UH.png)
+![](https://i.imgur.com/0ulM7UH.png)
 不同的 Role Type。CodeDeploy 教學中用到的分別是 CodeDeploy 和 EC2 的 Role Type。
 
-![](http://i.imgur.com/on614NX.png)
+![](https://i.imgur.com/on614NX.png)
 CodeDeploy 的 Service Role，直接掛上 AWS 建立好的 Policy，可以直接看出使用了那些權限。
 
 ## 跑教學...咦
@@ -68,7 +68,7 @@ _範例 S3 的 widecard 權限，當然還是詳細指定比較好。先新增 P
 ## 再跑一次
 
 * 首先在 IAM 建立兩個 Role ，一個是給 EC2 的，一個是給 CodeDeploy 的。EC2 Role 直接用上面提到的 S3 Bucket 權限寫進去，EC2 的 Role 又稱 Instance Profile，呵。CodeDeploy 的 Role 直接掛上官方的 CodeDeployPolicy，如圖：
-![](http://i.imgur.com/F15UVaN.png)
+![](https://i.imgur.com/F15UVaN.png)
 
 * 依照教學 Launch Amazon 的 Linux Instance，記得掛上剛剛建立的 EC2 Role。成功 ssh 連進去後安裝 [code deploy agent][6]，ubuntu 就選 apt 的那個，Amazon 自家 Linux 就選 yum 的那個，把他裝起來。
 * 依照教學，把 WordPress 的 Repo 載下來，建立相應的 init script 還有 `appspec.yml`。

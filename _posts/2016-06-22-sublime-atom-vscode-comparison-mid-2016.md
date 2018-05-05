@@ -47,7 +47,7 @@ published: true
 * [套件商店](https://marketplace.visualstudio.com)蓬勃發展中，套件數達到了 3776，逐漸追上了 Sublime Text [Package Control](https://packagecontrol.io/stats) 上的 4229 個欸嘿 😎 (2017.8.3)
 * 本身就是個超大型的開源 TypeScript 專案，由 GoF 四人幫的 Erich Gamma 領軍，值得一提的是插件在獨立的 Extension Process 執行，寫爛的 Extension 不會影響到 VSCode 本身的速度，請參考官方的[介紹](https://code.visualstudio.com/docs/extensions/our-approach)，不知道有沒有針對哪個編輯器啦（摁！）
 
-![VSC settings](http://i.imgur.com/orxXv4J.png)
+![VSC settings](https://i.imgur.com/orxXv4J.png)
 
 上圖是幾經迭代之後的 VSCode 編輯設定檔介面，和 Sublime 一樣直接用文字界面編輯，但在 Sublime 下，每個套件的設定檔都是分開的，在 VSCode 卻是用 namespace 的方式寫在**同一個**設定檔裡面，方便管理許多，加上 Intellisence 支援，寫設定值自動跳出**該設定的說明**及**可以使用的值**，易用性碾壓 Sublime 啊 😆
 

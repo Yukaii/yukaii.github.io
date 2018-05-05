@@ -89,7 +89,7 @@ sudo smbpasswd -a username
 sudo service smbd restart
 ```
 
-![drive](http://i.imgur.com/SJYhYwJ.png)
+![drive](https://i.imgur.com/SJYhYwJ.png)
 
 自此專案資料夾便能無痛掛載到 Windows 內，由 Windows 內的 IDE 或編輯器存取啦！
 
@@ -97,7 +97,7 @@ sudo service smbd restart
 
 說到 Windows 平台下好用的 Terminal 大家都會推 cmder，就是 ConEMU 加上 Git for Windows 一整套幫你裝好了，直接上截圖。字體是我愛用的 [mononoki](https://github.com/madmalik/mononoki)。
 
-![cmder](http://i.imgur.com/VHM4USs.png)
+![cmder](https://i.imgur.com/VHM4USs.png)
 
 可惜的是還沒有滑鼠支援，大家可以到 [ConEmu#1114](https://github.com/Maximus5/ConEmu/issues/1114) 追蹤。
 
@@ -120,7 +120,7 @@ sudo service smbd restart
 
 剩下來的設定檔全面移轉、AHK Scripting、各式輔助軟體就等 Surface 開箱之後再說吧 XDD
 
-![VSCode](http://i.imgur.com/G09U4RQ.png)
+![VSCode](https://i.imgur.com/G09U4RQ.png)
 
 本篇文章就是在 Windows 下的 VSCode 編輯 Markdown、配上 Hyper-V 下的 Ubuntu 使用 Jekyll 生成的。讚讚 😍
 
