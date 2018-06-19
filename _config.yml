@@ -19,6 +19,8 @@ collections:
     output: true
     permalink: /hi-tips/:path/
 
+permalink: /blog/:year/:month/:day/:title/
+
 remote_theme: Yukaii/octoflavor
 # uncomment theme when develop locally
 # theme: octoflavor
