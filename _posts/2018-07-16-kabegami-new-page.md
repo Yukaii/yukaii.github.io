@@ -16,8 +16,6 @@ date: 2018-07-16 20:30 +0800
 
 [這裡](https://chrome.google.com/webstore/detail/kabegami-new-page/fbbdincgjgdmbbkongmineooghpadbgk)
 
-[![Chrome Web Store](https://img.shields.io/chrome-web-store/v/fbbdincgjgdmbbkongmineooghpadbgk.svg)](https://chrome.google.com/webstore/detail/kabegami-new-page/fbbdincgjgdmbbkongmineooghpadbgk)
-
 ## 技術架構
 
 - 好久沒玩的 Vue.js，做點小玩意兒剛剛好
