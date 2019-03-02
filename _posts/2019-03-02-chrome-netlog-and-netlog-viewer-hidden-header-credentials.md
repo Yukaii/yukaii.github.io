@@ -38,7 +38,7 @@ NetLog 顧名思義，是一套 Chromium Project 內建的網路事件記錄系�
 
 所以說，你要解析的敏感資訊是什麼呢？
 
-光喜自來！
+光喜自得！
 
 [1]: https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/private-content-setting-signed-cookie-custom-policy.html
 [2]: https://netlog-viewer.appspot.com
